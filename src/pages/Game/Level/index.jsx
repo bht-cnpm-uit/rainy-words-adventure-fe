@@ -1,4 +1,4 @@
-const LevelComponent = () => {
+function LevelComponent() {
     return (
         <div className=" flex h-screen items-center justify-center">
             <div className=" relative h-1/2 w-1/3 items-center justify-center rounded-lg bg-amber-100 p-4 shadow-md">

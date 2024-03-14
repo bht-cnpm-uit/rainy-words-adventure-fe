@@ -1,6 +1,6 @@
-const Library = () => {
+function Library() {
     return (
-        <div className=" flex h-1/2 h-screen items-center justify-center ">
+        <div className=" flex h-screen items-center justify-center ">
             <div className="gird-cols-1 grid h-1/2 w-1/2 grid-flow-col grid-rows-1 gap-4  ">
                 <div className=" bg-amber-100  ">
                     <div className="justify-centerrounded-lg relative items-center p-4 ">

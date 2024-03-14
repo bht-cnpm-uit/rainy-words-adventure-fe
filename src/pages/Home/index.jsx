@@ -1,4 +1,4 @@
-const Home = () => {
+function Home() {
     return (
         <div className="relative h-screen bg-[url('src/assets/img/background')] bg-cover bg-center">
             <div className="flex">

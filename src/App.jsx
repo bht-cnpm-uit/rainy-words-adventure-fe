@@ -1,13 +1,23 @@
-import Home from "./components/Home"
-import LevelComponent from "./components/LevelComponent"
-import Library from "./components/Library"
-
-
-
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { publicRoutes } from "./routes"
 export default function App() {
-    return <LevelComponent/>
-    // <Library/>
-    // <Home/>
-    
-
+    return (
+        <Router>
+            <div className="App">
+                <Routes>
+                    {publicRoutes.map((route, index) => {
+                        const Page = route.component;
+                        return (
+                            <Route
+                                key={index}
+                                path={route.path}
+                                element={
+                                    <Page />
+                                } />
+                        )
+                    })}
+                </Routes>
+            </div>
+        </Router>
+    )
 }
