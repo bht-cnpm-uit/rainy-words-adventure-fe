@@ -1,5 +1,6 @@
 import Home from "../pages/Home";
 import VocabLib from "../pages/VocabLib"
+import DifficultyComponent from "../pages/Game/DifficultyComponent"
 import Level from "../pages/Game/Level"
 import WordCollect from "../pages/Game/WordCollect"
 // Public routes
@@ -16,13 +17,17 @@ const publicRoutes = [
         component: VocabLib,
     },
     {
-        path: '/level',
-        component: Level
+        path: '/difficulty',
+        component: DifficultyComponent,
     },
     {
         path: '/word-collect',
         component: WordCollect
-    }
+    },
+    {
+        path: '/level',
+        component: Level,
+    },
 ];
 
 const privateRoutes = [];
