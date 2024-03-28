@@ -1,26 +1,36 @@
 import { useMemo, useEffect, useState } from "react";
 
-function Figure() {
+function Figure({ gameState }) {
     const [position, setPosition] = useState({ x: 700, y: 600 });
+    const [xSpeed, setXSpeed] = useState(0);
+    const [ySpeed, setYSpeed] = useState(0);
+    const [friction, setFriction] = useState(0.6);
+    const [maxSpeed, setMaxSpeed] = useState(10);
 
-    const memoizedPosition = useMemo(() => position, [position]);
     useEffect(() => {
         const handleKeyDown = (event) => {
-            let newX = memoizedPosition.x;
-            let newY = memoizedPosition.y;
-            switch (event.key) {
-                case "ArrowLeft":
-                    if (newX <= 50) return;
-                    newX -= 20;
-                    break;
-                case "ArrowRight":
-                    if (newX >= 1700) return;
-                    newX += 20;
-                    break;
-                default:
-                    return;
+            if (gameState) {
+                let newX = position.x;
+                let newY = position.y;
+                switch (event.key) {
+                    // move left
+                    case "ArrowLeft":
+                        if (newX <= 50) return;
+                        setXSpeed(xSpeed--);
+                        newX += this.xSpeed;
+                        break;
+                    // move right
+                    case "ArrowRight":
+                        setXSpeed(this.xSpeed++);
+                        if (newX >= 1700) return;
+                        newX += this.xSpeed;
+                        break;
+                    default:
+                        setXSpeed(this.xSpeed *= this.friction);
+                        return;
+                }
+                setPosition({ x: newX, y: newY });
             }
-            setPosition({ x: newX, y: newY });
         };
 
         window.addEventListener("keydown", handleKeyDown);
@@ -28,10 +38,10 @@ function Figure() {
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
         };
-    }, [memoizedPosition]);
+    });
     return (
         <div className="figure"
-            style={{ position: 'fixed', left: memoizedPosition.x, top: memoizedPosition.y, width: 120, height: 120, backgroundColor: "red" }}>
+            style={{ position: 'fixed', left: position.x, top: position.y, width: 120, height: 120, backgroundColor: "red" }}>
         </div>
     )
 }
