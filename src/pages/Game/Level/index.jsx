@@ -26,6 +26,8 @@ function Level() {
                 </div>
             </div>
 
+            
+
             <div className='ml-5 grid grid-rows-3 grid-flow-col gap-4'>
                 {/* <img src="src/assets/img/cat2.png" alt="" />
                 <div className='row-span-2 h-20 w-20 bg-blue-500 rounded-full flex justify-center items-center'>1</div>

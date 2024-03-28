@@ -21,41 +21,52 @@ function DifficultyComponent() {
     };
 
     return (
-        <div className="flex h-screen items-center justify-center text-center">
-            <div className="relative grid gap-2 rounded-lg bg-amber-100 p-4 shadow-md">
-                <div className="col-span-2 flex justify-center items-center">
-                    {/* <h2 className="mb-2 text-lg font-semibold">SCORE</h2> */}
-                    <img src="src/assets/img/image.png " alt="hinh anh" className="h-20" />
+        <div className="flex bg-cover items-center justify-end text-center mr-10 p-10">
+            <div className="bg-[url('src/assets/Asset/PanelAtlas_cuts/image_3.png')] bg-cover">
+                <div className="m-10 bg-[url('src/assets/Asset/PanelAtlas_cuts/image_7.png')] bg-cover" >
+        
+                <div className="col-span-2 flex justify-center items-center relative">
+                    <img src="src/assets/Asset/PanelAtlas_cuts/image_6.png " alt="hinh anh" className="h-20"/>
+                    <div class="absolute -inset-5 flex justify-center">
+                        <h2 class="text-white text-6xl font-bold mb-7">1080</h2>
+                    </div>
                 </div>
 
                 <div className="col-span-2">
-                    <span className="text-gray-600 font-bold">Level 1</span>
+                    <span className="text-[#78350f] text-lg">Level 1</span>
                 </div>
 
-                <div class="flex grid-cols-2">
+                <div class="flex justify-center items-center grid-cols-2 ">
                     <div className="">
-                        <img src="src/assets/img/cat2.png " alt="hinh anh" className="w-40 h-40" />
+                        <img src="src/assets/img/cat2.png " alt="con meo" className="w-40 h-40" />
                     </div>
                     <div className="">
-                        <p className="text-gray-600">ĐỘ KHÓ</p>
+                        <p className="font-bold text-[#78350f]">ĐỘ KHÓ</p>
                         
-                        <p className="mt-10 font-bold flex flex-wrap ">
-                            <button id="btnPre" className="ml-5 mr-5" onClick={handlePreClick}>
-                                <img src="src/assets/img/BtnPre.png" alt="" />
+                        <div className="flex flex-wrap mr-2 ml-2 ">
+                            <button id="btnPre" className="mr-5 w-12" onClick={handlePreClick}>
+                                <img src="src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_8.png" alt="" />
                             </button>
-                            {difficulty}
-                            <button id="btnNext" className="ml-5" onClick={handleNextClick}>
-                                <img src="src/assets/img/BtnNext.png" alt="" />
+                            <p className="flex justify-center items-center">{difficulty}</p>
+                            <button id="btnNext" className="ml-5 w-12" onClick={handleNextClick}>
+                                <img src="src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_7.png" alt="" />
                             </button>
-                        </p>
+                        </div>
                     </div>
                 </div>
                 
-                <div className="col-span-2 flex justify-center items-center">
-                    <button className="bottom-10 rounded bg-[#000] px-5 py-1.5 font-bold text-white duration-200 ease-in  hover:bg-[#ff2343]">
-                        Chơi
+                <div className="mt-10 pb-4 col-span-2 flex justify-center items-center relative">
+                    <button className="w-40 ">
+                        <img src="src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png" alt="" />
+                        <div class="absolute inset-3 flex justify-center">
+                            <h2 class="text-white text-[#78350f] text-xl font-bold">CHƠI</h2>
+                        </div>
                     </button>
                 </div>
+
+                <div className="h-9"></div>
+                
+            </div>
             </div>
         </div>
     );
