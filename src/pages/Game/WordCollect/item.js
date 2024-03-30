@@ -3,7 +3,7 @@ class Word {
         this.game = game;
         this.markedForDeletion = false;
     }
-    update(deltaTime) {
+    update(deltaTime, gameState) {
 
     }
     draw(ctx) {
@@ -25,6 +25,7 @@ export class Item extends Word {
         super.update(deltaTime);
         this.y += this.vy * deltaTime;
         if (this.y > this.game.height) this.markedForDeletion = true;
+
     }
     draw(ctx) {
         super.draw(ctx);
