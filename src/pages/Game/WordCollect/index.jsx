@@ -3,7 +3,7 @@ import { Player } from './player';
 import { InputHandler } from './input';
 import { Background } from './background';
 import { Item } from './item';
-import { UI } from './UI';
+import { Score, BonusItems } from './UI';
 import { BtnGameState } from './button';
 const WordFall = props => {
     const canvasRef = useRef()
@@ -20,9 +20,10 @@ const WordFall = props => {
             this.height = height;
             this.background = new Background(this);
             this.input = new InputHandler(this);
-            this.player = new Player(this);
-            this.UI = new UI(this);
+            this.Score = new Score(this);
             this.btnGameState = new BtnGameState(this);
+            this.bonusItems = new BonusItems(this);
+            this.player = new Player(this);
             this.score = 0;
             this.words = [];
             this.wordTimer = 0;
@@ -67,8 +68,8 @@ const WordFall = props => {
         }
         update(deltaTime) {
             if (this.gameState) {
-                this.player.update(this.input.keys, this.words);
                 this.background.update();
+                this.player.update(this.input.keys, this.words);
                 this.words = this.words.filter(word => !word.markedForDeletion)
                 if (this.wordTimer > this.wordInterval) {
                     this.#addNewWord();
@@ -81,10 +82,11 @@ const WordFall = props => {
         }
         draw(context) {
             this.background.draw(context)
+            this.bonusItems.draw(context);
             this.player.draw(context);
             this.words.forEach(word => word.draw(context));
             this.btnGameState.draw(context);
-            this.UI.draw(context);
+            this.Score.draw(context);
         }
         #addNewWord() {
             this.words.push(new Item(this));
@@ -107,7 +109,6 @@ const WordFall = props => {
         let lastTime = 0; // Initialize lastTime
         animate(0);
 
-        // Cleanup function
         return () => {
             cancelAnimationFrame(animate);
         };

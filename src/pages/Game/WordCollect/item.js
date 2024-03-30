@@ -7,6 +7,7 @@ class Word {
 
     }
     draw(ctx) {
+        ctx.save();
         ctx.drawImage(this.image, this.x, this.y, this.spriteWidth, this.spriteHeight);
     }
 }

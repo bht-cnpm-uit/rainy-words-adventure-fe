@@ -23,7 +23,16 @@ export class Player {
         this.currentState.enter();
     }
     draw(ctx) {
-        ctx.drawImage(this.image, this.frameX * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, this.position.x, this.position.y, this.width, this.height);
+        ctx.save();
+
+        ctx.translate(this.position.x + this.width / 2, this.position.y + this.height / 2);
+
+        if (this.velocity < 0) {
+            ctx.scale(-1, 1); // Flip horizontally
+        }
+        ctx.drawImage(this.image, this.frameX * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, -this.width / 2, -this.height / 2, this.width, this.height);
+
+        ctx.restore();
     }
     update(input, words) {
         this.gameFrame++;
@@ -36,6 +45,7 @@ export class Player {
             if (distance < word.spriteWidth / 2 + this.width / 2) {
                 word.markedForDeletion = true;
                 this.game.score += 10;
+                this.game.bonusItems.addNewItem();
             }
         })
         this.position.x += this.velocity;
@@ -48,6 +58,11 @@ export class Player {
             }
         } else if (input.indexOf('ArrowLeft') > -1) {
             this.velocity = Math.max(this.velocity - 0.3, -15);
+            if (this.gameFrame % this.staggerFrames == 0) {
+                if (this.frameX < 4)
+                    this.frameX += 1
+                else this.frameX = 0
+            }
         } else {
             this.velocity = 0;
             if (this.gameFrame % (this.staggerFrames * 3) == 0) {
@@ -61,6 +76,9 @@ export class Player {
         else if (this.position.x > this.game.width - this.width) this.position.x = this.game.width - this.width;
     }
     setState(state) {
+        if (this.currentState !== this.states[state]) {
+            this.frameX = 0;
+        }
         this.currentState = this.states[state];
         this.currentState.enter();
     }

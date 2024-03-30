@@ -12,6 +12,7 @@ class Layer {
     }
     draw(context) {
         context.drawImage(this.image, this.x, this.y, this.width, this.height);
+        context.save();
     }
 }
 
