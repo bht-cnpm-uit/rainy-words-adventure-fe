@@ -1,29 +1,43 @@
-function Home() {
-    return (
-        <div className="relative h-screen bg-[url('src/assets/img/background')] bg-cover bg-center">
-            <div className="flex">
-                <button
-                    className="ml-40 mt-20 rounded border-2 px-5 py-1.5 font-bold duration-200 hover:bg-[#ff2343] "
-                    type="button"
-                    // onClick={handleCreateMessage}
-                    style={{ fontFamily: 'Dancing Script' }}
-                >
-                    Hướng dẫn
-                </button>
-            </div>
+import { Player } from './player';
+import { Background } from './background';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 
-            <div className="flex justify-center">
-                <button
-                    className="absolute bottom-20 rounded bg-[#000] px-5 py-1.5 font-bold text-white duration-200 ease-in  hover:bg-[#ff2343]  "
-                    type="button"
-                    // onClick={handleCancel}
-                    style={{ fontFamily: 'Dancing Script' }}
-                >
-                    Bắt đầu
-                </button>
-            </div>
-        </div>
-    );
+const Home = (props) => {
+    const canvasRef = useRef();
+    function resizeCanvas(canvas) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    class Home {
+        constructor(canvas, ctx, width, height) {
+            this.canvas = canvas;
+            this.ctx = ctx;
+            this.width = width;
+            this.height = height;
+            this.background = new Background(this);
+            this.player = new Player(this);
+
+        }
+
+        draw(context) {
+            this.background.draw(context)
+            this.player.draw(context);
+        }
+    }
+
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        resizeCanvas(canvas);
+        const context = canvas.getContext('2d');
+        const home = new Home(canvas, context, canvas.width, canvas.height);
+        function animate() {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            home.draw(context);
+            requestAnimationFrame(animate);
+        }
+        animate();
+    }, []);
+    return <canvas ref={canvasRef} {...props} />;
 };
 
 export default Home;
