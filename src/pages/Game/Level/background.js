@@ -7,14 +7,52 @@ export class Background {
         this.height = this.game.height;
         this.image = new Image();
         this.image.src = 'src/assets/Asset/LevelMap_Day.png';
+        this.xImage = 0;
+        this.xImageCut = 0;
         this.x = 0;
         this.y = 0;
+        this.scaleY = this.height / this.spriteHeight;
+        this.ratioTranslate = this.spriteWidth * this.scaleY / this.width;
+        this.widthScaleBg = this.spriteWidth * this.scaleY;
+        this.widthCut = (this.spriteWidth * this.scaleY - this.width) / this.scaleY;
     }
-    update() {
+
+    update(deltaTime) {
+        if (this.xImageCut + deltaTime * this.ratioTranslate < this.xImage) {
+            this.xImageCut += deltaTime * this.ratioTranslate;
+        }
+        else if (this.xImageCut - deltaTime * this.ratioTranslate > this.xImage) {
+            this.xImageCut -= deltaTime * this.ratioTranslate;
+        }
+        else {
+            this.xImageCut = this.xImage
+        }
     }
+
     draw(context) {
-        // let scaleY = this.height / this.spriteHeight;
-        // let scaledWidth = this.spriteWidth * scaleY;
-        context.drawImage(this.image, 0, 0, this.width, this.spriteHeight, this.x, this.y, this.width, this.height);
+        context.save();
+        let widthCut = (this.spriteWidth * this.scaleY - this.width) / this.scaleY;
+        context.drawImage(
+            this.image,
+            this.xImageCut,
+            0,
+            this.spriteWidth - widthCut,
+            this.spriteHeight,
+            this.x,
+            this.y,
+            this.width,
+            this.height
+        );
+        context.restore();
+    }
+
+    onclick(direct) {
+        this.xImage += 600 * this.ratioTranslate * direct;
+        if (this.xImage - this.widthCut > 0) {
+            this.xImage = this.widthCut
+        }
+        else if (this.xImage < 0) {
+            this.xImage = 0;
+        }
     }
 }

@@ -2,8 +2,8 @@
 export class Player {
     constructor(game) {
         this.game = game;
-        this.width = 200;
-        this.height = 266;
+        this.width = 109;
+        this.height = 134;
         this.spriteWidth = 653;
         this.spriteHeight = 800;
         this.position = {
@@ -18,9 +18,9 @@ export class Player {
         this.staggerFrames = 5;
         this.gameFrame = 0;
     }
-    draw(ctx) {
+    draw(ctx, position) {
         ctx.save();
-        ctx.drawImage(this.image, this.frameX * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, this.position.x, this.position.y, this.width, this.height);
+        ctx.drawImage(this.image, this.frameX * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, position.x - this.width / 4.1, position.y - this.height / 1.35, this.width, this.height);
     }
     update() {
         this.gameFrame++;
