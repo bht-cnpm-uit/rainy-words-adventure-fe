@@ -24,17 +24,25 @@ const LoginForm = () => {
             <div className="max-w-sm md:w-1/3">
                 <div className="m-3 text-center text-xl font-bold">Đăng nhập </div>
                 <input
-                    className="border-gray-300 w-full rounded border border-solid px-4 py-2 text-sm"
+                    className="w-full rounded border border-solid border-gray-300 px-4 py-2 text-sm"
                     type="text"
                     placeholder="Tài khoản"
+                    value={username}
+                    onChange={(e) => {
+                        setUsername(e.target.value);
+                    }}
                 />
                 <input
-                    className="border-gray-300 mt-4 w-full rounded border border-solid px-4 py-2 text-sm"
+                    className="mt-4 w-full rounded border border-solid border-gray-300 px-4 py-2 text-sm"
                     type="password"
                     placeholder="Mật khẩu"
+                    value={password}
+                    onChange={(e) => {
+                        setPassword(e.target.value);
+                    }}
                 />
                 <div className="mt-4 flex justify-between text-sm font-semibold">
-                    <label className="text-slate-500 hover:text-slate-600 flex cursor-pointer">
+                    <label className="flex cursor-pointer text-slate-500 hover:text-slate-600">
                         <input className="mr-1" type="checkbox" />
                         <span>Lưu mật khẩu</span>
                     </label>
@@ -47,13 +55,14 @@ const LoginForm = () => {
                 </div>
                 <div className="text-center md:text-left">
                     <button
-                        className="bg-blue-600 hover:bg-blue-700 text-white mt-4 rounded px-4 py-2 text-xs uppercase tracking-wider"
+                        className="mt-4 rounded bg-blue-600 px-4 py-2 text-xs uppercase tracking-wider text-white hover:bg-blue-700"
                         type="submit"
+                        onClick={handleSubmit}
                     >
                         Đăng nhập
                     </button>
                 </div>
-                <div className="text-slate-500 mt-4 text-center text-sm font-semibold md:text-left">
+                <div className="mt-4 text-center text-sm font-semibold text-slate-500 md:text-left">
                     Bạn chưa có tài khoản?{' '}
                     <a className="text-red-600 hover:underline hover:underline-offset-4" href="#">
                         Đăng ký
