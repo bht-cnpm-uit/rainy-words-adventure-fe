@@ -1,43 +1,61 @@
-import React, { useState } from 'react';
-function Level() {
+import React, { useState, useRef, useEffect } from 'react';
+import { Background } from './background';
+import { Levels } from './level';
+import { Player } from './player';
+const Level = props => {
+    const canvasRef = useRef();
+    function resizeCanvas(canvas) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    class MainScreen {
+        constructor(canvas, ctx, width, height) {
+            this.canvas = canvas;
+            this.canvas.style.cursor = 'default'
+            this.ctx = ctx;
+            this.width = width;
+            this.height = height;
+            this.background = new Background(this);
+            this.levels = new Levels(this);
+            this.player = new Player(this);
+            this.levels.updatePositionLevel(this.background);
+        }
+        update(deltaTime) {
+            this.player.update()
+        }
+        draw(context) {
+            this.background.draw(context);
+            this.levels.draw(context);
+            // this.levels.forEach(itemLevel => itemLevel.draw(this.ctx));
+            // this.player.draw(context);
+        }
+    }
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        resizeCanvas(canvas);
+        const context = canvas.getContext('2d');
+        const mainScreen = new MainScreen(canvas, context, canvas.width, canvas.height);
+        function animate(timeStamp) {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            const deltaTime = timeStamp - lastTime || 0;
+            lastTime = timeStamp;
+            mainScreen.draw(context);
+            mainScreen.update(deltaTime);
+            requestAnimationFrame(animate);
+        }
+
+        let lastTime = 0; // Initialize lastTime
+        animate(0);
+
+        return () => {
+            cancelAnimationFrame(animate);
+        };
+    }, []);
+
     return (
-        <div className="h-screen bg-[url('src/assets/img/background')] bg-cover bg-center">
-            <div className="grid grid-cols-2">
-                <div className="">
-                    <button
-                        className="ml-40 mt-20 rounded border-2 px-5 py-1.5 font-bold duration-200 hover:bg-[#ff2343] "
-                        type="button"
-                    >
-                        Hướng dẫn
-                    </button>
-                </div>
-
-                <div className="flex justify-end mt-5 scale-75">
-                    <button className="mr-5 h-0">
-                         <img src="src/assets/img/BtnInstr.png" alt="" />   
-                    </button>
-                    <button className="mr-5 h-0">
-                        <img src="src/assets/img/BtnRank.png" alt="" />
-                    </button>
-                    <button className="">
-                        <img src="src/assets/img/BtnLogin.png" alt="" />
-                    </button>
-
-                </div>
-            </div>
-
-            
-
-            <div className='ml-5 grid grid-rows-3 grid-flow-col gap-4'>
-                {/* <img src="src/assets/img/cat2.png" alt="" />
-                <div className='row-span-2 h-20 w-20 bg-blue-500 rounded-full flex justify-center items-center'>1</div>
-                <div className=' h-20 w-20 bg-blue-500 rounded-full flex justify-center items-center'>2</div>
-                <div className='row-span-2 col-span-2 h-20 w-20 bg-blue-500 rounded-full flex justify-center items-center'>3</div> */}
-            </div>
-
-        </div>
+        <canvas ref={canvasRef} {...props} />
     );
-    
+
 }
 
 export default Level;
