@@ -65,10 +65,13 @@ export class Player {
             }
         } else {
             this.velocity = 0;
-            if (this.gameFrame % (this.staggerFrames * 3) == 0) {
-                if (this.frameX < 4)
-                    this.frameX += 1
-                else this.frameX = 0
+            if (this.gameFrame % (this.staggerFrames) == 0) {
+                if (this.frameX == 4) {
+                    if (this.gameFrame % (this.staggerFrames * 20) == 0)
+                        this.frameX = 0;
+                }
+                else
+                    this.frameX++;
             }
         }
         // horizontal movement
