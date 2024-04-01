@@ -7,9 +7,6 @@ export class Background {
         this.height = this.game.height;
         this.image = new Image();
         this.image.src = 'src/assets/Asset/LevelMap_Day.png';
-        this.image.onload = () => {
-            this.draw(this.game.context);
-        };
         this.xImage = 0;
         this.xImageCut = 0;
         this.x = 0;
@@ -35,17 +32,18 @@ export class Background {
     draw(context) {
         context.save();
         let widthCut = (this.spriteWidth * this.scaleY - this.width) / this.scaleY;
-        context.drawImage(
-            this.image,
-            this.xImageCut,
-            0,
-            this.spriteWidth - widthCut,
-            this.spriteHeight,
-            this.x,
-            this.y,
-            this.width,
-            this.height
-        );
+        if (this.image.complete)
+            context.drawImage(
+                this.image,
+                this.xImageCut,
+                0,
+                this.spriteWidth - widthCut,
+                this.spriteHeight,
+                this.x,
+                this.y,
+                this.width,
+                this.height
+            );
         context.restore();
     }
 

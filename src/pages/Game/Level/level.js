@@ -172,15 +172,11 @@ export class Levels {
         this.width = this.game.width;
         this.height = this.game.height;
         this.imageUnlock = new Image();
-        this.imageUnlock.onload = () => {
-            this.updatePositionLevel();
-        };
         this.imageUnlock.src = 'src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_27.png';
         this.imageLock = new Image();
-        this.imageLock.onload = () => {
-        };
         this.imageLock.src = 'src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_23.png';
         this.xVirtual = 0;
+        this.updatePositionLevel();
     }
     update(deltaTime) {
         for (let i = 0; i < this.levelsNext.length; i++) {
@@ -198,9 +194,11 @@ export class Levels {
     draw(context) {
         this.levels.forEach(level => {
             if (level.state === 'Unlocked') {
-                context.drawImage(this.imageUnlock, level.position.x, level.position.y, this.spriteWidth, this.spriteHeight);
+                if (this.imageUnlock.complete)
+                    context.drawImage(this.imageUnlock, level.position.x, level.position.y, this.spriteWidth, this.spriteHeight);
             } else {
-                context.drawImage(this.imageLock, level.position.x, level.position.y, this.spriteWidth, this.spriteHeight);
+                if (this.imageLock.complete)
+                    context.drawImage(this.imageLock, level.position.x, level.position.y, this.spriteWidth, this.spriteHeight);
             }
         });
     }
