@@ -3,6 +3,7 @@ import { Background } from './background';
 import { Levels } from './level';
 import { Player } from './player';
 import { BtnBackMap, BtnNextMap, Guide, Library, Achievement, Account } from './button';
+import { LevelSetting } from './UI';
 const Level = props => {
     const canvasRef = useRef();
     function resizeCanvas(canvas) {
@@ -25,6 +26,7 @@ const Level = props => {
             this.btnLibrary = new Library(this);
             this.btnAchievement = new Achievement(this);
             this.btnAccount = new Account(this);
+            this.levelSetting = new LevelSetting(this);
             this.canvas.addEventListener('mousemove', this.onMouseMove.bind(this));
             this.canvas.addEventListener('click', this.onClick.bind(this));
             this.gameFrame = 0;
@@ -110,6 +112,7 @@ const Level = props => {
             this.btnLibrary.draw(context);
             this.btnAchievement.draw(context);
             this.btnAccount.draw(context);
+            this.levelSetting.draw(context);
             for (const level of this.levels.levels) {
                 if (level.state === 'Current') {
                     this.player.draw(context, level.position);
