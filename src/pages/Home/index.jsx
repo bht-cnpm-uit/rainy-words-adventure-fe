@@ -1,7 +1,7 @@
 import { Player } from './player';
 import { Background } from './background';
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-
+import { Guide, start } from './button';
 const Home = (props) => {
     const canvasRef = useRef();
     function resizeCanvas(canvas) {
@@ -16,12 +16,21 @@ const Home = (props) => {
             this.height = height;
             this.background = new Background(this);
             this.player = new Player(this);
-
+            this.Guide = new Guide(this);
+            this.start = new start(this);
+            this.canvas.addEventListener('click', this.onClick.bind(this));
         }
 
         draw(context) {
             this.background.draw(context)
             this.player.draw(context);
+            this.Guide.draw(context);
+            this.start.draw(context);
+
+        }
+        
+        onClick(event){
+            
         }
     }
 
