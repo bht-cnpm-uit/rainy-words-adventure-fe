@@ -223,16 +223,19 @@ export class Levels {
     onclickNextMap(direct) {
         let first = this.levelsNext[0];
         let last = this.levelsNext[this.levelsNext.length - 1];
-        let step = 600;
+        let step = 800;
 
-        if (direct == 1 && this.xVirtual + direct * step > first.position.x) {
-            step = 0;
+        if (direct == 1 && this.xVirtual + direct * step > 0) {
+            step = 0 - this.xVirtual;
+        }
+        if (direct == -1 && this.xVirtual + direct * step <= -(this.game.background.widthScaleBg - this.width)) {
+            step = this.game.background.widthScaleBg + this.xVirtual - this.width;
         }
 
         this.levelsNext.forEach(levelItem => {
             levelItem.position.x += direct * step;
-            this.xVirtual += direct * step;
         });
+        this.xVirtual += direct * step;
     }
 
 }

@@ -48,7 +48,7 @@ export class Background {
     }
 
     onclick(direct) {
-        this.xImage += 600 * this.ratioTranslate * direct;
+        this.xImage += 800 * this.ratioTranslate * direct;
         if (this.xImage - this.widthCut > 0) {
             this.xImage = this.widthCut
         }
