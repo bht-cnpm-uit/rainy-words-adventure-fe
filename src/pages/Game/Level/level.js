@@ -172,20 +172,16 @@ export class Levels {
         this.width = this.game.width;
         this.height = this.game.height;
         this.imageUnlock = new Image();
+        this.imageUnlock.onload = () => {
+            this.updatePositionLevel();
+        };
         this.imageUnlock.src = 'src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_27.png';
         this.imageLock = new Image();
+        this.imageLock.onload = () => {
+        };
         this.imageLock.src = 'src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_23.png';
-        this.updatePositionLevel();
         this.xVirtual = 0;
     }
-
-    loadImage(image) {
-        return new Promise((resolve, reject) => {
-            image.onload = resolve;
-            image.onerror = reject;
-        });
-    }
-
     update(deltaTime) {
         for (let i = 0; i < this.levelsNext.length; i++) {
             if (this.levels[i].position.x + deltaTime < this.levelsNext[i].position.x) {

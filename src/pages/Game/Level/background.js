@@ -7,6 +7,9 @@ export class Background {
         this.height = this.game.height;
         this.image = new Image();
         this.image.src = 'src/assets/Asset/LevelMap_Day.png';
+        this.image.onload = () => {
+            this.draw(this.game.context);
+        };
         this.xImage = 0;
         this.xImageCut = 0;
         this.x = 0;

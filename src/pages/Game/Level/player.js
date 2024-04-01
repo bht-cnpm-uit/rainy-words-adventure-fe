@@ -1,4 +1,3 @@
-
 export class Player {
     constructor(game) {
         this.game = game;
@@ -12,6 +11,10 @@ export class Player {
         }
         this.velocity = 0;
         this.image = new Image();
+        this.image.onload = () => {
+            // Call the draw method when the image is loaded
+            this.draw(this.game.ctx, this.position);
+        };
         this.image.src = 'src/assets/Asset/GameObject/SunflowerCatSprite_Night2WalkBlink.png';
         this.frameX = 0;
         this.frameY = 1;
