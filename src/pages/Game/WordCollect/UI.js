@@ -31,13 +31,13 @@ export class BonusItems extends UI {
         this.maxItems = 5;
         this.noItems = 0;
         this.image = new Image();
-        this.image.src = "src/assets/Asset/Map1/GameObject_cut/tile045.png";
+        this.image.src = "src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_11.png";
     }
     update() {
     }
     draw(context) {
         for (let i = 0; i < this.noItems; i++) {
-            context.drawImage(this.image, this.x + i * this.spriteWidth, this.y, this.spriteWidth, this.spriteHeight);
+            context.drawImage(this.image, this.x + i * this.spriteWidth / 1.5, this.y, this.spriteWidth / 1.5, this.spriteHeight / 1.5);
         }
     }
     addNewItem() {

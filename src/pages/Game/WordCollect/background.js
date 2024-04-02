@@ -1,9 +1,12 @@
 class Layer {
-    constructor(game, width, height, image) {
+    constructor(game, spriteWidth, spriteHeight, src) {
         this.game = game;
-        this.width = width;
-        this.height = height;
-        this.image = image;
+        this.width = this.game.width;
+        this.height = this.game.height
+        this.spriteWidth = spriteWidth;
+        this.spriteHeight = spriteHeight;
+        this.image = new Image();
+        this.image.src = src;
         this.x = 0;
         this.y = 0;
     }
@@ -12,24 +15,32 @@ class Layer {
     }
     draw(context) {
         context.drawImage(this.image, this.x, this.y, this.width, this.height);
-        context.save();
     }
 }
 
 export class Background {
     constructor(game) {
         this.game = game;
-        this.width = 1920;
-        this.height = 880;
-        this.layerImage1 = new Layer(this.game, this.width, this.height, new Image());
-        this.layerImage1.image.src = 'src/assets/Asset/Map3/RollBackground.png';
-        this.layerImage2 = new Layer(this.game, this.width, this.height, new Image());
-        this.layerImage2.image.src = 'src/assets/Asset/Map3/StableBG.png';
+        this.spriteWidth = 1920;
+        this.spriteHeight = 880;
+        this.width = this.game.width;
+        this.height = this.game.height;
+        this.layerImage1 = new Layer(this.game, this.spriteWidth, this.spriteHeight, 'src/assets/Asset/Map1/ScrollBG.png');
+        this.layerImage2 = new Layer(this.game, this.spriteWidth, this.spriteHeight, 'src/assets/Asset/Map1/StableBG_game.png');
+        this.speedModifier = 0.5;
+        this.speed = this.speedModifier;
     }
-    update() {
+    update(gameFrame) {
+        let gameSpeed = 5;
+        this.speed = gameSpeed * this.speedModifier;
+        if (this.layerImage1.x <= -this.spriteWidth) {
+            this.layerImage1.x = 0;
+        }
+        this.layerImage1.x = this.layerImage1.x - this.speed;
     }
     draw(context) {
-        this.layerImage1.draw(context);
-        this.layerImage2.draw(context);
+        context.drawImage(this.layerImage1.image, this.layerImage1.x, 0, this.width, this.height);
+        context.drawImage(this.layerImage1.image, this.layerImage1.x + this.width, 0, this.width, this.height);
+        context.drawImage(this.layerImage2.image, this.layerImage2.x, 0, this.width, this.height);
     }
 }

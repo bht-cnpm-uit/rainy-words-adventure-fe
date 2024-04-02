@@ -1,5 +1,5 @@
 class Layer {
-    constructor(game, width, height, image, image2="") {
+    constructor(game, width, height, image, image2 = "") {
         this.game = game;
         this.width = width;
         this.height = height;
@@ -7,7 +7,7 @@ class Layer {
         this.image2 = image2;
         this.x = 0;
         this.y = 0;
-        this.x2= 2920;
+        this.x2 = 2920;
     }
     update() {
         // Add update logic if needed
@@ -16,15 +16,15 @@ class Layer {
         context.drawImage(this.image, this.x, this.y, this.width, this.height);
         context.save();
     }
-    draw(context){
+    draw(context) {
         let gameSpeed = 5;
         context.drawImage(this.image, this.x, 0);
         context.drawImage(this.image2, this.x2, 0);
-        if(this.x<-2920) this.x = 2920 - gameSpeed + this.x2;
-        else this.x-= gameSpeed;
+        if (this.x < -2920) this.x = 2920 - gameSpeed + this.x2;
+        else this.x -= gameSpeed;
 
-        if(this.x2<-2920) this.x2 = 2920 - gameSpeed + this.x;
-        else this.x2-= gameSpeed;
+        if (this.x2 < -2920) this.x2 = 2920 - gameSpeed + this.x;
+        else this.x2 -= gameSpeed;
         context.save();
     }
 }

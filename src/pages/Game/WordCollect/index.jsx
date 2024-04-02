@@ -18,6 +18,7 @@ const WordFall = props => {
             this.ctx = ctx;
             this.width = width;
             this.height = height;
+            this.gameFrame = 0;
             this.background = new Background(this);
             this.input = new InputHandler(this);
             this.Score = new Score(this);
@@ -68,7 +69,8 @@ const WordFall = props => {
         }
         update(deltaTime) {
             if (this.gameState) {
-                this.background.update();
+                this.gameFrame++;
+                this.background.update(this.gameFrame);
                 this.player.update(this.input.keys, this.words);
                 this.words = this.words.filter(word => !word.markedForDeletion)
                 if (this.wordTimer > this.wordInterval) {

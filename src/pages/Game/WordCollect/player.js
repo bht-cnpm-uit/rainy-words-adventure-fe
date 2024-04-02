@@ -3,17 +3,17 @@ import { GOLEFT, GORIGHT, STOP } from "./playerStates";
 export class Player {
     constructor(game) {
         this.game = game;
-        this.width = 200;
-        this.height = 266;
         this.spriteWidth = 653;
         this.spriteHeight = 800;
+        this.width = this.spriteWidth / 3.5;
+        this.height = this.spriteHeight / 3.5;
         this.position = {
             x: 100,
             y: this.game.height - this.height * 1.05
         }
         this.velocity = 0;
         this.image = new Image();
-        this.image.src = 'src/assets/Asset/GameObject/SunflowerCatSprite_Night2WalkBlink.png';
+        this.image.src = 'src/assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png';
         this.frameX = 0;
         this.frameY = 1;
         this.staggerFrames = 5;

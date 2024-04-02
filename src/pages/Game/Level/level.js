@@ -1,4 +1,4 @@
-export const level = [
+export const LEVEL = [
     {
         "level": 1,
         "position": {
@@ -47,16 +47,16 @@ export const level = [
         },
         "state": "Block"
     },
+    // {
+    //     "level": 6,
+    //     "position": {
+    //         "x": 2952,
+    //         "y": 166
+    //     },
+    //     "state": "Block"
+    // },
     {
         "level": 7,
-        "position": {
-            "x": 2952,
-            "y": 166
-        },
-        "state": "Block"
-    },
-    {
-        "level": 8,
         "position": {
             "x": 3389,
             "y": 623
@@ -64,7 +64,7 @@ export const level = [
         "state": "Block"
     },
     {
-        "level": 9,
+        "level": 8,
         "position": {
             "x": 3380,
             "y": 986
@@ -72,10 +72,18 @@ export const level = [
         "state": "Block"
     },
     {
-        "level": 10,
+        "level": 9,
         "position": {
             "x": 3651,
             "y": 1265
+        },
+        "state": "Block"
+    },
+    {
+        "level": 10,
+        "position": {
+            "x": 4050,
+            "y": 550
         },
         "state": "Block"
     },
@@ -165,8 +173,8 @@ export const level = [
 export class Levels {
     constructor(game) {
         this.game = game;
-        this.levels = level;
-        this.levelsNext = level
+        this.levels = [];
+        this.levelsNext = []
         this.spriteWidth = 107;
         this.spriteHeight = 84;
         this.width = this.game.width;
@@ -192,6 +200,7 @@ export class Levels {
     }
 
     draw(context) {
+        context.save()
         this.levels.forEach(level => {
             if (level.state === 'Unlocked') {
                 if (this.imageUnlock.complete)
@@ -205,10 +214,14 @@ export class Levels {
 
     updatePositionLevel() {
         const ratioHeight = this.game.height / this.game.background.spriteHeight;
-        this.levels.forEach(level => {
-            level.position.x = level.position.x * ratioHeight - this.spriteWidth / 2;
-            level.position.y = level.position.y * ratioHeight - this.spriteHeight / 2;
-        });
+        const init_level = JSON.parse(JSON.stringify(LEVEL)); // Assuming LEVEL is a constant containing the initial level data
+        this.levels = []; // Clear the levels array
+        for (let i = 0; i < init_level.length; i++) { // Iterate over init_level.length
+            const lv = init_level[i]; // Access each level data from init_level
+            lv.position.x = lv.position.x * ratioHeight - this.spriteWidth / 2;
+            lv.position.y = lv.position.y * ratioHeight - this.spriteHeight / 2;
+            this.levels.push(lv); // Push the updated level data into levels array
+        }
         this.levelsNext = JSON.parse(JSON.stringify(this.levels));
     }
     updateCurrentLevel(currentLevel) {

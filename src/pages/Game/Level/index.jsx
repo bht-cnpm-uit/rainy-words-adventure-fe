@@ -33,23 +33,38 @@ const Level = props => {
         }
         onMouseMove(event) {
             const rect = this.canvas.getBoundingClientRect();
-            const mouseX = event.clientX - rect.left;
-            const mouseY = event.clientY - rect.top;
+            let mouseX = event.clientX - rect.left;
+            let mouseY = event.clientY - rect.top;
             let cursorStyle = 'default'; // Default cursor style
 
-            // Check if the mouse is over any level
-            for (const level of this.levels.levels) {
-                if (this.isMouseOverLevel(mouseX, mouseY, level)) {
-                    cursorStyle = 'pointer'; // Change cursor style to pointer
-                    break; // No need to check other levels once we found one the mouse is over
+            //check if the mouse is over closs setting board
+            if (!this.levelSetting.hidden) {
+                if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.close)) {
+                    cursorStyle = 'pointer';
                 }
-            }
+                else if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.back)) {
+                    cursorStyle = 'pointer';
+                }
+                else if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.next)) {
+                    cursorStyle = 'pointer';
+                }
+                else if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.play)) {
+                    cursorStyle = 'pointer';
+                }
 
-            // Check if the mouse is over the next map button
-            if (this.isMouseOverButton(mouseX, mouseY, this.btnNextMap) || this.isMouseOverButton(mouseX, mouseY, this.btnBackMap)) {
+            }
+            else if (this.isMouseOverButton(mouseX, mouseY, this.btnNextMap) || this.isMouseOverButton(mouseX, mouseY, this.btnBackMap)) {
                 cursorStyle = 'pointer';
             }
-
+            else {
+                // // Check if the mouse is over any level
+                for (const level of this.levels.levels) {
+                    if (this.isMouseOverLevel(mouseX, mouseY, level)) {
+                        cursorStyle = 'pointer'; // Change cursor style to pointer
+                    }
+                }
+            }
+            // Check if the mouse is over the next map button
             // Apply the cursor style
             this.canvas.style.cursor = cursorStyle;
         }
@@ -57,25 +72,41 @@ const Level = props => {
             const rect = this.canvas.getBoundingClientRect();
             const mouseX = event.clientX - rect.left;
             const mouseY = event.clientY - rect.top;
-
-            // Check if the mouse is over any level
-            this.levels.levels.forEach(level => {
-                if (this.isMouseOverLevel(mouseX, mouseY, level)) {
-                    this.levels.updateCurrentLevel(level.level);
-                }
-            });
-
+            if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.close)) {
+                this.levelSetting.close();
+            }
+            else if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.back)) {
+            }
+            else if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.next)) {
+            }
+            else if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.play)) {
+                //  play
+                window.location.href = '/word-collect';
+            }
+            else if (this.isMouseOverButton(mouseX, mouseY, this.btnNextMap) || this.isMouseOverButton(mouseX, mouseY, this.btnBackMap)) {
+            }
             // Check if the mouse is over the next map button
             if (this.isMouseOverButton(mouseX, mouseY, this.btnNextMap)) {
                 this.background.onclick(1);
                 this.levels.onclickNextMap(-1);
+                return;
             }
-
             // Check if the mouse is over the back map button
             if (this.isMouseOverButton(mouseX, mouseY, this.btnBackMap)) {
                 this.background.onclick(-1);
                 this.levels.onclickNextMap(1);
+                return;
             }
+            // Check if the mouse is over any level
+            this.levels.levels.forEach(level => {
+                if (this.isMouseOverLevel(mouseX, mouseY, level)) {
+                    this.levels.updateCurrentLevel(level.level);
+                    this.levelSetting.open();
+                    return;
+                }
+            });
+
+
         }
 
         // Function to check if the mouse is over a level
@@ -92,9 +123,9 @@ const Level = props => {
         isMouseOverButton(mouseX, mouseY, button) {
             return (
                 mouseX >= button.x &&
-                mouseX <= button.x + button.spriteWidth &&
+                mouseX <= button.x + button.width &&
                 mouseY >= button.y &&
-                mouseY <= button.y + button.spriteHeight
+                mouseY <= button.y + button.height
             );
         }
         update(deltaTime) {
