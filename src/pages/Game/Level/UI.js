@@ -168,8 +168,6 @@ export class LevelSetting {
         if (!this.hidden) {
             context.save();
             context.translate(this.translateX, this.translateY);
-            context.font = "30px Arial";
-            context.textAlign = "center";
             // Draw your board and score here
             this.staticUI.board.draw(context);
             this.staticUI.score.draw(context);

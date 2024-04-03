@@ -180,9 +180,9 @@ export class Levels {
         this.width = this.game.width;
         this.height = this.game.height;
         this.imageUnlock = new Image();
-        this.imageUnlock.src = 'src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_27.png';
+        this.imageUnlock.src = 'src/assets/Asset/LevelButton/14.png';
         this.imageLock = new Image();
-        this.imageLock.src = 'src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_23.png';
+        this.imageLock.src = 'src/assets/Asset/LevelButton/13.png';
         this.xVirtual = 0;
         this.updatePositionLevel();
     }

@@ -3,7 +3,7 @@ import { Player } from './player';
 import { InputHandler } from './input';
 import { Background } from './background';
 import { Item } from './item';
-import { Score, BonusItems } from './UI';
+import { Score, BonusItems, BoardStopGame } from './UI';
 import { BtnGameState } from './button';
 const WordFall = props => {
     const canvasRef = useRef()
@@ -25,6 +25,7 @@ const WordFall = props => {
             this.btnGameState = new BtnGameState(this);
             this.bonusItems = new BonusItems(this);
             this.player = new Player(this);
+            this.boardStopGame = new BoardStopGame(this);
             this.score = 0;
             this.words = [];
             this.wordTimer = 0;
@@ -40,32 +41,50 @@ const WordFall = props => {
             const rect = this.canvas.getBoundingClientRect();
             const mouseX = event.clientX - rect.left;
             const mouseY = event.clientY - rect.top;
-
-            if (
-                mouseX >= this.btnGameState.x &&
-                mouseX <= this.btnGameState.x + this.btnGameState.width * 0.9 &&
-                mouseY >= this.btnGameState.y &&
-                mouseY <= this.btnGameState.y + this.btnGameState.height * 0.9
-            ) {
+            let cursorStyle = 'default';
+            if (this.isMouseOverButton(mouseX - this.boardStopGame.translateX, mouseY - this.boardStopGame.translateY, this.boardStopGame.buttons.back)) {
+                window.location.href = '/level';
+            }
+            else if (this.isMouseOverButton(mouseX - this.boardStopGame.translateX, mouseY - this.boardStopGame.translateY, this.boardStopGame.buttons.replay)) {
+                this.boardStopGame.updateState(!this.boardStopGame.hidden);
                 this.btnGameState.setState(!this.btnGameState.currentState)
-            } else {
+            }
+            else if (this.isMouseOverButton(mouseX - this.boardStopGame.translateX, mouseY - this.boardStopGame.translateY, this.boardStopGame.buttons.continue)) {
+                this.boardStopGame.updateState(!this.boardStopGame.hidden);
+                this.btnGameState.setState(!this.btnGameState.currentState)
+            }
+            else if (this.isMouseOverButton(mouseX, mouseY, this.btnGameState)) {
+                this.boardStopGame.updateState(!this.boardStopGame.hidden);
+                this.btnGameState.setState(!this.btnGameState.currentState)
             }
         }
         onMouseMove(event) {
             const rect = this.canvas.getBoundingClientRect();
             const mouseX = event.clientX - rect.left;
             const mouseY = event.clientY - rect.top;
-
-            if (
-                mouseX >= this.btnGameState.x &&
-                mouseX <= this.btnGameState.x + this.btnGameState.width * 0.9 &&
-                mouseY >= this.btnGameState.y &&
-                mouseY <= this.btnGameState.y + this.btnGameState.height * 0.9
-            ) {
-                this.canvas.style.cursor = 'pointer'; // Change cursor style to pointer
-            } else {
-                this.canvas.style.cursor = 'default'; // Change cursor style to default
+            let cursorStyle = 'default';
+            if (this.isMouseOverButton(mouseX - this.boardStopGame.translateX, mouseY - this.boardStopGame.translateY, this.boardStopGame.buttons.back)) {
+                cursorStyle = 'pointer';
             }
+            else if (this.isMouseOverButton(mouseX - this.boardStopGame.translateX, mouseY - this.boardStopGame.translateY, this.boardStopGame.buttons.replay)) {
+                cursorStyle = 'pointer';
+            }
+            else if (this.isMouseOverButton(mouseX - this.boardStopGame.translateX, mouseY - this.boardStopGame.translateY, this.boardStopGame.buttons.continue)) {
+
+                cursorStyle = 'pointer';
+            }
+            else if (this.isMouseOverButton(mouseX, mouseY, this.btnGameState)) {
+                cursorStyle = 'pointer';
+            }
+            this.canvas.style.cursor = cursorStyle;
+        }
+        isMouseOverButton(mouseX, mouseY, button) {
+            return (
+                mouseX >= button.x &&
+                mouseX <= button.x + button.width &&
+                mouseY >= button.y &&
+                mouseY <= button.y + button.height
+            );
         }
         update(deltaTime) {
             if (this.gameState) {
@@ -89,6 +108,7 @@ const WordFall = props => {
             this.words.forEach(word => word.draw(context));
             this.btnGameState.draw(context);
             this.Score.draw(context);
+            this.boardStopGame.draw(context);
         }
         #addNewWord() {
             this.words.push(new Item(this));
