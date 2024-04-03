@@ -21,31 +21,31 @@ export class Score extends UI {
     }
 }
 
-// export class BonusItems extends UI {
-//     constructor(game) {
-//         super(game);
-//         this.spriteWidth = 100;
-//         this.spriteHeight = 100;
-//         this.x = 10;
-//         this.y = 10;
-//         this.maxItems = 5;
-//         this.noItems = 0;
-//         this.image = new Image();
-//         this.image.src = "src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_11.png";
-//     }
-//     update() {
-//     }
-//     draw(context) {
-//         for (let i = 0; i < this.noItems; i++) {
-//             context.drawImage(this.image, this.x + i * this.spriteWidth / 1.5, this.y, this.spriteWidth / 1.5, this.spriteHeight / 1.5);
-//         }
-//     }
-//     addNewItem() {
-//         if (this.noItems < this.maxItems) {
-//             this.noItems++;
-//         }
-//     }
-// }
+export class BonusItems extends UI {
+    constructor(game) {
+        super(game);
+        this.spriteWidth = 100;
+        this.spriteHeight = 100;
+        this.x = 10;
+        this.y = 10;
+        this.maxItems = 5;
+        this.noItems = 0;
+        this.image = new Image();
+        this.image.src = "src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_11.png";
+    }
+    update() {
+    }
+    draw(context) {
+        for (let i = 0; i < this.noItems; i++) {
+            context.drawImage(this.image, this.x + i * this.spriteWidth / 1.5, this.y, this.spriteWidth / 1.5, this.spriteHeight / 1.5);
+        }
+    }
+    addNewItem() {
+        if (this.noItems < this.maxItems) {
+            this.noItems++;
+        }
+    }
+}
 
 class Button {
     constructor(image, x, y, width, height, spriteWidth, spriteHeight) {
@@ -118,23 +118,6 @@ class StaticUI {
     }
 }
 
-export class BonusItems {
-    constructor(game) {
-        this.game = game;
-        this.spriteWidth = 100;
-        this.spriteHeight = 100;
-        this.noItems = 0;
-    }
-    update(context) { }
-    draw() {
-
-    }
-    addNewItem() {
-        if (this.noItems < this.maxItems) {
-            this.noItems++;
-        }
-    }
-}
 export class BoardStopGame {
     constructor(game) {
         this.game = game;

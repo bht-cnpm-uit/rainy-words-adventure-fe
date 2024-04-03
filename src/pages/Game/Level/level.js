@@ -3,31 +3,31 @@ export const LEVEL = [
         "level": 1,
         "position": {
             "x": 465,
-            "y": 710
+            "y": 900
         },
-        "state": "Block"
+        "state": "Unblock"
     },
     {
         "level": 2,
         "position": {
             "x": 1049,
-            "y": 710
+            "y": 800
         },
-        "state": "Current"
+        "state": "Unblock"
     },
     {
         "level": 3,
         "position": {
             "x": 1624,
-            "y": 697
+            "y": 870
         },
-        "state": "Block"
+        "state": "Unblock"
     },
     {
         "level": 4,
         "position": {
             "x": 2020,
-            "y": 485
+            "y": 665
         },
         "state": "Block"
     },
@@ -35,7 +35,7 @@ export const LEVEL = [
         "level": 5,
         "position": {
             "x": 2449,
-            "y": 429
+            "y": 525
         },
         "state": "Block"
     },
@@ -43,31 +43,23 @@ export const LEVEL = [
         "level": 6,
         "position": {
             "x": 2862,
-            "y": 533
+            "y": 600
         },
         "state": "Block"
     },
-    // {
-    //     "level": 6,
-    //     "position": {
-    //         "x": 2952,
-    //         "y": 166
-    //     },
-    //     "state": "Block"
-    // },
     {
         "level": 7,
         "position": {
             "x": 3389,
-            "y": 623
+            "y": 720
         },
         "state": "Block"
     },
     {
         "level": 8,
         "position": {
-            "x": 3380,
-            "y": 986
+            "x": 3500,
+            "y": 1100
         },
         "state": "Block"
     },
@@ -75,15 +67,15 @@ export const LEVEL = [
         "level": 9,
         "position": {
             "x": 3651,
-            "y": 1265
+            "y": 1350
         },
         "state": "Block"
     },
     {
         "level": 10,
         "position": {
-            "x": 4050,
-            "y": 550
+            "x": 4200,
+            "y": 600
         },
         "state": "Block"
     },
@@ -91,7 +83,7 @@ export const LEVEL = [
         "level": 11,
         "position": {
             "x": 4061,
-            "y": 1252
+            "y": 1350
         },
         "state": "Block"
     },
@@ -99,15 +91,15 @@ export const LEVEL = [
         "level": 12,
         "position": {
             "x": 4511,
-            "y": 1167
+            "y": 1300
         },
         "state": "Block"
     },
     {
         "level": 13,
         "position": {
-            "x": 4779,
-            "y": 786
+            "x": 4850,
+            "y": 1000
         },
         "state": "Block"
     },
@@ -115,7 +107,7 @@ export const LEVEL = [
         "level": 14,
         "position": {
             "x": 5299,
-            "y": 655
+            "y": 750
         },
         "state": "Block"
     },
@@ -123,7 +115,7 @@ export const LEVEL = [
         "level": 15,
         "position": {
             "x": 5765,
-            "y": 781
+            "y": 850
         },
         "state": "Block"
     },
@@ -131,7 +123,7 @@ export const LEVEL = [
         "level": 16,
         "position": {
             "x": 6175,
-            "y": 742
+            "y": 900
         },
         "state": "Block"
     },
@@ -139,15 +131,15 @@ export const LEVEL = [
         "level": 17,
         "position": {
             "x": 6625,
-            "y": 576
+            "y": 700
         },
         "state": "Block"
     },
     {
         "level": 18,
         "position": {
-            "x": 7029,
-            "y": 1074
+            "x": 7150,
+            "y": 1200
         },
         "state": "Block"
     },
@@ -155,19 +147,20 @@ export const LEVEL = [
         "level": 19,
         "position": {
             "x": 7223,
-            "y": 595
+            "y": 700
         },
         "state": "Block"
     },
     {
         "level": 20,
         "position": {
-            "x": 7627,
-            "y": 623
+            "x": 7700,
+            "y": 740
         },
         "state": "Block"
     }
 ]
+
 
 
 export class Levels {
@@ -175,16 +168,16 @@ export class Levels {
         this.game = game;
         this.levels = [];
         this.levelsNext = []
-        this.spriteWidth = 107;
-        this.spriteHeight = 84;
+        this.spriteWidth = 299;
+        this.spriteHeight = 215;
         this.width = this.game.width;
         this.height = this.game.height;
-        this.imageUnlock = new Image();
-        this.imageUnlock.src = 'src/assets/Asset/LevelButton/14.png';
-        this.imageLock = new Image();
-        this.imageLock.src = 'src/assets/Asset/LevelButton/13.png';
+        this.image = new Image();
+        this.image.src = 'src/assets/Asset/btn_level.png';
         this.xVirtual = 0;
         this.updatePositionLevel();
+        this.frameX = 0;
+        this.frameY = 0;
     }
     update(deltaTime) {
         for (let i = 0; i < this.levelsNext.length; i++) {
@@ -202,12 +195,13 @@ export class Levels {
     draw(context) {
         context.save()
         this.levels.forEach(level => {
-            if (level.state === 'Unlocked') {
-                if (this.imageUnlock.complete)
-                    context.drawImage(this.imageUnlock, level.position.x, level.position.y, this.spriteWidth, this.spriteHeight);
-            } else {
-                if (this.imageLock.complete)
-                    context.drawImage(this.imageLock, level.position.x, level.position.y, this.spriteWidth, this.spriteHeight);
+            if (level.state === 'Unblock') {
+                if (this.image.complete)
+                    context.drawImage(this.image, 0 * this.spriteWidth, 2 * this.spriteHeight, this.spriteWidth, this.spriteHeight, level.position.x, level.position.y, this.spriteWidth / 2, this.spriteHeight / 2);
+            }
+            else {
+                if (this.image.complete)
+                    context.drawImage(this.image, 4 * this.spriteWidth, 2 * this.spriteHeight, this.spriteWidth, this.spriteHeight, level.position.x, level.position.y, this.spriteWidth / 2, this.spriteHeight / 2);
             }
         });
     }
