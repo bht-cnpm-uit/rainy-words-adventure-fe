@@ -32,7 +32,7 @@ export class Player {
         this.velocity = 0;
         this.acceleration = 0.025;
         this.image = new Image();
-        this.image.src = '../src/assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png';
+        this.image.src = '../assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png';
         this.frameX = 0;
         this.frameY = 1;
         this.staggerFrames = 5;

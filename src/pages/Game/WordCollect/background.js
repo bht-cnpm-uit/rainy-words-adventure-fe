@@ -25,8 +25,8 @@ export class Background {
         this.spriteHeight = 1080;
         this.width = this.game.width;
         this.height = this.game.height;
-        this.layerImage1 = new Layer(this.game, this.spriteWidth, this.spriteHeight, '../src/assets/Asset/Map1/ScrollBG.png');
-        this.layerImage2 = new Layer(this.game, this.spriteWidth, this.spriteHeight, '../src/assets/Asset/Map1/StableBG_game.png');
+        this.layerImage1 = new Layer(this.game, this.spriteWidth, this.spriteHeight, '../assets/Asset/Map1/ScrollBG.png');
+        this.layerImage2 = new Layer(this.game, this.spriteWidth, this.spriteHeight, '../assets/Asset/Map1/StableBG_game.png');
         this.speedModifier = 0.5;
         this.speed = this.speedModifier;
     }

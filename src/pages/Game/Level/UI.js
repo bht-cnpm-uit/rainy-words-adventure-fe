@@ -82,7 +82,7 @@ export class LevelSetting {
         this.hidden = true;
         this.buttons = {
             close: new Button(
-                '../src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_19.png',
+                '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_19.png',
                 this.spriteWidthBoard / 2 - this.spriteWidthBtnClose / 3,
                 - this.spriteHeightBtnClose / 6,
                 this.spriteWidthBtnClose / 2,
@@ -91,7 +91,7 @@ export class LevelSetting {
                 this.spriteHeightBtnClose
             ),
             next: new Button(
-                '../src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_7.png',
+                '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_7.png',
                 this.spriteWidthBoard * 1 / 3 + this.spriteWidthBtnNext / 6,
                 this.spriteHeightBoard / 4 + this.spriteHeightBtnNext / 6,
                 this.spriteWidthBtnNext / 3,
@@ -100,7 +100,7 @@ export class LevelSetting {
                 this.spriteHeightBtnNext
             ),
             back: new Button(
-                '../src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_8.png',
+                '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_8.png',
                 this.spriteWidthBoard * 1 / 3 - this.spriteWidthBtnNext / 2,
                 this.spriteHeightBoard / 4 + this.spriteHeightBtnNext / 6,
                 this.spriteWidthBtnNext / 3,
@@ -109,7 +109,7 @@ export class LevelSetting {
                 this.spriteHeightBtnNext
             ),
             play: new Button(
-                '../src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
+                '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
                 this.spriteWidthBoard / 4 - this.spriteWidthPlay / 6,
                 this.spriteHeightBoard / 2 - this.spriteHeightPlay / 1.5,
                 this.spriteWidthPlay / 3,
@@ -120,19 +120,19 @@ export class LevelSetting {
         };
         this.staticUI = {
             board: new StaticUI(
-                '../src/assets/Asset/PanelAtlas_cuts/image_3.png',
+                '../assets/Asset/PanelAtlas_cuts/image_3.png',
                 0, 0, this.spriteWidthBoard / 2, this.spriteHeightBoard / 2,
                 this.spriteWidthBoard,
                 this.spriteHeightBoard
             ),
             score: new StaticUI(
-                '../src/assets/Asset/PanelAtlas_cuts/image_6.png',
+                '../assets/Asset/PanelAtlas_cuts/image_6.png',
                 (this.spriteWidthBoard - this.spriteWidthScore) / 4, this.spriteHeightScore / 5, this.spriteWidthScore / 2, this.spriteHeightScore / 2,
                 this.spriteWidthScore,
                 this.spriteHeightScore
             ),
             player: new StaticUI(
-                '../src/assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png',
+                '../assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png',
                 -this.spriteWidthPlayer / 8, this.spriteHeightPlayer / 6, this.spriteWidthPlayer / 4, this.spriteHeightPlayer / 4,
                 this.spriteWidthPlayer,
                 this.spriteHeightPlayer

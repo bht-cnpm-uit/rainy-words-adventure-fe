@@ -10,7 +10,7 @@ export class Player {
             y: this.game.height - this.height * 1
         }
         this.image = new Image();
-        this.image.src = '../src/assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png';
+        this.image.src = '../assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png';
         this.frameX = 0;
         this.frameY = 1;
         this.staggerFrames = 5;

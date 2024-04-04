@@ -15,7 +15,7 @@ export class Player {
             // Call the draw method when the image is loaded
             this.draw(this.game.ctx, this.position);
         };
-        this.image.src = '../src/assets/Asset/GameObject/SunflowerCatSprite_Night2WalkBlink.png';
+        this.image.src = '../assets/Asset/GameObject/SunflowerCatSprite_Night2WalkBlink.png';
         this.frameX = 0;
         this.frameY = 1;
         this.staggerFrames = 5;

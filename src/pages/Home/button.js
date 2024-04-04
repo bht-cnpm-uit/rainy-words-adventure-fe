@@ -21,7 +21,7 @@ export class Guide extends Button {
     constructor(game) {
         super(game);
         this.image = new Image();
-        this.image.src = '../src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_24.png';
+        this.image.src = '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_24.png';
         this.spriteWidth = 433;
         this.spriteHeight = 279;
         this.x = 30;
@@ -42,7 +42,7 @@ export class start extends Button {
     constructor(game) {
         super(game);
         this.image = new Image();
-        this.image.src = '../src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png';
+        this.image.src = '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png';
         this.spriteWidth = 437;
         this.spriteHeight = 129;
         this.x = this.width / 2 + this.spriteWidth / 3 + 40;

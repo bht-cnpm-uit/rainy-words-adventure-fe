@@ -78,7 +78,7 @@ const LoginComponent = () => {
                 {errCode === 1 && <div>Sai mat khau roi r</div>}
                 <div className="flex w-full justify-around">
                     <div
-                        className="relative mb-4 h-[50px] w-[150px] bg-[url('/../src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png')] bg-center bg-no-repeat"
+                        className="relative mb-4 h-[50px] w-[150px] bg-[url('/../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png')] bg-center bg-no-repeat"
                         style={{
                             backgroundSize: '100%',
                         }}
@@ -95,7 +95,7 @@ const LoginComponent = () => {
                     </div>
                     {/* <button className="my-4 w-48 ">
                         <img
-                            src="src\assets\Asset\ButtonAtlas_cuts\ButtonAtlas_cuts\image_25.png"
+                            src="/assets\Asset\ButtonAtlas_cuts\ButtonAtlas_cuts\image_25.png"
                             alt="my image"
                             onClick={() => {
                                 console.log('Btn click');
@@ -114,18 +114,18 @@ const LoginForm = () => {
     const [password, setPassword] = useState('');
     //status: initial, writing, wrong username, wrong password
     return (
-        <div className="grid h-screen grid-cols-2 bg-[url('../src/assets/Asset/Login/backgroundLogin.png')] bg-cover bg-center bg-no-repeat ">
+        <div className="grid h-screen grid-cols-2 bg-[url('../assets/Asset/Login/backgroundLogin.png')] bg-cover bg-center bg-no-repeat ">
             <div className="grid h-screen grid-rows-5 ">
                 <div className="row-span-1">
                     <img
-                        src="src\assets\Asset\ButtonAtlas_cuts\ButtonAtlas_cuts\image_24.png"
+                        src="/assets\Asset\ButtonAtlas_cuts\ButtonAtlas_cuts\image_24.png"
                         alt="guide"
                         className="h-full w-full object-contain"
                     />
                 </div>
                 <div className="b row-span-4 m-8">
                     <img
-                        src="src\assets\Asset\GameObject\SunflowerCatSpriteWalkBlink_cuts\image_1-0.png"
+                        src="/assets\Asset\GameObject\SunflowerCatSpriteWalkBlink_cuts\image_1-0.png"
                         alt=""
                         className="h-full w-full object-contain"
                     />
@@ -135,23 +135,23 @@ const LoginForm = () => {
                 <div className="row-span-1 flex justify-center p-4">
                     <img
                         className="mr-4 object-contain"
-                        src="src\assets\Asset\Logo\Logo Ban.png"
+                        src="/assets\Asset\Logo\Logo Ban.png"
                         alt="logoBan"
                     />
                     <img
                         className="object-contain"
-                        src="src\assets\Asset\Logo\Logo Đoàn.png"
+                        src="/assets\Asset\Logo\Logo Đoàn.png"
                         alt="logoBan"
                     />
                     <img
                         className=" ml-4 object-contain"
-                        src="src\assets\Asset\Logo\Logo Khoa.png"
+                        src="/assets\Asset\Logo\Logo Khoa.png"
                         alt="logoBan"
                     />
                 </div>
                 <div className="row-span-2 m-2 ">
                     <img
-                        src="src\assets\Asset\Logo.png"
+                        src="/assets\Asset\Logo.png"
                         alt=""
                         className="h-full w-full object-contain"
                     />

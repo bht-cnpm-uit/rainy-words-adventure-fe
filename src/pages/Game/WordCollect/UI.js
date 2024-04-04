@@ -37,7 +37,7 @@ export class BonusItems {
         this.maxItems = 5;
         this.noItems = 0;
         this.image = new Image();
-        this.image.src = "../src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_11.png";
+        this.image.src = "../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_11.png";
     }
     update() {
     }
@@ -123,7 +123,7 @@ export class BoardStopGame {
         this.spriteHeightButton = 129;
         this.staticUI = {
             board: new StaticUI(
-                '../src/assets/Asset/PanelAtlas_cuts/image_1.png',
+                '../assets/Asset/PanelAtlas_cuts/image_1.png',
                 0, 0, this.spriteWidthBoard / 2, this.spriteHeightBoard / 2,
                 this.spriteWidthBoard, this.spriteHeightBoard
             )
@@ -136,7 +136,7 @@ export class BoardStopGame {
         }
         this.buttons = {
             continue: new Button(
-                '../src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
+                '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
                 this.spriteWidthBoard / 12 - this.spriteWidthButton / 8,
                 this.spriteHeightBoard / 2 - this.spriteHeightButton / 2,
                 this.spriteWidthButton / 4,
@@ -145,7 +145,7 @@ export class BoardStopGame {
                 this.spriteHeightButton
             ),
             replay: new Button(
-                '../src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
+                '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
                 this.spriteWidthBoard / 6 + this.spriteWidthBoard / 12 - this.spriteWidthButton / 8,
                 this.spriteHeightBoard / 2 - this.spriteHeightButton / 2,
                 this.spriteWidthButton / 4,
@@ -154,7 +154,7 @@ export class BoardStopGame {
                 this.spriteHeightButton
             ),
             back: new Button(
-                '../src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
+                '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
                 this.spriteWidthBoard * 1 / 3 + this.spriteWidthBoard / 12 - this.spriteWidthButton / 8,
                 this.spriteHeightBoard / 2 - this.spriteHeightButton / 2,
                 this.spriteWidthButton / 4,
@@ -195,9 +195,9 @@ export class BtnGameState {
         this.width = this.spriteWidth / 2;
         this.height = this.spriteHeight / 2;
         this.imagePause = new Image();
-        this.imagePause.src = '../src/assets/Asset/Asset/btn_pause.png';
+        this.imagePause.src = '../assets/Asset/Asset/btn_pause.png';
         this.imageStart = new Image();
-        this.imageStart.src = '../src/assets/Asset/Asset/btn_start.png';
+        this.imageStart.src = '../assets/Asset/Asset/btn_start.png';
         this.x = this.game.width - this.spriteWidth / 1.5;
         this.y = this.spriteHeight / 4;
         this.currentState = true;

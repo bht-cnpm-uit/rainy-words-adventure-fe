@@ -4,7 +4,7 @@ export default {
     theme: {
         extend: {
             backgroundImage: {
-                //'background-login': "url('../src/assets/Asset/Map1/ScrollBG.png')",
+                //'background-login': "url('../assets/Asset/Map1/ScrollBG.png')",
             },
         },
     },

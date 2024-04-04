@@ -173,7 +173,7 @@ export class Levels {
         this.width = this.game.width;
         this.height = this.game.height;
         this.image = new Image();
-        this.image.src = '../src/assets/Asset/btn_level.png';
+        this.image.src = '../assets/Asset/btn_level.png';
         this.xVirtual = 0;
         this.updatePositionLevel();
         this.frameX = 0;
