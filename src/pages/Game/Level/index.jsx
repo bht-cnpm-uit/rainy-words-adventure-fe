@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Background } from './background';
 import { Levels } from './level';
 import { Player } from './player';
+import { BtnBackMap, BtnNextMap, Guide, Library, Achievement, Account } from './button';
+import { LevelSetting } from './UI';
 const Level = props => {
     const canvasRef = useRef();
     function resizeCanvas(canvas) {
@@ -16,18 +18,138 @@ const Level = props => {
             this.width = width;
             this.height = height;
             this.background = new Background(this);
-            this.levels = new Levels(this);
             this.player = new Player(this);
-            this.levels.updatePositionLevel(this.background);
+            this.levels = new Levels(this);
+            this.btnNextMap = new BtnNextMap(this);
+            this.btnBackMap = new BtnBackMap(this);
+            this.btnGuide = new Guide(this);
+            this.btnLibrary = new Library(this);
+            this.btnAchievement = new Achievement(this);
+            this.btnAccount = new Account(this);
+            this.levelSetting = new LevelSetting(this);
+            this.canvas.addEventListener('mousemove', this.onMouseMove.bind(this));
+            this.canvas.addEventListener('click', this.onClick.bind(this));
+            this.gameFrame = 0;
+        }
+        onMouseMove(event) {
+            const rect = this.canvas.getBoundingClientRect();
+            let mouseX = event.clientX - rect.left;
+            let mouseY = event.clientY - rect.top;
+            let cursorStyle = 'default'; // Default cursor style
+
+            //check if the mouse is over closs setting board
+            if (!this.levelSetting.hidden) {
+                if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.close)) {
+                    cursorStyle = 'pointer';
+                }
+                else if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.back)) {
+                    cursorStyle = 'pointer';
+                }
+                else if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.next)) {
+                    cursorStyle = 'pointer';
+                }
+                else if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.play)) {
+                    cursorStyle = 'pointer';
+                }
+
+            }
+            else if (this.isMouseOverButton(mouseX, mouseY, this.btnNextMap) || this.isMouseOverButton(mouseX, mouseY, this.btnBackMap)) {
+                cursorStyle = 'pointer';
+            }
+            else {
+                // // Check if the mouse is over any level
+                for (const level of this.levels.levels) {
+                    if (this.isMouseOverLevel(mouseX, mouseY, level)) {
+                        cursorStyle = 'pointer'; // Change cursor style to pointer
+                    }
+                }
+            }
+            // Check if the mouse is over the next map button
+            // Apply the cursor style
+            this.canvas.style.cursor = cursorStyle;
+        }
+        onClick(event) {
+            const rect = this.canvas.getBoundingClientRect();
+            const mouseX = event.clientX - rect.left;
+            const mouseY = event.clientY - rect.top;
+            if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.close)) {
+                this.levelSetting.close();
+            }
+            else if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.back)) {
+            }
+            else if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.next)) {
+            }
+            else if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.play)) {
+                //  play
+                window.location.href = '/word-collect';
+            }
+            else if (this.isMouseOverButton(mouseX, mouseY, this.btnNextMap) || this.isMouseOverButton(mouseX, mouseY, this.btnBackMap)) {
+            }
+            // Check if the mouse is over the next map button
+            if (this.isMouseOverButton(mouseX, mouseY, this.btnNextMap)) {
+                this.background.onclick(1);
+                this.levels.onclickNextMap(-1);
+                return;
+            }
+            // Check if the mouse is over the back map button
+            if (this.isMouseOverButton(mouseX, mouseY, this.btnBackMap)) {
+                this.background.onclick(-1);
+                this.levels.onclickNextMap(1);
+                return;
+            }
+            // Check if the mouse is over any level
+            this.levels.levels.forEach(level => {
+                if (this.isMouseOverLevel(mouseX, mouseY, level)) {
+                    this.levels.updateCurrentLevel(level.level);
+                    this.levelSetting.open();
+                    return;
+                }
+            });
+
+
+        }
+
+        // Function to check if the mouse is over a level
+        isMouseOverLevel(mouseX, mouseY, level) {
+            return (
+                mouseX >= level.position.x &&
+                mouseX <= level.position.x + this.levels.spriteWidth &&
+                mouseY >= level.position.y &&
+                mouseY <= level.position.y + this.levels.spriteHeight
+            );
+        }
+
+        // Function to check if the mouse is over a button
+        isMouseOverButton(mouseX, mouseY, button) {
+            return (
+                mouseX >= button.x &&
+                mouseX <= button.x + button.width &&
+                mouseY >= button.y &&
+                mouseY <= button.y + button.height
+            );
         }
         update(deltaTime) {
-            this.player.update()
+            this.gameFrame++;
+            this.player.update();
+            this.background.update(deltaTime);
+            this.levels.update(deltaTime);
         }
         draw(context) {
             this.background.draw(context);
             this.levels.draw(context);
-            // this.levels.forEach(itemLevel => itemLevel.draw(this.ctx));
-            // this.player.draw(context);
+            this.btnNextMap.draw(context);
+            this.btnBackMap.draw(context);
+            this.btnGuide.draw(context);
+            this.btnLibrary.draw(context);
+            this.btnAchievement.draw(context);
+            this.btnAccount.draw(context);
+            this.levelSetting.draw(context);
+            for (const level of this.levels.levels) {
+                if (level.state === 'Current') {
+                    this.player.draw(context, level.position);
+                    break;
+                }
+            }
         }
     }
     useEffect(() => {
@@ -35,12 +157,13 @@ const Level = props => {
         resizeCanvas(canvas);
         const context = canvas.getContext('2d');
         const mainScreen = new MainScreen(canvas, context, canvas.width, canvas.height);
+
         function animate(timeStamp) {
             context.clearRect(0, 0, canvas.width, canvas.height);
             const deltaTime = timeStamp - lastTime || 0;
             lastTime = timeStamp;
-            mainScreen.draw(context);
             mainScreen.update(deltaTime);
+            mainScreen.draw(context);
             requestAnimationFrame(animate);
         }
 
