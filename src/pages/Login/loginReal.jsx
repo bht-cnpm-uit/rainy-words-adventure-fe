@@ -78,7 +78,7 @@ const LoginComponent = () => {
                 {errCode === 1 && <div>Sai mat khau roi r</div>}
                 <div className="flex w-full justify-around">
                     <div
-                        className="relative mb-4 h-[50px] w-[150px] bg-[url('src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png')] bg-center bg-no-repeat"
+                        className="relative mb-4 h-[50px] w-[150px] bg-[url('/src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png')] bg-center bg-no-repeat"
                         style={{
                             backgroundSize: '100%',
                         }}
