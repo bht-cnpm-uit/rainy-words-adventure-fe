@@ -26,6 +26,8 @@ export class Guide extends Button {
         this.spriteHeight = 279;
         this.x = 30;
         this.y = -10;
+        this.translateX = this.game.width * 1 / 2;
+        this.translateY = this.game.height * 1 / 2;
     }
     draw(context) {
         super.draw(context);
@@ -43,8 +45,10 @@ export class start extends Button {
         this.image.src = 'src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png';
         this.spriteWidth = 437;
         this.spriteHeight = 129;
-        this.x = this.width/2 + this.spriteWidth/3 ;
-        this.y = this.height/2 + this.spriteHeight*1.5;
+        this.x = this.width/2 + this.spriteWidth/3 +40;
+        this.y = this.height/2 + this.spriteHeight*1.7;
+        this.translateX = this.game.width * 1 / 3;
+        this.translateY = this.game.height * 1 / 3;
     }
     draw(context) {
         super.draw(context);
@@ -53,7 +57,7 @@ export class start extends Button {
         context.fontWeight = "bolder";
         
         context.textAlign = "center";
-        context.fillText("BẮT ĐẦU", this.width/2 + this.spriteWidth/3 + 87, this.height/2 + this.spriteHeight*1.5 + 35)
+        context.fillText("BẮT ĐẦU", this.width/2 + this.spriteWidth/3 + 127 , this.height/2 + this.spriteHeight*1.5 + 60)
     }
 }
 

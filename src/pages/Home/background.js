@@ -27,6 +27,12 @@ class Layer {
         else this.x2 -= gameSpeed;
         context.save();
     }
+
+    drawLogo(context) {
+        context.drawImage(this.image, 550, 0, this.width, this.height);
+        context.save();
+    }
+
 }
 
 export class Background {
@@ -39,11 +45,15 @@ export class Background {
         this.layerImage1.image2.src = 'src/assets/Asset/Map1/ScrollBG.png';
         this.layerImage2 = new Layer(this.game, this.width, this.height, new Image());
         this.layerImage2.image.src = 'src/assets/Asset/Map1/StableBG.png';
+        this.layerLogo = new Layer(this.game, 922,552 , new Image());
+        this.layerLogo.image.src = 'src/assets/Asset/Logo.png';
+
     }
     update() {
     }
     draw(context) {
         this.layerImage1.draw(context);
         this.layerImage2.drawStable(context);
+        this.layerLogo.drawLogo(context);
     }
 }

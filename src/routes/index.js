@@ -3,6 +3,7 @@ import VocabLib from "../pages/VocabLib"
 import DifficultyComponent from "../pages/Game/DifficultyComponent"
 import Level from "../pages/Game/Level"
 import WordCollect from "../pages/Game/WordCollect"
+import Result from "../pages/Game/Result"
 // Public routes
 const publicRoutes = [
     {
@@ -28,6 +29,10 @@ const publicRoutes = [
         path: '/level',
         component: Level,
     },
+    {
+        path: '/result',
+        component: Result,
+    }
 ];
 
 const privateRoutes = [];
