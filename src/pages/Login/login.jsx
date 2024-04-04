@@ -1,16 +1,49 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { userActions } from '../../redux/slices/userSlice';
+import { BrowserRouter as useNavigate } from 'react-router-dom';
+
 // Initialization for ES Users
 
 const LoginForm = () => {
+    //redux
+    const user = useSelector((state) => {
+        return state.user;
+    });
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    // app
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    //status: initial, writing, wrong username, wrong password
+    const [errCode, setErrCode] = useState(-1);
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        // Simulate login logic (replace with your actual authentication)
-        console.log(`Username: ${username}, Password: ${password}`);
-        setUsername('');
-        setPassword('');
+    const fetchLogin = () => {
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        const raw = JSON.stringify({
+            username: username,
+            password: password,
+        });
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow',
+        };
+
+        fetch('http://localhost:6868/api/login', requestOptions)
+            .then((response) => response.json())
+            .then((result) => {
+                console.log(result);
+                setErrCode(result.errCode);
+                if (result.errCode === 0) {
+                    dispatch(userActions.login(username));
+                    navigate('/');
+                }
+            })
+            .catch((error) => console.error(error));
     };
 
     return (
@@ -30,8 +63,10 @@ const LoginForm = () => {
                     value={username}
                     onChange={(e) => {
                         setUsername(e.target.value);
+                        setErrCode(-1);
                     }}
                 />
+                {errCode === 2 && <div>Sai tai khoan r</div>}
                 <input
                     className="mt-4 w-full rounded border border-solid border-gray-300 px-4 py-2 text-sm"
                     type="password"
@@ -39,8 +74,10 @@ const LoginForm = () => {
                     value={password}
                     onChange={(e) => {
                         setPassword(e.target.value);
+                        setErrCode(-1);
                     }}
                 />
+                {errCode === 1 && <div>Sai mat khau roi r</div>}
                 <div className="mt-4 flex justify-between text-sm font-semibold">
                     <label className="flex cursor-pointer text-slate-500 hover:text-slate-600">
                         <input className="mr-1" type="checkbox" />
@@ -57,7 +94,7 @@ const LoginForm = () => {
                     <button
                         className="mt-4 rounded bg-blue-600 px-4 py-2 text-xs uppercase tracking-wider text-white hover:bg-blue-700"
                         type="submit"
-                        onClick={handleSubmit}
+                        onClick={fetchLogin}
                     >
                         Đăng nhập
                     </button>
