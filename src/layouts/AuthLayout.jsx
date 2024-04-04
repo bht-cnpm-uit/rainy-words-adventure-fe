@@ -9,11 +9,11 @@ function AuthLayout({ children }) {
     });
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if (user.isLoggedIn == false) {
-            navigate('/login');
-        }
-    }, [user, location.pathname]);
+    // useEffect(() => {
+    //     if (user.isLoggedIn == false) {
+    //         navigate('/login');
+    //     }
+    // }, [user, location.pathname]);
     return <>{children}</>;
 }
 
