@@ -1,3 +1,5 @@
+const ScrollBG = '/src/assets/Asset/Map1/ScrollBG.png'
+const StableBG = '/src/assets/Asset/Map1/StableBG.png'
 class Layer {
     constructor(game, width, height, image, image2 = "") {
         this.game = game;
@@ -41,10 +43,10 @@ export class Background {
         this.width = 1920;
         this.height = 750;
         this.layerImage1 = new Layer(this.game, this.width, this.height, new Image(), new Image());
-        this.layerImage1.image.src = '../src/assets/Asset/Map1/ScrollBG.png';
-        this.layerImage1.image2.src = '../src/assets/Asset/Map1/ScrollBG.png';
+        this.layerImage1.image.src = ScrollBG;
+        this.layerImage1.image2.src = ScrollBG;
         this.layerImage2 = new Layer(this.game, this.width, this.height, new Image());
-        this.layerImage2.image.src = '../src/assets/Asset/Map1/StableBG.png';
+        this.layerImage2.image.src = StableBG;
         // this.layerLogo = new Layer(this.game, 922,552 , new Image());
         // this.layerLogo.image.src = '../src/assets/Asset/Logo.png';
 

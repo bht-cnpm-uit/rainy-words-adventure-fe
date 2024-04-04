@@ -1,3 +1,4 @@
+const imgPlayer = 'src/assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png'
 export class Player {
     constructor(game) {
         this.game = game;
@@ -10,7 +11,7 @@ export class Player {
             y: this.game.height - this.height * 1.2
         }
         this.image = new Image();
-        this.image.src = '../src/assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png';
+        this.image.src = imgPlayer;
         this.frameX = 0;
         this.frameY = 1;
         this.staggerFrames = 5;

@@ -1,3 +1,7 @@
+const imgbuttonNext = 'src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png'
+const imgBoard = 'src/assets/Asset/PanelAtlas_cuts/image_0.png'
+const imgScore = 'src/assets/Asset/PanelAtlas_cuts/image_6.png'
+const imgPlayer = 'src/assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png'
 class Button {
     constructor(image, x, y, width, height, spriteWidth, spriteHeight) {
         this.image = new Image();
@@ -80,7 +84,7 @@ export class ShowResult {
 
         this.buttons = {
             next: new Button(
-                '../src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
+                imgbuttonNext,
                 this.spriteWidthBoard / 2 - this.spriteWidthBtnNext + 150,
                 this.spriteHeightBtnNext * 2.5,
                 this.spriteWidthBtnNext / 2,
@@ -92,25 +96,25 @@ export class ShowResult {
         };
         this.staticUI = {
             board: new StaticUI(
-                '../src/assets/Asset/PanelAtlas_cuts/image_0.png',
+                imgBoard,
                 0, 0, this.spriteWidthBoard / 1.5, this.spriteHeightBoard / 1.5,
                 this.spriteWidthBoard,
                 this.spriteHeightBoard
             ),
             score: new StaticUI(
-                '../src/assets/Asset/PanelAtlas_cuts/image_6.png',
+                imgScore,
                 (this.spriteWidthBoard - this.spriteWidthScore) / 2.1, -40, this.spriteWidthScore / 2, this.spriteHeightScore / 2,
                 this.spriteWidthScore,
                 this.spriteHeightScore
             ),
             player: new StaticUI(
-                '../src/assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png',
+                imgPlayer,
                 -this.spriteWidthPlayer / 2.4, this.spriteHeightPlayer / 26, this.spriteWidthPlayer / 1.5, this.spriteHeightPlayer / 1.6,
                 this.spriteWidthPlayer,
                 this.spriteHeightPlayer
             ),
             teacher: new StaticUI(
-                '../src/assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png',
+                imgPlayer,
                 this.spriteWidthTeacher - 100, this.spriteHeightTeacher / 20 - 35, this.spriteWidthTeacher / 1.5, this.spriteHeightTeacher / 1.5,
                 this.spriteWidthTeacher,
                 this.spriteHeightTeacher
