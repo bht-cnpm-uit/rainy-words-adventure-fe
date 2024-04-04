@@ -1,5 +1,23 @@
 import { GOLEFT, GORIGHT, STOP } from "./playerStates";
 
+class InputHandler {
+    constructor() {
+        this.keys = [];
+        window.addEventListener('keydown', e => {
+            if ((e.key === 'ArrowLeft' ||
+                e.key === 'ArrowRight')
+                && (this.keys.indexOf(e.key) === -1)) {
+                this.keys.push(e.key);
+            }
+        });
+        window.addEventListener('keyup', e => {
+            if (e.key === 'ArrowLeft' ||
+                e.key === 'ArrowRight') {
+                this.keys.splice(this.keys.indexOf(e.key), 1);
+            }
+        })
+    }
+}
 export class Player {
     constructor(game) {
         this.game = game;
@@ -8,10 +26,11 @@ export class Player {
         this.width = this.spriteWidth / 3.5;
         this.height = this.spriteHeight / 3.5;
         this.position = {
-            x: 100,
-            y: this.game.height - this.height * 1.05
+            x: this.game.width / 2,
+            y: this.game.height - this.height / 2
         }
         this.velocity = 0;
+        this.acceleration = 0.025;
         this.image = new Image();
         this.image.src = 'src/assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png';
         this.frameX = 0;
@@ -21,43 +40,58 @@ export class Player {
         this.states = [new STOP(this), new GORIGHT(this), new GOLEFT(this)];
         this.currentState = this.states[0];
         this.currentState.enter();
+        this.input = new InputHandler();
     }
     draw(ctx) {
         ctx.save();
 
-        ctx.translate(this.position.x + this.width / 2, this.position.y + this.height / 2);
+        // Translate the canvas to the center of the object
+        ctx.translate(this.position.x, this.position.y)
 
         if (this.velocity < 0) {
             ctx.scale(-1, 1); // Flip horizontally
         }
-        ctx.drawImage(this.image, this.frameX * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, -this.width / 2, -this.height / 2, this.width, this.height);
 
-        ctx.restore();
+        // Draw the image
+        ctx.drawImage(
+            this.image,
+            this.frameX * this.spriteWidth,
+            this.frameY * this.spriteHeight,
+            this.spriteWidth,
+            this.spriteHeight,
+            -this.width / 2,
+            -this.height / 2,
+            this.width,
+            this.height
+        );
+
+        ctx.restore(); // Restore the canvas state
+
     }
-    update(input, words) {
+    update(deltaTime, words) {
         this.gameFrame++;
-        this.currentState.handleInput(input);
+        this.currentState.handleInput(this.input.keys);
         //collision detection
         words.forEach(word => {
             const dx = word.x - this.position.x;
             const dy = word.y - this.position.y;
             const distance = Math.sqrt(dx * dx + dy * dy);
-            if (distance < word.spriteWidth / 2 + this.width / 2) {
+            if (distance < word.spriteWidth / 5 + this.width / 7) {
                 word.markedForDeletion = true;
-                this.game.score += 10;
+                this.game.Score.update(10)
                 this.game.bonusItems.addNewItem();
             }
         })
         this.position.x += this.velocity;
-        if (input.indexOf('ArrowRight') > -1) {
-            this.velocity = Math.min(this.velocity + 0.3, 15);
+        if (this.input.keys.indexOf('ArrowRight') > -1) {
+            this.velocity = Math.min(this.velocity + this.acceleration * deltaTime, 15);
             if (this.gameFrame % this.staggerFrames == 0) {
                 if (this.frameX < 4)
                     this.frameX += 1
                 else this.frameX = 0
             }
-        } else if (input.indexOf('ArrowLeft') > -1) {
-            this.velocity = Math.max(this.velocity - 0.3, -15);
+        } else if (this.input.keys.indexOf('ArrowLeft') > -1) {
+            this.velocity = Math.max(this.velocity - this.acceleration * deltaTime, -15);
             if (this.gameFrame % this.staggerFrames == 0) {
                 if (this.frameX < 4)
                     this.frameX += 1
@@ -65,7 +99,7 @@ export class Player {
             }
         } else {
             this.velocity = 0;
-            if (this.gameFrame % (this.staggerFrames) == 0) {
+            if (this.gameFrame % this.staggerFrames == 0) {
                 if (this.frameX == 4) {
                     if (this.gameFrame % (this.staggerFrames * 20) == 0)
                         this.frameX = 0;

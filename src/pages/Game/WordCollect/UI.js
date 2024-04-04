@@ -1,29 +1,35 @@
-class UI {
+
+class Text {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y
+    }
+    writeText(context, text, font = "30px Arial", textAlign = 'center', fillStyle = 'brown') {
+        context.font = font;
+        context.textAlign = textAlign;
+        context.fillStyle = fillStyle;
+        context.fillText(text, this.x, this.y);
+    }
+}
+
+export class Score extends Text {
+    constructor(game) {
+        super(game.width / 2, game.height / 12);
+        this.game = game;
+        this.score = 0;
+    }
+
+    draw(context) {
+        super.writeText(context, this.score, "bold 60px serif", "center");
+    }
+    update(score) {
+        this.score += score;
+    }
+}
+
+export class BonusItems {
     constructor(game) {
         this.game = game;
-    }
-    draw(context) {
-        // Base class draw method, can be overridden by child classes
-    }
-}
-
-export class Score extends UI {
-    constructor(game) {
-        super(game); // Call the constructor of the parent class
-        this.fontSize = 65;
-        this.fontFamily = 'Georgia, serif';
-    }
-    draw(context) {
-        context.font = this.fontSize + 'px ' + this.fontFamily;
-        context.textAlign = 'center';
-        context.fillStyle = 'blue';
-        context.fillText(this.game.score, this.game.width / 2, this.fontSize * 1.5);
-    }
-}
-
-export class BonusItems extends UI {
-    constructor(game) {
-        super(game);
         this.spriteWidth = 100;
         this.spriteHeight = 100;
         this.x = 10;
@@ -77,19 +83,6 @@ class Button {
         context.textAlign = "center";
         context.fillStyle = "brown";
         context.fillText(text, this.x + this.width / 2, this.y + this.height / 1.5);
-    }
-}
-
-class Text {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y
-    }
-    writeText(context, text, font = "30px Arial", textAlign = 'center') {
-        context.font = font;
-        context.textAlign = "center";
-        context.fillStyle = "brown";
-        context.fillText(text, this.x, this.y);
     }
 }
 class StaticUI {
@@ -193,3 +186,35 @@ export class BoardStopGame {
         this.hidden = state;
     }
 }
+
+export class BtnGameState {
+    constructor(game) {
+        this.game = game;
+        this.spriteWidth = 135;
+        this.spriteHeight = 134;
+        this.width = this.spriteWidth / 2;
+        this.height = this.spriteHeight / 2;
+        this.imagePause = new Image();
+        this.imagePause.src = 'src/assets/Asset/Asset/btn_pause.png';
+        this.imageStart = new Image();
+        this.imageStart.src = 'src/assets/Asset/Asset/btn_start.png';
+        this.x = this.game.width - this.spriteWidth / 1.5;
+        this.y = this.spriteHeight / 4;
+        this.currentState = true;
+    }
+    draw(context) {
+        if (this.currentState) {
+            context.drawImage(this.imageStart, this.x, this.y, this.spriteWidth / 2, this.spriteHeight / 2);
+        }
+        else {
+            context.drawImage(this.imagePause, this.x, this.y, this.spriteWidth / 2, this.spriteHeight / 2);
+        }
+    }
+    setState(state) {
+        this.currentState = state;
+        if (state)
+            this.game.updateGameState(1);
+        else this.game.updateGameState(0);
+    }
+}
+
