@@ -69,7 +69,7 @@ export class ShowResult {
         this.height = this.game.height;
         this.spriteWidthBoard = 1151;
         this.spriteHeightBoard = 667;
-        this.spriteWidthTeacher =653;
+        this.spriteWidthTeacher = 653;
         this.spriteHeightTeacher = 800;
         this.spriteWidthPlayer = 653;
         this.spriteHeightPlayer = 800;
@@ -80,40 +80,40 @@ export class ShowResult {
 
         this.buttons = {
             next: new Button(
-                'src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
-                this.spriteWidthBoard / 2 - this.spriteWidthBtnNext+ 150,
-                this.spriteHeightBtnNext*2.5,
-                this.spriteWidthBtnNext/2,
-                this.spriteHeightBtnNext/2,
+                '../src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
+                this.spriteWidthBoard / 2 - this.spriteWidthBtnNext + 150,
+                this.spriteHeightBtnNext * 2.5,
+                this.spriteWidthBtnNext / 2,
+                this.spriteHeightBtnNext / 2,
                 this.spriteWidthBtnNext,
                 this.spriteHeightBtnNext
             ),
-           
+
         };
         this.staticUI = {
             board: new StaticUI(
-                'src/assets/Asset/PanelAtlas_cuts/image_0.png',
-                0, 0, this.spriteWidthBoard/1.5 , this.spriteHeightBoard/1.5 ,
+                '../src/assets/Asset/PanelAtlas_cuts/image_0.png',
+                0, 0, this.spriteWidthBoard / 1.5, this.spriteHeightBoard / 1.5,
                 this.spriteWidthBoard,
                 this.spriteHeightBoard
             ),
             score: new StaticUI(
-                'src/assets/Asset/PanelAtlas_cuts/image_6.png',
+                '../src/assets/Asset/PanelAtlas_cuts/image_6.png',
                 (this.spriteWidthBoard - this.spriteWidthScore) / 2.1, -40, this.spriteWidthScore / 2, this.spriteHeightScore / 2,
                 this.spriteWidthScore,
                 this.spriteHeightScore
             ),
             player: new StaticUI(
-                'src/assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png',
-                -this.spriteWidthPlayer/2.4, this.spriteHeightPlayer/26, this.spriteWidthPlayer/1.5, this.spriteHeightPlayer/1.6,
+                '../src/assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png',
+                -this.spriteWidthPlayer / 2.4, this.spriteHeightPlayer / 26, this.spriteWidthPlayer / 1.5, this.spriteHeightPlayer / 1.6,
                 this.spriteWidthPlayer,
                 this.spriteHeightPlayer
             ),
             teacher: new StaticUI(
-                'src/assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png',
-                this.spriteWidthTeacher - 100, this.spriteHeightTeacher/20-35, this.spriteWidthTeacher / 1.5, this.spriteHeightTeacher / 1.5,
+                '../src/assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png',
+                this.spriteWidthTeacher - 100, this.spriteHeightTeacher / 20 - 35, this.spriteWidthTeacher / 1.5, this.spriteHeightTeacher / 1.5,
                 this.spriteWidthTeacher,
-                this.spriteHeightTeacher  
+                this.spriteHeightTeacher
             )
         }
         this.text = {
@@ -127,7 +127,7 @@ export class ShowResult {
                 this.spriteWidthBoard / 2.9, this.spriteHeightScore / 1.2
             ),
             wordSuccess: new Text(
-                this.spriteWidthBoard/ 2.9, this.spriteHeightScore / 0.98
+                this.spriteWidthBoard / 2.9, this.spriteHeightScore / 0.98
             ),
             scoreBonus: new Text(
                 this.spriteWidthBoard / 2.9, this.spriteHeightBoard / 3 + this.spriteHeightBtnNext / 2
@@ -137,8 +137,8 @@ export class ShowResult {
             )
 
         }
-        this.translateX = this.width /4;
-        this.translateY = this.height /5;
+        this.translateX = this.width / 4;
+        this.translateY = this.height / 5;
     }
 
     update() {
@@ -146,27 +146,27 @@ export class ShowResult {
     }
 
     draw(context) {
-        
-            context.save();
-            context.translate(this.translateX, this.translateY);
-            // Draw your board and score here
-            this.staticUI.board.draw(context);
-            this.staticUI.score.draw(context);
-            // this.staticUI.player.draw(context);
-            this.staticUI.teacher.draw(context);
 
-            this.buttons.next.draw(context);
-            
-            this.text.difficulty.writeText(context, "Độ khó : x1");
-            this.text.word.writeText(context, "Số từ: 53");
-            this.text.wordSuccess.writeText(context, "Thành công: 53");
-            this.text.scoreText.writeText(context, "1080", "70px Arial");
-            this.text.scoreBonus.writeText(context, "Điểm thưởng: 4/5");
-            this.text.next.writeText(context,"TIẾP THEO")
+        context.save();
+        context.translate(this.translateX, this.translateY);
+        // Draw your board and score here
+        this.staticUI.board.draw(context);
+        this.staticUI.score.draw(context);
+        // this.staticUI.player.draw(context);
+        this.staticUI.teacher.draw(context);
 
-            context.restore();
-            context.translate(this.translateX, this.translateY);
-            context.save();
-            context.restore();
+        this.buttons.next.draw(context);
+
+        this.text.difficulty.writeText(context, "Độ khó : x1");
+        this.text.word.writeText(context, "Số từ: 53");
+        this.text.wordSuccess.writeText(context, "Thành công: 53");
+        this.text.scoreText.writeText(context, "1080", "70px Arial");
+        this.text.scoreBonus.writeText(context, "Điểm thưởng: 4/5");
+        this.text.next.writeText(context, "TIẾP THEO")
+
+        context.restore();
+        context.translate(this.translateX, this.translateY);
+        context.save();
+        context.restore();
     }
 }

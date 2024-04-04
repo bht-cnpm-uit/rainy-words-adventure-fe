@@ -23,11 +23,11 @@ function DifficultyComponent() {
 
     return (
         <div className="mr-10 flex items-center justify-end bg-cover p-10 text-center">
-            <div className="bg-[url('src/assets/Asset/PanelAtlas_cuts/image_3.png')] bg-cover">
-                <div className="m-10 bg-[url('src/assets/Asset/PanelAtlas_cuts/image_7.png')] bg-cover">
+            <div className="bg-[url('../src/assets/Asset/PanelAtlas_cuts/image_3.png')] bg-cover">
+                <div className="m-10 bg-[url('../src/assets/Asset/PanelAtlas_cuts/image_7.png')] bg-cover">
                     <div className="relative col-span-2 flex items-center justify-center">
                         <img
-                            src="src/assets/Asset/PanelAtlas_cuts/image_6.png "
+                            src="../src/assets/Asset/PanelAtlas_cuts/image_6.png "
                             alt="hinh anh"
                             className="h-20"
                         />
@@ -43,7 +43,7 @@ function DifficultyComponent() {
                     <div class="flex grid-cols-2 items-center justify-center ">
                         <div className="">
                             <img
-                                src="src/assets/img/cat2.png "
+                                src="../src/assets/img/cat2.png "
                                 alt="con meo"
                                 className="h-40 w-40"
                             />
@@ -54,7 +54,7 @@ function DifficultyComponent() {
                             <div className="ml-2 mr-2 flex flex-wrap ">
                                 <button id="btnPre" className="mr-5 w-12" onClick={handlePreClick}>
                                     <img
-                                        src="src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_8.png"
+                                        src="../src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_8.png"
                                         alt=""
                                     />
                                 </button>
@@ -65,7 +65,7 @@ function DifficultyComponent() {
                                     onClick={handleNextClick}
                                 >
                                     <img
-                                        src="src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_7.png"
+                                        src="../src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_7.png"
                                         alt=""
                                     />
                                 </button>
@@ -76,7 +76,7 @@ function DifficultyComponent() {
                     <div className="relative col-span-2 mt-10 flex items-center justify-center pb-4">
                         <button className="w-40 ">
                             <img
-                                src="src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png"
+                                src="../src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png"
                                 alt=""
                             />
                             <div class="absolute inset-3 flex justify-center">

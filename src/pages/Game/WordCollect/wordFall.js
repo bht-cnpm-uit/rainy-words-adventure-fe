@@ -67,7 +67,7 @@ export class WordFall {
         this.game = game;
         this.words = [];
         this.image = new Image();
-        this.image.src = "src/assets/Asset/GameObject/GameObject(5x12Atlas).png";
+        this.image.src = "../src/assets/Asset/GameObject/GameObject(5x12Atlas).png";
     }
     update(deltaTime) {
         this.words = this.words.filter(word => !word.markedForDeletion);

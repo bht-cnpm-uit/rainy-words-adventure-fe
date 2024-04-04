@@ -29,7 +29,7 @@ const Home = (props) => {
             this.start.draw(context);
         }
 
-        onClick(event){
+        onClick(event) {
             const rect = this.canvas.getBoundingClientRect();
             const mouseX = event.clientX - rect.left;
             const mouseY = event.clientY - rect.top;
@@ -38,7 +38,7 @@ const Home = (props) => {
                 window.location.href = '/level';
                 cursorStyle = 'pointer';
             }
-            else if (this.isMouseOverButton(mouseX - this.Guide.translateX, mouseY - this.Guide.translateY, this.Guide)){
+            else if (this.isMouseOverButton(mouseX - this.Guide.translateX, mouseY - this.Guide.translateY, this.Guide)) {
                 window.location.href = '/level';
                 cursorStyle = 'pointer';
             }
@@ -64,7 +64,7 @@ const Home = (props) => {
             else if (this.isMouseOverButton(mouseX - this.Guide.translateX, mouseY - this.Guide.translateY, this.Guide)) {
                 cursorStyle = 'pointer';
             }
-            
+
             this.canvas.style.cursor = cursorStyle;
         }
 
