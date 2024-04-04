@@ -17,7 +17,7 @@ const LoginComponent = () => {
 
     const fetchLogin = () => {
         //auto navigate
-        navigate('/');
+        navigate('/level');
 
         const myHeaders = new Headers();
         myHeaders.append('Content-Type', 'application/json');
