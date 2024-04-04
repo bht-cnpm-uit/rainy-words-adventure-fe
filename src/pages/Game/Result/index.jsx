@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ShowResult } from './UI';
+import { Player } from './player';
+import { Background } from './background';
 const Result = (props) => {
     const canvasRef = useRef();
     function resizeCanvas(canvas) {
@@ -12,8 +14,10 @@ const Result = (props) => {
             this.canvas.style.cursor = 'default';
             this.ctx = ctx;
             this.width = width;
-            this.height = height;     
+            this.height = height;
+            this.player = new Player(this);
             this.showResult = new ShowResult(this);
+            this.background = new Background(this);
             this.canvas.addEventListener('mousemove', this.onMouseMove.bind(this));
             this.canvas.addEventListener('click', this.onClick.bind(this));
             this.gameFrame = 0;
@@ -30,11 +34,11 @@ const Result = (props) => {
                 this.isMouseOverButton(
                     mouseX - this.showResult.translateX,
                     mouseY - this.showResult.translateY,
-                    this.showResult.buttons.next
+                    this.showResult.buttons.next,
                 )
             ) {
                 cursorStyle = 'pointer';
-            } 
+            }
             // Check if the mouse is over the next map button
             // Apply the cursor style
             this.canvas.style.cursor = cursorStyle;
@@ -52,12 +56,8 @@ const Result = (props) => {
             ) {
                 //  next
                 window.location.href = '/final';
-            } 
-            
-
+            }
         }
-
-       
 
         // Function to check if the mouse is over a button
         isMouseOverButton(mouseX, mouseY, button) {
@@ -68,14 +68,11 @@ const Result = (props) => {
                 mouseY <= button.y + button.height
             );
         }
-        update(deltaTime) {
-            // this.gameFrame++;
-            // this.player.update();
-            // this.background.update(deltaTime);
-            // this.levels.update(deltaTime);
-        }
+        update(deltaTime) {}
         draw(context) {
+            this.background.draw(context);
             this.showResult.draw(context);
+            this.player.draw(context);
         }
     }
     useEffect(() => {
@@ -92,7 +89,7 @@ const Result = (props) => {
             mainScreen.draw(context);
             requestAnimationFrame(animate);
         }
-        
+
         animate();
 
         return () => {

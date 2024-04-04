@@ -105,15 +105,15 @@ export class ShowResult {
             ),
             player: new StaticUI(
                 'src/assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png',
-                -this.spriteWidthPlayer/2, this.spriteHeightPlayer/26, this.spriteWidthPlayer/1.5, this.spriteHeightPlayer/1.5,
+                -this.spriteWidthPlayer/2.4, this.spriteHeightPlayer/26, this.spriteWidthPlayer/1.5, this.spriteHeightPlayer/1.6,
                 this.spriteWidthPlayer,
                 this.spriteHeightPlayer
             ),
             teacher: new StaticUI(
-                'src/assets/Asset/GameObject/SunflowerCatSprite_Night2WalkBlink.png',
-                -this.spriteWidthPlayer / 1, this.spriteHeightTeacher / 1, this.spriteWidthPlayer / 4, this.spriteHeightPlayer / 5,
+                'src/assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png',
+                this.spriteWidthTeacher - 100, this.spriteHeightTeacher/20-35, this.spriteWidthTeacher / 1.5, this.spriteHeightTeacher / 1.5,
                 this.spriteWidthTeacher,
-                this.spriteHeightTeacher
+                this.spriteHeightTeacher  
             )
         }
         this.text = {
@@ -127,7 +127,7 @@ export class ShowResult {
                 this.spriteWidthBoard / 2.9, this.spriteHeightScore / 1.2
             ),
             wordSuccess: new Text(
-                this.spriteWidthBoard/2.9, this.spriteHeightScore / 0.98
+                this.spriteWidthBoard/ 2.9, this.spriteHeightScore / 0.98
             ),
             scoreBonus: new Text(
                 this.spriteWidthBoard / 2.9, this.spriteHeightBoard / 3 + this.spriteHeightBtnNext / 2
@@ -153,32 +153,20 @@ export class ShowResult {
             this.staticUI.board.draw(context);
             this.staticUI.score.draw(context);
             // this.staticUI.player.draw(context);
-            // this.staticUI.teacher.draw(context);
+            this.staticUI.teacher.draw(context);
 
             this.buttons.next.draw(context);
             
             this.text.difficulty.writeText(context, "Độ khó : x1");
             this.text.word.writeText(context, "Số từ: 53");
             this.text.wordSuccess.writeText(context, "Thành công: 53");
-            this.text.scoreText.writeText(context, "1080", "50px Arial");
+            this.text.scoreText.writeText(context, "1080", "70px Arial");
             this.text.scoreBonus.writeText(context, "Điểm thưởng: 4/5");
             this.text.next.writeText(context,"TIẾP THEO")
 
             context.restore();
-            context.save();
             context.translate(this.translateX, this.translateY);
-            context.rotate(-(8 * Math.PI) / 180); // Rotate 45 degrees
-            // Draw your player here
-            this.staticUI.player.draw(context);
-            this.staticUI.teacher.draw(context);
-
-            context.restore();
             context.save();
-            // context.translate(this.width * 2 / 3, this.height * 1 / 4);
-            // context.font = "50px Arial blue";
-            // context.textAlign = "center";
-            // Draw your score here
             context.restore();
-        
     }
 }
