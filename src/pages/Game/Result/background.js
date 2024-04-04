@@ -45,8 +45,8 @@ export class Background {
         this.layerImage1.image2.src = 'src/assets/Asset/Map1/ScrollBG.png';
         this.layerImage2 = new Layer(this.game, this.width, this.height, new Image());
         this.layerImage2.image.src = 'src/assets/Asset/Map1/StableBG.png';
-        this.layerLogo = new Layer(this.game, 922,552 , new Image());
-        this.layerLogo.image.src = 'src/assets/Asset/Logo.png';
+        // this.layerLogo = new Layer(this.game, 922,552 , new Image());
+        // this.layerLogo.image.src = 'src/assets/Asset/Logo.png';
 
     }
     update() {
@@ -54,6 +54,6 @@ export class Background {
     draw(context) {
         this.layerImage1.draw(context);
         this.layerImage2.drawStable(context);
-        this.layerLogo.drawLogo(context);
+        // this.layerLogo.drawLogo(context);
     }
 }

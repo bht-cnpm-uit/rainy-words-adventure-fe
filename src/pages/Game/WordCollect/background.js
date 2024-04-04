@@ -30,7 +30,7 @@ export class Background {
         this.speedModifier = 0.5;
         this.speed = this.speedModifier;
     }
-    update(gameFrame) {
+    update() {
         let gameSpeed = 5;
         this.speed = gameSpeed * this.speedModifier;
         if (this.layerImage1.x <= -this.width) {

@@ -18,20 +18,56 @@ const Home = (props) => {
             this.player = new Player(this);
             this.Guide = new Guide(this);
             this.start = new start(this);
+            this.canvas.addEventListener('mousemove', this.onMouseMove.bind(this));
             this.canvas.addEventListener('click', this.onClick.bind(this));
         }
 
         draw(context) {
-            this.background.draw(context)
+            this.background.draw(context);
             this.player.draw(context);
             this.Guide.draw(context);
             this.start.draw(context);
+        }
 
-        }
-        
         onClick(event){
-            
+            const rect = this.canvas.getBoundingClientRect();
+            const mouseX = event.clientX - rect.left;
+            const mouseY = event.clientY - rect.top;
+            let cursorStyle = 'default';
+            if (this.isMouseOverButton(mouseX - this.start.translateX, mouseY - this.start.translateY, this.start)) {
+                window.location.href = '/level';
+                cursorStyle = 'pointer';
+            }
+            else if (this.isMouseOverButton(mouseX - this.Guide.translateX, mouseY - this.Guide.translateY, this.Guide)){
+                window.location.href = '/level';
+                cursorStyle = 'pointer';
+            }
+            this.canvas.style.cursor = cursorStyle;
         }
+        isMouseOverButton(mouseX, mouseY, button) {
+            return (
+                mouseX >= button.x &&
+                mouseX <= button.x + button.width &&
+                mouseY >= button.y &&
+                mouseY <= button.y + button.height
+            );
+        }
+
+        onMouseMove(event) {
+            const rect = this.canvas.getBoundingClientRect();
+            const mouseX = event.clientX - rect.left;
+            const mouseY = event.clientY - rect.top;
+            let cursorStyle = 'default';
+            if (this.isMouseOverButton(mouseX - this.start.translateX, mouseY - this.start.translateY, this.start)) {
+                cursorStyle = 'pointer';
+            }
+            else if (this.isMouseOverButton(mouseX - this.Guide.translateX, mouseY - this.Guide.translateY, this.Guide)) {
+                cursorStyle = 'pointer';
+            }
+            
+            this.canvas.style.cursor = cursorStyle;
+        }
+
     }
 
     useEffect(() => {

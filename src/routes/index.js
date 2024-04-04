@@ -4,6 +4,7 @@ import DifficultyComponent from '../pages/Game/DifficultyComponent';
 import Level from '../pages/Game/Level';
 import WordCollect from '../pages/Game/WordCollect';
 import LoginForm from '../pages/Login/login';
+import Result from '../pages/Game/Result';
 // Public routes
 const publicRoutes = [
     {
@@ -28,6 +29,10 @@ const publicRoutes = [
     {
         path: '/level',
         component: Level,
+    },
+    {
+        path: '/result',
+        component: Result,
     },
     {
         path: '/login',
