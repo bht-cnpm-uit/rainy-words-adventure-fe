@@ -80,6 +80,8 @@ export class LevelSetting {
         this.spriteWidthScore = 669;
         this.spriteHeightScore = 220;
         this.hidden = true;
+        this.frameCount = 0;
+        this.frameX = 1;
         this.buttons = {
             close: new Button(
                 '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_19.png',
@@ -198,7 +200,32 @@ export class LevelSetting {
     close() {
         this.hidden = true;
     }
-    open() {
-        this.hidden = false;
+    open(lv, context) {
+        if (lv.state === 'Unblock') {
+            this.game.player.updatePosition(lv.position)
+            this.hidden = false;
+        }
+        else if (this.game.player.maxCurrentLevel + 1 == lv.level) {
+            // this.frameCount = 0;
+            // this.frameX = 1;
+            // this.animateUnblockLevel(lv, context);
+            this.game.levels.updateStateLevel(lv);
+            this.game.player.updateMaxCurrentLevel(lv.level);
+        }
     }
+
+    // animateUnblockLevel(lv, context) {
+    //     this.frameCount++;
+    //     if (this.frameCount % 100 == 0) {
+    //         this.game.levels.drawAnimateUnBlockLevel(context, this.frameX, lv);
+    //         // this.frameX++;
+    //     } else if (this.frameCount > 2000) {
+    //         this.frameCount = 0;
+    //         window.cancelAnimationFrame(this.animationId);
+    //     }
+    //     this.animationId = window.requestAnimationFrame(() => this.animateUnblockLevel(lv, context));
+    //     return;
+    //     // context.clearRect(0, 0, canvas.width, canvas.height);
+    // }
+
 }

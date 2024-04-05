@@ -11,7 +11,7 @@ export const LEVEL = [
         "level": 2,
         "position": {
             "x": 1049,
-            "y": 800
+            "y": 780
         },
         "state": "Unblock"
     },
@@ -19,7 +19,7 @@ export const LEVEL = [
         "level": 3,
         "position": {
             "x": 1624,
-            "y": 870
+            "y": 850
         },
         "state": "Unblock"
     },
@@ -168,10 +168,10 @@ export class Levels {
         this.game = game;
         this.levels = [];
         this.levelsNext = []
-        this.spriteWidth = 299;
-        this.spriteHeight = 215;
-        this.width = this.game.width;
-        this.height = this.game.height;
+        this.spriteWidth = 259;
+        this.spriteHeight = 259;
+        this.width = this.spriteWidth / 2;
+        this.height = this.spriteHeight / 2;
         this.image = new Image();
         this.image.src = '../assets/Asset/btn_level.png';
         this.xVirtual = 0;
@@ -197,13 +197,17 @@ export class Levels {
         this.levels.forEach(level => {
             if (level.state === 'Unblock') {
                 if (this.image.complete)
-                    context.drawImage(this.image, 0 * this.spriteWidth, 2 * this.spriteHeight, this.spriteWidth, this.spriteHeight, level.position.x, level.position.y, this.spriteWidth / 2, this.spriteHeight / 2);
+                    context.drawImage(this.image, 0 * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, level.position.x, level.position.y, this.spriteWidth / 2, this.spriteHeight / 2);
             }
             else {
                 if (this.image.complete)
-                    context.drawImage(this.image, 4 * this.spriteWidth, 2 * this.spriteHeight, this.spriteWidth, this.spriteHeight, level.position.x, level.position.y, this.spriteWidth / 2, this.spriteHeight / 2);
+                    context.drawImage(this.image, 4 * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, level.position.x, level.position.y, this.spriteWidth / 2, this.spriteHeight / 2);
             }
         });
+    }
+    drawAnimateUnBlockLevel(context, frameX, level) {
+        context.save();
+        context.drawImage(this.image, frameX * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, level.position.x, level.position.y, this.spriteWidth / 2, this.spriteHeight / 2);
     }
 
     updatePositionLevel() {
@@ -215,17 +219,11 @@ export class Levels {
             lv.position.x = lv.position.x * ratioHeight - this.spriteWidth / 2;
             lv.position.y = lv.position.y * ratioHeight - this.spriteHeight / 2;
             this.levels.push(lv); // Push the updated level data into levels array
+            if (lv.level == this.game.player.currentPostionLevel) {
+                this.game.player.updatePosition(lv.position)
+            }
         }
         this.levelsNext = JSON.parse(JSON.stringify(this.levels));
-    }
-    updateCurrentLevel(currentLevel) {
-        this.levels.forEach(levelItem => {
-            if (levelItem.level === currentLevel) {
-                levelItem.state = 'Current';
-            } else {
-                levelItem.state = 'Block';
-            }
-        });
     }
     onclickNextMap(direct) {
         let first = this.levelsNext[0];
@@ -235,14 +233,36 @@ export class Levels {
         if (direct == 1 && this.xVirtual + direct * step > 0) {
             step = 0 - this.xVirtual;
         }
-        if (direct == -1 && this.xVirtual + direct * step <= -(this.game.background.widthScaleBg - this.width)) {
-            step = this.game.background.widthScaleBg + this.xVirtual - this.width;
+        if (direct == -1 && this.xVirtual + direct * step <= -(this.game.background.widthScaleBg - this.game.width)) {
+            step = this.game.background.widthScaleBg + this.xVirtual - this.game.width;
+        }
+        console.log(step)
+        if (step < 800 && direct == -1) {
+            this.game.btnNextMap.hidden = true;
+        }
+        else if ((step < 800 && direct == 1) || (direct == 1 && step == 800 && this.xVirtual == -800)) {
+            this.game.btnBackMap.hidden = true;
+        }
+        else {
+            this.game.btnNextMap.hidden = false;
+            this.game.btnBackMap.hidden = false;
         }
 
         this.levelsNext.forEach(levelItem => {
             levelItem.position.x += direct * step;
+            if (levelItem.level == this.game.player.currentPostionLevel) {
+                this.game.player.positionNext += direct * step;
+            }
         });
         this.xVirtual += direct * step;
+    }
+    updateStateLevel(lv) {
+        this.levels.forEach(level => {
+            if (level.level == lv.level) {
+                level.state = "Unblock"
+                return;
+            }
+        })
     }
 
 }
