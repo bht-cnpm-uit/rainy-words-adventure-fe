@@ -101,10 +101,11 @@ const Level = props => {
                 else {
                     this.levels.levels.forEach(level => {
                         if (this.isMouseOverLevel(mouseX, mouseY, level)) {
-                            if ((level.state == "Block")
-                                && (this.player.maxCurrentLevel + 1 == level.level)) {
-                                this.levels.updateStateLevel(level);
-                                this.player.updateMaxCurrentLevel(level.level);
+                            if (level.state == "Block") {
+                                if (this.player.maxCurrentLevel + 1 == level.level) {
+                                    this.levels.updateStateLevel(level);
+                                    this.player.updateMaxCurrentLevel(level.level);
+                                }
                             }
                             else if (this.player.currentPostionLevel == level.level) {
                                 this.levelSetting.open(level);
