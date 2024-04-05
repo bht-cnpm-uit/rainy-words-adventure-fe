@@ -5,6 +5,7 @@ export class Player {
         this.spriteHeight = 800;
         this.width = 109;
         this.height = 134;
+        this.scaleY = this.game.background.scaleY;
         this.position = {
             x: null,
             y: null
@@ -29,7 +30,9 @@ export class Player {
         // });
         // ctx.drawImage(this.image, this.frameX * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, 0, 0, this.spriteWidth / 5, this.spriteHeight / 5);
 
-        ctx.drawImage(this.image, this.frameX * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, this.position.x - this.spriteWidth / 25, this.position.y - this.spriteHeight / 10, this.spriteWidth / 5, this.spriteHeight / 5);
+        // ctx.drawImage(this.image, this.frameX * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, this.position.x - this.spriteWidth / 25, this.position.y - this.spriteHeight / 10, this.spriteWidth / 5, this.spriteHeight / 5);
+        ctx.drawImage(this.image, this.frameX * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, this.position.x - this.spriteWidth * this.scaleY / 7, this.position.y - this.spriteHeight * this.scaleY / 3.2, this.spriteWidth * this.scaleY / 2, this.spriteHeight * this.scaleY / 2);
+
     }
     update(deltaTime) {
         this.gameFrame++;

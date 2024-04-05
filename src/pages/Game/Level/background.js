@@ -12,17 +12,16 @@ export class Background {
         this.x = 0;
         this.y = 0;
         this.scaleY = this.height / this.spriteHeight;
-        this.ratioTranslate = this.spriteWidth * this.scaleY / this.width;
         this.widthScaleBg = this.spriteWidth * this.scaleY;
         this.widthCut = (this.spriteWidth * this.scaleY - this.width) / this.scaleY;
     }
 
     update(deltaTime) {
-        if (this.xImageCut + deltaTime * this.ratioTranslate < this.xImage) {
-            this.xImageCut += deltaTime * this.ratioTranslate;
+        if (this.xImageCut + deltaTime / this.scaleY < this.xImage) {
+            this.xImageCut += deltaTime / this.scaleY;
         }
-        else if (this.xImageCut - deltaTime * this.ratioTranslate > this.xImage) {
-            this.xImageCut -= deltaTime * this.ratioTranslate;
+        else if (this.xImageCut - deltaTime / this.scaleY > this.xImage) {
+            this.xImageCut -= deltaTime / this.scaleY;
         }
         else {
             this.xImageCut = this.xImage
@@ -48,7 +47,7 @@ export class Background {
     }
 
     onclick(direct) {
-        this.xImage += 800 * this.ratioTranslate * direct;
+        this.xImage += 800 * direct / this.scaleY;
         if (this.xImage - this.widthCut > 0) {
             this.xImage = this.widthCut
         }
