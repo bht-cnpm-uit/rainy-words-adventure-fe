@@ -6,3 +6,8 @@
     font-family: fontgame;
     src: url(../font/j-juvanze-font/Juvanze-ovw9A.otf);
 }
+
+body {
+    overflow: hidden;
+    max-width: 100vh;
+}

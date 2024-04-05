@@ -39,7 +39,6 @@ export default function App() {
         // </Router>
         <Router>
             <div className="App"
-                style={{ overflow: "auto" }}
             >
                 <Routes>
                     {publicRoutes.map((route, index) => {
