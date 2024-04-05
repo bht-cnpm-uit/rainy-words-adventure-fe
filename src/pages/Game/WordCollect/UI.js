@@ -119,6 +119,7 @@ class StaticUI {
 export class BoardStopGame {
     constructor(game) {
         this.game = game;
+        this.scaleY = this.game.background.scaleY;
         this.translateX = this.game.width * 1 / 3;
         this.translateY = this.game.height * 1 / 3;
         this.hidden = true;
@@ -143,30 +144,30 @@ export class BoardStopGame {
             continue: new Button(
                 this.game,
                 '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
-                this.spriteWidthBoard / 12 - this.spriteWidthButton / 8,
-                this.spriteHeightBoard / 2 - this.spriteHeightButton / 2,
-                this.spriteWidthButton / 4,
-                this.spriteHeightButton / 3,
+                this.spriteWidthBoard / 12 - this.spriteWidthButton * this.scaleY / 4,
+                this.spriteHeightBoard / 2 - this.spriteHeightButton / 1.5,
+                this.spriteWidthButton / 2,
+                this.spriteHeightButton / 1.5,
                 this.spriteWidthButton,
                 this.spriteHeightButton
             ),
             replay: new Button(
                 this.game,
                 '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
-                this.spriteWidthBoard / 6 + this.spriteWidthBoard / 12 - this.spriteWidthButton / 8,
-                this.spriteHeightBoard / 2 - this.spriteHeightButton / 2,
-                this.spriteWidthButton / 4,
-                this.spriteHeightButton / 3,
+                this.spriteWidthBoard / 6 + this.spriteWidthBoard / 12 - this.spriteWidthButton * this.scaleY / 4,
+                this.spriteHeightBoard / 2 - this.spriteHeightButton / 1.5,
+                this.spriteWidthButton / 2,
+                this.spriteHeightButton / 1.5,
                 this.spriteWidthButton,
                 this.spriteHeightButton
             ),
             back: new Button(
                 this.game,
                 '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
-                this.spriteWidthBoard * 1 / 3 + this.spriteWidthBoard / 12 - this.spriteWidthButton / 8,
-                this.spriteHeightBoard / 2 - this.spriteHeightButton / 2,
-                this.spriteWidthButton / 4,
-                this.spriteHeightButton / 3,
+                this.spriteWidthBoard * 1 / 3 + this.spriteWidthBoard / 12 - this.spriteWidthButton * this.scaleY / 4,
+                this.spriteHeightBoard / 2 - this.spriteHeightButton / 1.5,
+                this.spriteWidthButton / 2,
+                this.spriteHeightButton / 1.5,
                 this.spriteWidthButton,
                 this.spriteHeightButton
             )
