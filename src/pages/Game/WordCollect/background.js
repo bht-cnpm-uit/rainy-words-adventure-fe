@@ -25,6 +25,7 @@ export class Background {
         this.spriteHeight = 1080;
         this.width = this.game.width;
         this.height = this.game.height;
+        this.scaleY = this.height / this.spriteHeight;
         this.layerImage1 = new Layer(this.game, this.spriteWidth, this.spriteHeight, '../assets/Asset/Map1/ScrollBG.png');
         this.layerImage2 = new Layer(this.game, this.spriteWidth, this.spriteHeight, '../assets/Asset/Map1/StableBG_game.png');
         this.speedModifier = 0.5;
@@ -39,8 +40,9 @@ export class Background {
         this.layerImage1.x = this.layerImage1.x - this.speed;
     }
     draw(context) {
+        let widthCut = (this.spriteWidth * this.scaleY - this.width) / this.scaleY;
         context.drawImage(this.layerImage1.image, 0, 0, this.spriteWidth, this.spriteHeight, this.layerImage1.x, 0, this.width, this.height);
         context.drawImage(this.layerImage1.image, 0, 0, this.spriteWidth, this.spriteHeight, this.layerImage1.x + this.width, 0, this.width, this.height);
-        context.drawImage(this.layerImage2.image, 0, 0, this.spriteWidth, this.spriteHeight, this.layerImage2.x, 0, this.width, this.height);
+        context.drawImage(this.layerImage2.image, 0, 0, this.spriteWidth - widthCut, this.spriteHeight, this.layerImage2.x, 0, this.width, this.height);
     }
 }

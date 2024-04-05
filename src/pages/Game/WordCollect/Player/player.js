@@ -23,8 +23,9 @@ export class Player {
         this.game = game;
         this.spriteWidth = 653;
         this.spriteHeight = 800;
-        this.width = this.spriteWidth / 3.5;
-        this.height = this.spriteHeight / 3.5;
+        this.scaleY = this.game.background.scaleY;
+        this.width = this.spriteWidth * this.scaleY / 2;
+        this.height = this.spriteHeight * this.scaleY / 2;
         this.position = {
             x: this.game.width / 2,
             y: this.game.height - this.height / 2

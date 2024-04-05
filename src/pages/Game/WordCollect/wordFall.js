@@ -4,22 +4,22 @@ class Item {
         this.game = game
         this.spriteWidth = 304;
         this.spriteHeight = 304;
-        this.x = Math.random() * (this.game.width - 2 * this.spriteWidth) + this.spriteWidth;
-        this.y = -this.spriteHeight;
+        this.scaleY = this.game.background.scaleY;
+        this.width = this.spriteWidth * this.scaleY;
+        this.height = this.spriteHeight * this.scaleY;
+        this.x = Math.random() * (this.game.width - 2 * this.width) + this.width;
+        this.y = -this.height;
         this.vy = 0.1
         this.image = image;
         this.frameX = Math.floor(Math.random() * 5);
         this.frameY = Math.floor(Math.random() * 0);
         this.spinSpeed = Math.PI / 10000;
+        this.maxAngleSpin = 10 * Math.PI / 180;
         this.angle = (Math.random() * 20 - 10) * Math.PI / 180;
         this.markedForDeletion = false;
         this.wordIndex = Math.floor(Math.random() * 40);
     }
     draw(context) {
-        const spriteWidthThird = this.spriteWidth / 3;
-        const spriteHeightThird = this.spriteHeight / 3;
-        const spriteHeightEighthFive = this.spriteHeight / 8.5;
-
         const wordData = data[this.wordIndex];
         const word = wordData["word"];
         const vietnamese = wordData["vietnamese"];
@@ -30,10 +30,10 @@ class Item {
         context.drawImage(
             this.image,
             this.frameX * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight,
-            -spriteWidthThird,
-            -spriteHeightThird,
-            this.spriteWidth / 1.5,
-            this.spriteHeight / 1.5
+            -this.width / 3,
+            -this.height / 3,
+            this.width,
+            this.height
         );
 
         // Set font size and style for both texts
@@ -41,21 +41,22 @@ class Item {
         context.textAlign = 'center';
 
         // Draw English text
-        context.fillText(word, 0, -spriteHeightThird / 2);
+        context.fillText(word, this.width / 8, -this.height / 10);
 
         // Adjust font size for Vietnamese text
         context.font = '15px Arial';
 
         // Draw Vietnamese text
-        context.fillText(vietnamese, 0, -spriteHeightEighthFive);
+        context.fillText(vietnamese, this.width / 8, -this.height / 30);
 
         context.restore();
     }
 
     update(deltaTime) {
-        this.angle += this.spinSpeed * deltaTime;
-        if (this.angle > 10 * Math.PI / 180 || this.angle < -10 * Math.PI / 180) {
-            this.spinSpeed *= -1;
+        if (this.angle + this.spinSpeed * deltaTime > this.maxAngleSpin || this.angle + this.spinSpeed * deltaTime < -this.maxAngleSpin) {
+            this.spinSpeed = -this.spinSpeed;
+        } else {
+            this.angle += this.spinSpeed * deltaTime;
         }
         this.y += this.vy * deltaTime;
         if (this.y > this.game.height) this.markedForDeletion = true;
