@@ -38,7 +38,9 @@ export default function App() {
         //     </div>
         // </Router>
         <Router>
-            <div className="App">
+            <div className="App"
+                style={{ overflow: "auto" }}
+            >
                 <Routes>
                     {publicRoutes.map((route, index) => {
                         const Page = route.component;
@@ -53,6 +55,6 @@ export default function App() {
                     })}
                 </Routes>
             </div>
-        </Router>
+        </Router >
     );
 }

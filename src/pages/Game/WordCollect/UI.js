@@ -30,8 +30,11 @@ export class Score extends Text {
 export class BonusItems {
     constructor(game) {
         this.game = game;
+        this.scaleY = this.game.background.scaleY;
         this.spriteWidth = 100;
         this.spriteHeight = 100;
+        this.width = this.spriteWidth * this.scaleY;
+        this.height = this.spriteHeight * this.scaleY;
         this.x = 10;
         this.y = 10;
         this.maxItems = 5;
@@ -43,7 +46,7 @@ export class BonusItems {
     }
     draw(context) {
         for (let i = 0; i < this.noItems; i++) {
-            context.drawImage(this.image, this.x + i * this.spriteWidth / 1.5, this.y, this.spriteWidth / 1.5, this.spriteHeight / 1.5);
+            context.drawImage(this.image, this.x + i * this.width, this.y, this.width, this.height);
         }
     }
     addNewItem() {
@@ -54,13 +57,15 @@ export class BonusItems {
 }
 
 class Button {
-    constructor(image, x, y, width, height, spriteWidth, spriteHeight) {
+    constructor(game, image, x, y, width, height, spriteWidth, spriteHeight) {
         this.image = new Image();
+        this.game = game;
+        this.scaleY = this.game.background.scaleY;
         this.image.src = image;
         this.x = x;
         this.y = y;
-        this.width = width;
-        this.height = height;
+        this.width = width * this.scaleY;
+        this.height = height * this.scaleY;
         this.spriteWidth = spriteWidth;
         this.spriteHeight = spriteHeight;
     }
@@ -136,6 +141,7 @@ export class BoardStopGame {
         }
         this.buttons = {
             continue: new Button(
+                this.game,
                 '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
                 this.spriteWidthBoard / 12 - this.spriteWidthButton / 8,
                 this.spriteHeightBoard / 2 - this.spriteHeightButton / 2,
@@ -145,6 +151,7 @@ export class BoardStopGame {
                 this.spriteHeightButton
             ),
             replay: new Button(
+                this.game,
                 '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
                 this.spriteWidthBoard / 6 + this.spriteWidthBoard / 12 - this.spriteWidthButton / 8,
                 this.spriteHeightBoard / 2 - this.spriteHeightButton / 2,
@@ -154,6 +161,7 @@ export class BoardStopGame {
                 this.spriteHeightButton
             ),
             back: new Button(
+                this.game,
                 '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
                 this.spriteWidthBoard * 1 / 3 + this.spriteWidthBoard / 12 - this.spriteWidthButton / 8,
                 this.spriteHeightBoard / 2 - this.spriteHeightButton / 2,

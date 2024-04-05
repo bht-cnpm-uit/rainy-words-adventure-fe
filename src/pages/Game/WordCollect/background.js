@@ -40,7 +40,7 @@ export class Background {
         this.layerImage1.x = this.layerImage1.x - this.speed;
     }
     draw(context) {
-        let widthCut = (this.spriteWidth * this.scaleY - this.width) / this.scaleY;
+        let widthCut = Math.ceil((this.spriteWidth * this.scaleY - this.width) / this.scaleY);
         context.drawImage(this.layerImage1.image, 0, 0, this.spriteWidth, this.spriteHeight, this.layerImage1.x, 0, this.width, this.height);
         context.drawImage(this.layerImage1.image, 0, 0, this.spriteWidth, this.spriteHeight, this.layerImage1.x + this.width, 0, this.width, this.height);
         context.drawImage(this.layerImage2.image, 0, 0, this.spriteWidth - widthCut, this.spriteHeight, this.layerImage2.x, 0, this.width, this.height);

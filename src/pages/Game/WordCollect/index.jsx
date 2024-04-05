@@ -127,7 +127,8 @@ const WordCollect = props => {
     }, []);
 
     return (
-        <canvas ref={canvasRef} {...props} />
+        <canvas
+            ref={canvasRef} {...props} />
     );
 }
 export default WordCollect;
