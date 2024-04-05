@@ -65,8 +65,8 @@ export class Guide extends Button {
     }
     draw(context) {
         super.draw(context);
-        context.font = "30px Comic Sans MS";
-        context.fillStyle = "red";
+        context.font = "30px Arial";
+        context.fillStyle = "brown";
         context.textAlign = "center";
         context.fillText("Hướng dẫn", -this.x * 3.4 + this.spriteWidth / 2, this.y + this.spriteHeight / 2.5 - 20)
     }

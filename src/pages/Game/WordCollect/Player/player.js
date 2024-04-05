@@ -110,7 +110,7 @@ export class Player {
         }
         // horizontal movement
         if (this.position.x < 0) this.position.x = 0;
-        else if (this.position.x > this.game.width - this.width) this.position.x = this.game.width - this.width;
+        else if (this.position.x > this.game.width) this.position.x = this.game.width;
     }
     setState(state) {
         if (this.currentState !== this.states[state]) {

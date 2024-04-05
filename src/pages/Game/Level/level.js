@@ -1,165 +1,206 @@
-export const LEVEL = [
-    {
-        "level": 1,
-        "position": {
-            "x": 465,
-            "y": 900
+export const LEVEL =
+    [
+        {
+            "level": 1,
+            "position": {
+                "x": 465,
+                "y": 900
+            },
+            "state": "Unblock",
+            "difficulty_level": 1,
+            "max_difficulty_level": 3
         },
-        "state": "Unblock"
-    },
-    {
-        "level": 2,
-        "position": {
-            "x": 1049,
-            "y": 780
+        {
+            "level": 2,
+            "position": {
+                "x": 1049,
+                "y": 780
+            },
+            "state": "Unblock",
+            "difficulty_level": 1,
+            "max_difficulty_level": 3
         },
-        "state": "Unblock"
-    },
-    {
-        "level": 3,
-        "position": {
-            "x": 1624,
-            "y": 850
+        {
+            "level": 3,
+            "position": {
+                "x": 1624,
+                "y": 850
+            },
+            "state": "Unblock",
+            "difficulty_level": 1,
+            "max_difficulty_level": 3
         },
-        "state": "Unblock"
-    },
-    {
-        "level": 4,
-        "position": {
-            "x": 2020,
-            "y": 665
+        {
+            "level": 4,
+            "position": {
+                "x": 2020,
+                "y": 665
+            },
+            "state": "Block",
+            "difficulty_level": 1,
+            "max_difficulty_level": 3
         },
-        "state": "Block"
-    },
-    {
-        "level": 5,
-        "position": {
-            "x": 2449,
-            "y": 525
+        {
+            "level": 5,
+            "position": {
+                "x": 2449,
+                "y": 525
+            },
+            "state": "Block",
+            "difficulty_level": 1,
+            "max_difficulty_level": 3
         },
-        "state": "Block"
-    },
-    {
-        "level": 6,
-        "position": {
-            "x": 2862,
-            "y": 600
+        {
+            "level": 6,
+            "position": {
+                "x": 2862,
+                "y": 610
+            },
+            "state": "Block",
+            "difficulty_level": 1,
+            "max_difficulty_level": 3
         },
-        "state": "Block"
-    },
-    {
-        "level": 7,
-        "position": {
-            "x": 3389,
-            "y": 720
+        {
+            "level": 7,
+            "position": {
+                "x": 3389,
+                "y": 720
+            },
+            "state": "Block",
+            "difficulty_level": 1,
+            "max_difficulty_level": 3
         },
-        "state": "Block"
-    },
-    {
-        "level": 8,
-        "position": {
-            "x": 3500,
-            "y": 1100
+        {
+            "level": 8,
+            "position": {
+                "x": 3500,
+                "y": 1100
+            },
+            "state": "Block",
+            "difficulty_level": 1,
+            "max_difficulty_level": 3
         },
-        "state": "Block"
-    },
-    {
-        "level": 9,
-        "position": {
-            "x": 3651,
-            "y": 1350
+        {
+            "level": 9,
+            "position": {
+                "x": 3651,
+                "y": 1350
+            },
+            "state": "Block",
+            "difficulty_level": 1,
+            "max_difficulty_level": 3
         },
-        "state": "Block"
-    },
-    {
-        "level": 10,
-        "position": {
-            "x": 4200,
-            "y": 600
+        {
+            "level": 10,
+            "position": {
+                "x": 4200,
+                "y": 650
+            },
+            "state": "Block",
+            "difficulty_level": 1,
+            "max_difficulty_level": 3
         },
-        "state": "Block"
-    },
-    {
-        "level": 11,
-        "position": {
-            "x": 4061,
-            "y": 1350
+        {
+            "level": 11,
+            "position": {
+                "x": 4061,
+                "y": 1380
+            },
+            "state": "Block",
+            "difficulty_level": 1,
+            "max_difficulty_level": 3
         },
-        "state": "Block"
-    },
-    {
-        "level": 12,
-        "position": {
-            "x": 4511,
-            "y": 1300
+        {
+            "level": 12,
+            "position": {
+                "x": 4511,
+                "y": 1300
+            },
+            "state": "Block",
+            "difficulty_level": 1,
+            "max_difficulty_level": 3
         },
-        "state": "Block"
-    },
-    {
-        "level": 13,
-        "position": {
-            "x": 4850,
-            "y": 1000
+        {
+            "level": 13,
+            "position": {
+                "x": 4850,
+                "y": 1000
+            },
+            "state": "Block",
+            "difficulty_level": 1,
+            "max_difficulty_level": 3
         },
-        "state": "Block"
-    },
-    {
-        "level": 14,
-        "position": {
-            "x": 5299,
-            "y": 750
+        {
+            "level": 14,
+            "position": {
+                "x": 5299,
+                "y": 780
+            },
+            "state": "Block",
+            "difficulty_level": 1,
+            "max_difficulty_level": 3
         },
-        "state": "Block"
-    },
-    {
-        "level": 15,
-        "position": {
-            "x": 5765,
-            "y": 850
+        {
+            "level": 15,
+            "position": {
+                "x": 5765,
+                "y": 870
+            },
+            "state": "Block",
+            "difficulty_level": 1,
+            "max_difficulty_level": 3
         },
-        "state": "Block"
-    },
-    {
-        "level": 16,
-        "position": {
-            "x": 6175,
-            "y": 900
+        {
+            "level": 16,
+            "position": {
+                "x": 6175,
+                "y": 890
+            },
+            "state": "Block",
+            "difficulty_level": 1,
+            "max_difficulty_level": 3
         },
-        "state": "Block"
-    },
-    {
-        "level": 17,
-        "position": {
-            "x": 6625,
-            "y": 700
+        {
+            "level": 17,
+            "position": {
+                "x": 6625,
+                "y": 710
+            },
+            "state": "Block",
+            "difficulty_level": 1,
+            "max_difficulty_level": 3
         },
-        "state": "Block"
-    },
-    {
-        "level": 18,
-        "position": {
-            "x": 7150,
-            "y": 1200
+        {
+            "level": 18,
+            "position": {
+                "x": 7150,
+                "y": 1200
+            },
+            "state": "Block",
+            "difficulty_level": 1,
+            "max_difficulty_level": 3
         },
-        "state": "Block"
-    },
-    {
-        "level": 19,
-        "position": {
-            "x": 7223,
-            "y": 700
+        {
+            "level": 19,
+            "position": {
+                "x": 7223,
+                "y": 700
+            },
+            "state": "Block",
+            "difficulty_level": 1,
+            "max_difficulty_level": 3
         },
-        "state": "Block"
-    },
-    {
-        "level": 20,
-        "position": {
-            "x": 7700,
-            "y": 740
-        },
-        "state": "Block"
-    }
-]
+        {
+            "level": 20,
+            "position": {
+                "x": 7700,
+                "y": 740
+            },
+            "state": "Block",
+            "difficulty_level": 1,
+            "max_difficulty_level": 3
+        }
+    ]
 
 
 
@@ -220,7 +261,7 @@ export class Levels {
             lv.position.y = lv.position.y * ratioHeight - this.spriteHeight / 2;
             this.levels.push(lv); // Push the updated level data into levels array
             if (lv.level == this.game.player.currentPostionLevel) {
-                this.game.player.updatePosition(lv.position)
+                this.game.player.updatePosition(lv)
             }
         }
         this.levelsNext = JSON.parse(JSON.stringify(this.levels));

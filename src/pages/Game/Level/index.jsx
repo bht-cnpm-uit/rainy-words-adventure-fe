@@ -42,10 +42,10 @@ const Level = props => {
                 if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.close)) {
                     cursorStyle = 'pointer';
                 }
-                else if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.back)) {
+                else if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.decrease)) {
                     cursorStyle = 'pointer';
                 }
-                else if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.next)) {
+                else if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.increase)) {
                     cursorStyle = 'pointer';
                 }
                 else if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.play)) {
@@ -75,9 +75,11 @@ const Level = props => {
             if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.close)) {
                 this.levelSetting.close();
             }
-            else if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.back)) {
+            else if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.decrease)) {
+                this.levelSetting.updateDifficultyLevel(-1);
             }
-            else if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.next)) {
+            else if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.increase)) {
+                this.levelSetting.updateDifficultyLevel(1);
             }
             else if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.play)) {
                 //  play
@@ -99,8 +101,17 @@ const Level = props => {
                 else {
                     this.levels.levels.forEach(level => {
                         if (this.isMouseOverLevel(mouseX, mouseY, level)) {
-                            // this.player.updateCurrentLayer(level)
-                            this.levelSetting.open(level, this.ctx);
+                            if ((level.state == "Block")
+                                && (this.player.maxCurrentLevel + 1 == level.level)) {
+                                this.levels.updateStateLevel(level);
+                                this.player.updateMaxCurrentLevel(level.level);
+                            }
+                            else if (this.player.currentPostionLevel == level.level) {
+                                this.levelSetting.open(level);
+                            }
+                            else {
+                                this.player.updatePosition(level);
+                            }
                             return;
                         }
                     });

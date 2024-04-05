@@ -55,9 +55,10 @@ class Text {
         this.x = x;
         this.y = y
     }
-    writeText(context, text, font = "30px Arial", textAlign = 'center') {
+    writeText(context, text, font = "30px Arial", textAlign = 'center', color = 'brown') {
         context.font = font;
         context.textAlign = "center";
+        context.fillStyle = color;
         context.fillText(text, this.x, this.y);
     }
 }
@@ -82,6 +83,7 @@ export class LevelSetting {
         this.hidden = true;
         this.frameCount = 0;
         this.frameX = 1;
+        this.currentLevel = null;
         this.buttons = {
             close: new Button(
                 '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_19.png',
@@ -92,7 +94,7 @@ export class LevelSetting {
                 this.spriteWidthBtnClose,
                 this.spriteHeightBtnClose
             ),
-            next: new Button(
+            increase: new Button(
                 '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_7.png',
                 this.spriteWidthBoard * 1 / 3 + this.spriteWidthBtnNext / 6,
                 this.spriteHeightBoard / 4 + this.spriteHeightBtnNext / 6,
@@ -101,7 +103,7 @@ export class LevelSetting {
                 this.spriteWidthBtnNext,
                 this.spriteHeightBtnNext
             ),
-            back: new Button(
+            decrease: new Button(
                 '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_8.png',
                 this.spriteWidthBoard * 1 / 3 - this.spriteWidthBtnNext / 2,
                 this.spriteHeightBoard / 4 + this.spriteHeightBtnNext / 6,
@@ -159,7 +161,7 @@ export class LevelSetting {
 
         }
         this.translateX = this.width * 2 / 3;
-        this.translateY = this.height * 1 / 4;
+        this.translateY = this.height * 1 / 5;
     }
 
     update() {
@@ -167,21 +169,21 @@ export class LevelSetting {
     }
 
     draw(context) {
-        if (!this.hidden) {
+        if (!this.hidden && this.currentLevel) {
             context.save();
             context.translate(this.translateX, this.translateY);
             // Draw your board and score here
             this.staticUI.board.draw(context);
             this.staticUI.score.draw(context);
             this.buttons.close.draw(context);
-            this.buttons.next.draw(context);
-            this.buttons.back.draw(context);
+            this.buttons.increase.draw(context);
+            this.buttons.decrease.draw(context);
             this.buttons.play.draw(context);
             this.text.playText.writeText(context, "Chơi");
-            this.text.levelText.writeText(context, "Level 1");
-            this.text.numDiffLevel.writeText(context, "1");
+            this.text.levelText.writeText(context, "Level " + this.currentLevel.level.toString(), "30px fontgame");
+            this.text.numDiffLevel.writeText(context, this.currentLevel.difficulty_level);
             this.text.diffLevel.writeText(context, "Độ khó");
-            this.text.scoreText.writeText(context, "1080", "50px Arial");
+            this.text.scoreText.writeText(context, "1080", "55px fontgame");
             context.restore();
             context.save();
             context.translate(this.translateX, this.translateY);
@@ -200,17 +202,14 @@ export class LevelSetting {
     close() {
         this.hidden = true;
     }
-    open(lv, context) {
-        if (lv.state === 'Unblock') {
-            this.game.player.updatePosition(lv.position)
-            this.hidden = false;
-        }
-        else if (this.game.player.maxCurrentLevel + 1 == lv.level) {
-            // this.frameCount = 0;
-            // this.frameX = 1;
-            // this.animateUnblockLevel(lv, context);
-            this.game.levels.updateStateLevel(lv);
-            this.game.player.updateMaxCurrentLevel(lv.level);
+    open(lv) {
+        this.currentLevel = lv;
+        this.hidden = false;
+    }
+    updateDifficultyLevel(d) {
+        var newLevel = this.currentLevel.difficulty_level + d;
+        if (newLevel >= 0 && newLevel <= this.currentLevel.max_difficulty_level) {
+            this.currentLevel.difficulty_level = newLevel;
         }
     }
 

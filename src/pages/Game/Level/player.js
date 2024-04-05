@@ -11,7 +11,7 @@ export class Player {
         }
         this.velocity = 0;
         this.image = new Image();
-        this.image.src = '../assets/Asset/GameObject/SunflowerCatSprite_Night2WalkBlink.png';
+        this.image.src = '../assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png';
         this.frameX = 0;
         this.frameY = 1;
         this.staggerFrames = 5;
@@ -62,10 +62,11 @@ export class Player {
     updateMaxCurrentLevel(lv) {
         this.maxCurrentLevel = lv;
     }
-    updatePosition(position) {
-        this.position.x = position.x;
-        this.position.y = position.y;
-        this.positionNext = position.x;
+    updatePosition(level) {
+        this.position.x = level.position.x;
+        this.position.y = level.position.y;
+        this.positionNext = level.position.x;
+        this.currentPostionLevel = level.level;
     }
 
 }

@@ -16,11 +16,11 @@ export class Score extends Text {
     constructor(game) {
         super(game.width / 2, game.height / 12);
         this.game = game;
-        this.score = 0;
+        this.score = 1080;
     }
 
     draw(context) {
-        super.writeText(context, this.score, "bold 60px serif", "center");
+        super.writeText(context, this.score, "60px fontgame", "center");
     }
     update(score) {
         this.score += score;
