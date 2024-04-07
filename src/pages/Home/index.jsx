@@ -1,5 +1,5 @@
 import { Player } from './player';
-import { Background } from './background';
+import { Background, LogoGame } from './background';
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Guide, start } from './button';
 const Home = (props) => {
@@ -15,6 +15,7 @@ const Home = (props) => {
             this.width = width;
             this.height = height;
             this.background = new Background(this);
+            this.logogame = new LogoGame(this);
             this.player = new Player(this);
             this.Guide = new Guide(this);
             this.start = new start(this);
@@ -24,9 +25,14 @@ const Home = (props) => {
 
         draw(context) {
             this.background.draw(context);
+            this.logogame.draw(context);
             this.player.draw(context);
             this.Guide.draw(context);
             this.start.draw(context);
+        }
+        update(){
+            this.gameFrame++;
+            this.background.update(this.gameFrame);
         }
 
         onClick(event) {
@@ -78,6 +84,7 @@ const Home = (props) => {
         function animate() {
             context.clearRect(0, 0, canvas.width, canvas.height);
             home.draw(context);
+            home.update();
             requestAnimationFrame(animate);
         }
         animate();

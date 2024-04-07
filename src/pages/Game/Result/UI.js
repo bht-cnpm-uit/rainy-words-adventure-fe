@@ -156,7 +156,7 @@ export class ShowResult {
         // Draw your board and score here
         this.staticUI.board.draw(context);
         this.staticUI.score.draw(context);
-        // this.staticUI.player.draw(context);
+        this.staticUI.player.draw(context);
         this.staticUI.teacher.draw(context);
 
         this.buttons.next.draw(context);
@@ -169,7 +169,9 @@ export class ShowResult {
         this.text.next.writeText(context, "TIẾP THEO")
 
         context.restore();
+        context.save();
         context.translate(this.translateX, this.translateY);
+        // context.restore();
         context.save();
         context.restore();
     }
