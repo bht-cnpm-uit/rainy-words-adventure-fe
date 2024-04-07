@@ -22,6 +22,7 @@ const WordChain = props => {
             this.canvas.addEventListener("mouseout", this.onMouseOut.bind(this));
             this.startX = null;
             this.startY = null;
+            this.currentWordDrug = null;
         }
         onMouseUp(event) {
             this.boardWordChain.VietNameseWord.forEach(word => {
@@ -29,6 +30,7 @@ const WordChain = props => {
                 else {
                     event.preventDefault();
                     word.isDragging = false;
+                    word.processMouseUp();
                 }
             })
             this.boardWordChain.EnglishWord.forEach(word => {
@@ -36,6 +38,7 @@ const WordChain = props => {
                 else {
                     event.preventDefault();
                     word.isDragging = false;
+                    word.processMouseUp();
                 }
             })
         }
@@ -64,11 +67,13 @@ const WordChain = props => {
             this.boardWordChain.VietNameseWord.forEach(word => {
                 if (this.isMouseOver(mouseX, mouseY, word)) {
                     word.isDragging = true;
+                    this.currentWordDrug = word;
                 }
             })
             this.boardWordChain.EnglishWord.forEach(word => {
                 if (this.isMouseOver(mouseX, mouseY, word)) {
                     word.isDragging = true;
+                    this.currentWordDrug = word;
                 }
             })
         }
@@ -76,20 +81,27 @@ const WordChain = props => {
             const rect = this.canvas.getBoundingClientRect();
             let mouseX = event.clientX - rect.left - this.boardWordChain.translateX;
             let mouseY = event.clientY - rect.top - this.boardWordChain.translateY;
-            let cursorStyle = 'default';
             this.boardWordChain.VietNameseWord.forEach(word => {
                 if (word.isDragging) {
                     let dx = mouseX - this.startX;
                     let dy = mouseY - this.startY;
                     word.x += dx;
                     word.y += dy;
-                    word.draw(this.ctx, 'VI');
                     this.startX = mouseX;
                     this.startY = mouseY;
-                    this.boardWordChain.EnglishWord.forEach(word2 => {
-                        if (this.calculateDistance(word, word2) < 200)
-                            console.log("close")
-                    })
+                    if (word.isStickyWord) {
+                        word.isStickyWord.stickyWord(word)
+                    }
+                    else {
+                        this.boardWordChain.EnglishWord.forEach(word2 => {
+                            if (this.calculateDistance(word, word2) < 50) {
+                                word2.stickyWord(word)
+                                word.isStickyWord = word2;
+                                return;
+                            }
+                        })
+
+                    }
                 }
                 else word.isDragging = false;
             })
@@ -99,19 +111,40 @@ const WordChain = props => {
                     let dy = mouseY - this.startY;
                     word.x += dx;
                     word.y += dy;
-                    word.draw(this.ctx, 'EN');
                     this.startX = mouseX;
                     this.startY = mouseY;
-                    this.boardWordChain.VietNameseWord.forEach(word2 => {
-                        if (this.calculateDistance(word, word2) < 200)
-                            console.log("close")
-                    })
+                    if (word.isStickyWord) {
+                        word.isStickyWord.stickyWord(word)
+                    }
+                    else {
+                        this.boardWordChain.VietNameseWord.forEach(word2 => {
+                            if (this.calculateDistance(word, word2) < 50) {
+                                word2.stickyWord(word)
+                                word.isStickyWord = word2;
+                                return;
+                            }
+                        })
+
+                    }
                 }
                 else word.isDragging = false;
             })
         }
         calculateDistance(word1, word2) {
-            return Math.sqrt((word1.x - word2.x) * (word1.x - word2.x) + (word1.y - word2.y) * (word1.y - word2.y))
+            if (word1.type == 'EN') {
+                let x1 = word1.x + word1.width
+                let y1 = word1.y + word1.height / 2
+                let x2 = word2.x
+                let y2 = word2.y + word2.height / 2
+                return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2))
+            }
+            else if (word1.type == 'VI') {
+                let x1 = word2.x + word2.width
+                let y1 = word2.y + word2.height / 2
+                let x2 = word1.x
+                let y2 = word1.y + word1.height / 2
+                return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2))
+            }
         }
         isMouseOver(mouseX, mouseY, word) {
             return (
