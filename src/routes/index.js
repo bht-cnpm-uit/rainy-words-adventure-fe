@@ -6,6 +6,7 @@ import WordCollect from '../pages/Game/WordCollect';
 //import LoginForm from '../pages/Login/login';
 import LoginForm from '../pages/Login/loginReal';
 import Result from '../pages/Game/Result';
+import WordChain from '../pages/Game/WordChain';
 // Public routes
 const publicRoutes = [
     {
@@ -26,6 +27,10 @@ const publicRoutes = [
     {
         path: '/word-collect',
         component: WordCollect,
+    },
+    {
+        path: '/word-chain',
+        component: WordChain,
     },
     {
         path: '/level',
