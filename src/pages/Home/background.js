@@ -37,7 +37,7 @@ export class Background {
         // this.layerLogo = new Layer(this.game, this.spriteWidth,this.spriteHeight,'../assets/Asset/Logo.png' );
         this.speedModifier = 0.5;
         this.speed = this.speedModifier;
-
+ 
     }
     update() {
         let gameSpeed = 5;

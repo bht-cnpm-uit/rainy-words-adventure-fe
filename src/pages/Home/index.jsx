@@ -37,25 +37,24 @@ const Home = (props) => {
 
         onClick(event) {
             const rect = this.canvas.getBoundingClientRect();
-            const mouseX = event.clientX - rect.left;
-            const mouseY = event.clientY - rect.top;
-            let cursorStyle = 'default';
-            if (this.isMouseOverButton(mouseX - this.start.translateX, mouseY - this.start.translateY, this.start)) {
+            const mouseX = event.clientX - rect.left; // x of item
+            const mouseY = event.clientY - rect.top; // y of item
+            let cursorStyle = 'defaut';
+            if (this.isMouseOverButton(mouseX , mouseY, this.start)) {
                 window.location.href = '/level';
-                cursorStyle = 'pointer';
             }
-            else if (this.isMouseOverButton(mouseX - this.Guide.translateX, mouseY - this.Guide.translateY, this.Guide)) {
-                window.location.href = '/level';
-                cursorStyle = 'pointer';
+            else if (this.isMouseOverButton(mouseX, mouseY, this.Guide)) {
+                window.location.href = '/';
             }
             this.canvas.style.cursor = cursorStyle;
         }
+
         isMouseOverButton(mouseX, mouseY, button) {
             return (
                 mouseX >= button.x &&
-                mouseX <= button.x + button.width &&
+                mouseX <= button.x + button.spriteWidth/2 &&
                 mouseY >= button.y &&
-                mouseY <= button.y + button.height
+                mouseY <= button.y + button.spriteHeight/2
             );
         }
 
@@ -64,11 +63,13 @@ const Home = (props) => {
             const mouseX = event.clientX - rect.left;
             const mouseY = event.clientY - rect.top;
             let cursorStyle = 'default';
-            if (this.isMouseOverButton(mouseX - this.start.translateX, mouseY - this.start.translateY, this.start)) {
+
+           if (this.isMouseOverButton(mouseX  , mouseY , this.start)) {
                 cursorStyle = 'pointer';
             }
-            else if (this.isMouseOverButton(mouseX - this.Guide.translateX, mouseY - this.Guide.translateY, this.Guide)) {
+            else if (this.isMouseOverButton(mouseX  , mouseY , this.Guide)){
                 cursorStyle = 'pointer';
+
             }
 
             this.canvas.style.cursor = cursorStyle;
