@@ -40,112 +40,122 @@ class Text {
 class Word {
     constructor(wordChain, text, x, y, spriteWidth, spriteHeight, scaleY, type, index) {
         this.wordChain = wordChain;
-        this.imageleft = new Image();
-        this.imageleft.src = '../assets/Asset/WordMatchingButton (1)/0.png';
-        this.imageright = new Image();
-        this.imageright.src = '../assets/Asset/WordMatchingButton (1)/1.png';
         this.x = x;
         this.y = y;
         this.fixedX = x;
         this.fixedY = y;
-        this.druggingX = x;
-        this.druggingY = y;
         this.spriteWidth = spriteWidth;
         this.spriteHeight = spriteHeight;
         this.width = this.spriteWidth * scaleY;
         this.height = this.spriteHeight * scaleY;
         this.isDragging = false;
         this.type = type;
-        this.isStickyWord = null;
+        this.isMatching = null;
+        this.isMatched = null;
         this.index = index;
+        this.text = text;
+        this.image = new Image();
+        this.image.src = type === 'EN' ? '../assets/Asset/WordMatchingButton (1)/0.png' : '../assets/Asset/WordMatchingButton (1)/1.png';
     }
     stickyWord(word) {
-        if (word.type == 'EN') {
-            this.x = word.x + this.width - 20;
-            this.y = word.y;
-        }
-        else {
-            this.x = word.x - this.width + 20;
-            this.y = word.y;
-        }
+        const offsetX = this.type === 'EN' ? -1 : 1;
+        this.x = word.x + offsetX * (this.width - 20);
+        this.y = word.y;
     }
-    draw(context) {
-        if (this.type == 'EN') {
-            context.drawImage(
-                this.imageleft,
-                0,
-                0,
-                this.spriteWidth,
-                this.spriteHeight,
-                this.x,
-                this.y,
-                this.width,
-                this.height
-            );
-        }
-        else
-            context.drawImage(
-                this.imageright,
-                0,
-                0,
-                this.spriteWidth,
-                this.spriteHeight,
-                this.x,
-                this.y,
-                this.width,
-                this.height
-            );
-    }
-    updateDruggingPos() {
 
+    draw(context) {
+        context.drawImage(this.image, 0, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
+        context.fillText(this.text, this.x + this.width / 2, this.y + this.height / 2);
     }
     returnPreviousPos() {
         this.x = this.fixedX;
         this.y = this.fixedY
     }
+    convertPositionWords(word1, word2) {
+        let tempFixedX = word1.fixedX;
+        let tempFixedY = word1.fixedY;
+
+        word1.fixedX = word2.fixedX;
+        word1.fixedY = word2.fixedY;
+
+        word2.fixedX = tempFixedX;
+        word2.fixedY = tempFixedY;
+    }
     processMouseUp() {
         if (this.type == 'EN') {
-            if (this.x >= this.fixedX + this.width / 2) {
-                this.x = this.fixedX + this.width / 2;
-                this.isStickyWord.x = this.isStickyWord.fixedX - this.width / 2 + 60;
-                this.y = this.isStickyWord.fixedY;
-                this.isStickyWord.y = this.isStickyWord.fixedY;
-                let index = this.isStickyWord.index;
-                this.wordChain.EnglishWord[index].x = this.fixedX;
-                this.wordChain.EnglishWord[index].y = this.fixedY;
-                let fixedX = this.wordChain.EnglishWord[index].fixedX;
-                let fixedY = this.wordChain.EnglishWord[index].fixedY;
-                this.wordChain.EnglishWord[index].fixedX = this.fixedX;
-                this.wordChain.EnglishWord[index].fixedY = this.fixedY;
-                this.fixedX = fixedX;
-                this.fixedY = fixedY;
+            if ((this.x >= this.fixedX + this.width / 2) && this.isMatching) {
+                if (this.fixedY !== this.isMatching.fixedY) {
+                    for (let i = 0; i < this.wordChain.EnglishWord.length; i++) {
+                        let word = this.wordChain.EnglishWord[i];
+                        if (word.fixedY === this.isMatching.fixedY) {
+                            this.convertPositionWords(this, word);
+                            word.x = word.fixedX;
+                            word.y = word.fixedY;
+                            // Copying values from 'word' to 'this'
+                            this.x = this.fixedX + this.width / 2;
+                            this.y = this.fixedY;
+                            this.isMatching.x = this.isMatching.fixedX - this.width / 2.5;
+                            this.isMatching.y = this.isMatching.fixedY;
+                            break;
+                        }
+                    }
+                }
+                else {
+                    this.x = this.fixedX + this.width / 2;
+                    this.y = this.fixedY;
+                    this.isMatching.x = this.isMatching.fixedX - this.width / 2.5;
+                    this.isMatching.y = this.isMatching.fixedY;
+                }
+                console.log("UPDATING STATE")
+                // Updating state
+                this.isMatched = this.isMatching;
+                this.isMatching.isMatched = this;
+                this.isMatching = null;
             }
             else {
                 this.returnPreviousPos();
-                this.isStickyWord.returnPreviousPos();
-                this.isStickyWord = null;
+                if (this.isMatching) {
+                    this.isMatching.returnPreviousPos();
+                    this.isMatching = null;
+                }
             }
         }
         else {
-            if (this.x <= this.initialX - this.width / 2) {
-                this.x = this.initialX - this.width / 2;
-                this.isStickyWord.x = this.isStickyWord.initialX + this.width / 2 - 60;
-                this.y = this.isStickyWord.fixedY;
-                this.isStickyWord.y = this.isStickyWord.fixedY;
-                let index = this.isStickyWord.index;
-                this.wordChain.EnglishWord[index].x = this.fixedX;
-                this.wordChain.EnglishWord[index].y = this.fixedY;
-                let fixedX = this.wordChain.EnglishWord[index].fixedX;
-                let fixedY = this.wordChain.EnglishWord[index].fixedY;
-                this.wordChain.EnglishWord[index].fixedX = this.fixedX;
-                this.wordChain.EnglishWord[index].fixedY = this.fixedY;
-                this.fixedX = fixedX;
-                this.fixedY = fixedY;
+            if ((this.x <= this.fixedX - this.width / 2.5) && this.isMatching) {
+                if (this.fixedY !== this.isMatching.fixedY) {
+                    for (let i = 0; i < this.wordChain.VietNameseWord.length; i++) {
+                        let word = this.wordChain.VietNameseWord[i];
+                        if (word.fixedY === this.isMatching.fixedY) {
+                            this.convertPositionWords(this, word);
+                            word.x = word.fixedX;
+                            word.y = word.fixedY;
+                            // Copying values from 'word' to 'this'
+                            this.isMatching.x = this.isMatching.fixedX + this.width / 2;
+                            this.isMatching.y = this.isMatching.fixedY;
+                            this.x = this.fixedX - this.width / 2.5;
+                            this.y = this.fixedY;
+                            break;
+                        }
+                    }
+                }
+                else {
+                    this.isMatching.x = this.isMatching.fixedX + this.width / 2;
+                    this.isMatching.y = this.isMatching.fixedY;
+                    this.x = this.fixedX - this.width / 2.5;
+                    this.y = this.fixedY;
+                }
+
+                // Updating state
+                this.isMatched = this.isMatching;
+                this.isMatching.isMatched = this;
+                this.isMatching = null;
             }
             else {
                 this.returnPreviousPos();
-                this.isStickyWord.returnPreviousPos();
-                this.isStickyWord = null;
+                if (this.isMatching) {
+                    this.isMatching.returnPreviousPos();
+                    this.isMatching = null;
+                }
             }
         }
     }
@@ -183,8 +193,8 @@ export class BoardWordChain {
     }
     createGame() {
         for (let i = 0; i < 4; i++) {
-            this.EnglishWord.push(new Word(this, data[i]["word"], this.spriteWidthWord / 4, this.spriteHeightWord / 4 + this.spriteHeightWord * i, this.spriteWidthWord, this.spriteHeightWord, this.scaleY, 'EN', i));
-            this.VietNameseWord.push(new Word(this, data[i]["vietnamese"], this.spriteWidthBoard * this.scaleY - this.spriteWidthWord, this.spriteHeightWord / 4 + this.spriteHeightWord * i, this.spriteWidthWord, this.spriteHeightWord, this.scaleY, 'VI', i));
+            this.EnglishWord.push(new Word(this, data[i]["word"], this.spriteWidthWord * this.scaleY / 2, this.spriteHeightWord / 4 + this.spriteHeightWord * i, this.spriteWidthWord, this.spriteHeightWord, this.scaleY, 'EN', i));
+            this.VietNameseWord.push(new Word(this, data[i]["vietnamese"], this.spriteWidthBoard * this.scaleY / 2 + this.spriteWidthWord * this.scaleY / 2, this.spriteHeightWord / 4 + this.spriteHeightWord * i, this.spriteWidthWord, this.spriteHeightWord, this.scaleY, 'VI', i));
         }
     }
     update() { }
