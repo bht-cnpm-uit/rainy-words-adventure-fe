@@ -41,7 +41,7 @@ const Home = (props) => {
             const mouseY = event.clientY - rect.top; // y of item
             let cursorStyle = 'defaut';
             if (this.isMouseOverButton(mouseX , mouseY, this.start)) {
-                window.location.href = '/level';
+                window.location.href = '/login';
             }
             else if (this.isMouseOverButton(mouseX, mouseY, this.Guide)) {
                 window.location.href = '/';

@@ -1,8 +1,8 @@
 import { Player } from './player';
-import { Background, LogoGame, LoginForm } from './background';
+import { Background, SignInForm } from './background';
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { btnSignIn, btnLogin } from './button';
-const Login = (props) => {
+import { btnSignIn, btnSignInMain } from './button';
+const Signin = (props) => {
     const canvasRef = useRef();
     function resizeCanvas(canvas) {
         canvas.width = window.innerWidth;
@@ -15,22 +15,22 @@ const Login = (props) => {
             this.width = width;
             this.height = height;
             this.background = new Background(this);
-            this.logogame = new LogoGame(this);
-            this.loginForm = new LoginForm(this);
+            // this.logogame = new LogoGame(this);
+            this.SignInForm = new SignInForm(this);
             this.player = new Player(this);
             this.btnSignIn = new btnSignIn(this);
-            this.btnLogin = new btnLogin(this);
+            this.btnSignInMain = new btnSignInMain(this);
             this.canvas.addEventListener('mousemove', this.onMouseMove.bind(this));
             this.canvas.addEventListener('click', this.onClick.bind(this));
         }
 
         draw(context) {
             this.background.draw(context);
-            this.logogame.draw(context);
-            this.loginForm.draw(context);
+            // this.logogame.draw(context);
             this.player.draw(context);
+            this.SignInForm.draw(context);
             this.btnSignIn.draw(context);
-            this.btnLogin.drawLogin(context);
+            this.btnSignInMain.draw(context);
         }
         update(){
             this.gameFrame++;
@@ -42,8 +42,15 @@ const Login = (props) => {
             const mouseX = event.clientX - rect.left; // x of item
             const mouseY = event.clientY - rect.top; // y of item
             let cursorStyle = 'defaut';
-            if (this.isMouseOverButton(mouseX , mouseY, this.btnLogin)) {
-                window.location.href = '/level';
+            if (this.isMouseOverButton(mouseX , mouseY, this.btnSignInMain)) {
+                if(this.SignInForm.statusCheck){
+                    window.location.href = '/level';   
+                }
+                else {
+
+                }
+              
+
             }
             else if (this.isMouseOverButton(mouseX, mouseY, this.btnSignIn)) {
                 window.location.href = '/signin';
@@ -66,7 +73,7 @@ const Login = (props) => {
             const mouseY = event.clientY - rect.top;
             let cursorStyle = 'default';
 
-           if (this.isMouseOverButton(mouseX  , mouseY , this.btnLogin)) {
+           if (this.isMouseOverButton(mouseX  , mouseY , this.btnSignInMain)) {
                 cursorStyle = 'pointer';
             }
             else if (this.isMouseOverButton(mouseX  , mouseY , this.btnSignIn)){
@@ -95,4 +102,4 @@ const Login = (props) => {
     return <canvas ref={canvasRef} {...props} />;
 };
 
-export default Login;
+export default Signin;

@@ -70,23 +70,46 @@ export class LogoGame {
     }
 }
 
-export class LoginForm {
+const optionGrades = [
+    { value: '1', label: 'Option 1' },
+    { value: '2', label: 'Option 2' },
+    { value: '3', label: 'Option 3' },
+    { value: '4', label: 'Option 4' },
+    { value: '5', label: 'Option 5' },
+    { value: '6', label: 'Option 6' },
+    { value: '7', label: 'Option 7' },
+    { value: '8', label: 'Option 8' },
+    { value: '9', label: 'Option 9' }
+];
+
+const optionSchools = [
+    { value: 'Tiểu học Linh Trung', label: 'Option 1' },
+    { value: 'Trung học cơ sở Linh Trung', label: 'Option 2' },
+    { value: 'Tiểu học Thủ Đức', label: 'Option 3' },
+];
+
+export class SignInForm {
     constructor(game) {
         this.game = game;
-        this.spriteHeight = 542;
-        this.spriteWidth = 754;
+        this.spriteHeight = 1084;
+        this.spriteWidth = 1508;
+        this.statusCheck = false;
         this.width = this.game.width;
         this.height = this.game.height;
         this.scaleY = this.height / this.spriteHeight;
-        this.layerForm = new Layer(this.game, this.spriteWidth,this.spriteHeight,'../assets/Asset/Login/loginuserBg.png' );
-        this.inputUsername = this.createInput('text','Tài khoản: ', `${this.width*1.37 / 2.3}px` , `${this.height*0.9 / 1.5}px`, `${this.width/6}px`, '50px', 'Nhập tài khoản');
-        this.inputPassword = this.createInput('password','Mật khẩu: ', `${this.width*1.37 / 2.3}px`, `${this.height*0.9 / 1.3}px`, `${this.width/6}px`, '50px', 'Nhập mật khẩu' );
-    }
+        this.layerForm = new Layer(this.game, this.spriteWidth,this.spriteHeight,'../assets/Asset/SignInForm.png' );
+        this.inputName = this.createInput('text','Họ và tên: ', `${this.width*1.3 / 2.65}px` , `${this.height*0.33}px`, `${this.width/4}px`, `${this.height/20}px`, 'Nhập họ và tên');
+        this.inputSchoolName = this.createSelectBox('Trường: ', `${this.width*1.3 / 2.587}px`, `${this.height*0.4}px`, `${this.width/4}px`, `${this.height/20}px`, optionSchools );
+        this.selectClass = this.createSelectBox('Lớp: ', `${this.width*1.3 / 2.510}px` , `${this.height*0.47}px`, `${this.width/20}px`, `${this.height/20}px`, optionGrades);
+        this.inputDayOfBirth = this.createInput('date','Ngày sinh: ', `${this.width*1.3 / 2.66}px`, `${this.height*0.54}px`, `${this.width/10}px`, `${this.height/20}px`, 'Nhập ngày sinh' );
+        this.inputNumberPhone = this.createInput('text','SĐT: ', `${this.width*1.3 / 2.515}px` , `${this.height*0.61}px`, `${this.width/4}px`, `${this.height/20}px`, 'Nhập số điện thoại');
+        this.inputPassWord = this.createInput('password','Mật khẩu: ', `${this.width*1.3 / 2.643}px`, `${this.height*0.68}px`, `${this.width/4}px`, `${this.height/20}px`, 'Nhập mật khẩu' );
+    }   
     update() {
     }
     draw(context) {
         let widthCut = Math.ceil((this.spriteWidth * this.scaleY - this.width) / this.scaleY);
-        context.drawImage(this.layerForm.image, widthCut, 0, this.spriteWidth - widthCut, this.spriteHeight, this.layerForm.x + this.width/2.3, this.height/1.9, this.width/2.5, this.height/2.5);
+        context.drawImage(this.layerForm.image, widthCut, 0, this.spriteWidth - widthCut, this.spriteHeight, this.layerForm.x + this.width/5, this.height/4, this.width/1.5, this.height/1.5);
         context.save();
     }
 
@@ -98,6 +121,7 @@ export class LoginForm {
 
         const label = document.createElement('span'); //create span includes lable
         label.textContent = labelText;
+        label.style.paddingRight = '20px';
         container.appendChild(label);
 
         const input = document.createElement('input'); // create input
@@ -119,5 +143,56 @@ export class LoginForm {
 
     getPassword() {
         
+    }
+
+    createSelectBox(labelText,left, top, width, height, options ){
+    const container = document.createElement('div'); // create div includes option box
+    container.style.position = 'absolute';
+    container.style.left = left; 
+    container.style.top = top; 
+
+    const label = document.createElement('label'); // create label
+    label.textContent = labelText;
+    label.style.paddingRight = '20px';
+    container.appendChild(label);
+
+    const selectBox = document.createElement('select');
+    selectBox.style.width = width;
+    selectBox.style.height = height;
+    selectBox.style.borderRadius = '10px';
+    // Tạo các option
+    Array.prototype.forEach.call(options, option => {
+        const optionElement = document.createElement('option');
+        optionElement.value = option.value;
+        optionElement.textContent = option.value;
+        optionElement.style.paddingRight = '30px';
+        selectBox.appendChild(optionElement);
+    });
+
+    container.appendChild(selectBox);
+    document.body.appendChild(container);
+    return selectBox;
+    }
+
+    validateInput(input) {
+        if (input.value.trim() === '') { // check empty?
+            input.style.color = 'red'; 
+            input.placeholder = 'Vui lòng nhập thông tin !!!'; 
+        }
+        else{
+            this.statusCheck = true;
+        }
+    }
+
+    checkInput(){
+        this.inputName.addEventListener('blur', () => {
+            this.validateInput(this.inputName);
+            if(this.checkInput) return true;
+            else return false;
+        });
+        
+        // this.inputPassword.addEventListener('blur', () => {
+        //     this.validateInput(this.inputPassword);
+        // });
     }
 }

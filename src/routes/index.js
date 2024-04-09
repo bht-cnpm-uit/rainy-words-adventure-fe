@@ -6,6 +6,7 @@ import WordCollect from '../pages/Game/WordCollect';
 //import LoginForm from '../pages/Login/login';
 // import LoginForm from '../pages/Login/loginReal';
 import Login from '../pages/Login/';
+import Signin from '../pages/Signin/';
 import Result from '../pages/Game/Result';
 import WordChain from '../pages/Game/WordChain';
 // Public routes
@@ -45,6 +46,11 @@ const publicRoutes = [
         path: '/login',
         component: Login,
     },
+    {
+        path: '/signin',
+        component: Signin,
+    },
+    
 ];
 
 const privateRoutes = [];
