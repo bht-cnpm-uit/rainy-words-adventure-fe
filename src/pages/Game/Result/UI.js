@@ -2,14 +2,17 @@ const imgbuttonNext = 'src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_
 const imgBoard = 'src/assets/Asset/PanelAtlas_cuts/image_0.png'
 const imgScore = 'src/assets/Asset/PanelAtlas_cuts/image_6.png'
 const imgPlayer = 'src/assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png'
+
 class Button {
-    constructor(image, x, y, width, height, spriteWidth, spriteHeight) {
+    constructor(game, image, x, y, width, height, spriteWidth, spriteHeight) {
         this.image = new Image();
+        this.game = game;
+        this.scaleY = this.game.background.scaleY;
         this.image.src = image;
         this.x = x;
         this.y = y;
-        this.width = width;
-        this.height = height;
+        this.width = width * this.scaleY;
+        this.height = height * this.scaleY;
         this.spriteWidth = spriteWidth;
         this.spriteHeight = spriteHeight;
     }
@@ -66,17 +69,16 @@ class Text {
     }
 }
 
-export class ShowResult {
+export class BoardResult {
     constructor(game) {
         this.game = game;
-        this.width = this.game.width;
-        this.height = this.game.height;
+        this.scaleY = this.game.background.scaleY;
+        this.translateX = this.game.width * 1 / 3;
+        this.translateY = this.game.height * 1 / 3;
         this.spriteWidthBoard = 1151;
         this.spriteHeightBoard = 667;
         this.spriteWidthTeacher = 653;
         this.spriteHeightTeacher = 800;
-        this.spriteWidthPlayer = 653;
-        this.spriteHeightPlayer = 800;
         this.spriteWidthScore = 669;
         this.spriteHeightScore = 220;
         this.spriteWidthBtnNext = 437;
@@ -84,9 +86,10 @@ export class ShowResult {
 
         this.buttons = {
             next: new Button(
+                this.game,
                 imgbuttonNext,
-                this.spriteWidthBoard / 2 - this.spriteWidthBtnNext + 150,
-                this.spriteHeightBtnNext * 2.5,
+                this.spriteWidthBoard / 2 - this.spriteWidthBtnNext*this.scaleY/4,
+                this.spriteHeightBtnNext,
                 this.spriteWidthBtnNext / 2,
                 this.spriteHeightBtnNext / 2,
                 this.spriteWidthBtnNext,
@@ -106,12 +109,6 @@ export class ShowResult {
                 (this.spriteWidthBoard - this.spriteWidthScore) / 2.1, -40, this.spriteWidthScore / 2, this.spriteHeightScore / 2,
                 this.spriteWidthScore,
                 this.spriteHeightScore
-            ),
-            player: new StaticUI(
-                imgPlayer,
-                -this.spriteWidthPlayer / 2.4, this.spriteHeightPlayer / 26, this.spriteWidthPlayer / 1.5, this.spriteHeightPlayer / 1.6,
-                this.spriteWidthPlayer,
-                this.spriteHeightPlayer
             ),
             teacher: new StaticUI(
                 imgPlayer,
@@ -146,7 +143,6 @@ export class ShowResult {
     }
 
     update() {
-        // Add update logic if needed
     }
 
     draw(context) {
@@ -156,9 +152,7 @@ export class ShowResult {
         // Draw your board and score here
         this.staticUI.board.draw(context);
         this.staticUI.score.draw(context);
-        this.staticUI.player.draw(context);
         this.staticUI.teacher.draw(context);
-
         this.buttons.next.draw(context);
 
         this.text.difficulty.writeText(context, "Độ khó : x1");
@@ -169,10 +163,10 @@ export class ShowResult {
         this.text.next.writeText(context, "TIẾP THEO")
 
         context.restore();
-        context.save();
-        context.translate(this.translateX, this.translateY);
+        // context.save();
+        // context.translate(this.translateX, this.translateY);
+        // // context.restore();
+        // context.save();
         // context.restore();
-        context.save();
-        context.restore();
     }
 }
