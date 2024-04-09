@@ -23,11 +23,19 @@ const WordChain = (props) => {
             this.canvas.addEventListener('mousemove', this.onMouseMove.bind(this));
             this.canvas.addEventListener("mouseup", this.onMouseUp.bind(this));
             this.canvas.addEventListener("mouseout", this.onMouseOut.bind(this));
+            this.canvas.addEventListener('click', this.onClick.bind(this));
             this.startX = null;
             this.startY = null;
             this.currentWordDrug = null;
         }
-
+        onClick(event) {
+            const rect = this.canvas.getBoundingClientRect();
+            let mouseX = event.clientX - rect.left - this.boardWordChain.translateX;
+            let mouseY = event.clientY - rect.top - this.boardWordChain.translateY;
+            if (this.isMouseOver(mouseX, mouseY, this.boardWordChain.button)) {
+                this.boardWordChain.checkResut();
+            }
+        }
         onMouseUp(event) {
             if (this.currentWordDrug) {
                 this.currentWordDrug.processMouseUp();

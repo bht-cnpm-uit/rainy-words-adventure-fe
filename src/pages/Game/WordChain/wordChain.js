@@ -56,9 +56,6 @@ class Button {
         context.fillStyle = "brown";
         context.fillText(text, this.x + this.width / 2, this.y + this.height / 1.5);
     }
-    onClick() {
-
-    }
 }
 class Text {
     constructor(x, y, fontsize) {
@@ -76,8 +73,12 @@ class Text {
 class Word {
     constructor(wordChain, text, offsetX, offsetY, spriteWidth, spriteHeight, scaleY, type) {
         this.wordChain = wordChain;
-        this.image = new Image();
-        this.image.src = type === 'EN' ? '../assets/Asset/WordMatchingButton (1)/0.png' : '../assets/Asset/WordMatchingButton (1)/1.png';
+        this.imagePlay = new Image();
+        this.imagePlay.src = type === 'EN' ? '../assets/Asset/WordMatchingButton (1)/0.png' : '../assets/Asset/WordMatchingButton (1)/1.png';
+        this.imageCorrect = new Image();
+        this.imageCorrect.src = type === 'EN' ? '../assets/Asset/WordMatchingButton (1)/4.png' : '../assets/Asset/WordMatchingButton (1)/5.png';
+        this.imageWrong = new Image();
+        this.imageWrong.src = type === 'EN' ? '../assets/Asset/WordMatchingButton (1)/2.png' : '../assets/Asset/WordMatchingButton (1)/3.png';
         this.spriteWidth = spriteWidth;
         this.spriteHeight = spriteHeight;
         this.width = this.spriteWidth * scaleY;
@@ -91,6 +92,7 @@ class Word {
         this.isMatching = null;
         this.isMatched = null;
         this.text = text;
+        this.status = 'play';
     }
     stickyWord(word) {
         // this.x = offsetX === 0 ? this.wordChain.staticUI.board.width / 2 - this.width * 0.95 : offsetX - this.width * 0.03;
@@ -100,7 +102,15 @@ class Word {
     }
 
     draw(context) {
-        context.drawImage(this.image, 0, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
+        if (this.status === 'play') {
+            context.drawImage(this.imagePlay, 0, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
+        }
+        else if (this.status === 'wrong') {
+            context.drawImage(this.imageWrong, 0, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
+        }
+        else {
+            context.drawImage(this.imageCorrect, 0, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
+        }
         context.fillText(this.text, this.x + this.width / 2, this.y + this.height / 2);
     }
     returnPreviousPos() {
@@ -239,13 +249,36 @@ export class BoardWordChain {
         this.VietNameseWord = []
         this.spriteWidthWord = 397;
         this.spriteHeightWord = 119;
+        this.correctWords = {};
         this.createGame();
     }
     createGame() {
         for (let i = 0; i < 4; i++) {
             this.EnglishWord.push(new Word(this, data[i]["word"], 0, i, this.spriteWidthWord, this.spriteHeightWord, this.scaleY, 'EN'));
             this.VietNameseWord.push(new Word(this, data[i]["vietnamese"], this.staticUI.board.width / 2, i, this.spriteWidthWord, this.spriteHeightWord, this.scaleY, 'VI'));
+            this.correctWords[data[i]["word"]] = data[i]["vietnamese"];
         }
+    }
+    checkResut() {
+        this.EnglishWord.forEach(word => {
+            if (word.isMatched) {
+                if (this.correctWords[word.text] === word.isMatched.text) {
+                    word.status = 'correct';
+                    word.isMatched.status = 'correct';
+                }
+                else {
+                    let wordMatch = word.isMatched;
+                    wordMatch.x = wordMatch.fixedX;
+                    wordMatch.y = wordMatch.fixedY;
+                    wordMatch.status = 'wrong'
+                    word.status = 'wrong'
+                    word.isMatched.isMatched = null;
+                    word.isMatched = null;
+                    word.x = word.fixedX;
+                    word.y = word.fixedY
+                }
+            }
+        })
     }
     update() { }
     draw(context) {
