@@ -7,8 +7,8 @@ class StaticUI {
         this.y = y;
         this.spriteWidth = spriteWidth;
         this.spriteHeight = spriteHeight;
-        this.width = this.spriteWidth * scaleY;
-        this.height = this.spriteHeight * scaleY;
+        this.width = this.spriteWidth * scaleY / 1.1;
+        this.height = this.spriteHeight * scaleY / 0.85;
     }
     draw(context) {
         context.drawImage(
@@ -22,6 +22,42 @@ class StaticUI {
             this.width,
             this.height
         );
+    }
+}
+class Button {
+    constructor(wordChain, image, spriteWidth, spriteHeight, scaleY) {
+        this.wordChain = wordChain;
+        this.image = new Image();
+        this.image.src = image;
+        this.spriteWidth = spriteWidth;
+        this.spriteHeight = spriteHeight;
+        this.width = this.spriteWidth * scaleY / 1.5;
+        this.height = this.spriteHeight * scaleY / 1.5;
+        this.x = this.wordChain.staticUI.board.width / 2 - this.width / 2;
+        this.y = this.wordChain.staticUI.board.height * 6 / 7 - this.height / 2;
+    }
+
+    draw(context) {
+        context.drawImage(
+            this.image,
+            0,
+            0,
+            this.spriteWidth,
+            this.spriteHeight,
+            this.x,
+            this.y,
+            this.width,
+            this.height
+        );
+    }
+    writeText(context, text, font = "25px Arial", textAlign = 'center') {
+        context.font = font;
+        context.textAlign = "center";
+        context.fillStyle = "brown";
+        context.fillText(text, this.x + this.width / 2, this.y + this.height / 1.5);
+    }
+    onClick() {
+
     }
 }
 class Text {
@@ -38,28 +74,28 @@ class Text {
     }
 }
 class Word {
-    constructor(wordChain, text, x, y, spriteWidth, spriteHeight, scaleY, type, index) {
+    constructor(wordChain, text, offsetX, offsetY, spriteWidth, spriteHeight, scaleY, type) {
         this.wordChain = wordChain;
-        this.x = x;
-        this.y = y;
-        this.fixedX = x;
-        this.fixedY = y;
+        this.image = new Image();
+        this.image.src = type === 'EN' ? '../assets/Asset/WordMatchingButton (1)/0.png' : '../assets/Asset/WordMatchingButton (1)/1.png';
         this.spriteWidth = spriteWidth;
         this.spriteHeight = spriteHeight;
         this.width = this.spriteWidth * scaleY;
-        this.height = this.spriteHeight * scaleY;
+        this.height = this.spriteHeight * scaleY * 0.9;
+        this.x = offsetX === 0 ? this.wordChain.staticUI.board.width / 2 - this.width / 3 - this.width : offsetX + this.width / 3;
+        this.y = this.wordChain.staticUI.board.height * 1.5 / 7 + (this.wordChain.staticUI.board.height * 1 / 7) * offsetY + (this.wordChain.staticUI.board.height * 1 / 7 - this.height) / 2;
+        this.fixedX = this.x;
+        this.fixedY = this.y;
         this.isDragging = false;
         this.type = type;
         this.isMatching = null;
         this.isMatched = null;
-        this.index = index;
         this.text = text;
-        this.image = new Image();
-        this.image.src = type === 'EN' ? '../assets/Asset/WordMatchingButton (1)/0.png' : '../assets/Asset/WordMatchingButton (1)/1.png';
     }
     stickyWord(word) {
-        const offsetX = this.type === 'EN' ? -1 : 1;
-        this.x = word.x + offsetX * (this.width - 20);
+        // this.x = offsetX === 0 ? this.wordChain.staticUI.board.width / 2 - this.width * 0.95 : offsetX - this.width * 0.03;
+        const offsetX = this.type === 'EN' ? -this.width * 0.92 : this.width * 0.92;
+        this.x = word.x + offsetX;
         this.y = word.y;
     }
 
@@ -92,21 +128,20 @@ class Word {
                             word.x = word.fixedX;
                             word.y = word.fixedY;
                             // Copying values from 'word' to 'this'
-                            this.x = this.fixedX + this.width / 2;
+                            this.x = this.wordChain.staticUI.board.width / 2 - this.width * 0.95;
                             this.y = this.fixedY;
-                            this.isMatching.x = this.isMatching.fixedX - this.width / 2.5;
+                            this.isMatching.x = this.wordChain.staticUI.board.width / 2 - this.width * 0.03;;
                             this.isMatching.y = this.isMatching.fixedY;
                             break;
                         }
                     }
                 }
                 else {
-                    this.x = this.fixedX + this.width / 2;
+                    this.x = this.wordChain.staticUI.board.width / 2 - this.width * 0.95;
                     this.y = this.fixedY;
-                    this.isMatching.x = this.isMatching.fixedX - this.width / 2.5;
+                    this.isMatching.x = this.wordChain.staticUI.board.width / 2 - this.width * 0.03;;
                     this.isMatching.y = this.isMatching.fixedY;
                 }
-                console.log("UPDATING STATE")
                 // Updating state
                 this.isMatched = this.isMatching;
                 this.isMatching.isMatched = this;
@@ -130,18 +165,18 @@ class Word {
                             word.x = word.fixedX;
                             word.y = word.fixedY;
                             // Copying values from 'word' to 'this'
-                            this.isMatching.x = this.isMatching.fixedX + this.width / 2;
+                            this.isMatching.x = this.wordChain.staticUI.board.width / 2 - this.width * 0.95;
                             this.isMatching.y = this.isMatching.fixedY;
-                            this.x = this.fixedX - this.width / 2.5;
+                            this.x = this.wordChain.staticUI.board.width / 2 - this.width * 0.03;;
                             this.y = this.fixedY;
                             break;
                         }
                     }
                 }
                 else {
-                    this.isMatching.x = this.isMatching.fixedX + this.width / 2;
+                    this.isMatching.x = this.wordChain.staticUI.board.width / 2 - this.width * 0.95;
                     this.isMatching.y = this.isMatching.fixedY;
-                    this.x = this.fixedX - this.width / 2.5;
+                    this.x = this.wordChain.staticUI.board.width / 2 - this.width * 0.03;;
                     this.y = this.fixedY;
                 }
 
@@ -161,6 +196,12 @@ class Word {
     }
 }
 export class BoardWordChain {
+    /*
+    chia thành 7 phần => 
+    title (1.5/7)
+    button (1.5/7)
+    4 từ nối (4/7)
+    */
     constructor(game) {
         this.game = game;
         this.scaleY = this.game.background.scaleY;
@@ -176,12 +217,21 @@ export class BoardWordChain {
                 this.scaleY
             )
         }
-        this.translateX = (this.game.width - this.staticUI.board.width) / 2;
+        this.translateX = (this.game.width - this.staticUI.board.width) * 3 / 4;
         this.translateY = (this.game.height - this.staticUI.board.height) / 2;
+        this.button = new Button(this,
+            '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
+            437, 129,
+            this.scaleY)
         this.text = {
             textQuestion: new Text(
                 this.staticUI.board.width / 2,
                 80,
+                20
+            ),
+            textButton: new Text(
+                this.button.x + this.button.width / 2,
+                this.button.y + this.button.height / 1.8,
                 20
             )
         }
@@ -193,8 +243,8 @@ export class BoardWordChain {
     }
     createGame() {
         for (let i = 0; i < 4; i++) {
-            this.EnglishWord.push(new Word(this, data[i]["word"], this.spriteWidthWord * this.scaleY / 2, this.spriteHeightWord / 4 + this.spriteHeightWord * i, this.spriteWidthWord, this.spriteHeightWord, this.scaleY, 'EN', i));
-            this.VietNameseWord.push(new Word(this, data[i]["vietnamese"], this.spriteWidthBoard * this.scaleY / 2 + this.spriteWidthWord * this.scaleY / 2, this.spriteHeightWord / 4 + this.spriteHeightWord * i, this.spriteWidthWord, this.spriteHeightWord, this.scaleY, 'VI', i));
+            this.EnglishWord.push(new Word(this, data[i]["word"], 0, i, this.spriteWidthWord, this.spriteHeightWord, this.scaleY, 'EN'));
+            this.VietNameseWord.push(new Word(this, data[i]["vietnamese"], this.staticUI.board.width / 2, i, this.spriteWidthWord, this.spriteHeightWord, this.scaleY, 'VI'));
         }
     }
     update() { }
@@ -202,7 +252,9 @@ export class BoardWordChain {
         context.save();
         context.translate(this.translateX, this.translateY);
         this.staticUI.board.draw(context);
+        this.button.draw(context)
         this.text.textQuestion.writeText(context, "Hãy nối các từ dưới đây sao cho phù hợp với nghĩa");
+        this.text.textButton.writeText(context, "Kiểm tra");
         this.VietNameseWord.forEach(word => word.draw(context));
         this.EnglishWord.forEach(word => word.draw(context));
         context.restore();
