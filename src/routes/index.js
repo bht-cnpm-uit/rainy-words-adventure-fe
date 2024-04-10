@@ -9,6 +9,7 @@ import Login from '../pages/Login/';
 import Signin from '../pages/Signin/';
 import Result from '../pages/Game/Result';
 import WordChain from '../pages/Game/WordChain';
+import Admin from '../pages/Admin'
 // Public routes
 const publicRoutes = [
     {
@@ -50,9 +51,18 @@ const publicRoutes = [
         path: '/signin',
         component: Signin,
     },
-    
+    {
+        path: '/admin',
+        component: Admin,
+    }
+  
 ];
 
-const privateRoutes = [];
+const privateRoutes = [
+    {
+        // path: '/admin',
+        // component: Admin,
+    }
+];
 
 export { publicRoutes, privateRoutes };

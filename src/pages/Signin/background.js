@@ -98,12 +98,12 @@ export class SignInForm {
         this.height = this.game.height;
         this.scaleY = this.height / this.spriteHeight;
         this.layerForm = new Layer(this.game, this.spriteWidth,this.spriteHeight,'../assets/Asset/SignInForm.png' );
-        this.inputName = this.createInput('text','Họ và tên: ', `${this.width*1.3 / 2.65}px` , `${this.height*0.33}px`, `${this.width/4}px`, `${this.height/20}px`, 'Nhập họ và tên');
-        this.inputSchoolName = this.createSelectBox('Trường: ', `${this.width*1.3 / 2.587}px`, `${this.height*0.4}px`, `${this.width/4}px`, `${this.height/20}px`, optionSchools );
-        this.selectClass = this.createSelectBox('Lớp: ', `${this.width*1.3 / 2.510}px` , `${this.height*0.47}px`, `${this.width/20}px`, `${this.height/20}px`, optionGrades);
-        this.inputDayOfBirth = this.createInput('date','Ngày sinh: ', `${this.width*1.3 / 2.66}px`, `${this.height*0.54}px`, `${this.width/10}px`, `${this.height/20}px`, 'Nhập ngày sinh' );
-        this.inputNumberPhone = this.createInput('text','SĐT: ', `${this.width*1.3 / 2.515}px` , `${this.height*0.61}px`, `${this.width/4}px`, `${this.height/20}px`, 'Nhập số điện thoại');
-        this.inputPassWord = this.createInput('password','Mật khẩu: ', `${this.width*1.3 / 2.643}px`, `${this.height*0.68}px`, `${this.width/4}px`, `${this.height/20}px`, 'Nhập mật khẩu' );
+        this.inputName = this.createInput('text','Họ và tên: ', `${this.width*0.4905}px` , `${this.height*0.33}px`, `${this.width/4}px`, `${this.height/20}px`, 'Nhập họ và tên');
+        this.inputSchoolName = this.createSelectBox('Trường: ', `${this.width*0.502}px`, `${this.height*0.4}px`, `${this.width/4}px`, `${this.height/20}px`, optionSchools );
+        this.selectClass = this.createSelectBox('Lớp: ', `${this.width*0.517}px` , `${this.height*0.47}px`, `${this.width/20}px`, `${this.height/20}px`, optionGrades);
+        this.inputDayOfBirth = this.createInput('date','Ngày sinh: ', `${this.width*0.488}px`, `${this.height*0.54}px`, `${this.width/10}px`, `${this.height/20}px`, 'Nhập ngày sinh' );
+        this.inputNumberPhone = this.createInput('text','SĐT: ', `${this.width*0.516}px` , `${this.height*0.61}px`, `${this.width/4}px`, `${this.height/20}px`, 'Nhập số điện thoại');
+        this.inputPassWord = this.createInput('password','Mật khẩu: ', `${this.width*0.492}px`, `${this.height*0.68}px`, `${this.width/4}px`, `${this.height/20}px`, 'Nhập mật khẩu' );
     }   
     update() {
     }
