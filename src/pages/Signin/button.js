@@ -4,17 +4,22 @@ class Button {
         this.width = this.game.width;
         this.height = this.game.height;
     }
-    update() {
-
-    }
+    update() {}
     draw(context) {
-        context.drawImage(this.image, 0, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.spriteWidth / 3, this.spriteHeight / 3);
+        context.drawImage(
+            this.image,
+            0,
+            0,
+            this.spriteWidth,
+            this.spriteHeight,
+            this.x,
+            this.y,
+            this.spriteWidth / 3,
+            this.spriteHeight / 3,
+        );
     }
-    onClick(context) {
-
-    }
+    onClick(context) {}
 }
-
 
 export class btnSignIn extends Button {
     constructor(game) {
@@ -30,10 +35,14 @@ export class btnSignIn extends Button {
     }
     draw(context) {
         super.draw(context);
-        context.font = "25px Comic Sans MS";
-        context.fillStyle = "brown";
-        context.textAlign = "center";
-        context.fillText("Đăng ký", -this.x * 2.5 + this.spriteWidth/1.03, this.y + this.spriteHeight/3.5)
+        context.font = '25px Comic Sans MS';
+        context.fillStyle = 'brown';
+        context.textAlign = 'center';
+        context.fillText(
+            'Đăng ký',
+            -this.x * 2.5 + this.spriteWidth / 1.03,
+            this.y + this.spriteHeight / 3.5,
+        );
     }
 }
 
@@ -44,17 +53,19 @@ export class btnSignInMain extends Button {
         this.image.src = '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png';
         this.spriteWidth = 437;
         this.spriteHeight = 129;
-        this.x = this.game.width/1.65;
+        this.x = this.game.width / 1.65;
         this.y = this.height / 1.27;
     }
     draw(context) {
         super.draw(context);
-        context.font = "bold 20px Arial";
-        context.fillStyle = "brown";
-        context.fontWeight = "bolder";
-        context.textAlign = "center";
-        context.fillText("ĐĂNG KÝ", this.x + this.spriteWidth/5.9, this.y + this.spriteHeight/4.1)
+        context.font = 'bold 20px Arial';
+        context.fillStyle = 'brown';
+        context.fontWeight = 'bolder';
+        context.textAlign = 'center';
+        context.fillText(
+            'ĐĂNG KÝ',
+            this.x + this.spriteWidth / 5.9,
+            this.y + this.spriteHeight / 4.1,
+        );
     }
 }
-
-
