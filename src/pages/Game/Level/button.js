@@ -1,6 +1,7 @@
 class Button {
     constructor(game) {
         this.game = game;
+        this.scaleY = this.game.background.scaleY
     }
     update() {
 
@@ -17,15 +18,15 @@ class ButtonSliceMap extends Button {
         super(game);
         this.spriteWidth = 60;
         this.spriteHeight = 71;
-        this.width = this.spriteWidth;
-        this.height = this.spriteHeight;
+        this.width = this.spriteWidth * this.scaleY * 2;
+        this.height = this.spriteHeight * this.scaleY * 2;
         this.hidden = false;
     }
     update() {
     }
     draw(context) {
         if (!this.hidden) {
-            context.drawImage(this.image, this.x, this.y, this.spriteWidth, this.spriteHeight);
+            context.drawImage(this.image, this.x, this.y, this.width, this.height);
         }
     }
     onclick(context) {
@@ -60,15 +61,17 @@ export class Guide extends Button {
         this.image.src = '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_24.png';
         this.spriteWidth = 433;
         this.spriteHeight = 279;
-        this.x = 30;
-        this.y = -10;
+        this.width = this.spriteWidth * this.scaleY;
+        this.height = this.spriteHeight * this.scaleY;
+        this.x = this.width * 0.25;
+        this.y = -this.height * 0.25;
     }
     draw(context) {
-        super.draw(context);
+        context.drawImage(this.image, 0, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
         context.font = "30px Arial";
         context.fillStyle = "brown";
         context.textAlign = "center";
-        context.fillText("Hướng dẫn", -this.x * 3.4 + this.spriteWidth / 2, this.y + this.spriteHeight / 2.5 - 20)
+        context.fillText("Hướng dẫn", this.x + this.width / 2, this.y + this.height * 3.5 / 4)
     }
 }
 
@@ -79,11 +82,13 @@ export class Library extends Button {
         this.image.src = '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_17.png';
         this.spriteWidth = 139;
         this.spriteHeight = 138;
+        this.width = this.spriteWidth * this.scaleY;
+        this.height = this.spriteHeight * this.scaleY;
         this.x = this.game.width - this.spriteWidth * 2;
         this.y = this.spriteHeight / 5;
     }
     draw(context) {
-        super.draw(context);
+        context.drawImage(this.image, 0, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
     }
 }
 
@@ -94,11 +99,13 @@ export class Achievement extends Button {
         this.image.src = '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_20.png';
         this.spriteWidth = 139;
         this.spriteHeight = 138;
+        this.width = this.spriteWidth * this.scaleY;
+        this.height = this.spriteHeight * this.scaleY;
         this.x = this.game.width - this.spriteWidth * 1.5;
         this.y = this.spriteHeight / 5;
     }
     draw(context) {
-        super.draw(context);
+        context.drawImage(this.image, 0, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
     }
 }
 
@@ -109,13 +116,14 @@ export class Account extends Button {
         this.image.src = '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_10.png';
         this.spriteWidth = 139;
         this.spriteHeight = 138;
+        this.width = this.spriteWidth * this.scaleY;
+        this.height = this.spriteHeight * this.scaleY;
         this.x = this.game.width - this.spriteWidth;
         this.y = this.spriteHeight / 5;
     }
     draw(context) {
-        // super.draw(context);
         if (this.image.complete)
-            context.drawImage(this.image, 0, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.spriteWidth / 1.5, this.spriteHeight / 1.5);
+            context.drawImage(this.image, 0, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
 
     }
 }

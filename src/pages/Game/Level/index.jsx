@@ -4,6 +4,7 @@ import { Levels } from './level';
 import { Player } from './player';
 import { BtnBackMap, BtnNextMap, Guide, Library, Achievement, Account } from './button';
 import { LevelSetting } from './UI';
+import { Component } from 'react';
 const Level = props => {
     const canvasRef = useRef();
     function resizeCanvas(canvas) {
@@ -30,7 +31,10 @@ const Level = props => {
             this.canvas.addEventListener('mousemove', this.onMouseMove.bind(this));
             this.canvas.addEventListener('click', this.onClick.bind(this));
             this.gameFrame = 0;
+            this.slide = false;
+            this.deltaTime = null;
         }
+
         onMouseMove(event) {
             const rect = this.canvas.getBoundingClientRect();
             let mouseX = event.clientX - rect.left;
@@ -64,7 +68,6 @@ const Level = props => {
                     }
                 }
             }
-            // Check if the mouse is over the next map button
             // Apply the cursor style
             this.canvas.style.cursor = cursorStyle;
         }
@@ -87,15 +90,13 @@ const Level = props => {
             }
             // Check if the mouse is over the next map button
             else if (this.levelSetting.hidden) {
-                if (this.isMouseOverButton(mouseX, mouseY, this.btnNextMap)) {
-                    this.background.onclick(1);
-                    this.levels.onclickNextMap(-1);
+                if (this.isMouseOverButton(mouseX, mouseY, this.btnNextMap) && !this.slide) {
+                    this.animateSlide(1);
                     return;
                 }
                 // Check if the mouse is over the back map button
-                else if (this.isMouseOverButton(mouseX, mouseY, this.btnBackMap)) {
-                    this.background.onclick(-1);
-                    this.levels.onclickNextMap(1);
+                else if (this.isMouseOverButton(mouseX, mouseY, this.btnBackMap) && !this.slide) {
+                    this.animateSlide(-1);
                     return;
                 }
                 else {
@@ -119,6 +120,25 @@ const Level = props => {
                 }
             }
         }
+        animateSlide(direct) {
+            this.slide = true;
+            this.background.onclick(direct);
+            this.levels.onclickNextMap(-direct);
+            const self = this;
+            let animateHandle;
+            function animate() {
+                if (self.slide) {
+                    self.background.updateSlide();
+                    self.levels.updateSlide();
+                    animateHandle = requestAnimationFrame(animate);
+                }
+                else {
+                    cancelAnimationFrame(animateHandle);
+                    return;
+                }
+            }
+            animate();
+        }
 
         // Function to check if the mouse is over a level
         isMouseOverLevel(mouseX, mouseY, level) {
@@ -140,10 +160,8 @@ const Level = props => {
             );
         }
         update(deltaTime) {
+            this.deltaTime = deltaTime;
             this.gameFrame++;
-            this.background.update(deltaTime);
-            this.levels.update(deltaTime);
-            this.player.update(deltaTime);
         }
         draw(context) {
             this.background.draw(context);
@@ -156,12 +174,6 @@ const Level = props => {
             this.btnAchievement.draw(context);
             this.btnAccount.draw(context);
             this.levelSetting.draw(context);
-            // for (const level of this.levels.levels) {
-            //     if (level.state === 'Current') {
-            //         this.player.draw(context, level.position);
-            //         break;
-            //     }
-            // }
         }
     }
     useEffect(() => {
@@ -169,6 +181,7 @@ const Level = props => {
         resizeCanvas(canvas);
         const context = canvas.getContext('2d');
         const mainScreen = new MainScreen(canvas, context, canvas.width, canvas.height);
+        mainScreen.levels.updatePositionLevel();
         function animate(timeStamp) {
             context.clearRect(0, 0, canvas.width, canvas.height);
             const deltaTime = timeStamp - lastTime || 0;
@@ -189,7 +202,6 @@ const Level = props => {
     return (
         <canvas ref={canvasRef} {...props} />
     );
-
 }
 
 export default Level;

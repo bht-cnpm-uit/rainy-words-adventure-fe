@@ -17,7 +17,7 @@ export const LEVEL =
                 "y": 580
             },
             "state": "Unblock",
-            "difficulty_level": 1,
+            "difficulty_level": 0,
             "max_difficulty_level": 3
         },
         {
@@ -27,7 +27,7 @@ export const LEVEL =
                 "y": 505
             },
             "state": "Unblock",
-            "difficulty_level": 1,
+            "difficulty_level": 0,
             "max_difficulty_level": 3
         },
         {
@@ -37,7 +37,7 @@ export const LEVEL =
                 "y": 280
             },
             "state": "Block",
-            "difficulty_level": 1,
+            "difficulty_level": 0,
             "max_difficulty_level": 3
         },
         {
@@ -47,7 +47,7 @@ export const LEVEL =
                 "y": 320
             },
             "state": "Block",
-            "difficulty_level": 1,
+            "difficulty_level": 0,
             "max_difficulty_level": 3
         },
         {
@@ -57,7 +57,7 @@ export const LEVEL =
                 "y": 420
             },
             "state": "Block",
-            "difficulty_level": 1,
+            "difficulty_level": 0,
             "max_difficulty_level": 3
         },
         {
@@ -67,7 +67,7 @@ export const LEVEL =
                 "y": 600
             },
             "state": "Block",
-            "difficulty_level": 1,
+            "difficulty_level": 0,
             "max_difficulty_level": 3
         },
         {
@@ -77,7 +77,7 @@ export const LEVEL =
                 "y": 890
             },
             "state": "Block",
-            "difficulty_level": 1,
+            "difficulty_level": 0,
             "max_difficulty_level": 3
         },
         {
@@ -87,7 +87,7 @@ export const LEVEL =
                 "y": 1120
             },
             "state": "Block",
-            "difficulty_level": 1,
+            "difficulty_level": 0,
             "max_difficulty_level": 3
         },
         {
@@ -97,7 +97,7 @@ export const LEVEL =
                 "y": 365
             },
             "state": "Block",
-            "difficulty_level": 1,
+            "difficulty_level": 0,
             "max_difficulty_level": 3
         },
         {
@@ -107,7 +107,7 @@ export const LEVEL =
                 "y": 1095
             },
             "state": "Block",
-            "difficulty_level": 1,
+            "difficulty_level": 0,
             "max_difficulty_level": 3
         },
         {
@@ -117,7 +117,7 @@ export const LEVEL =
                 "y": 950
             },
             "state": "Block",
-            "difficulty_level": 1,
+            "difficulty_level": 0,
             "max_difficulty_level": 3
         },
         {
@@ -127,7 +127,7 @@ export const LEVEL =
                 "y": 600
             },
             "state": "Block",
-            "difficulty_level": 1,
+            "difficulty_level": 0,
             "max_difficulty_level": 3
         },
         {
@@ -137,7 +137,7 @@ export const LEVEL =
                 "y": 550
             },
             "state": "Block",
-            "difficulty_level": 1,
+            "difficulty_level": 0,
             "max_difficulty_level": 3
         },
         {
@@ -147,7 +147,7 @@ export const LEVEL =
                 "y": 630
             },
             "state": "Block",
-            "difficulty_level": 1,
+            "difficulty_level": 0,
             "max_difficulty_level": 3
         },
         {
@@ -157,7 +157,7 @@ export const LEVEL =
                 "y": 480
             },
             "state": "Block",
-            "difficulty_level": 1,
+            "difficulty_level": 0,
             "max_difficulty_level": 3
         },
         {
@@ -167,7 +167,7 @@ export const LEVEL =
                 "y": 400
             },
             "state": "Block",
-            "difficulty_level": 1,
+            "difficulty_level": 0,
             "max_difficulty_level": 3
         },
         {
@@ -177,7 +177,7 @@ export const LEVEL =
                 "y": 900
             },
             "state": "Block",
-            "difficulty_level": 1,
+            "difficulty_level": 0,
             "max_difficulty_level": 3
         },
         {
@@ -187,7 +187,7 @@ export const LEVEL =
                 "y": 470
             },
             "state": "Block",
-            "difficulty_level": 1,
+            "difficulty_level": 0,
             "max_difficulty_level": 3
         },
         {
@@ -197,13 +197,10 @@ export const LEVEL =
                 "y": 430
             },
             "state": "Block",
-            "difficulty_level": 1,
+            "difficulty_level": 0,
             "max_difficulty_level": 3
         }
     ]
-
-
-
 
 export class Levels {
     constructor(game) {
@@ -213,44 +210,65 @@ export class Levels {
         this.levelsNext = []
         this.spriteWidth = 259;
         this.spriteHeight = 259;
-        this.width = this.spriteWidth / 2;
-        this.height = this.spriteHeight / 2;
+        this.spriteWidthStar = 325;
+        this.spriteHeightStar = 172;
+        this.widthStar = this.spriteWidthStar * this.scaleY / 2;
+        this.heightStar = this.spriteHeightStar * this.scaleY / 2;
+        this.width = this.spriteWidth * this.scaleY;
+        this.height = this.spriteHeight * this.scaleY;
         this.image = new Image();
         this.image.src = '../assets/Asset/btn_level.png';
+        this.imageStar0 = new Image();
+        this.imageStar0.src = '../assets/Asset/Stars/0.png'
+        this.imageStar1 = new Image();
+        this.imageStar1.src = '../assets/Asset/Stars/1.png'
+        this.imageStar2 = new Image();
+        this.imageStar2.src = '../assets/Asset/Stars/2.png'
+        this.imageStar3 = new Image();
+        this.imageStar3.src = '../assets/Asset/Stars/3.png'
         this.xVirtual = 0;
-        this.updatePositionLevel();
+        // this.updatePositionLevel();
         this.frameX = 0;
         this.frameY = 0;
-    }
-    update(deltaTime) {
-        for (let i = 0; i < this.levelsNext.length; i++) {
-            if (this.levels[i].position.x + deltaTime < this.levelsNext[i].position.x) {
-                this.levels[i].position.x += deltaTime;
-            } else if (this.levels[i].position.x - deltaTime > this.levelsNext[i].position.x) {
-                this.levels[i].position.x -= deltaTime;
-            }
-            else {
-                this.levels[i].position.x = this.levelsNext[i].position.x
-            }
-        }
+        this.maxWidthSlice = this.game.width / 2;
+        this.isUnblocking = false;
+        this.frame = 0;
     }
 
     draw(context) {
         context.save()
         this.levels.forEach(level => {
-            if (level.state === 'Unblock') {
-                if (this.image.complete)
-                    context.drawImage(this.image, 0 * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, level.position.x, level.position.y, this.spriteWidth * this.scaleY, this.spriteHeight * this.scaleY);
+            if (level.state === 'Unblocking') {
+                if (this.frame % 8 == 0) {
+                    context.drawImage(this.image, this.frameX * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, level.position.x + Math.random() * 5, level.position.y + Math.random() * 3, this.width, this.height);
+                }
+                else {
+                    context.drawImage(this.image, this.frameX * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, level.position.x, level.position.y, this.width, this.height);
+                }
+            }
+            else if (level.state === 'Unblock') {
+                context.drawImage(this.image, 0 * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, level.position.x, level.position.y, this.width, this.height);
+                if (level.difficulty_level == 0) {
+                    context.drawImage(this.imageStar0, level.position.x + (this.width - this.widthStar) / 2, level.position.y - this.heightStar / 6, this.widthStar, this.heightStar);
+                }
+                else if (level.difficulty_level == 1) {
+                    context.drawImage(this.imageStar1, level.position.x + (this.width - this.widthStar) / 2, level.position.y - this.heightStar / 6, this.widthStar, this.heightStar);
+                }
+                else if (level.difficulty_level == 2) {
+                    context.drawImage(this.imageStar2, level.position.x + (this.width - this.widthStar) / 2, level.position.y - this.heightStar / 6, this.widthStar, this.heightStar);
+                }
+                else if (level.difficulty_level == 3) {
+                    context.drawImage(this.imageStar3, level.position.x + (this.width - this.widthStar) / 2, level.position.y - this.heightStar / 6, this.widthStar, this.heightStar);
+                }
             }
             else {
-                if (this.image.complete)
-                    context.drawImage(this.image, 4 * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, level.position.x, level.position.y, this.spriteWidth * this.scaleY, this.spriteHeight * this.scaleY);
+                context.drawImage(this.image, 1 * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, level.position.x, level.position.y, this.width, this.height);
             }
         });
     }
     drawAnimateUnBlockLevel(context, frameX, level) {
         context.save();
-        context.drawImage(this.image, frameX * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, level.position.x, level.position.y, this.spriteWidth / 2, this.spriteHeight / 2);
+        context.drawImage(this.image, frameX * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, level.position.x, level.position.y, this.width, this.height);
     }
 
     updatePositionLevel() {
@@ -262,15 +280,31 @@ export class Levels {
             lv.position.y = lv.position.y * this.scaleY;
             this.levels.push(lv); // Push the updated level data into levels array
             if (lv.level == this.game.player.currentPostionLevel) {
-                this.game.player.updatePosition(lv)
+                this.game.player.initialPositionPlayer(lv)
             }
         }
+        this.game.player.levels = JSON.parse(JSON.stringify(this.levels))
         this.levelsNext = JSON.parse(JSON.stringify(this.levels));
+    }
+    updateSlide() {
+        for (let i = 0; i < this.levelsNext.length; i++) {
+            if (this.levels[i].position.x + this.game.deltaTime < this.levelsNext[i].position.x) {
+                this.levels[i].position.x += this.game.deltaTime;
+            } else if (this.levels[i].position.x - this.game.deltaTime > this.levelsNext[i].position.x) {
+                this.levels[i].position.x -= this.game.deltaTime;
+            }
+            else {
+                this.levels[i].position.x = this.levelsNext[i].position.x
+            }
+            if (this.levels[i].level == this.game.player.currentPostionLevel) {
+                this.game.player.position = JSON.parse(JSON.stringify(this.levels[i].position));
+            }
+        }
     }
     onclickNextMap(direct) {
         let first = this.levelsNext[0];
         let last = this.levelsNext[this.levelsNext.length - 1];
-        let step = 800;
+        let step = this.maxWidthSlice;
 
         if (direct == 1 && this.xVirtual + direct * step > 0) {
             step = 0 - this.xVirtual;
@@ -278,11 +312,10 @@ export class Levels {
         if (direct == -1 && this.xVirtual + direct * step <= -(this.game.background.widthScaleBg - this.game.width)) {
             step = this.game.background.widthScaleBg + this.xVirtual - this.game.width;
         }
-        console.log(step)
-        if (step < 800 && direct == -1) {
+        if (step < this.maxWidthSlice && direct == -1) {
             this.game.btnNextMap.hidden = true;
         }
-        else if ((step < 800 && direct == 1) || (direct == 1 && step == 800 && this.xVirtual == -800)) {
+        else if ((step < this.maxWidthSlice && direct == 1) || (direct == 1 && step == this.maxWidthSlice && this.xVirtual == -this.maxWidthSlice)) {
             this.game.btnBackMap.hidden = true;
         }
         else {
@@ -292,19 +325,45 @@ export class Levels {
 
         this.levelsNext.forEach(levelItem => {
             levelItem.position.x += direct * step;
-            if (levelItem.level == this.game.player.currentPostionLevel) {
-                this.game.player.positionNext += direct * step;
-            }
         });
         this.xVirtual += direct * step;
     }
     updateStateLevel(lv) {
         this.levels.forEach(level => {
             if (level.level == lv.level) {
-                level.state = "Unblock"
+                level.state = "Unblocking"
+                this.animateUnblockLevel(level);
                 return;
             }
         })
+    }
+    // Animate to unblock level
+    animateUnblockLevel(lv) {
+        const self = this;
+        let animationHandle;
+        self.frameX = 1;
+        self.frame = 1;
+        function animate() {
+            if (self.frameX < 4) {
+                self.frame++;
+                if (self.frameX == 1) {
+                    if (self.frame % 50 == 0)
+                        self.frameX = 2;
+                }
+                else if (self.frameX > 1) {
+                    if (self.frame % 30 == 0) {
+                        self.frameX++;
+                    }
+                }
+                animationHandle = requestAnimationFrame(animate);
+            }
+            else {
+                lv.state = 'Unblock'
+                cancelAnimationFrame(animationHandle);
+                return;
+            }
+        }
+        animate();
     }
 
 }

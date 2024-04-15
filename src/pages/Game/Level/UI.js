@@ -1,11 +1,11 @@
 class Button {
-    constructor(image, x, y, width, height, spriteWidth, spriteHeight) {
+    constructor(image, x, y, width, height, spriteWidth, spriteHeight, scaleY) {
         this.image = new Image();
         this.image.src = image;
         this.x = x;
         this.y = y;
-        this.width = width;
-        this.height = height;
+        this.width = width * scaleY;
+        this.height = height * scaleY;
         this.spriteWidth = spriteWidth;
         this.spriteHeight = spriteHeight;
     }
@@ -25,13 +25,13 @@ class Button {
     }
 }
 class StaticUI {
-    constructor(image, x, y, width, height, spriteWidth, spriteHeight) {
+    constructor(image, x, y, width, height, spriteWidth, spriteHeight, scaleY) {
         this.image = new Image();
         this.image.src = image;
         this.x = x;
         this.y = y;
-        this.width = width;
-        this.height = height;
+        this.width = width * scaleY;
+        this.height = height * scaleY;
         this.spriteWidth = spriteWidth;
         this.spriteHeight = spriteHeight;
     }
@@ -68,6 +68,7 @@ export class LevelSetting {
         this.game = game;
         this.width = this.game.width;
         this.height = this.game.height;
+        this.scaleY = this.game.background.scaleY;
         this.spriteWidthBoard = 693;
         this.spriteHeightBoard = 843;
         this.spriteWidthBtnClose = 139;
@@ -87,76 +88,87 @@ export class LevelSetting {
         this.buttons = {
             close: new Button(
                 '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_19.png',
-                this.spriteWidthBoard / 2 - this.spriteWidthBtnClose / 3,
-                - this.spriteHeightBtnClose / 6,
-                this.spriteWidthBtnClose / 2,
-                this.spriteHeightBtnClose / 2,
+                this.spriteWidthBoard * this.scaleY - this.spriteWidthBtnClose * this.scaleY * 2 / 3,
+                - this.spriteHeightBtnClose * this.scaleY / 6,
                 this.spriteWidthBtnClose,
-                this.spriteHeightBtnClose
+                this.spriteHeightBtnClose,
+                this.spriteWidthBtnClose,
+                this.spriteHeightBtnClose,
+                this.scaleY
             ),
             increase: new Button(
                 '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_7.png',
-                this.spriteWidthBoard * 1 / 3 + this.spriteWidthBtnNext / 6,
-                this.spriteHeightBoard / 4 + this.spriteHeightBtnNext / 6,
-                this.spriteWidthBtnNext / 3,
-                this.spriteHeightBtnNext / 3,
+                this.spriteWidthBoard * this.scaleY / 2 + this.spriteWidthBtnNext * this.scaleY * 0.8 * 1.5,
+                this.spriteHeightBoard * this.scaleY / 2 + this.spriteHeightBtnNext * 0.8 * this.scaleY / 4,
+                this.spriteWidthBtnNext * 0.8,
+                this.spriteHeightBtnNext * 0.8,
                 this.spriteWidthBtnNext,
-                this.spriteHeightBtnNext
+                this.spriteHeightBtnNext,
+                this.scaleY
             ),
             decrease: new Button(
                 '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_8.png',
-                this.spriteWidthBoard * 1 / 3 - this.spriteWidthBtnNext / 2,
-                this.spriteHeightBoard / 4 + this.spriteHeightBtnNext / 6,
-                this.spriteWidthBtnNext / 3,
-                this.spriteHeightBtnNext / 3,
+                this.spriteWidthBoard * this.scaleY / 2,
+                this.spriteHeightBoard * this.scaleY / 2 + this.spriteHeightBtnNext * 0.8 * this.scaleY / 4,
+                this.spriteWidthBtnNext * 0.8,
+                this.spriteHeightBtnNext * 0.8,
                 this.spriteWidthBtnNext,
-                this.spriteHeightBtnNext
+                this.spriteHeightBtnNext,
+                this.scaleY
             ),
             play: new Button(
                 '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
-                this.spriteWidthBoard / 4 - this.spriteWidthPlay / 6,
-                this.spriteHeightBoard / 2 - this.spriteHeightPlay / 1.5,
-                this.spriteWidthPlay / 3,
-                this.spriteHeightPlay / 3,
+                this.spriteWidthBoard * this.scaleY / 2 - this.spriteWidthPlay * this.scaleY / 3,
+                this.spriteHeightBoard * this.scaleY - this.spriteHeightPlay * this.scaleY * 1.1,
+                this.spriteWidthPlay * 2 / 3,
+                this.spriteHeightPlay * 0.9,
                 this.spriteWidthPlay,
-                this.spriteHeightPlay
-            )
+                this.spriteHeightPlay,
+                this.scaleY
+            ),
         };
         this.staticUI = {
             board: new StaticUI(
                 '../assets/Asset/PanelAtlas_cuts/image_3.png',
-                0, 0, this.spriteWidthBoard / 2, this.spriteHeightBoard / 2,
+                0, 0,
+                this.spriteWidthBoard, this.spriteHeightBoard,
                 this.spriteWidthBoard,
-                this.spriteHeightBoard
+                this.spriteHeightBoard,
+                this.scaleY
             ),
             score: new StaticUI(
                 '../assets/Asset/PanelAtlas_cuts/image_6.png',
-                (this.spriteWidthBoard - this.spriteWidthScore) / 4, this.spriteHeightScore / 5, this.spriteWidthScore / 2, this.spriteHeightScore / 2,
+                (this.spriteWidthBoard * this.scaleY - this.spriteWidthScore * this.scaleY) / 4, this.spriteHeightScore * this.scaleY / 4,
+                this.spriteWidthScore, this.spriteHeightScore,
                 this.spriteWidthScore,
-                this.spriteHeightScore
+                this.spriteHeightScore,
+                this.scaleY
             ),
             player: new StaticUI(
                 '../assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png',
-                -this.spriteWidthPlayer / 8, this.spriteHeightPlayer / 6, this.spriteWidthPlayer / 4, this.spriteHeightPlayer / 4,
+                -this.spriteWidthPlayer * this.scaleY / 4, this.spriteHeightPlayer * this.scaleY / 4,
+                this.spriteWidthPlayer / 1.6, this.spriteHeightPlayer / 1.6,
                 this.spriteWidthPlayer,
-                this.spriteHeightPlayer
+                this.spriteHeightPlayer,
+                this.scaleY
             ),
         }
         this.text = {
             scoreText: new Text(
-                this.spriteWidthBoard / 4, this.spriteHeightScore / 3
+                (this.spriteWidthBoard * this.scaleY - this.spriteWidthScore * this.scaleY) / 4 + this.staticUI.score.width / 2, this.spriteHeightScore * this.scaleY / 4 + this.staticUI.score.height * 1 / 4,
             ),
             playText: new Text(
-                this.spriteWidthBoard / 4, this.spriteHeightBoard / 2 - this.spriteHeightPlay / 2.25
+                this.spriteWidthBoard * this.scaleY / 2,
+                this.spriteHeightBoard * this.scaleY - this.spriteHeightPlay * this.scaleY * 1.1 + this.spriteHeightPlay * this.scaleY / 2,
             ),
             levelText: new Text(
-                this.spriteWidthBoard / 4, this.spriteHeightScore / 1.4
+                (this.spriteWidthBoard * this.scaleY - this.spriteWidthScore * this.scaleY) / 4 + this.staticUI.score.width / 2, this.spriteHeightScore * this.scaleY / 4 + this.staticUI.score.height * 1.1,
             ),
             diffLevel: new Text(
-                this.spriteWidthBoard * 2 / 6, this.spriteHeightBoard / 3.8
+                this.spriteWidthBoard * this.scaleY * 3 / 4 - this.spriteWidthBtnNext * this.scaleY / 5, this.spriteHeightBoard * this.scaleY / 2
             ),
             numDiffLevel: new Text(
-                this.spriteWidthBoard / 3, this.spriteHeightBoard / 4 + this.spriteHeightBtnNext / 2.5
+                this.spriteWidthBoard * this.scaleY * 3 / 4 - this.spriteWidthBtnNext * 0.8 * this.scaleY / 3, this.spriteHeightBoard * this.scaleY / 2 + this.spriteHeightBtnNext * 0.8 * this.scaleY / 4 + this.spriteHeightBtnNext * 0.8 * this.scaleY / 1.3,
             )
 
         }
@@ -213,18 +225,5 @@ export class LevelSetting {
         }
     }
 
-    // animateUnblockLevel(lv, context) {
-    //     this.frameCount++;
-    //     if (this.frameCount % 100 == 0) {
-    //         this.game.levels.drawAnimateUnBlockLevel(context, this.frameX, lv);
-    //         // this.frameX++;
-    //     } else if (this.frameCount > 2000) {
-    //         this.frameCount = 0;
-    //         window.cancelAnimationFrame(this.animationId);
-    //     }
-    //     this.animationId = window.requestAnimationFrame(() => this.animateUnblockLevel(lv, context));
-    //     return;
-    //     // context.clearRect(0, 0, canvas.width, canvas.height);
-    // }
 
 }

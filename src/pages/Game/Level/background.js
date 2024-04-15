@@ -16,18 +16,30 @@ export class Background {
         this.widthCut = (this.spriteWidth * this.scaleY - this.width) / this.scaleY;
     }
 
-    update(deltaTime) {
-        if (this.xImageCut + deltaTime / this.scaleY < this.xImage) {
-            this.xImageCut += deltaTime / this.scaleY;
+    // update(deltaTime) {
+    //     if (this.xImageCut + deltaTime / this.scaleY < this.xImage) {
+    //         this.xImageCut += deltaTime / this.scaleY;
+    //     }
+    //     else if (this.xImageCut - deltaTime / this.scaleY > this.xImage) {
+    //         this.xImageCut -= deltaTime / this.scaleY;
+    //     }
+    //     else {
+    //         this.xImageCut = this.xImage
+    //         this.game.slide = false;
+    //     }
+    // }
+    updateSlide() {
+        if (this.xImageCut + this.game.deltaTime / this.scaleY < this.xImage) {
+            this.xImageCut += this.game.deltaTime / this.scaleY;
         }
-        else if (this.xImageCut - deltaTime / this.scaleY > this.xImage) {
-            this.xImageCut -= deltaTime / this.scaleY;
+        else if (this.xImageCut - this.game.deltaTime / this.scaleY > this.xImage) {
+            this.xImageCut -= this.game.deltaTime / this.scaleY;
         }
         else {
             this.xImageCut = this.xImage
+            this.game.slide = false;
         }
     }
-
     draw(context) {
         context.save();
         let widthCut = (this.spriteWidth * this.scaleY - this.width) / this.scaleY;
@@ -47,7 +59,7 @@ export class Background {
     }
 
     onclick(direct) {
-        this.xImage += 800 * direct / this.scaleY;
+        this.xImage += this.game.levels.maxWidthSlice * direct / this.scaleY;
         if (this.xImage - this.widthCut > 0) {
             this.xImage = this.widthCut
         }
