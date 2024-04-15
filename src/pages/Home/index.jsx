@@ -30,7 +30,7 @@ const Home = (props) => {
             this.Guide.draw(context);
             this.start.draw(context);
         }
-        update(){
+        update() {
             this.gameFrame++;
             this.background.update(this.gameFrame);
         }
@@ -40,10 +40,9 @@ const Home = (props) => {
             const mouseX = event.clientX - rect.left; // x of item
             const mouseY = event.clientY - rect.top; // y of item
             let cursorStyle = 'defaut';
-            if (this.isMouseOverButton(mouseX , mouseY, this.start)) {
+            if (this.isMouseOverButton(mouseX, mouseY, this.start)) {
                 window.location.href = '/login';
-            }
-            else if (this.isMouseOverButton(mouseX, mouseY, this.Guide)) {
+            } else if (this.isMouseOverButton(mouseX, mouseY, this.Guide)) {
                 window.location.href = '/';
             }
             this.canvas.style.cursor = cursorStyle;
@@ -52,9 +51,9 @@ const Home = (props) => {
         isMouseOverButton(mouseX, mouseY, button) {
             return (
                 mouseX >= button.x &&
-                mouseX <= button.x + button.spriteWidth/2 &&
+                mouseX <= button.x + button.spriteWidth / 2 &&
                 mouseY >= button.y &&
-                mouseY <= button.y + button.spriteHeight/2
+                mouseY <= button.y + button.spriteHeight / 2
             );
         }
 
@@ -64,17 +63,14 @@ const Home = (props) => {
             const mouseY = event.clientY - rect.top;
             let cursorStyle = 'default';
 
-           if (this.isMouseOverButton(mouseX  , mouseY , this.start)) {
+            if (this.isMouseOverButton(mouseX, mouseY, this.start)) {
                 cursorStyle = 'pointer';
-            }
-            else if (this.isMouseOverButton(mouseX  , mouseY , this.Guide)){
+            } else if (this.isMouseOverButton(mouseX, mouseY, this.Guide)) {
                 cursorStyle = 'pointer';
-
             }
 
             this.canvas.style.cursor = cursorStyle;
         }
-
     }
 
     useEffect(() => {

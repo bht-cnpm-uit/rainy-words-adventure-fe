@@ -15,24 +15,23 @@ const Signin = (props) => {
             this.width = width;
             this.height = height;
             this.background = new Background(this);
-            // this.logogame = new LogoGame(this);
             this.SignInForm = new SignInForm(this);
             this.player = new Player(this);
             this.btnSignIn = new btnSignIn(this);
             this.btnSignInMain = new btnSignInMain(this);
             this.canvas.addEventListener('mousemove', this.onMouseMove.bind(this));
             this.canvas.addEventListener('click', this.onClick.bind(this));
+            this.SignInForm.checkInput();
         }
 
         draw(context) {
             this.background.draw(context);
-            // this.logogame.draw(context);
             this.player.draw(context);
             this.SignInForm.draw(context);
             this.btnSignIn.draw(context);
             this.btnSignInMain.draw(context);
         }
-        update(){
+        update() {
             this.gameFrame++;
             this.background.update(this.gameFrame);
         }
@@ -42,17 +41,16 @@ const Signin = (props) => {
             const mouseX = event.clientX - rect.left; // x of item
             const mouseY = event.clientY - rect.top; // y of item
             let cursorStyle = 'defaut';
-            if (this.isMouseOverButton(mouseX , mouseY, this.btnSignInMain)) {
-                if(this.SignInForm.statusCheck){
-                    window.location.href = '/level';   
+            if (this.isMouseOverButton(mouseX, mouseY, this.btnSignInMain)) {
+                if (
+                    this.SignInForm.validateInput(this.SignInForm.inputName) &&
+                    this.SignInForm.validateInput(this.SignInForm.inputPassWord) &&
+                    this.SignInForm.validateInput(this.SignInForm.inputDayOfBirth) &&
+                    this.SignInForm.validateInput(this.SignInForm.inputNumberPhone)
+                ) {
+                    window.location.href = '/level';
                 }
-                else {
-
-                }
-              
-
-            }
-            else if (this.isMouseOverButton(mouseX, mouseY, this.btnSignIn)) {
+            } else if (this.isMouseOverButton(mouseX, mouseY, this.btnSignIn)) {
                 window.location.href = '/signin';
             }
             this.canvas.style.cursor = cursorStyle;
@@ -61,9 +59,9 @@ const Signin = (props) => {
         isMouseOverButton(mouseX, mouseY, button) {
             return (
                 mouseX >= button.x &&
-                mouseX <= button.x + button.spriteWidth/3 &&
+                mouseX <= button.x + button.spriteWidth / 3 &&
                 mouseY >= button.y &&
-                mouseY <= button.y + button.spriteHeight/3
+                mouseY <= button.y + button.spriteHeight / 3
             );
         }
 
@@ -73,17 +71,14 @@ const Signin = (props) => {
             const mouseY = event.clientY - rect.top;
             let cursorStyle = 'default';
 
-           if (this.isMouseOverButton(mouseX  , mouseY , this.btnSignInMain)) {
+            if (this.isMouseOverButton(mouseX, mouseY, this.btnSignInMain)) {
                 cursorStyle = 'pointer';
-            }
-            else if (this.isMouseOverButton(mouseX  , mouseY , this.btnSignIn)){
+            } else if (this.isMouseOverButton(mouseX, mouseY, this.btnSignIn)) {
                 cursorStyle = 'pointer';
-
             }
 
             this.canvas.style.cursor = cursorStyle;
         }
-
     }
 
     useEffect(() => {
