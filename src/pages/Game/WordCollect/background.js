@@ -30,19 +30,33 @@ export class Background {
         this.layerImage2 = new Layer(this.game, this.spriteWidth, this.spriteHeight, '../assets/Asset/Map1/StableBG_game.png');
         this.speedModifier = 0.5;
         this.speed = this.speedModifier;
-    }
-    update() {
-        let gameSpeed = 5;
-        this.speed = gameSpeed * this.speedModifier;
-        if (this.layerImage1.x <= -this.width) {
-            this.layerImage1.x = 0;
-        }
-        this.layerImage1.x = this.layerImage1.x - this.speed;
+        this.animateBg();
     }
     draw(context) {
         let widthCut = Math.ceil((this.spriteWidth * this.scaleY - this.width) / this.scaleY);
         context.drawImage(this.layerImage1.image, 0, 0, this.spriteWidth, this.spriteHeight, this.layerImage1.x, 0, this.width, this.height);
         context.drawImage(this.layerImage1.image, 0, 0, this.spriteWidth, this.spriteHeight, this.layerImage1.x + this.width, 0, this.width, this.height);
         context.drawImage(this.layerImage2.image, 0, 0, this.spriteWidth - widthCut, this.spriteHeight, this.layerImage2.x, 0, this.width, this.height);
+    }
+    animateBg() {
+        let animateHandle;
+        let self = this;
+        function animate() {
+            if (self.game.gameState != 2) {
+                if (self.game.gameState) {
+                    let gameSpeed = 5;
+                    self.speed = gameSpeed * self.speedModifier;
+                    if (self.layerImage1.x <= -self.width) {
+                        self.layerImage1.x = 0;
+                    }
+                    self.layerImage1.x = self.layerImage1.x - self.speed;
+                }
+                animateHandle = requestAnimationFrame(animate);
+            } else {
+                cancelAnimationFrame(animateHandle)
+                return;
+            }
+        }
+        animate();
     }
 }

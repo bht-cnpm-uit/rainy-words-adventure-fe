@@ -102,7 +102,12 @@ class Word {
     }
 
     draw(context) {
-        if (this.status === 'play') {
+        if (this.wordChain.isChecking) {
+            let dx = Math.random() * 2;
+            let dy = Math.random() * 2;
+            context.drawImage(this.imagePlay, 0, 0, this.spriteWidth, this.spriteHeight, this.x + dx, this.y + dy, this.width, this.height);
+        }
+        else if (this.status === 'play') {
             context.drawImage(this.imagePlay, 0, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
         }
         else if (this.status === 'wrong') {
@@ -227,6 +232,7 @@ export class BoardWordChain {
                 this.scaleY
             )
         }
+        this.isChecking = false;
         this.translateX = (this.game.width - this.staticUI.board.width) * 3 / 4;
         this.translateY = (this.game.height - this.staticUI.board.height) / 2;
         this.button = new Button(this,
@@ -260,25 +266,44 @@ export class BoardWordChain {
         }
     }
     checkResut() {
-        this.EnglishWord.forEach(word => {
-            if (word.isMatched) {
-                if (this.correctWords[word.text] === word.isMatched.text) {
-                    word.status = 'correct';
-                    word.isMatched.status = 'correct';
-                }
-                else {
-                    let wordMatch = word.isMatched;
-                    wordMatch.x = wordMatch.fixedX;
-                    wordMatch.y = wordMatch.fixedY;
-                    wordMatch.status = 'wrong'
-                    word.status = 'wrong'
-                    word.isMatched.isMatched = null;
-                    word.isMatched = null;
-                    word.x = word.fixedX;
-                    word.y = word.fixedY
-                }
+        this.animateCheck();
+    }
+    animateCheck() {
+        const self = this;
+        let animationHandle;
+        let frame = 0;
+        self.isChecking = true;
+        function animate() {
+            if (frame < 100) {
+                frame++;
+                animationHandle = requestAnimationFrame(animate);
             }
-        })
+            else {
+                self.EnglishWord.forEach(word => {
+                    if (word.isMatched) {
+                        if (self.correctWords[word.text] === word.isMatched.text) {
+                            word.status = 'correct';
+                            word.isMatched.status = 'correct';
+                        }
+                        else {
+                            let wordMatch = word.isMatched;
+                            wordMatch.x = wordMatch.fixedX;
+                            wordMatch.y = wordMatch.fixedY;
+                            wordMatch.status = 'wrong'
+                            word.status = 'wrong'
+                            word.isMatched.isMatched = null;
+                            word.isMatched = null;
+                            word.x = word.fixedX;
+                            word.y = word.fixedY
+                        }
+                    }
+                })
+                self.isChecking = false;
+                cancelAnimationFrame(animationHandle);
+                return; // Stop the animation loop
+            }
+        }
+        animate();
     }
     update() { }
     draw(context) {

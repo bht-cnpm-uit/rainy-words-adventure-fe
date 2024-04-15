@@ -17,6 +17,10 @@ const WordCollect = props => {
             this.width = width;
             this.height = height;
             this.gameFrame = 0;
+            this.deltaTime = null;
+            this.gameState = 1;
+            this.wordTimer = 0;
+            this.wordInterval = 2000;
             this.background = new Background(this);
             this.Score = new Score(this);
             this.btnGameState = new BtnGameState(this);
@@ -24,9 +28,6 @@ const WordCollect = props => {
             this.player = new Player(this);
             this.boardStopGame = new BoardStopGame(this);
             this.wordFall = new WordFall(this);
-            this.wordTimer = 0;
-            this.wordInterval = 2000;
-            this.gameState = 1;
             this.canvas.addEventListener('mousemove', this.onMouseMove.bind(this));
             this.canvas.addEventListener('click', this.onClick.bind(this));
         }
@@ -81,10 +82,10 @@ const WordCollect = props => {
             );
         }
         update(deltaTime) {
+            this.deltaTime = deltaTime;
             if (this.gameState) {
                 this.gameFrame++;
-                this.background.update(this.gameFrame);
-                this.wordFall.update(deltaTime);
+                this.wordFall.update();
                 this.player.update(deltaTime, this.wordFall.words);
                 if (this.wordTimer > this.wordInterval) {
                     this.wordFall.addNewItem();

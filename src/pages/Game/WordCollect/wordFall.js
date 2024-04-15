@@ -2,6 +2,7 @@ import { data } from "./fakeData";
 class Item {
     constructor(game, image) {
         this.game = game
+        this.context = this.game.ctx;
         this.spriteWidth = 304;
         this.spriteHeight = 304;
         this.scaleY = this.game.background.scaleY;
@@ -18,16 +19,17 @@ class Item {
         this.angle = (Math.random() * 20 - 10) * Math.PI / 180;
         this.markedForDeletion = false;
         this.wordIndex = Math.floor(Math.random() * 40);
+        this.animateFall();
     }
-    draw(context) {
+    draw() {
         const wordData = data[this.wordIndex];
         const word = wordData["word"];
         const vietnamese = wordData["vietnamese"];
 
-        context.save();
-        context.translate(this.x, this.y);
-        context.rotate(this.angle);
-        context.drawImage(
+        this.context.save();
+        this.context.translate(this.x, this.y);
+        this.context.rotate(this.angle);
+        this.context.drawImage(
             this.image,
             this.frameX * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight,
             -this.width / 3,
@@ -37,19 +39,19 @@ class Item {
         );
 
         // Set font size and style for both texts
-        context.font = 'bold 20px Arial';
-        context.textAlign = 'center';
+        this.context.font = 'bold 20px Arial';
+        this.context.textAlign = 'center';
 
         // Draw English text
-        context.fillText(word, this.width / 8, -this.height / 10);
+        this.context.fillText(word, this.width / 8, -this.height / 10);
 
         // Adjust font size for Vietnamese text
-        context.font = '15px Arial';
+        this.context.font = '15px Arial';
 
         // Draw Vietnamese text
-        context.fillText(vietnamese, this.width / 8, -this.height / 30);
+        this.context.fillText(vietnamese, this.width / 8, -this.height / 30);
 
-        context.restore();
+        this.context.restore();
     }
 
     update(deltaTime) {
@@ -61,6 +63,28 @@ class Item {
         this.y += this.vy * deltaTime;
         if (this.y > this.game.height) this.markedForDeletion = true;
     }
+    animateFall() {
+        let animateHandle;
+        let self = this;
+        function animate() {
+            if (self.y < self.game.height) {
+                if (self.game.gameState) {
+                    if (self.angle + self.spinSpeed * self.game.deltaTime > self.maxAngleSpin || self.angle + self.spinSpeed * self.game.deltaTime < -self.maxAngleSpin) {
+                        self.spinSpeed = -self.spinSpeed;
+                    } else {
+                        self.angle += self.spinSpeed * self.game.deltaTime;
+                    }
+                    self.y += self.vy * self.game.deltaTime;
+                }
+                animateHandle = requestAnimationFrame(animate);
+            } else {
+                self.markedForDeletion = true;
+                cancelAnimationFrame(animateHandle)
+                return;
+            }
+        }
+        animate();
+    }
 }
 
 export class WordFall {
@@ -70,9 +94,8 @@ export class WordFall {
         this.image = new Image();
         this.image.src = "../assets/Asset/GameObject/GameObject(5x12Atlas).png";
     }
-    update(deltaTime) {
+    update() {
         this.words = this.words.filter(word => !word.markedForDeletion);
-        this.words.forEach(word => word.update(deltaTime));
     }
     draw(context) {
         this.words.forEach(word => word.draw(context));

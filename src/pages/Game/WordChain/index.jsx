@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Background } from "../WordCollect/background";
 import { BoardWordChain } from "./wordChain";
+import { TeacherCat } from "./player_teacher";
 
 const WordChain = (props) => {
     const canvasRef = useRef();
@@ -18,7 +19,7 @@ const WordChain = (props) => {
             this.width = canvas.width;
             this.height = canvas.height;
             this.background = new Background(this);
-            this.boardWordChain = new BoardWordChain(this);
+            this.scaleY = this.background.scaleY;
             this.canvas.addEventListener("mousedown", this.onMouseDown.bind(this));
             this.canvas.addEventListener('mousemove', this.onMouseMove.bind(this));
             this.canvas.addEventListener("mouseup", this.onMouseUp.bind(this));
@@ -27,6 +28,9 @@ const WordChain = (props) => {
             this.startX = null;
             this.startY = null;
             this.currentWordDrug = null;
+            this.gameState = 1;
+            this.boardWordChain = new BoardWordChain(this);
+            this.teacherCat = new TeacherCat(this);
         }
         onClick(event) {
             const rect = this.canvas.getBoundingClientRect();
@@ -77,6 +81,17 @@ const WordChain = (props) => {
             const rect = this.canvas.getBoundingClientRect();
             let mouseX = event.clientX - rect.left - this.boardWordChain.translateX;
             let mouseY = event.clientY - rect.top - this.boardWordChain.translateY;
+            let cursorStyle = 'default';
+            const englishWords = this.boardWordChain.EnglishWord;
+            const vietnameseWords = this.boardWordChain.VietNameseWord;
+
+            for (let i = 0; i < englishWords.length; i++) {
+                if (this.isMouseOver(mouseX, mouseY, englishWords[i]) || this.isMouseOver(mouseX, mouseY, vietnameseWords[i])) {
+                    cursorStyle = 'pointer';
+                    break;
+                }
+            }
+            this.canvas.style.cursor = cursorStyle;
             if (this.currentWordDrug) {
                 let dx = mouseX - this.startX;
                 let dy = mouseY - this.startY;
@@ -143,13 +158,13 @@ const WordChain = (props) => {
         }
 
         update(deltaTime) {
-            this.background.update();
             this.boardWordChain.update();
         }
 
         draw(context) {
             this.background.draw(context);
             this.boardWordChain.draw(context);
+            this.teacherCat.draw(context);
         }
     }
 
