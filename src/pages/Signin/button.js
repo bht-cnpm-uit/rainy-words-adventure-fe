@@ -39,7 +39,7 @@ export class btnSignIn extends Button {
         context.fillStyle = 'brown';
         context.textAlign = 'center';
         context.fillText(
-            'Đăng ký',
+            'Đăng nhập',
             -this.x * 2.5 + this.spriteWidth / 1.03,
             this.y + this.spriteHeight / 3.5,
         );

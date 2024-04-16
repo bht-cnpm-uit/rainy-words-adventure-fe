@@ -1,7 +1,7 @@
 import { Player } from './player';
-import { Background, LogoGame } from './background';
+import { Background, LogoGame, LogoDoan, LogoDoi, LogoTruong, LogoBan, LogoDoan2} from './background';
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { Guide, start } from './button';
+import { start } from './button';
 const Home = (props) => {
     const canvasRef = useRef();
     function resizeCanvas(canvas) {
@@ -16,8 +16,13 @@ const Home = (props) => {
             this.height = height;
             this.background = new Background(this);
             this.logogame = new LogoGame(this);
+            this.logoDoan = new LogoDoan(this);
+            this.logoDoi = new LogoDoi(this);
+            this.logoTruong = new LogoTruong(this);
+            this.logoBan = new LogoBan(this);
+            this.logoDoan2 = new LogoDoan2(this);
             this.player = new Player(this);
-            this.Guide = new Guide(this);
+            // this.Guide = new Guide(this);
             this.start = new start(this);
             this.canvas.addEventListener('mousemove', this.onMouseMove.bind(this));
             this.canvas.addEventListener('click', this.onClick.bind(this));
@@ -25,9 +30,15 @@ const Home = (props) => {
 
         draw(context) {
             this.background.draw(context);
+            this.background.drawtext(context);
             this.logogame.draw(context);
+            this.logoDoan.draw(context);
+            this.logoDoi.draw(context);
+            this.logoTruong.draw(context);
+            this.logoBan.draw(context);
+            this.logoDoan2.draw(context);
             this.player.draw(context);
-            this.Guide.draw(context);
+            // this.Guide.draw(context);
             this.start.draw(context);
         }
         update() {
@@ -42,9 +53,10 @@ const Home = (props) => {
             let cursorStyle = 'defaut';
             if (this.isMouseOverButton(mouseX, mouseY, this.start)) {
                 window.location.href = '/login';
-            } else if (this.isMouseOverButton(mouseX, mouseY, this.Guide)) {
-                window.location.href = '/';
-            }
+            } 
+            // else if (this.isMouseOverButton(mouseX, mouseY, this.Guide)) {
+            //     window.location.href = '/';
+            // }
             this.canvas.style.cursor = cursorStyle;
         }
 
@@ -65,9 +77,10 @@ const Home = (props) => {
 
             if (this.isMouseOverButton(mouseX, mouseY, this.start)) {
                 cursorStyle = 'pointer';
-            } else if (this.isMouseOverButton(mouseX, mouseY, this.Guide)) {
-                cursorStyle = 'pointer';
-            }
+            } 
+            // else if (this.isMouseOverButton(mouseX, mouseY, this.Guide)) {
+            //     cursorStyle = 'pointer';
+            // }
 
             this.canvas.style.cursor = cursorStyle;
         }

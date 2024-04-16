@@ -8,7 +8,7 @@ export class Player {
         this.height = this.spriteHeight * this.scaleY;
         this.position = {
             x: 100,
-            y: this.game.height - this.height * 1,
+            y: this.game.height - this.height*1.2,
         };
         this.image = new Image();
         this.image.src = '../assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png';
@@ -27,8 +27,8 @@ export class Player {
             this.spriteHeight,
             -this.width / 2,
             -this.height / 2,
-            this.width,
-            this.height,
+            this.width*1.3,
+            this.height*1.3,
         );
         if (this.gameFrame % (this.staggerFrames * 3) == 0) {
             if (this.frameX < 4) this.frameX += 1;

@@ -18,7 +18,7 @@ export class Player {
         this.gameFrame = 0;
     }
     draw(ctx) {
-        ctx.translate(this.position.x + this.width / 2, this.position.y + this.height / 3);
+        ctx.translate(this.position.x + this.width / 1.7, this.position.y + this.height / 10);
         ctx.drawImage(
             this.image,
             this.frameX * this.spriteWidth,
@@ -27,8 +27,8 @@ export class Player {
             this.spriteHeight,
             -this.width / 2,
             -this.height / 2,
-            this.width,
-            this.height,
+            this.width*1.2,
+            this.height*1.2,
         );
         if (this.gameFrame % (this.staggerFrames * 3) == 0) {
             if (this.frameX < 4) this.frameX += 1;

@@ -22,6 +22,7 @@ const Login = (props) => {
             this.btnLogin = new btnLogin(this);
             this.canvas.addEventListener('mousemove', this.onMouseMove.bind(this));
             this.canvas.addEventListener('click', this.onClick.bind(this));
+            this.loginForm.checkInput();
         }
 
         draw(context) {
@@ -42,8 +43,14 @@ const Login = (props) => {
             const mouseX = event.clientX - rect.left; // x of item
             const mouseY = event.clientY - rect.top; // y of item
             let cursorStyle = 'defaut';
-            if (this.isMouseOverButton(mouseX , mouseY, this.btnLogin)) {
-                window.location.href = '/level';
+            if (this.isMouseOverButton(mouseX, mouseY, this.btnLogin)) {
+                if (
+                    this.loginForm.validateInput(this.loginForm.inputUsername) &&
+                    this.loginForm.validateInput(this.loginForm.inputPassword)
+                    
+                ) {
+                    window.location.href = '/level';
+                }
             }
             else if (this.isMouseOverButton(mouseX, mouseY, this.btnSignIn)) {
                 window.location.href = '/signin';
