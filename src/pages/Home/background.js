@@ -25,6 +25,14 @@ export class Background {
     constructor(game) {
         this.game = game;
         this.spriteHeight = 1080;
+        this.text1 = "THÀNH PHỐ THỦ ĐỨC";
+        this.text2 = `TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN`;
+        this.textColor = "black";
+        this.textSize = this.game.width / 90;
+        this.textX1 = this.game.width /1.9;
+        this.textX2 = this.game.width /1.33;
+        this.textY1 = this.game.height / 5;
+        this.textY2 = this.game.height / 5;
         this.spriteWidth = 2920;
         this.width = this.game.width;
         this.height = this.game.height;
@@ -90,6 +98,14 @@ export class Background {
         );
         context.save();
     }
+
+    drawtext(context){
+        context.fillStyle = `${this.textColor}`;
+        context.font = `bold ${this.textSize}px Arial`;
+        context.fillText(this.text1, this.textX1, this.textY1);
+        context.fillText(this.text2, this.textX2, this.textY2);
+    
+    }
 }
 
 export class LogoGame {
@@ -116,11 +132,175 @@ export class LogoGame {
             0,
             this.spriteWidth - widthCut,
             this.spriteHeight,
-            this.layerLogo.x + this.width / 3.5,
+            this.layerLogo.x + this.width / 2.5,
+            this.layerLogo.y + this.height / 4,
+            this.width / 2,
+            this.height / 2,
+        );
+    }
+}
+
+export class LogoDoan {
+    constructor(game) {
+        this.game = game;
+        this.spriteWidth = 1113;
+        this.spriteHeight = 1288;
+        this.width = this.game.width;
+        this.height = this.game.height;
+        this.scaleY = this.height / this.spriteHeight;
+        this.layerLogo = new Layer(
+            this.game,
+            this.spriteWidth,
+            this.spriteHeight,
+            '/assets/Asset/Logo/LogoDoan.png',
+        );
+    }
+    update() {}
+    draw(context) {
+        let widthCut = Math.ceil((this.spriteWidth * this.scaleY - this.width) / this.scaleY);
+        context.drawImage(
+            this.layerLogo.image,
+            widthCut,
             0,
-            this.width / 1.5,
-            this.height / 1.5,
+            this.spriteWidth - widthCut,
+            this.spriteHeight,
+            this.layerLogo.x + this.width / 2.5,
+            this.layerLogo.y + this.height / 35,
+            this.width / 8,
+            this.height / 8
         );
         context.save();
     }
 }
+
+export class LogoDoan2 {
+    constructor(game) {
+        this.game = game;
+        this.spriteWidth = 1113;
+        this.spriteHeight = 1288;
+        this.width = this.game.width;
+        this.height = this.game.height;
+        this.scaleY = this.height / this.spriteHeight;
+        this.layerLogo = new Layer(
+            this.game,
+            this.spriteWidth,
+            this.spriteHeight,
+            '/assets/Asset/Logo/LogoDoan.png',
+        );
+    }
+    update() {}
+    draw(context) {
+        let widthCut = Math.ceil((this.spriteWidth * this.scaleY - this.width) / this.scaleY);
+        context.drawImage(
+            this.layerLogo.image,
+            widthCut,
+            0,
+            this.spriteWidth - widthCut,
+            this.spriteHeight,
+            this.layerLogo.x + this.width / 1.7,
+            this.layerLogo.y + this.height / 35,
+            this.width / 8,
+            this.height / 8,
+        );
+    }
+}
+
+export class LogoDoi {
+    constructor(game) {
+        this.game = game;
+        this.spriteWidth = 661;
+        this.spriteHeight = 665;
+        this.width = this.game.width;
+        this.height = this.game.height;
+        this.scaleY = this.height / this.spriteHeight;
+        this.layerLogo = new Layer(
+            this.game,
+            this.spriteWidth,
+            this.spriteHeight,
+            '/assets/Asset/Logo/LogoDoi.png',
+        );
+    }
+    update() {}
+    draw(context) {
+        let widthCut = Math.ceil((this.spriteWidth * this.scaleY - this.width) / this.scaleY);
+        context.drawImage(
+            this.layerLogo.image,
+            widthCut,
+            0,
+            this.spriteWidth - widthCut,
+            this.spriteHeight,
+            this.layerLogo.x + this.width / 2.1,
+            this.layerLogo.y + this.height / 25,
+            this.width / 9,
+            this.height / 9,
+        );
+        context.save();
+    }
+}
+
+export class LogoTruong {
+    constructor(game) {
+        this.game = game;
+        this.spriteWidth = 313;
+        this.spriteHeight = 259;
+        this.width = this.game.width;
+        this.height = this.game.height;
+        this.scaleY = this.height / this.spriteHeight;
+        this.layerLogo = new Layer(
+            this.game,
+            this.spriteWidth,
+            this.spriteHeight,
+            '/assets/Asset/Logo/LogoTruong.png',
+        );
+    }
+    update() {}
+    draw(context) {
+        let widthCut = Math.ceil((this.spriteWidth * this.scaleY - this.width) / this.scaleY);
+        context.drawImage(
+            this.layerLogo.image,
+            widthCut,
+            0,
+            this.spriteWidth - widthCut,
+            this.spriteHeight,
+            this.layerLogo.x + this.width / 1.47,
+            this.layerLogo.y + this.height / 20,
+            this.width / 10,
+            this.height / 10,
+        );
+        context.save();
+    }
+}
+
+export class LogoBan {
+    constructor(game) {
+        this.game = game;
+        this.spriteWidth = 2146;
+        this.spriteHeight = 2146;
+        this.width = this.game.width;
+        this.height = this.game.height;
+        this.scaleY = this.height / this.spriteHeight;
+        this.layerLogo = new Layer(
+            this.game,
+            this.spriteWidth,
+            this.spriteHeight,
+            '/assets/Asset/Logo/LogoBan.png',
+        );
+    }
+    update() {}
+    draw(context) {
+        let widthCut = Math.ceil((this.spriteWidth * this.scaleY - this.width) / this.scaleY);
+        context.drawImage(
+            this.layerLogo.image,
+            widthCut,
+            0,
+            this.spriteWidth - widthCut,
+            this.spriteHeight,
+            this.layerLogo.x + this.width / 1.37,
+            this.layerLogo.y + this.height / 25,
+            this.width / 9,
+            this.height / 9,
+        );
+        context.save();
+    }
+}
+

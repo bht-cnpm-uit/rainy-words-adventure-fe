@@ -51,7 +51,7 @@ const Signin = (props) => {
                     window.location.href = '/level';
                 }
             } else if (this.isMouseOverButton(mouseX, mouseY, this.btnSignIn)) {
-                window.location.href = '/signin';
+                window.location.href = '/login';
             }
             this.canvas.style.cursor = cursorStyle;
         }

@@ -65,7 +65,7 @@ export class LogoGame {
     }
     draw(context) {
         let widthCut = Math.ceil((this.spriteWidth * this.scaleY - this.width) / this.scaleY);
-        context.drawImage(this.layerLogo.image, widthCut, 0, this.spriteWidth - widthCut, this.spriteHeight, this.layerLogo.x + this.width/2, 100, this.width/3, this.height/3);
+        context.drawImage(this.layerLogo.image, widthCut, 0, this.spriteWidth - widthCut, this.spriteHeight, this.layerLogo.x + this.width/2.2, 50, this.width/2.5, this.height/2.5);
         context.save();
     }
 }
@@ -119,5 +119,27 @@ export class LoginForm {
 
     getPassword() {
         
+    }
+    validateInput(input) {
+        if (input.value.trim() === '') {
+            // check empty?
+            input.style.border = '2px solid red';
+            input.placeholder = 'Vui lòng nhập thông tin !!!';
+            return false;
+        } else {
+            input.style.border = ''; // remove border
+            // this.statusCheck = true;
+            return true;
+        }
+    }
+
+    checkInput() {
+        this.inputUsername.addEventListener('blur', () => {
+            this.validateInput(this.inputUsername);
+        });
+
+        this.inputPassword.addEventListener('blur', () => {
+            this.validateInput(this.inputPassword);
+        });
     }
 }
