@@ -1,190 +1,152 @@
 export const data = [
     {
-        word: "hello",
-        vietnamese: "xin chào"
+        "word": "School",
+        "vietnamese": "trường học",
+        "level": 20
     },
     {
-        word: "apple",
-        vietnamese: "quả táo"
+        "word": "Teacher",
+        "vietnamese": "giáo viên",
+        "level": 20
     },
     {
-        word: "banana",
-        vietnamese: "chuối"
+        "word": "Student",
+        "vietnamese": "học sinh",
+        "level": 20
     },
     {
-        word: "house",
-        vietnamese: "nhà"
+        "word": "Classroom",
+        "vietnamese": "lớp học",
+        "level": 20
     },
     {
-        word: "cat",
-        vietnamese: "mèo"
+        "word": "Desk",
+        "vietnamese": "cái bàn",
+        "level": 30
     },
     {
-        word: "dog",
-        vietnamese: "chó"
+        "word": "Chair",
+        "vietnamese": "ghế",
+        "level": 10
     },
     {
-        word: "good",
-        vietnamese: "tốt"
+        "word": "Book",
+        "vietnamese": "sách",
+        "level": 10
     },
     {
-        word: "bad",
-        vietnamese: "xấu"
+        "word": "Pen",
+        "vietnamese": "bút",
+        "level": 10
     },
     {
-        word: "happy",
-        vietnamese: "hạnh phúc"
+        "word": "Pencil",
+        "vietnamese": "bút chì",
+        "level": 30
     },
     {
-        word: "sad",
-        vietnamese: "buồn"
+        "word": "Eraser",
+        "vietnamese": "cục tẩy",
+        "level": 20
     },
     {
-        word: "beautiful",
-        vietnamese: "đẹp"
+        "word": "Bag",
+        "vietnamese": "cặp sách",
+        "level": 10
     },
     {
-        word: "ugly",
-        vietnamese: "xấu xí"
+        "word": "Homework",
+        "vietnamese": "bài tập về nhà",
+        "level": 30
     },
     {
-        word: "sun",
-        vietnamese: "mặt trời"
+        "word": "Test",
+        "vietnamese": "bài kiểm tra",
+        "level": 10
     },
     {
-        word: "moon",
-        vietnamese: "mặt trăng"
+        "word": "Exam",
+        "vietnamese": "kỳ thi",
+        "level": 10
     },
     {
-        word: "star",
-        vietnamese: "ngôi sao"
+        "word": "Grade",
+        "vietnamese": "điểm số",
+        "level": 10
     },
     {
-        word: "sky",
-        vietnamese: "bầu trời"
+        "word": "Subject",
+        "vietnamese": "môn học",
+        "level": 10
     },
     {
-        word: "earth",
-        vietnamese: "trái đất"
+        "word": "Math",
+        "vietnamese": "toán học",
+        "level": 20
     },
     {
-        word: "water",
-        vietnamese: "nước"
+        "word": "Science",
+        "vietnamese": "khoa học",
+        "level": 20
     },
     {
-        word: "fire",
-        vietnamese: "lửa"
+        "word": "English",
+        "vietnamese": "tiếng Anh",
+        "level": 20
     },
     {
-        word: "wind",
-        vietnamese: "gió"
+        "word": "History",
+        "vietnamese": "lịch sử",
+        "level": 20
     },
     {
-        word: "tree",
-        vietnamese: "cây"
+        "word": "Geography",
+        "vietnamese": "địa lý",
+        "level": 10
     },
     {
-        word: "flower",
-        vietnamese: "hoa"
+        "word": "Art",
+        "vietnamese": "mỹ thuật",
+        "level": 10
     },
     {
-        word: "mountain",
-        vietnamese: "núi"
+        "word": "Music",
+        "vietnamese": "âm nhạc",
+        "level": 10
     },
     {
-        word: "river",
-        vietnamese: "sông"
+        "word": "Physical Education",
+        "vietnamese": "thể dục",
+        "level": 30
     },
     {
-        word: "lake",
-        vietnamese: "hồ"
+        "word": "Computer",
+        "vietnamese": "máy tính",
+        "level": 20
     },
     {
-        word: "ocean",
-        vietnamese: "đại dương"
+        "word": "Project",
+        "vietnamese": "dự án",
+        "level": 30
     },
     {
-        word: "beach",
-        vietnamese: "bãi biển"
+        "word": "Presentation",
+        "vietnamese": "trình bày",
+        "level": 30
     },
     {
-        word: "book",
-        vietnamese: "sách"
+        "word": "Library",
+        "vietnamese": "thư viện",
+        "level": 30
     },
     {
-        word: "pen",
-        vietnamese: "bút"
+        "word": "Playground",
+        "vietnamese": "sân chơi",
+        "level": 20
     },
     {
-        word: "paper",
-        vietnamese: "giấy"
-    },
-    {
-        word: "computer",
-        vietnamese: "máy tính"
-    },
-    {
-        word: "phone",
-        vietnamese: "điện thoại"
-    },
-    {
-        word: "table",
-        vietnamese: "bàn"
-    },
-    {
-        word: "chair",
-        vietnamese: "ghế"
-    },
-    {
-        word: "door",
-        vietnamese: "cửa"
-    },
-    {
-        word: "window",
-        vietnamese: "cửa sổ"
-    },
-    {
-        word: "car",
-        vietnamese: "xe hơi"
-    },
-    {
-        word: "bicycle",
-        vietnamese: "xe đạp"
-    },
-    {
-        word: "train",
-        vietnamese: "xe lửa"
-    },
-    {
-        word: "plane",
-        vietnamese: "máy bay"
-    },
-    {
-        word: "bus",
-        vietnamese: "xe buýt"
-    },
-    {
-        word: "ship",
-        vietnamese: "tàu"
-    },
-    {
-        word: "food",
-        vietnamese: "thức ăn"
-    },
-    {
-        word: "drink",
-        vietnamese: "đồ uống"
-    },
-    {
-        word: "eat",
-        vietnamese: "ăn"
-    },
-    {
-        word: "sleep",
-        vietnamese: "ngủ"
-    },
-    {
-        word: "run",
-        vietnamese: "chạy"
+        "word": "Friends",
+        "vietnamese": "bạn bè",
+        "level": 10
     }
-];
+]

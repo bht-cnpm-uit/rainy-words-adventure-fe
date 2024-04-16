@@ -10,21 +10,59 @@ class Item {
         this.height = this.spriteHeight * this.scaleY;
         this.x = Math.random() * (this.game.width - 2 * this.width) + this.width;
         this.y = -this.height;
-        this.vy = 0.1
+        this.vy = 0.1;
         this.image = image;
-        this.frameX = Math.floor(Math.random() * 5);
-        this.frameY = Math.floor(Math.random() * 0);
         this.spinSpeed = Math.PI / 10000;
         this.maxAngleSpin = 10 * Math.PI / 180;
         this.angle = (Math.random() * 20 - 10) * Math.PI / 180;
         this.markedForDeletion = false;
-        this.wordIndex = Math.floor(Math.random() * 40);
+        this.wordIndex = Math.floor(Math.random() * 29);
+        this.setWord();
+        this.setFrameXY(); // Set frameX and frameY based on probability
         this.animateFall();
     }
+    setWord() {
+        let rand = Math.random();
+        let wordIndex = Math.floor(Math.random() * data.length);
+        if (rand > 0.5) {
+            this.isTrueWord = true;
+            this.word = data[wordIndex];
+        }
+        else {
+            this.isTrueWord = false;
+            this.word = JSON.parse(JSON.stringify(data[wordIndex]));
+            let vietnameseIndex = (wordIndex + Math.floor(Math.random() * (data.length - wordIndex))) % data.length;
+            this.word["vietnamese"] = data[vietnameseIndex]["vietnamese"];
+        }
+    }
+    setFrameXY() {
+        let rand = Math.random();
+        if (rand < 0.05) {
+            // 10% probability for frameX in range(0,5) and frameY = 1
+            this.frameX = Math.floor(Math.random() * 5);
+            this.frameY = 1;
+            this.typeItem = -1;
+        } else if (rand < 0.8) {
+            // 70% probability for frameX in range(0,5) and frameY = 0
+            this.frameX = Math.floor(Math.random() * 5);
+            this.frameY = 0;
+            this.typeItem = 0;
+        } else if (rand < 0.95) {
+            // 15% probability for frameX in range(6,11) and frameY = 0
+            this.frameX = Math.floor(Math.random() * 5) + 6;
+            this.frameY = 0;
+            this.typeItem = 1;
+        } else {
+            // 5% probability for frameX in range(6,11) and frameY = 1
+            this.frameX = Math.floor(Math.random() * 5) + 6;
+            this.frameY = 1;
+            this.typeItem = 2;
+        }
+    }
+
     draw() {
-        const wordData = data[this.wordIndex];
-        const word = wordData["word"];
-        const vietnamese = wordData["vietnamese"];
+        const word = this.word["word"];
+        const vietnamese = this.word["vietnamese"];
 
         this.context.save();
         this.context.translate(this.x, this.y);
@@ -86,6 +124,7 @@ class Item {
         animate();
     }
 }
+
 
 export class WordFall {
     constructor(game) {

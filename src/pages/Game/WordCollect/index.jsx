@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Player } from './Player/player';
 import { Background } from './background';
-import { Score, BonusItems, BoardStopGame, BtnGameState } from './UI';
+import { Score, BonusItems, BoardStopGame, BtnGameState, BoardEndWordCollect } from './UI';
 import { WordFall } from './wordFall';
 const WordCollect = props => {
     const canvasRef = useRef()
@@ -27,9 +27,11 @@ const WordCollect = props => {
             this.bonusItems = new BonusItems(this);
             this.player = new Player(this);
             this.boardStopGame = new BoardStopGame(this);
+            this.boardEndWordCollect = new BoardEndWordCollect(this);
             this.wordFall = new WordFall(this);
             this.canvas.addEventListener('mousemove', this.onMouseMove.bind(this));
             this.canvas.addEventListener('click', this.onClick.bind(this));
+            this.listWordCollect = [];
         }
         updateGameState(state) {
             this.gameState = state;
@@ -103,6 +105,7 @@ const WordCollect = props => {
             this.btnGameState.draw(context);
             this.Score.draw(context);
             this.boardStopGame.draw(context);
+            this.boardEndWordCollect.draw(context);
         }
     }
     useEffect(() => {

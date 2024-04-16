@@ -79,8 +79,9 @@ export class Player {
             const distance = Math.sqrt(dx * dx + dy * dy);
             if (distance < word.spriteWidth / 5 + this.width / 7) {
                 word.markedForDeletion = true;
-                this.game.Score.update(10)
-                this.game.bonusItems.addNewItem();
+                this.game.bonusItems.updateResult(word);
+                if (word.isTrueWord)
+                    this.game.Score.update(word.word.level)
             }
         })
         this.position.x += this.velocity;

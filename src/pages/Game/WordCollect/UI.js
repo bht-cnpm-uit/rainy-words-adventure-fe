@@ -37,21 +37,88 @@ export class BonusItems {
         this.height = this.spriteHeight * this.scaleY;
         this.x = 10;
         this.y = 10;
-        this.maxItems = 5;
-        this.noItems = 0;
+        this.maxItems = 3;
+        this.noItems = 3;
         this.image = new Image();
         this.image.src = "../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_11.png";
+        this.spriteWidth0 = 192;
+        this.spriteHeight0 = 112;
+        this.width0 = this.spriteWidth0 * this.scaleY / 1.5;
+        this.height0 = this.spriteHeight0 * this.scaleY / 1.5;
+        this.noItems0 = 0;
+        this.imagebonus0 = new Image();
+        this.imagebonus0.src = '../assets/Asset/Asset/bonusItem/0.png';
+        this.spriteWidth1 = 171;
+        this.spriteHeight1 = 84;
+        this.width1 = this.spriteWidth1 * this.scaleY / 1.5;
+        this.height1 = this.spriteHeight1 * this.scaleY / 1.5;
+        this.noItems1 = 0;
+        this.imagebonus1 = new Image();
+        this.imagebonus1.src = '../assets/Asset/Asset/bonusItem/1.png';
+        this.spriteWidth2 = 136;
+        this.spriteHeight2 = 94;
+        this.width2 = this.spriteWidth2 * this.scaleY / 1.5;
+        this.height2 = this.spriteHeight2 * this.scaleY / 1.5;
+        this.noItems2 = 0;
+        this.imagebonus2 = new Image();
+        this.imagebonus2.src = '../assets/Asset/Asset/bonusItem/2.png';
     }
     update() {
     }
+
     draw(context) {
         for (let i = 0; i < this.noItems; i++) {
             context.drawImage(this.image, this.x + i * this.width, this.y, this.width, this.height);
         }
+        context.font = "18px";
+        if (this.noItems0) {
+            context.fillText(`x ${this.noItems0}`, this.x + 20, this.y + this.height * 1.1 + this.height0);
+            context.drawImage(this.imagebonus0, this.x + 60, this.y + this.height * 1.1, this.width0, this.height0);
+        }
+        if (this.noItems1) {
+            let yOffset = (this.noItems0 > 0) ? 1.1 : 0;
+            let y = this.y + yOffset * this.height0 + this.height * 1.1;
+            context.fillText(`x ${this.noItems1}`, this.x + 20, y + this.height1);
+            context.drawImage(this.imagebonus1, this.x + 60, y, this.width1, this.height1);
+        }
+        if (this.noItems2) {
+            let yOffset0 = (this.noItems0 > 0) ? 1.1 : 0;
+            let yOffset1 = (this.noItems1 > 0) ? 1.1 : 0;
+            let y = this.y + this.height * 1.1 + yOffset0 * this.height0 + yOffset1 * this.height1 * 1.1
+            context.fillText(`x ${this.noItems2}`, this.x + 20, y + this.height2);
+            context.drawImage(this.imagebonus2, this.x + 60, y, this.width2, this.height2);
+        }
     }
-    addNewItem() {
-        if (this.noItems < this.maxItems) {
-            this.noItems++;
+
+    updateResult(word) {
+        if (word.isTrueWord) {
+            this.game.listWordCollect.push(JSON.parse(JSON.stringify(word.word)));
+            if (word.typeItem == 0) {
+                this.noItems0++;
+            }
+            else if (word.typeItem == 1) {
+                this.noItems2++;
+            }
+            else if (word.typeItem == 2) {
+                this.noItems1++;
+            }
+            else {
+                if (this.noItems < this.maxItems) {
+                    this.noItems++;
+                }
+            }
+            if (this.game.listWordCollect.length == 10) {
+                this.game.gameState = 2;
+                this.game.boardEndWordCollect.hidden = false;
+                this.game.boardEndWordCollect.animateCountDown();
+            }
+        }
+        else {
+            this.noItems--;
+            if (this.noItems < 1) {
+                this.game.gameState = 0;
+                this.game.boardEndWordCollect.hidden = false;
+            }
         }
     }
 }
@@ -60,12 +127,11 @@ class Button {
     constructor(game, image, x, y, width, height, spriteWidth, spriteHeight) {
         this.image = new Image();
         this.game = game;
-        this.scaleY = this.game.background.scaleY;
         this.image.src = image;
         this.x = x;
         this.y = y;
-        this.width = width * this.scaleY;
-        this.height = height * this.scaleY;
+        this.width = width;
+        this.height = height;
         this.spriteWidth = spriteWidth;
         this.spriteHeight = spriteHeight;
     }
@@ -120,54 +186,58 @@ export class BoardStopGame {
     constructor(game) {
         this.game = game;
         this.scaleY = this.game.background.scaleY;
-        this.translateX = this.game.width * 1 / 3;
-        this.translateY = this.game.height * 1 / 3;
         this.hidden = true;
         this.spriteWidthBoard = 908;
         this.spriteHeightBoard = 476;
+        this.width = this.spriteWidthBoard * this.scaleY / 1.2;
+        this.height = this.spriteHeightBoard * this.scaleY / 1.2
+        this.translateX = (this.game.width - this.width) / 2;
+        this.translateY = (this.game.height - this.height) / 2;
         this.spriteWidthButton = 437;
         this.spriteHeightButton = 129;
+        this.widthBtn = this.spriteWidthButton * this.scaleY / 1.95;
+        this.heightBtn = this.spriteHeightButton * this.scaleY / 1.5;
         this.staticUI = {
             board: new StaticUI(
                 '../assets/Asset/PanelAtlas_cuts/image_1.png',
-                0, 0, this.spriteWidthBoard / 2, this.spriteHeightBoard / 2,
+                0, 0, this.width, this.height,
                 this.spriteWidthBoard, this.spriteHeightBoard
             )
         }
         this.text = {
             textTitleStop: new Text(
-                this.spriteWidthBoard / 4,
-                this.spriteHeightBoard / 4
+                this.width / 2,
+                this.height / 2.2
             )
         }
         this.buttons = {
             continue: new Button(
                 this.game,
                 '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
-                this.spriteWidthBoard / 12 - this.spriteWidthButton * this.scaleY / 4,
-                this.spriteHeightBoard / 2 - this.spriteHeightButton / 1.5,
-                this.spriteWidthButton / 2,
-                this.spriteHeightButton / 1.5,
+                (this.width / 3 - this.widthBtn) / 2,
+                this.height - this.heightBtn * 1.5,
+                this.widthBtn,
+                this.heightBtn,
                 this.spriteWidthButton,
                 this.spriteHeightButton
             ),
             replay: new Button(
                 this.game,
                 '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
-                this.spriteWidthBoard / 6 + this.spriteWidthBoard / 12 - this.spriteWidthButton * this.scaleY / 4,
-                this.spriteHeightBoard / 2 - this.spriteHeightButton / 1.5,
-                this.spriteWidthButton / 2,
-                this.spriteHeightButton / 1.5,
+                this.width / 3 + (this.width / 3 - this.widthBtn) / 2,
+                this.height - this.heightBtn * 1.5,
+                this.widthBtn,
+                this.heightBtn,
                 this.spriteWidthButton,
                 this.spriteHeightButton
             ),
             back: new Button(
                 this.game,
                 '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
-                this.spriteWidthBoard * 1 / 3 + this.spriteWidthBoard / 12 - this.spriteWidthButton * this.scaleY / 4,
-                this.spriteHeightBoard / 2 - this.spriteHeightButton / 1.5,
-                this.spriteWidthButton / 2,
-                this.spriteHeightButton / 1.5,
+                this.width * 2 / 3 + (this.width / 3 - this.widthBtn) / 2,
+                this.height - this.heightBtn * 1.5,
+                this.widthBtn,
+                this.heightBtn,
                 this.spriteWidthButton,
                 this.spriteHeightButton
             )
@@ -193,6 +263,154 @@ export class BoardStopGame {
     }
     updateState(state) {
         this.hidden = state;
+    }
+}
+export class BoardEndWordCollect {
+    constructor(game) {
+        this.game = game;
+        this.scaleY = this.game.background.scaleY;
+        this.hidden = true;
+        this.spriteWidthBoard = 908;
+        this.spriteHeightBoard = 476;
+        this.width = this.spriteWidthBoard * this.scaleY / 1.2;
+        this.height = this.spriteHeightBoard * this.scaleY / 1.2
+        this.translateX = (this.game.width - this.width) / 2;
+        this.translateY = (this.game.height - this.height) / 2;
+        this.spriteWidthButton = 437;
+        this.spriteHeightButton = 129;
+        this.widthBtn = this.spriteWidthButton * this.scaleY / 1.95;
+        this.heightBtn = this.spriteHeightButton * this.scaleY / 1.5;
+        this.countDown = 10;
+        this.staticUI = {
+            board: new StaticUI(
+                '../assets/Asset/PanelAtlas_cuts/image_1.png',
+                0, 0, this.width, this.height,
+                this.spriteWidthBoard, this.spriteHeightBoard
+            )
+        }
+        this.text = {
+            textTitle: new Text(
+                this.width / 2,
+                this.height / 2.2
+            ),
+            countDown: new Text(
+                this.width / 2,
+                this.height / 1.6
+            )
+        }
+        this.buttons = {
+            continue: new Button(
+                this.game,
+                '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
+                (this.width / 3 - this.widthBtn) / 2,
+                this.height - this.heightBtn * 1.5,
+                this.widthBtn,
+                this.heightBtn,
+                this.spriteWidthButton,
+                this.spriteHeightButton
+            ),
+            replay: new Button(
+                this.game,
+                '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
+                this.width / 3 + (this.width / 3 - this.widthBtn) / 2,
+                this.height - this.heightBtn * 1.5,
+                this.widthBtn,
+                this.heightBtn,
+                this.spriteWidthButton,
+                this.spriteHeightButton
+            ),
+            back: new Button(
+                this.game,
+                '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
+                this.width * 2 / 3 + (this.width / 3 - this.widthBtn) / 2,
+                this.height - this.heightBtn * 1.5,
+                this.widthBtn,
+                this.heightBtn,
+                this.spriteWidthButton,
+                this.spriteHeightButton
+            ),
+            end_replay: new Button(
+                this.game,
+                '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
+                (this.width / 2 - this.widthBtn) / 2,
+                this.height - this.heightBtn * 1.5,
+                this.widthBtn,
+                this.heightBtn,
+                this.spriteWidthButton,
+                this.spriteHeightButton
+            ),
+            end_back: new Button(
+                this.game,
+                '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
+                this.width / 2 + (this.width / 2 - this.widthBtn) / 2,
+                this.height - this.heightBtn * 1.5,
+                this.widthBtn,
+                this.heightBtn,
+                this.spriteWidthButton,
+                this.spriteHeightButton
+            ),
+            play: new Button(
+                this.game,
+                '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
+                (this.width - this.widthBtn) / 2,
+                this.height - this.heightBtn * 1.5,
+                this.widthBtn,
+                this.heightBtn,
+                this.spriteWidthButton,
+                this.spriteHeightButton
+            ),
+        }
+    }
+    update() {
+
+    }
+    draw(context) {
+        if (!this.hidden) {
+            if (this.game.gameState == 2) {
+                context.save();
+                context.translate(this.translateX, this.translateY);
+                this.staticUI.board.draw(context);
+                this.buttons.play.draw(context);
+                this.buttons.play.writeText(context, "Bắt đầu")
+                this.text.textTitle.writeText(context, 'Vòng chơi nối từ bắt đầu sau:');
+                this.text.countDown.writeText(context, `${this.countDown}`, "50px fontgame");
+                context.restore();
+            }
+            else if (this.game.gameState == 0) {
+                context.save();
+                context.translate(this.translateX, this.translateY);
+                this.staticUI.board.draw(context);
+                this.buttons.end_replay.draw(context);
+                this.buttons.end_replay.writeText(context, "Chơi lại")
+                this.buttons.end_back.draw(context);
+                this.buttons.end_back.writeText(context, "Trở về")
+                this.text.textTitle.writeText(context, 'Bạn chưa vượt qua màn chơi này !');
+                context.restore();
+            }
+        }
+    }
+    updateState(state) {
+        this.hidden = state;
+    }
+    animateCountDown() {
+        const self = this;
+        let animationHandle;
+        let frame = 0;
+        self.countDown = 10;
+        function animate() {
+            frame++;
+            if ((self.countDown > 0)) {
+                if ((Math.floor(frame % 60) == 0))
+                    self.countDown--;
+                animationHandle = requestAnimationFrame(animate);
+            }
+            else {
+                cancelAnimationFrame(animationHandle);
+                window.location.href = '/word-chain'
+                return; // Stop the animation loop
+            }
+        }
+        animate();
     }
 }
 
