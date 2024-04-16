@@ -16,7 +16,7 @@ export class Score extends Text {
     constructor(game) {
         super(game.width / 2, game.height / 12);
         this.game = game;
-        this.score = 1080;
+        this.score = 0;
     }
 
     draw(context) {

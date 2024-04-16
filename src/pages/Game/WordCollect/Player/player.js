@@ -45,7 +45,6 @@ export class Player {
     }
     draw(ctx) {
         ctx.save();
-
         // Translate the canvas to the center of the object
         ctx.translate(this.position.x, this.position.y)
 

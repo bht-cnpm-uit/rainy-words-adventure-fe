@@ -16,18 +16,6 @@ export class Background {
         this.widthCut = (this.spriteWidth * this.scaleY - this.width) / this.scaleY;
     }
 
-    // update(deltaTime) {
-    //     if (this.xImageCut + deltaTime / this.scaleY < this.xImage) {
-    //         this.xImageCut += deltaTime / this.scaleY;
-    //     }
-    //     else if (this.xImageCut - deltaTime / this.scaleY > this.xImage) {
-    //         this.xImageCut -= deltaTime / this.scaleY;
-    //     }
-    //     else {
-    //         this.xImageCut = this.xImage
-    //         this.game.slide = false;
-    //     }
-    // }
     updateSlide() {
         if (this.xImageCut + this.game.deltaTime / this.scaleY < this.xImage) {
             this.xImageCut += this.game.deltaTime / this.scaleY;

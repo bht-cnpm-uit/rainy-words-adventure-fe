@@ -85,7 +85,7 @@ const WordCollect = props => {
         }
         update(deltaTime) {
             this.deltaTime = deltaTime;
-            if (this.gameState) {
+            if (this.gameState !== 0 && this.gameState !== 2) {
                 this.gameFrame++;
                 this.wordFall.update();
                 this.player.update(deltaTime, this.wordFall.words);

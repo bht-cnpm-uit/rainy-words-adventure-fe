@@ -18,7 +18,7 @@ class Item {
         this.markedForDeletion = false;
         this.wordIndex = Math.floor(Math.random() * 29);
         this.setWord();
-        this.setFrameXY(); // Set frameX and frameY based on probability
+        this.setFrameXY();
         this.animateFall();
     }
     setWord() {
