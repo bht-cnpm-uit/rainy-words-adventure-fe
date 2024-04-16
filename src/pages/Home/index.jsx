@@ -33,10 +33,11 @@ const Home = (props) => {
             this.background.drawtext(context);
             this.logogame.draw(context);
             this.logoDoan.draw(context);
+            this.logoDoan2.draw(context);
             this.logoDoi.draw(context);
             this.logoTruong.draw(context);
             this.logoBan.draw(context);
-            this.logoDoan2.draw(context);
+       
             this.player.draw(context);
             // this.Guide.draw(context);
             this.start.draw(context);

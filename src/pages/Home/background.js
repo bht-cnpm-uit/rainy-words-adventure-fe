@@ -152,7 +152,7 @@ export class LogoDoan {
             this.game,
             this.spriteWidth,
             this.spriteHeight,
-            'public/assets/Asset/Logo/Logo Đoàn.png',
+            '/assets/Asset/Logo/LogoDoan.png',
         );
     }
     update() {}
@@ -167,7 +167,7 @@ export class LogoDoan {
             this.layerLogo.x + this.width / 2.5,
             this.layerLogo.y + this.height / 35,
             this.width / 8,
-            this.height / 8,
+            this.height / 8
         );
         context.save();
     }
@@ -185,7 +185,7 @@ export class LogoDoan2 {
             this.game,
             this.spriteWidth,
             this.spriteHeight,
-            'public/assets/Asset/Logo/Logo Đoàn.png',
+            '/assets/Asset/Logo/LogoDoan.png',
         );
     }
     update() {}
@@ -217,7 +217,7 @@ export class LogoDoi {
             this.game,
             this.spriteWidth,
             this.spriteHeight,
-            'public/assets/Asset/Logo/logo-doi.png',
+            '/assets/Asset/Logo/LogoDoi.png',
         );
     }
     update() {}
@@ -250,7 +250,7 @@ export class LogoTruong {
             this.game,
             this.spriteWidth,
             this.spriteHeight,
-            'public/assets/Asset/Logo/Logo Trường.png',
+            '/assets/Asset/Logo/LogoTruong.png',
         );
     }
     update() {}
@@ -283,7 +283,7 @@ export class LogoBan {
             this.game,
             this.spriteWidth,
             this.spriteHeight,
-            'public/assets/Asset/Logo/Logo Ban.png',
+            '/assets/Asset/Logo/LogoBan.png',
         );
     }
     update() {}
