@@ -40,18 +40,14 @@ const WordCollect = props => {
             const rect = this.canvas.getBoundingClientRect();
             const mouseX = event.clientX - rect.left;
             const mouseY = event.clientY - rect.top;
-            if (this.isMouseOverButton(mouseX - this.boardStopGame.translateX, mouseY - this.boardStopGame.translateY, this.boardStopGame.buttons.back)) {
-                window.location.href = '/level';
+            for (const buttonKey in this.boardStopGame.buttons) {
+                const button = this.boardStopGame.buttons[buttonKey];
+                if (this.isMouseOverButton(mouseX - this.boardStopGame.translateX, mouseY - this.boardStopGame.translateY, button)) {
+                    button.onClick(button.type);
+                    break;
+                }
             }
-            else if (this.isMouseOverButton(mouseX - this.boardStopGame.translateX, mouseY - this.boardStopGame.translateY, this.boardStopGame.buttons.replay)) {
-                this.boardStopGame.updateState(!this.boardStopGame.hidden);
-                this.btnGameState.setState(!this.btnGameState.currentState)
-            }
-            else if (this.isMouseOverButton(mouseX - this.boardStopGame.translateX, mouseY - this.boardStopGame.translateY, this.boardStopGame.buttons.continue)) {
-                this.boardStopGame.updateState(!this.boardStopGame.hidden);
-                this.btnGameState.setState(!this.btnGameState.currentState)
-            }
-            else if (this.isMouseOverButton(mouseX, mouseY, this.btnGameState)) {
+            if (this.isMouseOverButton(mouseX, mouseY, this.btnGameState)) {
                 this.boardStopGame.updateState(!this.boardStopGame.hidden);
                 this.btnGameState.setState(!this.btnGameState.currentState)
             }

@@ -124,7 +124,7 @@ export class BonusItems {
 }
 
 class Button {
-    constructor(game, image, x, y, width, height, spriteWidth, spriteHeight) {
+    constructor(game, image, x, y, width, height, spriteWidth, spriteHeight, type) {
         this.image = new Image();
         this.game = game;
         this.image.src = image;
@@ -134,6 +134,7 @@ class Button {
         this.height = height;
         this.spriteWidth = spriteWidth;
         this.spriteHeight = spriteHeight;
+        this.type = type
     }
 
     draw(context) {
@@ -154,6 +155,19 @@ class Button {
         context.textAlign = "center";
         context.fillStyle = "brown";
         context.fillText(text, this.x + this.width / 2, this.y + this.height / 1.5);
+    }
+    onClick(type) {
+        console.log(type)
+        if (type === 'replay') {
+            window.location.reload();
+        }
+        else if (type === 'back') {
+            window.location.href = '/level';
+        }
+        else if (type === 'continue') {
+            this.game.boardStopGame.updateState(!this.game.boardStopGame.hidden);
+            this.game.btnGameState.setState(!this.game.btnGameState.currentState)
+        }
     }
 }
 class StaticUI {
@@ -219,7 +233,8 @@ export class BoardStopGame {
                 this.widthBtn,
                 this.heightBtn,
                 this.spriteWidthButton,
-                this.spriteHeightButton
+                this.spriteHeightButton,
+                'continue'
             ),
             replay: new Button(
                 this.game,
@@ -229,7 +244,8 @@ export class BoardStopGame {
                 this.widthBtn,
                 this.heightBtn,
                 this.spriteWidthButton,
-                this.spriteHeightButton
+                this.spriteHeightButton,
+                'replay'
             ),
             back: new Button(
                 this.game,
@@ -239,7 +255,8 @@ export class BoardStopGame {
                 this.widthBtn,
                 this.heightBtn,
                 this.spriteWidthButton,
-                this.spriteHeightButton
+                this.spriteHeightButton,
+                'back'
             )
         }
     }
@@ -307,7 +324,8 @@ export class BoardEndWordCollect {
                 this.widthBtn,
                 this.heightBtn,
                 this.spriteWidthButton,
-                this.spriteHeightButton
+                this.spriteHeightButton,
+                'continue'
             ),
             replay: new Button(
                 this.game,
@@ -317,7 +335,8 @@ export class BoardEndWordCollect {
                 this.widthBtn,
                 this.heightBtn,
                 this.spriteWidthButton,
-                this.spriteHeightButton
+                this.spriteHeightButton,
+                'replay'
             ),
             back: new Button(
                 this.game,
@@ -327,7 +346,8 @@ export class BoardEndWordCollect {
                 this.widthBtn,
                 this.heightBtn,
                 this.spriteWidthButton,
-                this.spriteHeightButton
+                this.spriteHeightButton,
+                'back'
             ),
             end_replay: new Button(
                 this.game,
@@ -337,7 +357,8 @@ export class BoardEndWordCollect {
                 this.widthBtn,
                 this.heightBtn,
                 this.spriteWidthButton,
-                this.spriteHeightButton
+                this.spriteHeightButton,
+                'end_replay'
             ),
             end_back: new Button(
                 this.game,
@@ -347,7 +368,8 @@ export class BoardEndWordCollect {
                 this.widthBtn,
                 this.heightBtn,
                 this.spriteWidthButton,
-                this.spriteHeightButton
+                this.spriteHeightButton,
+                'end_back'
             ),
             play: new Button(
                 this.game,
@@ -357,7 +379,8 @@ export class BoardEndWordCollect {
                 this.widthBtn,
                 this.heightBtn,
                 this.spriteWidthButton,
-                this.spriteHeightButton
+                this.spriteHeightButton,
+                'play'
             ),
         }
     }

@@ -108,7 +108,7 @@ const Level = props => {
                                     this.player.updateMaxCurrentLevel(level.level);
                                 }
                             }
-                            else if (this.player.currentPostionLevel == level.level) {
+                            else if (this.player.currentLevel.level == level.level) {
                                 this.levelSetting.open(level);
                             }
                             else {
