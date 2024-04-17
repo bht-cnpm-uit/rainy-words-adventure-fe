@@ -67,7 +67,8 @@ export class btnLogin extends Button {
         this.image.src = '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png';
         this.spriteWidth = 437;
         this.spriteHeight = 129;
-        this.x = this.game.width / 1.51;
+        this.scaleX = this.width / this.spriteWidth;
+        this.x = this.game.width / 1.45;
         this.y = this.height / 1.23;
     }
     drawLogin(context) {

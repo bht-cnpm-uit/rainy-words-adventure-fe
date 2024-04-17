@@ -7,8 +7,8 @@ export class Player {
         this.width = this.spriteWidth * this.scaleY;
         this.height = this.spriteHeight * this.scaleY;
         this.position = {
-            x: 100,
-            y: this.game.height - this.height * 0.9,
+            x: this.game.width/60,
+            y: this.game.height/6,
         };
         this.image = new Image();
         this.image.src = '../assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png';
@@ -18,7 +18,7 @@ export class Player {
         this.gameFrame = 0;
     }
     draw(ctx) {
-        ctx.translate(this.position.x + this.width / 1.7, this.position.y + this.height / 10);
+        ctx.translate(this.position.x + this.width / 2, this.position.y + this.height / 3);
         ctx.drawImage(
             this.image,
             this.frameX * this.spriteWidth,
@@ -27,8 +27,8 @@ export class Player {
             this.spriteHeight,
             -this.width / 2,
             -this.height / 2,
-            this.width*1.2,
-            this.height*1.2,
+            this.game.width*(0.4),
+            this.game.height*(0.9)
         );
         if (this.gameFrame % (this.staggerFrames * 3) == 0) {
             if (this.frameX < 4) this.frameX += 1;

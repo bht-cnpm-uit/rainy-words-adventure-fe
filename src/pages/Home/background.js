@@ -1,8 +1,8 @@
 class Layer {
     constructor(game, spriteWidth, spriteHeight, src) {
         this.game = game;
-        this.width = this.game.width;
-        this.height = this.game.height;
+        this.width = this.game.canvas.width;
+        this.height = this.game.canvas.height;
         this.spriteHeight = spriteHeight;
         this.spriteWidth = spriteWidth;
         this.image = new Image();
@@ -25,18 +25,19 @@ export class Background {
     constructor(game) {
         this.game = game;
         this.spriteHeight = 1080;
-        this.text1 = "THÀNH PHỐ THỦ ĐỨC";
-        this.text2 = `TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN`;
-        this.textColor = "black";
-        this.textSize = this.game.width / 90;
-        this.textX1 = this.game.width /1.9;
-        this.textX2 = this.game.width /1.33;
-        this.textY1 = this.game.height / 5;
-        this.textY2 = this.game.height / 5;
         this.spriteWidth = 2920;
         this.width = this.game.width;
         this.height = this.game.height;
         this.scaleY = this.height / this.spriteHeight;
+        this.scaleX = this.width / this.spriteWidth;
+        this.text1 = "THÀNH PHỐ THỦ ĐỨC";
+        this.text2 = `TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN`;
+        this.textColor = "brown";
+        this.textSize = this.game.width / 90;
+        this.textX1 = this.game.width / 2 + this.scaleX*40 ;
+        this.textX2 = this.game.width/1.37 + this.scaleX*40;
+        this.textY1 = this.game.height / this.scaleY/ 6.5;
+        this.textY2 = this.game.height / this.scaleY/ 6.5;
         this.layerImage1 = new Layer(
             this.game,
             this.spriteWidth,
@@ -111,31 +112,33 @@ export class Background {
 export class LogoGame {
     constructor(game) {
         this.game = game;
-        this.spriteHeight = 552;
+        this.spriteHeight = 653;
         this.spriteWidth = 922;
-        this.width = this.game.width;
-        this.height = this.game.height;
+        this.width = this.game.canvas.width;
+        this.height = this.game.canvas.height;
         this.scaleY = this.height / this.spriteHeight;
+        this.scaleX = this.width / this.spriteWidth;
         this.layerLogo = new Layer(
             this.game,
             this.spriteWidth,
             this.spriteHeight,
             '../assets/Asset/Logo.png',
         );
+        ;
     }
     update() {}
     draw(context) {
-        let widthCut = Math.ceil((this.spriteWidth * this.scaleY - this.width) / this.scaleY);
+        let widthCut = Math.ceil((this.spriteWidth * this.scaleX - this.width) / this.scaleX);
         context.drawImage(
             this.layerLogo.image,
             widthCut,
             0,
             this.spriteWidth - widthCut,
             this.spriteHeight,
-            this.layerLogo.x + this.width / 2.5,
-            this.layerLogo.y + this.height / 4,
-            this.width / 2,
-            this.height / 2,
+            this.width /2.2,
+            this.height / 3.5,
+            this.spriteWidth/1.65,
+            this.spriteHeight/1.8   ,
         );
     }
 }
@@ -166,8 +169,8 @@ export class LogoDoan {
             this.spriteHeight,
             this.layerLogo.x + this.width / 2.5,
             this.layerLogo.y + this.height / 35,
-            this.width / 8,
-            this.height / 8
+            this.width / this.scaleY/13,
+            this.height / this.scaleY/13,
         );
         context.save();
     }
@@ -199,8 +202,8 @@ export class LogoDoan2 {
             this.spriteHeight,
             this.layerLogo.x + this.width / 1.7,
             this.layerLogo.y + this.height / 35,
-            this.width / 8,
-            this.height / 8,
+            this.width / this.scaleY/13,
+            this.height / this.scaleY/13,
         );
     }
 }
@@ -229,10 +232,10 @@ export class LogoDoi {
             0,
             this.spriteWidth - widthCut,
             this.spriteHeight,
-            this.layerLogo.x + this.width / 2.1,
+            this.layerLogo.x + this.width / 2.05,
             this.layerLogo.y + this.height / 25,
-            this.width / 9,
-            this.height / 9,
+            this.width / this.scaleY/8,
+            this.height / this.scaleY/8,
         );
         context.save();
     }
@@ -262,10 +265,10 @@ export class LogoTruong {
             0,
             this.spriteWidth - widthCut,
             this.spriteHeight,
-            this.layerLogo.x + this.width / 1.47,
-            this.layerLogo.y + this.height / 20,
-            this.width / 10,
-            this.height / 10,
+            this.layerLogo.x + this.width / 1.45,
+            this.layerLogo.y + this.height / 25,
+            this.width / this.scaleY/3,
+            this.height / this.scaleY/3,
         );
         context.save();
     }
@@ -295,10 +298,10 @@ export class LogoBan {
             0,
             this.spriteWidth - widthCut,
             this.spriteHeight,
-            this.layerLogo.x + this.width / 1.37,
-            this.layerLogo.y + this.height / 25,
-            this.width / 9,
-            this.height / 9,
+            this.layerLogo.x + this.width / 1.31,
+            this.layerLogo.y + this.height / 30,
+            this.width / this.scaleY/23,
+            this.height / this.scaleY/23,
         );
         context.save();
     }
