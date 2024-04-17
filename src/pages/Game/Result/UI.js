@@ -1,8 +1,3 @@
-const imgbuttonNext = 'src/assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png'
-const imgBoard = 'src/assets/Asset/PanelAtlas_cuts/image_0.png'
-const imgScore = 'src/assets/Asset/PanelAtlas_cuts/image_6.png'
-const imgPlayer = 'src/assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png'
-
 class Button {
     constructor(game, image, x, y, width, height, spriteWidth, spriteHeight) {
         this.image = new Image();
@@ -56,6 +51,45 @@ class StaticUI {
         );
     }
 }
+class Player {
+    constructor(game, image, x, y, width, height, spriteWidth, spriteHeight, frameX, frameY, type) {
+        this.game = game;
+        this.spriteWidth = spriteWidth;
+        this.spriteHeight = spriteHeight;
+        this.width = width;
+        this.height = height;
+        this.position = {
+            x: x,
+            y: y
+        }
+        this.image = new Image();
+        this.image.src = image;
+        this.frameX = frameX;
+        this.frameY = frameY;
+        this.staggerFrames = 5;
+        this.gameFrame = 0;
+        this.type = type
+    }
+    draw(ctx) {
+        if (this.type === "boy") {
+            ctx.save();
+            ctx.translate(this.position.x, this.position.y);
+            ctx.scale(-1, 1);
+            ctx.drawImage(this.image, this.frameX * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, -this.width / 2, -this.height / 2, this.width, this.height);
+            ctx.restore();
+        } else {
+            ctx.drawImage(this.image, this.frameX * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, this.position.x, this.position.y, this.width, this.height);
+        }
+
+        // if (this.gameFrame % (this.staggerFrames * 3) == 0) {
+        //     if (this.frameX < 4)
+        //         this.frameX += 1
+        //     else this.frameX = 0
+        // }
+        // this.gameFrame++;
+    }
+
+}
 
 class Text {
     constructor(x, y) {
@@ -73,22 +107,30 @@ export class BoardResult {
     constructor(game) {
         this.game = game;
         this.scaleY = this.game.background.scaleY;
-        this.translateX = this.game.width * 1 / 3;
-        this.translateY = this.game.height * 1 / 3;
         this.spriteWidthBoard = 1151;
         this.spriteHeightBoard = 667;
-        this.spriteWidthTeacher = 653;
-        this.spriteHeightTeacher = 800;
+        this.widthBoard = this.spriteWidthBoard * this.scaleY;
+        this.heightBoard = this.spriteHeightBoard * this.scaleY;
         this.spriteWidthScore = 669;
         this.spriteHeightScore = 220;
+        this.widthScore = this.spriteWidthScore * this.scaleY;
+        this.heightScore = this.spriteHeightScore * this.scaleY;
+        this.spriteWidthPlayerGirl = 883;
+        this.spriteHeightPlayerGirl = 611;
+        this.widthPlayerGirl = this.spriteWidthPlayerGirl * this.scaleY;
+        this.heightPlayerGirl = this.spriteHeightPlayerGirl * this.scaleY;
+        this.spriteWidthPlayerBoy = 653;
+        this.spriteHeightPlayerBoy = 800;
+        this.widthPlayerBoy = this.spriteWidthPlayerBoy * this.scaleY;
+        this.heightPlayerBoy = this.spriteHeightPlayerBoy * this.scaleY;
         this.spriteWidthBtnNext = 437;
         this.spriteHeightBtnNext = 129;
 
         this.buttons = {
             next: new Button(
                 this.game,
-                imgbuttonNext,
-                this.spriteWidthBoard / 2 - this.spriteWidthBtnNext*this.scaleY/4,
+                "../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png",
+                this.spriteWidthBoard / 2 - this.spriteWidthBtnNext * this.scaleY / 4,
                 this.spriteHeightBtnNext,
                 this.spriteWidthBtnNext / 2,
                 this.spriteHeightBtnNext / 2,
@@ -99,22 +141,37 @@ export class BoardResult {
         };
         this.staticUI = {
             board: new StaticUI(
-                imgBoard,
-                0, 0, this.spriteWidthBoard / 1.5, this.spriteHeightBoard / 1.5,
+                '../assets/Asset/PanelAtlas_cuts/image_0.png',
+                (this.game.width - this.widthBoard) / 2, (this.game.height - this.heightBoard) / 2,
+                this.widthBoard, this.heightBoard,
                 this.spriteWidthBoard,
                 this.spriteHeightBoard
             ),
             score: new StaticUI(
-                imgScore,
-                (this.spriteWidthBoard - this.spriteWidthScore) / 2.1, -40, this.spriteWidthScore / 2, this.spriteHeightScore / 2,
+                '../assets/Asset/PanelAtlas_cuts/image_6.png',
+                (this.game.width - this.widthScore) / 2, (this.game.height - this.heightBoard - this.heightScore) / 2,
+                this.widthScore, this.heightScore,
                 this.spriteWidthScore,
                 this.spriteHeightScore
+            )
+        }
+        this.player = {
+            catGirl: new Player(
+                this,
+                '../assets/Asset/TeacherCatSprite(Blink).png',
+                this.staticUI.board.x - this.widthPlayerGirl / 1.5, this.game.height - this.heightPlayerGirl,
+                this.widthPlayerGirl, this.heightPlayerGirl,
+                this.spriteWidthPlayerGirl, this.spriteHeightPlayerGirl,
+                0, 0, 'girl'
             ),
-            teacher: new StaticUI(
-                imgPlayer,
-                this.spriteWidthTeacher - 100, this.spriteHeightTeacher / 20 - 35, this.spriteWidthTeacher / 1.5, this.spriteHeightTeacher / 1.5,
-                this.spriteWidthTeacher,
-                this.spriteHeightTeacher
+            catBoy: new Player(
+                this,
+                '../assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png',
+                this.staticUI.board.x + this.widthBoard - this.widthPlayerBoy / 4, this.game.height - this.heightPlayerBoy,
+                this.widthPlayerBoy, this.heightPlayerBoy,
+                this.spriteWidthPlayerBoy, this.spriteHeightPlayerBoy,
+                0, 1, 'boy'
+
             )
         }
         this.text = {
@@ -138,8 +195,6 @@ export class BoardResult {
             )
 
         }
-        this.translateX = this.width / 4;
-        this.translateY = this.height / 5;
     }
 
     update() {
@@ -148,12 +203,12 @@ export class BoardResult {
     draw(context) {
 
         context.save();
-        context.translate(this.translateX, this.translateY);
         // Draw your board and score here
         this.staticUI.board.draw(context);
         this.staticUI.score.draw(context);
-        this.staticUI.teacher.draw(context);
         this.buttons.next.draw(context);
+        this.player.catGirl.draw(context);
+        this.player.catBoy.draw(context);
 
         this.text.difficulty.writeText(context, "Độ khó : x1");
         this.text.word.writeText(context, "Số từ: 53");

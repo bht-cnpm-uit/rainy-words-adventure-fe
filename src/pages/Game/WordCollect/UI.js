@@ -107,17 +107,14 @@ export class BonusItems {
                     this.noItems++;
                 }
             }
-            if (this.game.listWordCollect.length == 10) {
-                this.game.gameState = 2;
-                this.game.boardEndWordCollect.hidden = false;
-                this.game.boardEndWordCollect.animateCountDown();
+            if (this.game.listWordCollect.length == 12) {
+                this.game.updateGameState(2) //Win
             }
         }
         else {
             this.noItems--;
             if (this.noItems < 1) {
-                this.game.gameState = 0;
-                this.game.boardEndWordCollect.hidden = false;
+                this.game.updateGameState(0) //Loss
             }
         }
     }
@@ -156,8 +153,7 @@ class Button {
         context.fillStyle = "brown";
         context.fillText(text, this.x + this.width / 2, this.y + this.height / 1.5);
     }
-    onClick(type) {
-        console.log(type)
+    onClickButton(type) {
         if (type === 'replay') {
             window.location.reload();
         }
@@ -167,6 +163,10 @@ class Button {
         else if (type === 'continue') {
             this.game.boardStopGame.updateState(!this.game.boardStopGame.hidden);
             this.game.btnGameState.setState(!this.game.btnGameState.currentState)
+        }
+        else if (type === 'end_collect_play') {
+            cancelAnimationFrame(this.animationHandleCountDown)
+            this.game.props.settypegame('word-chain')
         }
     }
 }
@@ -298,6 +298,7 @@ export class BoardEndWordCollect {
         this.widthBtn = this.spriteWidthButton * this.scaleY / 1.95;
         this.heightBtn = this.spriteHeightButton * this.scaleY / 1.5;
         this.countDown = 10;
+        this.animationHandleCountDown;
         this.staticUI = {
             board: new StaticUI(
                 '../assets/Asset/PanelAtlas_cuts/image_1.png',
@@ -316,21 +317,10 @@ export class BoardEndWordCollect {
             )
         }
         this.buttons = {
-            continue: new Button(
-                this.game,
-                '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
-                (this.width / 3 - this.widthBtn) / 2,
-                this.height - this.heightBtn * 1.5,
-                this.widthBtn,
-                this.heightBtn,
-                this.spriteWidthButton,
-                this.spriteHeightButton,
-                'continue'
-            ),
             replay: new Button(
                 this.game,
                 '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
-                this.width / 3 + (this.width / 3 - this.widthBtn) / 2,
+                (this.width / 2 - this.widthBtn) / 2,
                 this.height - this.heightBtn * 1.5,
                 this.widthBtn,
                 this.heightBtn,
@@ -341,35 +331,13 @@ export class BoardEndWordCollect {
             back: new Button(
                 this.game,
                 '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
-                this.width * 2 / 3 + (this.width / 3 - this.widthBtn) / 2,
-                this.height - this.heightBtn * 1.5,
-                this.widthBtn,
-                this.heightBtn,
-                this.spriteWidthButton,
-                this.spriteHeightButton,
-                'back'
-            ),
-            end_replay: new Button(
-                this.game,
-                '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
-                (this.width / 2 - this.widthBtn) / 2,
-                this.height - this.heightBtn * 1.5,
-                this.widthBtn,
-                this.heightBtn,
-                this.spriteWidthButton,
-                this.spriteHeightButton,
-                'end_replay'
-            ),
-            end_back: new Button(
-                this.game,
-                '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
                 this.width / 2 + (this.width / 2 - this.widthBtn) / 2,
                 this.height - this.heightBtn * 1.5,
                 this.widthBtn,
                 this.heightBtn,
                 this.spriteWidthButton,
                 this.spriteHeightButton,
-                'end_back'
+                'back'
             ),
             play: new Button(
                 this.game,
@@ -380,7 +348,7 @@ export class BoardEndWordCollect {
                 this.heightBtn,
                 this.spriteWidthButton,
                 this.spriteHeightButton,
-                'play'
+                'end_collect_play'
             ),
         }
     }
@@ -389,7 +357,7 @@ export class BoardEndWordCollect {
     }
     draw(context) {
         if (!this.hidden) {
-            if (this.game.gameState == 2) {
+            if (this.game.gameState == 'Win') {
                 context.save();
                 context.translate(this.translateX, this.translateY);
                 this.staticUI.board.draw(context);
@@ -399,14 +367,14 @@ export class BoardEndWordCollect {
                 this.text.countDown.writeText(context, `${this.countDown}`, "50px fontgame");
                 context.restore();
             }
-            else if (this.game.gameState == 0) {
+            else if (this.game.gameState == 'Loss') {
                 context.save();
                 context.translate(this.translateX, this.translateY);
                 this.staticUI.board.draw(context);
-                this.buttons.end_replay.draw(context);
-                this.buttons.end_replay.writeText(context, "Chơi lại")
-                this.buttons.end_back.draw(context);
-                this.buttons.end_back.writeText(context, "Trở về")
+                this.buttons.replay.draw(context);
+                this.buttons.replay.writeText(context, "Chơi lại")
+                this.buttons.back.draw(context);
+                this.buttons.back.writeText(context, "Trở về")
                 this.text.textTitle.writeText(context, 'Bạn chưa vượt qua màn chơi này !');
                 context.restore();
             }
@@ -417,7 +385,7 @@ export class BoardEndWordCollect {
     }
     animateCountDown() {
         const self = this;
-        let animationHandle;
+        let animationHandle = self.animationHandleCountDown;
         let frame = 0;
         self.countDown = 10;
         function animate() {
@@ -429,8 +397,8 @@ export class BoardEndWordCollect {
             }
             else {
                 cancelAnimationFrame(animationHandle);
-                window.location.href = '/word-chain'
-                return; // Stop the animation loop
+                self.game.props.settypegame('word-chain')
+                return;
             }
         }
         animate();

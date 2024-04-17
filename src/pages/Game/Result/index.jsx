@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { BoardResult } from './UI';
-import { Player } from './player';
 import { Background } from './background';
 const Result = (props) => {
     const canvasRef = useRef();
@@ -15,16 +14,15 @@ const Result = (props) => {
             this.width = width;
             this.height = height;
             this.background = new Background(this);
-            this.player = new Player(this);
             this.boardResult = new BoardResult(this);
             this.canvas.addEventListener('mousemove', this.onMouseMove.bind(this));
             this.canvas.addEventListener('click', this.onClick.bind(this));
         }
         onMouseMove(event) {
-           
+
         }
         onClick(event) {
-            
+
         }
 
         isMouseOverButton(mouseX, mouseY, button) {
@@ -40,12 +38,8 @@ const Result = (props) => {
             this.background.update(this.gameFrame);
         }
         draw(context) {
-
             this.background.draw(context);
-            this.player.draw(context);
             this.boardResult.draw(context);
-
-
         }
     }
     useEffect(() => {

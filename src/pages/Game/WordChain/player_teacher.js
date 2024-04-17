@@ -1,7 +1,7 @@
 export class TeacherCat {
     constructor(game) {
         this.game = game;
-        this.scaleY = this.game.scaleY;
+        this.scaleY = this.game.background.scaleY;
         this.spriteWidth = 883;
         this.spriteHeight = 611;
         this.width = this.spriteWidth * this.scaleY;
