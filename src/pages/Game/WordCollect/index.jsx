@@ -77,16 +77,31 @@ const WordCollect = props => {
                 }
             }
             else if (!this.boardEndWordCollect.hidden) {
-                for (const buttonKey in this.boardEndWordCollect.buttons) {
-                    if (this.isMouseOverButton(mouseX - this.boardEndWordCollect.translateX, mouseY - this.boardEndWordCollect.translateY, this.boardEndWordCollect.buttons[buttonKey])) {
-                        this.boardEndWordCollect.buttons[buttonKey].onClickButton(this.boardEndWordCollect.buttons[buttonKey].type);
+                if (this.gameState === 'Win') {
+                    if (this.isMouseOverButton(mouseX - this.boardEndWordCollect.translateX, mouseY - this.boardEndWordCollect.translateY, this.boardEndWordCollect.buttons.play)) {
+                        this.boardEndWordCollect.buttons.play.onClickButton('end_collect_play');
+                        return;
+                    }
+                }
+                else if (this.gameState === 'win') {
+                    if (this.isMouseOverButton(mouseX - this.boardEndWordCollect.translateX, mouseY - this.boardEndWordCollect.translateY, this.boardEndWordCollect.buttons.replay)) {
+                        this.boardEndWordCollect.buttons.play.onClickButton('replay');
+                        return;
+                    }
+                    else if (this.isMouseOverButton(mouseX - this.boardEndWordCollect.translateX, mouseY - this.boardEndWordCollect.translateY, this.boardEndWordCollect.buttons.back)) {
+                        this.boardEndWordCollect.buttons.play.onClickButton('back');
                         return;
                     }
                 }
             }
             else if (this.isMouseOverButton(mouseX, mouseY, this.btnGameState)) {
+                if (this.gameState === 'Playing') {
+                    this.updateGameState(1);
+                }
+                else if (this.gameState === "Stop") {
+                    this.updateGameState(3);
+                }
                 this.boardStopGame.updateState(!this.boardStopGame.hidden);
-                this.btnGameState.setState(!this.btnGameState.currentState)
             }
         }
         onMouseMove(event) {
@@ -94,17 +109,27 @@ const WordCollect = props => {
             const mouseX = event.clientX - rect.left;
             const mouseY = event.clientY - rect.top;
             let cursorStyle = 'default';
-            if (this.isMouseOverButton(mouseX - this.boardStopGame.translateX, mouseY - this.boardStopGame.translateY, this.boardStopGame.buttons.back)) {
-                cursorStyle = 'pointer';
+            if (!this.boardStopGame.hidden) {
+                for (const buttonKey in this.boardStopGame.buttons) {
+                    if (this.isMouseOverButton(mouseX - this.boardStopGame.translateX, mouseY - this.boardStopGame.translateY, this.boardStopGame.buttons[buttonKey])) {
+                        cursorStyle = 'pointer';
+                    }
+                }
             }
-            else if (this.isMouseOverButton(mouseX - this.boardStopGame.translateX, mouseY - this.boardStopGame.translateY, this.boardStopGame.buttons.replay)) {
-                cursorStyle = 'pointer';
-            }
-            else if (this.isMouseOverButton(mouseX - this.boardStopGame.translateX, mouseY - this.boardStopGame.translateY, this.boardStopGame.buttons.continue)) {
-                cursorStyle = 'pointer';
-            }
-            else if (this.isMouseOverButton(mouseX, mouseY, this.btnGameState)) {
-                cursorStyle = 'pointer';
+            else if (!this.boardEndWordCollect.hidden) {
+                if (this.gameState === 'Win') {
+                    if (this.isMouseOverButton(mouseX - this.boardEndWordCollect.translateX, mouseY - this.boardEndWordCollect.translateY, this.boardEndWordCollect.buttons.play)) {
+                        cursorStyle = 'pointer';
+                    }
+                }
+                else if (this.gameState === 'win') {
+                    if (this.isMouseOverButton(mouseX - this.boardEndWordCollect.translateX, mouseY - this.boardEndWordCollect.translateY, this.boardEndWordCollect.buttons.replay)) {
+                        cursorStyle = 'pointer';
+                    }
+                    else if (this.isMouseOverButton(mouseX - this.boardEndWordCollect.translateX, mouseY - this.boardEndWordCollect.translateY, this.boardEndWordCollect.buttons.back)) {
+                        cursorStyle = 'pointer';
+                    }
+                }
             }
             this.canvas.style.cursor = cursorStyle;
         }
@@ -131,13 +156,11 @@ const WordCollect = props => {
             }
         }
         draw(context) {
-            if (this.gameState === 'Playing') {
-                this.btnGameState.draw(context);
-            }
             this.background.draw(context)
             this.wordFall.draw(context);
             this.bonusItems.draw(context);
             this.player.draw(context);
+            this.btnGameState.draw(context);
             this.Score.draw(context);
             this.boardStopGame.draw(context);
             this.boardEndWordCollect.draw(context);

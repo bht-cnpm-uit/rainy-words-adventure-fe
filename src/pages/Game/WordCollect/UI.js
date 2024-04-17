@@ -161,6 +161,7 @@ class Button {
             window.location.href = '/level';
         }
         else if (type === 'continue') {
+            this.game.updateGameState(3);
             this.game.boardStopGame.updateState(!this.game.boardStopGame.hidden);
             this.game.btnGameState.setState(!this.game.btnGameState.currentState)
         }
@@ -420,21 +421,14 @@ export class BtnGameState {
         this.imageStart.src = '../assets/Asset/Asset/btn_start.png';
         this.x = this.game.width - this.spriteWidth / 1.5;
         this.y = this.spriteHeight / 4;
-        this.currentState = true;
     }
     draw(context) {
-        if (this.currentState) {
+        if (this.game.gameState === "Playing") {
             context.drawImage(this.imageStart, this.x, this.y, this.spriteWidth / 2, this.spriteHeight / 2);
         }
         else {
             context.drawImage(this.imagePause, this.x, this.y, this.spriteWidth / 2, this.spriteHeight / 2);
         }
-    }
-    setState(state) {
-        this.currentState = state;
-        if (state)
-            this.game.updateGameState(1);
-        else this.game.updateGameState(0);
     }
 }
 
