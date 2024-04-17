@@ -279,7 +279,7 @@ export class Levels {
             lv.position.x = lv.position.x * this.scaleY;
             lv.position.y = lv.position.y * this.scaleY;
             this.levels.push(lv); // Push the updated level data into levels array
-            if (lv.level == this.game.player.currentPostionLevel) {
+            if (lv.level == this.game.player.maxCurrentLevel) {
                 this.game.player.initialPositionPlayer(lv)
             }
         }
@@ -296,8 +296,8 @@ export class Levels {
             else {
                 this.levels[i].position.x = this.levelsNext[i].position.x
             }
-            if (this.levels[i].level == this.game.player.currentPostionLevel) {
-                this.game.player.position = JSON.parse(JSON.stringify(this.levels[i].position));
+            if (this.levels[i].level == this.game.player.currentLevel.level) {
+                this.game.player.currentLevel = JSON.parse(JSON.stringify(this.levels[i]));
             }
         }
     }
@@ -333,6 +333,7 @@ export class Levels {
             if (level.level == lv.level) {
                 level.state = "Unblocking"
                 this.animateUnblockLevel(level);
+                this.game.player.updateMaxCurrentLevel(level.level)
                 return;
             }
         })

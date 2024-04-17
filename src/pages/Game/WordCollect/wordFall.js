@@ -18,7 +18,7 @@ class Item {
         this.markedForDeletion = false;
         this.wordIndex = Math.floor(Math.random() * 29);
         this.setWord();
-        this.setFrameXY(); // Set frameX and frameY based on probability
+        this.setFrameXY();
         this.animateFall();
     }
     setWord() {
@@ -31,7 +31,7 @@ class Item {
         else {
             this.isTrueWord = false;
             this.word = JSON.parse(JSON.stringify(data[wordIndex]));
-            let vietnameseIndex = (wordIndex + Math.floor(Math.random() * (data.length - wordIndex))) % data.length;
+            let vietnameseIndex = (wordIndex + Math.ceil(Math.random() * (data.length - wordIndex - 1)));
             this.word["vietnamese"] = data[vietnameseIndex]["vietnamese"];
         }
     }
@@ -106,7 +106,7 @@ class Item {
         let self = this;
         function animate() {
             if (self.y < self.game.height) {
-                if (self.game.gameState) {
+                if (self.game.gameState === 'Playing') {
                     if (self.angle + self.spinSpeed * self.game.deltaTime > self.maxAngleSpin || self.angle + self.spinSpeed * self.game.deltaTime < -self.maxAngleSpin) {
                         self.spinSpeed = -self.spinSpeed;
                     } else {

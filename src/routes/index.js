@@ -3,6 +3,7 @@ import VocabLib from '../pages/VocabLib';
 import DifficultyComponent from '../pages/Game/DifficultyComponent';
 import Level from '../pages/Game/Level';
 import WordCollect from '../pages/Game/WordCollect';
+import Game from '../pages/Game/Game';
 //import LoginForm from '../pages/Login/login';
 // import LoginForm from '../pages/Login/loginReal';
 import Login from '../pages/Login/';
@@ -28,14 +29,6 @@ const publicRoutes = [
         component: DifficultyComponent,
     },
     {
-        path: '/word-collect',
-        component: WordCollect,
-    },
-    {
-        path: '/word-chain',
-        component: WordChain,
-    },
-    {
         path: '/level',
         component: Level,
     },
@@ -54,8 +47,12 @@ const publicRoutes = [
     {
         path: '/admin',
         component: Admin,
+    },
+    {
+        path: '/game',
+        component: Game,
     }
-  
+
 ];
 
 const privateRoutes = [

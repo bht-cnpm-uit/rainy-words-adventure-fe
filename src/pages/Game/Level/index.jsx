@@ -86,7 +86,7 @@ const Level = props => {
             }
             else if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.play)) {
                 //  play
-                window.location.href = '/word-collect';
+                window.location.href = '/game';
             }
             // Check if the mouse is over the next map button
             else if (this.levelSetting.hidden) {
@@ -108,7 +108,7 @@ const Level = props => {
                                     this.player.updateMaxCurrentLevel(level.level);
                                 }
                             }
-                            else if (this.player.currentPostionLevel == level.level) {
+                            else if (this.player.currentLevel.level == level.level) {
                                 this.levelSetting.open(level);
                             }
                             else {

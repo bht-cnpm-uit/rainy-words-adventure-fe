@@ -3,6 +3,13 @@ import { Player } from './Player/player';
 import { Background } from './background';
 import { Score, BonusItems, BoardStopGame, BtnGameState, BoardEndWordCollect } from './UI';
 import { WordFall } from './wordFall';
+const GameState =
+{
+    0: 'Loss',
+    1: 'Stop',
+    2: 'Win',
+    3: 'Playing'
+}
 const WordCollect = props => {
     const canvasRef = useRef()
     function resizeCanvas(canvas) {
@@ -11,6 +18,7 @@ const WordCollect = props => {
     }
     class Game {
         constructor(canvas, ctx, width, height) {
+            this.props = props
             this.canvas = canvas;
             this.canvas.style.cursor = 'default'
             this.ctx = ctx;
@@ -18,7 +26,7 @@ const WordCollect = props => {
             this.height = height;
             this.gameFrame = 0;
             this.deltaTime = null;
-            this.gameState = 1;
+            this.gameState = GameState[3];
             this.wordTimer = 0;
             this.wordInterval = 2000;
             this.background = new Background(this);
@@ -33,23 +41,48 @@ const WordCollect = props => {
             this.canvas.addEventListener('click', this.onClick.bind(this));
             this.listWordCollect = [];
         }
+        updateResult() {
+            this.props.setResult({
+                "noWords": this.listWordCollect.length,
+                "score": this.Score.score,
+                "bonus":
+                {
+                    "item1": this.bonusItems.noItems0,
+                    "item2": this.bonusItems.noItems1,
+                    "item3": this.bonusItems.noItems2,
+                }
+            })
+        }
         updateGameState(state) {
-            this.gameState = state;
+            this.gameState = GameState[state];
+            if (state === 2) {
+                this.props.setlistwordcollect(this.listWordCollect);
+                this.boardEndWordCollect.hidden = false;
+                this.boardEndWordCollect.animateCountDown();
+            }
+            else if (state === 0) {
+                this.boardEndWordCollect.hidden = false;
+            }
         }
         onClick(event) {
             const rect = this.canvas.getBoundingClientRect();
             const mouseX = event.clientX - rect.left;
             const mouseY = event.clientY - rect.top;
-            if (this.isMouseOverButton(mouseX - this.boardStopGame.translateX, mouseY - this.boardStopGame.translateY, this.boardStopGame.buttons.back)) {
-                window.location.href = '/level';
+            if (!this.boardStopGame.hidden) {
+                for (const buttonKey in this.boardStopGame.buttons) {
+                    if (this.isMouseOverButton(mouseX - this.boardStopGame.translateX, mouseY - this.boardStopGame.translateY, this.boardStopGame.buttons[buttonKey])) {
+                        this.boardStopGame.buttons[buttonKey].onClickButton(this.boardStopGame.buttons[buttonKey].type);
+                        return;
+                    }
+                }
             }
-            else if (this.isMouseOverButton(mouseX - this.boardStopGame.translateX, mouseY - this.boardStopGame.translateY, this.boardStopGame.buttons.replay)) {
-                this.boardStopGame.updateState(!this.boardStopGame.hidden);
-                this.btnGameState.setState(!this.btnGameState.currentState)
-            }
-            else if (this.isMouseOverButton(mouseX - this.boardStopGame.translateX, mouseY - this.boardStopGame.translateY, this.boardStopGame.buttons.continue)) {
-                this.boardStopGame.updateState(!this.boardStopGame.hidden);
-                this.btnGameState.setState(!this.btnGameState.currentState)
+            else if (!this.boardEndWordCollect.hidden) {
+                for (const buttonKey in this.boardEndWordCollect.buttons) {
+                    if (this.isMouseOverButton(mouseX - this.boardEndWordCollect.translateX, mouseY - this.boardEndWordCollect.translateY, this.boardEndWordCollect.buttons[buttonKey])) {
+                        this.boardEndWordCollect.buttons[buttonKey].onClickButton(this.boardEndWordCollect.buttons[buttonKey].type);
+                        return;
+                    }
+                }
             }
             else if (this.isMouseOverButton(mouseX, mouseY, this.btnGameState)) {
                 this.boardStopGame.updateState(!this.boardStopGame.hidden);
@@ -85,7 +118,7 @@ const WordCollect = props => {
         }
         update(deltaTime) {
             this.deltaTime = deltaTime;
-            if (this.gameState) {
+            if (this.gameState === 'Playing') {
                 this.gameFrame++;
                 this.wordFall.update();
                 this.player.update(deltaTime, this.wordFall.words);
@@ -98,11 +131,13 @@ const WordCollect = props => {
             }
         }
         draw(context) {
+            if (this.gameState === 'Playing') {
+                this.btnGameState.draw(context);
+            }
             this.background.draw(context)
             this.wordFall.draw(context);
             this.bonusItems.draw(context);
             this.player.draw(context);
-            this.btnGameState.draw(context);
             this.Score.draw(context);
             this.boardStopGame.draw(context);
             this.boardEndWordCollect.draw(context);
