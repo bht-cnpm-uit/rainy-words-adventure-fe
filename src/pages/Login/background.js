@@ -25,6 +25,7 @@ export class Background {
         this.spriteWidth = 2920;
         this.width = this.game.width;
         this.height = this.game.height;
+        this.scaleX = this.width / this.spriteWidth;
         this.scaleY = this.height / this.spriteHeight;
         this.layerImage1 = new Layer(this.game, this.spriteWidth, this.spriteHeight,'../assets/Asset/Map1/ScrollBG.png' );
         this.layerImage2 = new Layer(this.game, this.spriteWidth, this.spriteHeight,'../assets/Asset/Map1/StableBG.png' );
@@ -58,14 +59,15 @@ export class LogoGame {
         this.width = this.game.width;
         this.height = this.game.height;
         this.scaleY = this.height / this.spriteHeight;
+        this.scaleX = this.width / this.spriteWidth;
         this.layerLogo = new Layer(this.game, this.spriteWidth,this.spriteHeight,'../assets/Asset/Logo.png' );
 
     }
     update() {
     }
     draw(context) {
-        let widthCut = Math.ceil((this.spriteWidth * this.scaleY - this.width) / this.scaleY);
-        context.drawImage(this.layerLogo.image, widthCut, 0, this.spriteWidth - widthCut, this.spriteHeight, this.layerLogo.x + this.width/2.2, 50, this.width/2.5, this.height/2.5);
+        let widthCut = Math.ceil((this.spriteWidth * this.scaleX - this.width) / this.scaleX);
+        context.drawImage(this.layerLogo.image, widthCut, 0, this.spriteWidth - widthCut , this.spriteHeight,  this.width/2, this.height/10, this.width/2.5, this.height/2.5);
         context.save();
     }
 }
@@ -78,15 +80,17 @@ export class LoginForm {
         this.width = this.game.width;
         this.height = this.game.height;
         this.scaleY = this.height / this.spriteHeight;
+        this.scaleX = this.width / this.spriteWidth;
         this.layerForm = new Layer(this.game, this.spriteWidth,this.spriteHeight,'../assets/Asset/Login/loginuserBg.png' );
-        this.inputUsername = this.createInput('text','Tài khoản: ', `${this.width*1.37 / 2.3}px` , `${this.height*0.9 / 1.5}px`, `${this.width/6}px`, '50px', 'Nhập tài khoản');
-        this.inputPassword = this.createInput('password','Mật khẩu: ', `${this.width*1.37 / 2.3}px`, `${this.height*0.9 / 1.3}px`, `${this.width/6}px`, '50px', 'Nhập mật khẩu' );
+        this.inputUsername = this.createInput('text','Tài khoản: ', `${this.width*1.37 / 2.3}px` , `${this.height*0.9 / 1.5}px`, `${this.width/this.scaleX/2.5}px`, '50px', 'Nhập tài khoản');
+        this.inputPassword = this.createInput('password','Mật khẩu: ', `${this.width*1.37 / 2.3}px`, `${this.height*0.9 / 1.3}px`, `${this.width/this.scaleX/2.5}px`, '50px', 'Nhập mật khẩu' );
     }
     update() {
     }
     draw(context) {
-        let widthCut = Math.ceil((this.spriteWidth * this.scaleY - this.width) / this.scaleY);
-        context.drawImage(this.layerForm.image, widthCut, 0, this.spriteWidth - widthCut, this.spriteHeight, this.layerForm.x + this.width/2.3, this.height/1.9, this.width/2.5, this.height/2.5);
+        let widthCutX = Math.ceil((this.spriteWidth * this.scaleX - this.width) / this.scaleX);
+        let widthCutY = Math.ceil((this.spriteWidth * this.scaleY - this.width) / this.scaleY);
+        context.drawImage(this.layerForm.image, widthCutX, 0, this.spriteWidth - widthCutX, this.spriteHeight , this.width/1.9, this.height/1.9, this.width/2.5, this.height/2.5);
         context.save();
     }
 

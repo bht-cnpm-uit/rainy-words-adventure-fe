@@ -53,7 +53,7 @@ export class start extends Button {
         this.image.src = '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png';
         this.spriteWidth = 437;
         this.spriteHeight = 129;
-        this.x = this.width / 1.55;
+        this.x = this.width / 1.7;
         this.y = this.height / 1.25;
     }
     draw(context) {

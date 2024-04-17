@@ -146,6 +146,7 @@ export class SignInForm {
         this.statusCheck = true;
         this.width = this.game.width;
         this.height = this.game.height;
+        this.scaleX = this.width / this.spriteWidth;
         this.scaleY = this.height / this.spriteHeight;
         this.layerForm = new Layer(
             this.game,
@@ -156,8 +157,8 @@ export class SignInForm {
         this.inputName = this.createInput(
             'text',
             'Họ và tên: ',
-            `${this.width * 0.4905}px`,
-            `${this.height * 0.33}px`,
+            `${this.width *0.49}px`,
+            `${this.height * 0.28}px`,
             `${this.width / 4}px`,
             `${this.height / 20}px`,
             'Nhập họ và tên',
@@ -165,7 +166,7 @@ export class SignInForm {
         this.selectSchoolName = this.createSelectBox(
             'Trường: ',
             `${this.width * 0.502}px`,
-            `${this.height * 0.4}px`,
+            `${this.height * 0.35}px`,
             `${this.width / 4}px`,
             `${this.height / 20}px`,
             optionSchools,
@@ -173,7 +174,7 @@ export class SignInForm {
         this.selectClass = this.createSelectBox(
             'Lớp: ',
             `${this.width * 0.517}px`,
-            `${this.height * 0.47}px`,
+            `${this.height * 0.42}px`,
             `${this.width / 20}px`,
             `${this.height / 20}px`,
             optionGrades,
@@ -182,7 +183,7 @@ export class SignInForm {
             'date',
             'Ngày sinh: ',
             `${this.width * 0.488}px`,
-            `${this.height * 0.54}px`,
+            `${this.height * 0.49}px`,
             `${this.width / 10}px`,
             `${this.height / 20}px`,
             'Nhập ngày sinh',
@@ -191,7 +192,7 @@ export class SignInForm {
             'text',
             'SĐT: ',
             `${this.width * 0.516}px`,
-            `${this.height * 0.61}px`,
+            `${this.height * 0.56}px`,
             `${this.width / 4}px`,
             `${this.height / 20}px`,
             'Nhập số điện thoại',
@@ -200,7 +201,7 @@ export class SignInForm {
             'password',
             'Mật khẩu: ',
             `${this.width * 0.492}px`,
-            `${this.height * 0.68}px`,
+            `${this.height * 0.63}px`,
             `${this.width / 4}px`,
             `${this.height / 20}px`,
             'Nhập mật khẩu',
@@ -208,17 +209,17 @@ export class SignInForm {
     }
     update() {}
     draw(context) {
-        let widthCut = Math.ceil((this.spriteWidth * this.scaleY - this.width) / this.scaleY);
+        let widthCut = Math.ceil((this.spriteWidth * this.scaleX - this.width) / this.scaleX);
         context.drawImage(
             this.layerForm.image,
             widthCut,
             0,
             this.spriteWidth - widthCut,
             this.spriteHeight,
-            this.layerForm.x + this.width / 5,
-            this.height / 4,
-            this.width / 1.5,
-            this.height / 1.5,
+            this.layerForm.x + this.width / 2.5,
+            this.layerForm.y + this.height / 7 + this.scaleY *100,
+            this.width / this.scaleX / 2,
+            this.height / this.scaleY / 2,
         );
         context.save();
     }
@@ -243,7 +244,6 @@ export class SignInForm {
         input.placeholder = placeholder; // add placeholder
         input.style.paddingLeft = '10px';
         input.style.borderRadius = '10px';
-
         container.appendChild(input);
         document.body.appendChild(container);
         return input;
