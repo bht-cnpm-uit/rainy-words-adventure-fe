@@ -29,14 +29,6 @@ const publicRoutes = [
         component: DifficultyComponent,
     },
     {
-        path: '/word-collect',
-        component: WordCollect,
-    },
-    {
-        path: '/word-chain',
-        component: WordChain,
-    },
-    {
         path: '/level',
         component: Level,
     },

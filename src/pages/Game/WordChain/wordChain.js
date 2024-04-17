@@ -228,6 +228,7 @@ class Timer {
         this.x = x;
         this.y = y;
         this.radius = radius * this.scaleY
+        this.animationHandleTimer;
     }
     draw(context) {
         context.font = "40px Arial";
@@ -244,7 +245,6 @@ class Timer {
 
     animateCount(timer) {
         const self = this;
-        let animationHandle;
         let frame = 1;
         self.timer = timer;
         function animate() {
@@ -253,10 +253,10 @@ class Timer {
                     self.timer--;
                 }
                 frame++;
-                animationHandle = requestAnimationFrame(animate);
+                self.animationHandleTimer = requestAnimationFrame(animate);
             }
             else {
-                cancelAnimationFrame(animationHandle);
+                cancelAnimationFrame(self.animationHandleTimer);
                 self.game.game.updateGameState(1);
                 return;
             }

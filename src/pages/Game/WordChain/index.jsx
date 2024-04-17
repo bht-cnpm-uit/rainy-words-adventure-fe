@@ -43,10 +43,22 @@ const WordChain = (props) => {
             this.boardScoreChain = new BoardScoreChain(this);
             this.teacherCat = new TeacherCat(this);
         }
+        updateResult() {
+            let score = this.props.result.score + this.score;
+            this.props.setResult({
+                ...this.props.result,
+                'score': score
+            });
+        }
         updateGameState(state) {
             this.gameState = GameWordChainState[state]
             if (state === 1) {
+                cancelAnimationFrame(this.boardScoreChain.timer.animationHandleTimer);
                 this.boardWordChain.checkResut();
+            }
+            else if (state === 4) {
+                this.updateResult();
+                this.props.settypegame('done');
             }
         }
         updateSlotGame() {
@@ -55,7 +67,7 @@ const WordChain = (props) => {
             }
             else {
                 this.slot++;
-                this.boardWordChain.createGame(this.slot)
+                this.boardWordChain.createGame(this.slot - 1)
                 this.updateGameState(3);
                 this.boardWordChain.animatePrepareNewGame();
             }

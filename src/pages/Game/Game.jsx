@@ -4,8 +4,18 @@ import WordChain from "./WordChain";
 import Result from "../Game/Result"
 
 const Game = () => {
-    const [typegame, settypegame] = useState('done');
+    const [typegame, settypegame] = useState('word-collect');
     const [listwordcollect, setlistwordcollect] = useState([]);
+    const [result, setResult] = useState({
+        "noWords": 0,
+        "score": 0,
+        "bonus":
+        {
+            "item1": 0,
+            "item2": 0,
+            "item3": 0
+        }
+    });
 
     let gameComponent;
 
@@ -16,6 +26,7 @@ const Game = () => {
                     settypegame={settypegame}
                     listwordcollect={listwordcollect}
                     setlistwordcollect={setlistwordcollect}
+                    setResult={setResult}
                 />
             );
             break;
@@ -25,11 +36,16 @@ const Game = () => {
                     settypegame={settypegame}
                     listwordcollect={listwordcollect}
                     setlistwordcollect={setlistwordcollect}
+                    setResult={setResult}
+                    result={result}
                 />
             );
             break;
         case 'done':
-            gameComponent = <Result />;
+            gameComponent =
+                <Result
+                    result={result}
+                />;
             break;
         default:
             gameComponent = null;

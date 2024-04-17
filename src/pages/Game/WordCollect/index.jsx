@@ -41,6 +41,18 @@ const WordCollect = props => {
             this.canvas.addEventListener('click', this.onClick.bind(this));
             this.listWordCollect = [];
         }
+        updateResult() {
+            this.props.setResult({
+                "noWords": this.listWordCollect.length,
+                "score": this.Score.score,
+                "bonus":
+                {
+                    "item1": this.bonusItems.noItems0,
+                    "item2": this.bonusItems.noItems1,
+                    "item3": this.bonusItems.noItems2,
+                }
+            })
+        }
         updateGameState(state) {
             this.gameState = GameState[state];
             if (state === 2) {

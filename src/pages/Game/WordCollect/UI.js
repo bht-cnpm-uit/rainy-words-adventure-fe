@@ -107,7 +107,7 @@ export class BonusItems {
                     this.noItems++;
                 }
             }
-            if (this.game.listWordCollect.length == 12) {
+            if (this.game.listWordCollect.length === 12) {
                 this.game.updateGameState(2) //Win
             }
         }
@@ -166,6 +166,7 @@ class Button {
         }
         else if (type === 'end_collect_play') {
             cancelAnimationFrame(this.animationHandleCountDown)
+            this.game.updateResult()
             this.game.props.settypegame('word-chain')
         }
     }
@@ -397,6 +398,7 @@ export class BoardEndWordCollect {
             }
             else {
                 cancelAnimationFrame(animationHandle);
+                self.game.updateResult()
                 self.game.props.settypegame('word-chain')
                 return;
             }

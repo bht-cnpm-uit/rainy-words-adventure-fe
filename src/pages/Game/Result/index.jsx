@@ -9,6 +9,7 @@ const Result = (props) => {
     }
     class MainScreen {
         constructor(canvas, ctx, width, height) {
+            this.result = props.result
             this.canvas = canvas;
             this.ctx = ctx;
             this.width = width;
@@ -19,10 +20,22 @@ const Result = (props) => {
             this.canvas.addEventListener('click', this.onClick.bind(this));
         }
         onMouseMove(event) {
-
+            const rect = this.canvas.getBoundingClientRect();
+            let mouseX = event.clientX - rect.left;
+            let mouseY = event.clientY - rect.top;
+            let cursorStyle = 'default';
+            if (this.isMouseOverButton(mouseX, mouseY, this.boardResult.buttonNext)) {
+                cursorStyle = 'pointer';
+            }
+            this.canvas.style.cursor = cursorStyle;
         }
         onClick(event) {
-
+            const rect = this.canvas.getBoundingClientRect();
+            let mouseX = event.clientX - rect.left;
+            let mouseY = event.clientY - rect.top;
+            if (this.isMouseOverButton(mouseX, mouseY, this.boardResult.buttonNext)) {
+                this.boardResult.buttonNext.onClick();
+            }
         }
 
         isMouseOverButton(mouseX, mouseY, button) {
