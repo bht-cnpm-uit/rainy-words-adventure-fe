@@ -10,7 +10,7 @@ class Layer {
         this.x = 0;
         this.y = 0;
     }
-    update() {}
+    update() { }
     draw(context) {
         context.drawImage(this.image, this.x, this.y, this.width, this.height);
     }
@@ -34,10 +34,10 @@ export class Background {
         this.text2 = `TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN`;
         this.textColor = "brown";
         this.textSize = this.game.width / 90;
-        this.textX1 = this.game.width / 2 + this.scaleX*40 ;
-        this.textX2 = this.game.width/1.37 + this.scaleX*40;
-        this.textY1 = this.game.height / this.scaleY/ 6.5;
-        this.textY2 = this.game.height / this.scaleY/ 6.5;
+        this.textX1 = this.game.width / 2 + this.scaleX * 40;
+        this.textX2 = this.game.width / 1.37 + this.scaleX * 40;
+        this.textY1 = this.game.height / this.scaleY / 6.5;
+        this.textY2 = this.game.height / this.scaleY / 6.5;
         this.layerImage1 = new Layer(
             this.game,
             this.spriteWidth,
@@ -100,12 +100,12 @@ export class Background {
         context.save();
     }
 
-    drawtext(context){
+    drawtext(context) {
         context.fillStyle = `${this.textColor}`;
         context.font = `bold ${this.textSize}px Arial`;
         context.fillText(this.text1, this.textX1, this.textY1);
         context.fillText(this.text2, this.textX2, this.textY2);
-    
+
     }
 }
 
@@ -126,7 +126,7 @@ export class LogoGame {
         );
         ;
     }
-    update() {}
+    update() { }
     draw(context) {
         let widthCut = Math.ceil((this.spriteWidth * this.scaleX - this.width) / this.scaleX);
         context.drawImage(
@@ -135,10 +135,10 @@ export class LogoGame {
             0,
             this.spriteWidth - widthCut,
             this.spriteHeight,
-            this.width /2.2,
+            this.width / 2.2,
             this.height / 3.5,
-            this.spriteWidth/1.65,
-            this.spriteHeight/1.8   ,
+            this.spriteWidth / 1.65,
+            this.spriteHeight / 1.8,
         );
     }
 }
@@ -158,7 +158,7 @@ export class LogoDoan {
             '/assets/Asset/Logo/LogoDoan.png',
         );
     }
-    update() {}
+    update() { }
     draw(context) {
         let widthCut = Math.ceil((this.spriteWidth * this.scaleY - this.width) / this.scaleY);
         context.drawImage(
@@ -169,8 +169,8 @@ export class LogoDoan {
             this.spriteHeight,
             this.layerLogo.x + this.width / 2.5,
             this.layerLogo.y + this.height / 35,
-            this.width / this.scaleY/13,
-            this.height / this.scaleY/13,
+            this.width / this.scaleY / 13,
+            this.height / this.scaleY / 13,
         );
         context.save();
     }
@@ -191,7 +191,7 @@ export class LogoDoan2 {
             '/assets/Asset/Logo/LogoDoan.png',
         );
     }
-    update() {}
+    update() { }
     draw(context) {
         let widthCut = Math.ceil((this.spriteWidth * this.scaleY - this.width) / this.scaleY);
         context.drawImage(
@@ -202,8 +202,8 @@ export class LogoDoan2 {
             this.spriteHeight,
             this.layerLogo.x + this.width / 1.7,
             this.layerLogo.y + this.height / 35,
-            this.width / this.scaleY/13,
-            this.height / this.scaleY/13,
+            this.width / this.scaleY / 13,
+            this.height / this.scaleY / 13,
         );
     }
 }
@@ -223,7 +223,7 @@ export class LogoDoi {
             '/assets/Asset/Logo/LogoDoi.png',
         );
     }
-    update() {}
+    update() { }
     draw(context) {
         let widthCut = Math.ceil((this.spriteWidth * this.scaleY - this.width) / this.scaleY);
         context.drawImage(
@@ -234,8 +234,8 @@ export class LogoDoi {
             this.spriteHeight,
             this.layerLogo.x + this.width / 2.05,
             this.layerLogo.y + this.height / 25,
-            this.width / this.scaleY/8,
-            this.height / this.scaleY/8,
+            this.width / this.scaleY / 8,
+            this.height / this.scaleY / 8,
         );
         context.save();
     }
@@ -256,7 +256,7 @@ export class LogoTruong {
             '/assets/Asset/Logo/LogoTruong.png',
         );
     }
-    update() {}
+    update() { }
     draw(context) {
         let widthCut = Math.ceil((this.spriteWidth * this.scaleY - this.width) / this.scaleY);
         context.drawImage(
@@ -267,8 +267,8 @@ export class LogoTruong {
             this.spriteHeight,
             this.layerLogo.x + this.width / 1.45,
             this.layerLogo.y + this.height / 25,
-            this.width / this.scaleY/3,
-            this.height / this.scaleY/3,
+            this.width / this.scaleY / 3,
+            this.height / this.scaleY / 3,
         );
         context.save();
     }
@@ -289,7 +289,7 @@ export class LogoBan {
             '/assets/Asset/Logo/LogoBan.png',
         );
     }
-    update() {}
+    update() { }
     draw(context) {
         let widthCut = Math.ceil((this.spriteWidth * this.scaleY - this.width) / this.scaleY);
         context.drawImage(
@@ -300,8 +300,8 @@ export class LogoBan {
             this.spriteHeight,
             this.layerLogo.x + this.width / 1.31,
             this.layerLogo.y + this.height / 30,
-            this.width / this.scaleY/23,
-            this.height / this.scaleY/23,
+            this.width / this.scaleY / 23,
+            this.height / this.scaleY / 23,
         );
         context.save();
     }
