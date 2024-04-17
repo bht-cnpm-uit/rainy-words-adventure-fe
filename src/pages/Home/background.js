@@ -34,8 +34,8 @@ export class Background {
         this.text2 = `TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN`;
         this.textColor = "brown";
         this.textSize = this.game.width / 90;
-        this.textX1 = this.game.width / 2 + this.scaleX*40 ;
-        this.textX2 = this.game.width/1.37 + this.scaleX*40;
+        this.textX1 = this.game.width / 2 + this.scaleX*100 ;
+        this.textX2 = this.game.width/1.35 + this.scaleX*100;
         this.textY1 = this.game.height / this.scaleY/ 6.5;
         this.textY2 = this.game.height / this.scaleY/ 6.5;
         this.layerImage1 = new Layer(
