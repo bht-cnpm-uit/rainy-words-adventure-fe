@@ -115,11 +115,11 @@ class Word {
             context.drawImage(this.imagePlay, 0, 0, this.spriteWidth, this.spriteHeight, this.x + dx, this.y + dy, this.width, this.height);
         }
         else if (this.wordChain.game.gameState === "Checked") {
-            if (this.status === 'wrong') {
-                context.drawImage(this.imageWrong, 0, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
+            if (this.status === 'correct') {
+                context.drawImage(this.imageCorrect, 0, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
             }
             else {
-                context.drawImage(this.imageCorrect, 0, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
+                context.drawImage(this.imageWrong, 0, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
             }
 
         }
@@ -353,8 +353,8 @@ export class BoardWordChain {
                 40
             )
         }
-        this.EnglishWord = []
-        this.VietNameseWord = []
+        this.EnglishWord = [];
+        this.VietNameseWord = [];
         this.spriteWidthWord = 397;
         this.spriteHeightWord = 119;
         this.correctWords = {};
@@ -375,8 +375,8 @@ export class BoardWordChain {
         let wordsVi = [...this.game.listWords.slice(gameSlot * 4, gameSlot * 4 + 4).map(item => item.vietnamese)];
         wordsEn = shuffleArray(wordsEn);
         wordsVi = shuffleArray(wordsVi);
-        this.EnglishWord = []
-        this.VietNameseWord = []
+        this.EnglishWord = [];
+        this.VietNameseWord = [];
         for (let i = 0; i < 4; i++) {
             this.EnglishWord.push(new Word(this, wordsEn[i], 0, i, this.spriteWidthWord, this.spriteHeightWord, this.scaleY, 'EN'));
             this.VietNameseWord.push(new Word(this, wordsVi[i], this.staticUI.board.width / 2, i, this.spriteWidthWord, this.spriteHeightWord, this.scaleY, 'VI'));
