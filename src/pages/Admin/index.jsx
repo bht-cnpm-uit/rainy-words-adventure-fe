@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-
+import DataManagement from './DataManagement';
 const Admin = () => {
     return (
-        <div className="">
-            <aside className="h-screen w-64 bg-gray-50" aria-label="Sidebar">
+        <div className="w-full h-screen flex absolute">
+            <aside className="w-1/5 h-screen bg-gray-50" aria-label="Sidebar">
                 <div className="overflow-y-auto rounded px-4 py-4 dark:bg-gray-800">
                     <ul className="space-y-6">
                         <li>
                             <a
-                                href="#" 
+                                href="#"
                                 className="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                             >
                                 <svg
@@ -55,9 +55,9 @@ const Admin = () => {
                                     xmlns="http://www.w3.org/2000/svg"
                                 >
                                     <path
-                                        fill-rule="evenodd"
+                                        fillRule="evenodd"
                                         d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h5v2H5a1 1 0 01-1-1zm7 1h4a1 1 0 001-1v-1h-5v2zm0-4h5V8h-5v2zM9 8H4v2h5V8z"
-                                        clip-rule="evenodd"
+                                        clipRule="evenodd"
                                     ></path>
                                 </svg>
                                 <span className="ml-3 flex-1 whitespace-nowrap">
@@ -77,9 +77,9 @@ const Admin = () => {
                                     xmlns="http://www.w3.org/2000/svg"
                                 >
                                     <path
-                                        fill-rule="evenodd"
+                                        fillRule="evenodd"
                                         d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                                        clip-rule="evenodd"
+                                        clipRule="evenodd"
                                     ></path>
                                 </svg>
                                 <span className="ml-3 flex-1 whitespace-nowrap">
@@ -90,6 +90,9 @@ const Admin = () => {
                     </ul>
                 </div>
             </aside>
+            <div className="flex-1">
+                <DataManagement />
+            </div>
         </div>
     );
 };
