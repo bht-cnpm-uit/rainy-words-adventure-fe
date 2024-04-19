@@ -6,12 +6,22 @@ const ModalImportData = ({ modalTitle, isOpenModelImportData, setIsOpenModelImpo
     const [dataUpload, setDataUpload] = useState([])
     const schema = {
         'STT': {
-            prop: 'id',
+            prop: 'STT',
             type: String
         },
-        'School':
+        'English':
         {
-            prop: 'SchoolName',
+            prop: 'English',
+            type: String
+        },
+        'Vietnamese':
+        {
+            prop: 'Vietnamese',
+            type: String
+        },
+        'Topic':
+        {
+            prop: 'Topic',
             type: String
         }
     }
@@ -29,6 +39,10 @@ const ModalImportData = ({ modalTitle, isOpenModelImportData, setIsOpenModelImpo
     const closeModal = () => {
         setIsOpenModelImportData(!isOpenModelImportData);
     };
+    const handleDeleteWord = (row) => {
+        const updatedData = dataUpload.filter(word => word !== row);
+        setDataUpload(updatedData);
+    }
     return (
         <div className="absolute inset-0 h-screen overflow-y-auto">
             <div className="flex items-center justify-center min-h-screen">
@@ -68,30 +82,45 @@ const ModalImportData = ({ modalTitle, isOpenModelImportData, setIsOpenModelImpo
                         <DataTable
                             columns={[
                                 {
-                                    name: "ID",
-                                    selector: "id",
+                                    name: "STT",
+                                    selector: "STT",
                                     sortable: true,
                                     width: "15%"
                                 },
                                 {
-                                    name: "School Name",
-                                    selector: "SchoolName",
+                                    name: "Tiếng anh",
+                                    selector: "English",
+                                    sortable: true,
                                 },
                                 {
-                                    name: "Actions",
+                                    name: "Tiếng việt",
+                                    selector: "Vietnamese",
+                                    sortable: true,
+                                },
+                                {
+                                    name: "Chủ đề",
+                                    selector: "Topic",
+                                    sortable: true,
+                                },
+                                {
+                                    name: "Xóa",
                                     cell: (row) => (
                                         <>
-                                            < button
-                                                className="h-6 w-6"
-                                                onClick={() => { }}
+                                            <button
+                                                className="h-6 w-6 relative"
+                                                onClick={() => { handleDeleteWord(row) }}
                                                 data-tag="allowRowEvents"
                                             >
                                                 <svg
                                                     xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 448 512">
+                                                    viewBox="0 0 448 512"
+                                                    className="fill-current text-slate-600 hover:text-red-500"
+                                                >
                                                     <path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z" />
                                                 </svg>
-                                            </button >
+                                            </button>
+
+
                                         </>
                                     ),
                                     ignoreRowClick: true,
@@ -122,7 +151,7 @@ const ModalImportData = ({ modalTitle, isOpenModelImportData, setIsOpenModelImpo
                         </button>
                         <button
                             type="button"
-                            className="px-4 py-2 bg-blue-500 text-white border border-transparent rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue transition duration-150 ease-in-out"
+                            className="px-4 py-2 bg-blue-400 text-white border border-transparent rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue transition duration-150 ease-in-out"
                             onClick={() => saveChanges()}
                         >
                             Nhập dữ liệu
