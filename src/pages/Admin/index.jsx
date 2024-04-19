@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
 import DataManagement from './DataManagement';
+import SchoolManagement from './SchoolManagement';
+import StudentManagement from './StudentManagement';
+import GameManagement from './GameManagement';
+import ScoreboardManagement from './ScoreboardManagement';
 const Admin = () => {
+    const [optionManage, setOptionManage] = useState('data')
     return (
         <div className="w-full h-screen flex absolute">
-            <aside className="w-1/5 h-screen bg-gray-50" aria-label="Sidebar">
+            <aside className="w-1/5 h-full bg-gray-100" aria-label="Sidebar">
                 <div className="overflow-y-auto rounded px-4 py-4 dark:bg-gray-800">
                     <ul className="space-y-6">
                         <li>
-                            <a
-                                href="#"
+                            <button
                                 className="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                                onClick={() => { setOptionManage('data') }}
                             >
                                 <svg
                                     className="h-6 w-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
@@ -21,13 +26,29 @@ const Admin = () => {
                                     <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
                                 </svg>
                                 <span className="ml-3">Quản lý dữ liệu</span>
-                            </a>
+                            </button>
                         </li>
                         <li>
-                            <a
-                                href="#"
-                                target="_blank"
+                            <button
                                 className="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                                onClick={() => { setOptionManage('school') }}
+                            >
+                                <svg
+                                    className="h-6 w-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                                    fill="currentColor"
+                                    viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
+                                    <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
+                                </svg>
+                                <span className="ml-3">Dữ liệu trường học</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button
+                                className="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                                onClick={() => { setOptionManage('game') }}
                             >
                                 <svg
                                     className="h-6 w-6 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
@@ -40,13 +61,12 @@ const Admin = () => {
                                 <span className="ml-3 flex-1 whitespace-nowrap">
                                     Quản lý màn chơi
                                 </span>
-                            </a>
+                            </button>
                         </li>
                         <li>
-                            <a
-                                href="#"
-                                target="_blank"
+                            <button
                                 className="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                                onClick={() => { setOptionManage('scoreboard') }}
                             >
                                 <svg
                                     className="h-6 w-6 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
@@ -63,12 +83,12 @@ const Admin = () => {
                                 <span className="ml-3 flex-1 whitespace-nowrap">
                                     Quản lí bảng xếp hạng
                                 </span>
-                            </a>
+                            </button>
                         </li>
                         <li>
-                            <a
-                                href="#"
+                            <button
                                 className="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                                onClick={() => { setOptionManage('student') }}
                             >
                                 <svg
                                     className="h-6 w-6 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
@@ -85,13 +105,27 @@ const Admin = () => {
                                 <span className="ml-3 flex-1 whitespace-nowrap">
                                     Quản lý học sinh
                                 </span>
-                            </a>
+                            </button>
                         </li>
                     </ul>
                 </div>
             </aside>
             <div className="flex-1">
-                <DataManagement />
+                {
+                    (optionManage === 'data') ?
+                        <DataManagement />
+                        :
+                        (optionManage === 'school') ?
+                            <SchoolManagement />
+                            :
+                            (optionManage === 'game') ?
+                                <GameManagement />
+                                :
+                                (optionManage === 'student') ?
+                                    <StudentManagement />
+                                    :
+                                    <ScoreboardManagement />
+                }
             </div>
         </div>
     );
