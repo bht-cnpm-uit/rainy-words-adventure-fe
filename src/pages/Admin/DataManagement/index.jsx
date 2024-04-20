@@ -16,7 +16,6 @@ const DataManagement = () => {
     const [data, setData] = useState(fakeData)
     const [dataFilter, setDataFilter] = useState(fakeData);
     useEffect(() => {
-        // console.log(isOpenModelImportData)
     })
     const handleFilter = (text) => {
         let listWordsFilter;
