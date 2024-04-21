@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
 import { fakeData } from '../fakeDataWords';
 import { scoreboard } from './fakedata';
@@ -15,55 +15,56 @@ const ScoreboardManagement = () => {
     const [isOpenModelImportData, setIsOpenModelImportData] = useState(false);
     const [isOpenDropdownSchool, setIsOpenDropdownSchool] = useState(false);
     const [isOpenDropdownGrade, setIsOpenDropdownGrade] = useState(false);
-    const [filterSchool, setFilterSchool] = useState(FilterType[0]);
-    const [filterGrade, setFilterGrade] = useState(FilterType[0]);
-    const [filterType, setFilterType] = useState(0);
-    const [dataFilter, setDataFilter] = useState(fakeData);
+    const [filterSchool, setFilterSchool] = useState('Tất cả');
+    const [filterGrade, setFilterGrade] = useState('Tất cả');
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const schools = [...new Set(scoreboard.map(entry => entry.school))];
+    const [school, setSchool] = useState(schools);
+    const [schoolFilter, setSchoolFilter] = useState(schools)
     const grades = [...new Set(scoreboard.map(entry => entry.grade))];
     const [grade, setGrade] = useState(grades);
-    const [school, setSchool] = useState(schools);
     const [scoreBoardData, setScoreBoardData] = useState(scoreboard);
     const [filterScoreBoardData, setFilterScoreBoardData] = useState(scoreboard);
 
-    const handleFilter = (text) => {
-        let listWordsFilter;
-        if (text.trim()) {
-            switch (filterType) {
-                case 0:
-                    listWordsFilter = fakeData.filter(row =>
-                        row.word.toLowerCase().includes(text.toLowerCase()) ||
-                        row.vietnamese.toLowerCase().includes(text.toLowerCase()) ||
-                        row.topic.toLowerCase().includes(text.toLowerCase())
-                    );
-                    break;
-                case 1:
-                    listWordsFilter = fakeData.filter(row =>
-                        row.word.toLowerCase().includes(text.toLowerCase())
-                    );
-                    break;
-                case 2:
-                    listWordsFilter = fakeData.filter(row =>
-                        row.vietnamese.toLowerCase().includes(text.toLowerCase())
-                    );
-                    break;
-                case 3:
-                    listWordsFilter = fakeData.filter(row =>
-                        row.topic.toLowerCase().includes(text.toLowerCase())
-                    );
-                    break;
-                default:
-                    listWordsFilter = fakeData;
-                    break;
-            }
-        } else {
-            listWordsFilter = fakeData;
+    useEffect(() => {
+        handleFilterData();
+    }, [filterSchool, filterGrade, startDate, endDate]);
+    const handleFilterData = () => {
+        let filter = scoreBoardData;
+
+        if (filterSchool !== "Tất cả") {
+            filter = filter.filter(row => row.school.includes(filterSchool));
         }
 
-        setDataFilter(listWordsFilter);
+        if (filterGrade !== "Tất cả") {
+            console.log(filterGrade)
+            filter = filter.filter(row => row.grade === filterGrade);
+        }
+
+        // Parse start date if it exists
+        let parsedStartDate = null;
+        if (startDate) {
+            parsedStartDate = new Date(startDate);
+            parsedStartDate.setHours(0, 0, 0, 0);
+        }
+
+        let parsedEndDate = null;
+        if (endDate) {
+            parsedEndDate = new Date(endDate);
+            parsedEndDate.setHours(23, 59, 59, 999);
+        }
+
+        if (parsedStartDate && parsedEndDate) {
+            filter = filter.filter(row => {
+                const rowDate = new Date(row.time);
+                return rowDate >= parsedStartDate && rowDate <= parsedEndDate;
+            });
+        }
+
+        setFilterScoreBoardData(filter);
     };
+
 
     return (
         <div className="pl-10 h-screen inset-0  text-white flex flex-col">
@@ -100,7 +101,9 @@ const ScoreboardManagement = () => {
                     },
                     {
                         name: "Thời gian",
-                        selector: "time",
+                        selector: row => {
+                            return new Date(row.time).toLocaleDateString("en-GB");
+                        },
                         sortable: true,
                     }
                 ]}
@@ -117,12 +120,12 @@ const ScoreboardManagement = () => {
                 fixedHeaderScrollHeight="435px"
                 subHeader
                 subHeaderComponent={
-                    <div className='flex justify-around items-center w-full'>
+                    <div className='flex justify-between  items-center w-full'>
                         <div className="filter-by-school flex">
                             <p className='text-black mr-2'>Trường</p>
                             <div className="relative">
                                 <button
-                                    className='px-5 h-full bg-blue-400 border rounded'
+                                    className='px-2 w-80 h-full bg-blue-400 border rounded'
                                     type='button'
                                     onClick={() => { setIsOpenDropdownSchool(!isOpenDropdownSchool) }}
                                 >
@@ -152,7 +155,7 @@ const ScoreboardManagement = () => {
                                                 Tất cả
                                             </button>
                                         </li>
-                                        {school.map((schoolItem, index) => (
+                                        {schoolFilter.map((schoolItem, index) => (
                                             <li key={index}>
                                                 <button
                                                     type="button"
@@ -172,7 +175,7 @@ const ScoreboardManagement = () => {
                             <p className='text-black mr-2'>Khối</p>
                             <div className="relative">
                                 <button
-                                    className='text-sm px-10 h-full bg-blue-400 border rounded'
+                                    className='text-sm px-2 w-24 h-full bg-blue-400 border rounded'
                                     type='button'
                                     onClick={() => { setIsOpenDropdownGrade(!isOpenDropdownGrade) }}
                                 >
