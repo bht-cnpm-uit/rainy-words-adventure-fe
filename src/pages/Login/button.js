@@ -68,7 +68,7 @@ export class btnLogin extends Button {
         this.spriteWidth = 437;
         this.spriteHeight = 129;
         this.scaleX = this.width / this.spriteWidth;
-        this.x = this.game.width / 1.45;
+        this.x = this.game.width / 1.48;
         this.y = this.height / 1.23;
     }
     drawLogin(context) {
