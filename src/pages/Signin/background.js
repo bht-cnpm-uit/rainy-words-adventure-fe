@@ -159,30 +159,30 @@ export class SignInForm {
             'Họ và tên: ',
             `${this.width *0.49}px`,
             `${this.height * 0.28}px`,
-            `${this.width / 4}px`,
+            `${this.width / 5}px`,
             `${this.height / 20}px`,
             'Nhập họ và tên',
         );
         this.selectSchoolName = this.createSelectBox(
             'Trường: ',
-            `${this.width * 0.502}px`,
+            `${this.width * 0.49}px`,
             `${this.height * 0.35}px`,
-            `${this.width / 4}px`,
+            `${this.width / 5}px`,
             `${this.height / 20}px`,
             optionSchools,
         );
         this.selectClass = this.createSelectBox(
             'Lớp: ',
-            `${this.width * 0.517}px`,
+            `${this.width * 0.49}px`,
             `${this.height * 0.42}px`,
-            `${this.width / 20}px`,
+            `${this.width / 30}px`,
             `${this.height / 20}px`,
             optionGrades,
         );
         this.inputDayOfBirth = this.createInput(
             'date',
             'Ngày sinh: ',
-            `${this.width * 0.488}px`,
+            `${this.width * 0.49}px`,
             `${this.height * 0.49}px`,
             `${this.width / 10}px`,
             `${this.height / 20}px`,
@@ -191,18 +191,18 @@ export class SignInForm {
         this.inputNumberPhone = this.createInput(
             'text',
             'SĐT: ',
-            `${this.width * 0.516}px`,
+            `${this.width * 0.49}px`,
             `${this.height * 0.56}px`,
-            `${this.width / 4}px`,
+            `${this.width / 5}px`,
             `${this.height / 20}px`,
             'Nhập số điện thoại',
         );
         this.inputPassWord = this.createInput(
             'password',
             'Mật khẩu: ',
-            `${this.width * 0.492}px`,
+            `${this.width * 0.49}px`,
             `${this.height * 0.63}px`,
-            `${this.width / 4}px`,
+            `${this.width / 5}px`,
             `${this.height / 20}px`,
             'Nhập mật khẩu',
         );
@@ -216,10 +216,10 @@ export class SignInForm {
             0,
             this.spriteWidth - widthCut,
             this.spriteHeight,
-            this.layerForm.x + this.width / 2.5,
-            this.layerForm.y + this.height / 7 + this.scaleY *100,
-            this.width / this.scaleX / 2,
-            this.height / this.scaleY / 2,
+            this.width / 2.3,
+            this.height / 5,
+            this.width /2.7,
+            this.height/1.6,
         );
         context.save();
     }
@@ -232,7 +232,7 @@ export class SignInForm {
 
         const label = document.createElement('span'); //create span includes lable
         label.textContent = labelText;
-        label.style.paddingRight = '20px';
+        label.style.paddingRight = `${this.width /100}px`;
         label.style.textAlign = 'right'; // Căn lề bên phải cho labelText
 
         container.appendChild(label);
@@ -261,7 +261,7 @@ export class SignInForm {
 
         const label = document.createElement('label'); // create label
         label.textContent = labelText;
-        label.style.paddingRight = '20px';
+        label.style.paddingRight = `${this.width / 50}px`;
         container.appendChild(label);
 
         const selectBox = document.createElement('select');
@@ -273,7 +273,6 @@ export class SignInForm {
             const optionElement = document.createElement('option');
             optionElement.value = option.value;
             optionElement.textContent = option.value;
-            optionElement.style.paddingRight = '30px';
             selectBox.appendChild(optionElement);
         });
 

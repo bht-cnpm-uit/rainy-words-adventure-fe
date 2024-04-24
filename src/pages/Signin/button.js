@@ -55,7 +55,7 @@ export class btnSignInMain extends Button {
         this.spriteHeight = 129;
         this.scaleX = this.width / this.spriteWidth;
         this.scaleY = this.height / this.spriteHeight;
-        this.x = this.game.width / 1.65;
+        this.x = this.game.width / 1.72;
         this.y = this.game.height / 1.42;
     }
     draw(context) {
