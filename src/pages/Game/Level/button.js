@@ -86,7 +86,7 @@ export class Library extends Button {
         this.spriteHeight = 138;
         this.width = this.spriteWidth * this.scaleY;
         this.height = this.spriteHeight * this.scaleY;
-        this.x = this.game.width - this.spriteWidth * 2;
+        this.x = this.game.width/1.4;
         this.y = this.spriteHeight / 5;
     }
     draw(context) {
@@ -103,7 +103,7 @@ export class Achievement extends Button {
         this.spriteHeight = 138;
         this.width = this.spriteWidth * this.scaleY;
         this.height = this.spriteHeight * this.scaleY;
-        this.x = this.game.width - this.spriteWidth * 1.5;
+        this.x = this.game.width/1.3 ;
         this.y = this.spriteHeight / 5;
     }
     draw(context) {
@@ -120,7 +120,7 @@ export class Account extends Button {
         this.spriteHeight = 138;
         this.width = this.spriteWidth * this.scaleY;
         this.height = this.spriteHeight * this.scaleY;
-        this.x = this.game.width - this.spriteWidth;
+        this.x = this.game.width/1.21;
         this.y = this.spriteHeight / 5;
     }
     draw(context) {

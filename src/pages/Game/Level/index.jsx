@@ -6,6 +6,8 @@ import { BtnBackMap, BtnNextMap, Guide, Library, Achievement, Account } from './
 import { LevelSetting } from './UI';
 import { Component } from 'react';
 import  PopUpInstruc  from './PopUpInstruc';
+import  PopUpAcc from './PopUpAcc';
+
 const Level = props => {
     const canvasRef = useRef();
     function resizeCanvas(canvas) {
@@ -14,6 +16,9 @@ const Level = props => {
     }
     const [openPopup, setOpenPopup] = useState(false);
     const HandleRemovePopUp = () => setOpenPopup(false);
+
+    const [openPopupAcc, setOpenPopupAcc] = useState(false);
+    const HandleRemovePopUpAcc = () => setOpenPopupAcc(false);
 
     class MainScreen {
         constructor(canvas, ctx, width, height) {
@@ -139,13 +144,18 @@ const Level = props => {
 
             if(this.isMouseOverButtonTool(mouseX, mouseY, this.btnGuide)){
                 // Show the pop up
-                console.log("Clicked btnGuide");
+                // console.log("Clicked btnGuide");
                 setOpenPopup(true);
     
             }
-            if(this.isMouseOverButtonTool(mouseX, mouseY, this.btnLibrary)){}
+            if(this.isMouseOverButtonTool(mouseX, mouseY, this.btnLibrary)){
+                
+            }
             if(this.isMouseOverButtonTool(mouseX, mouseY, this.btnAchievement)){}
-            if(this.isMouseOverButtonTool(mouseX, mouseY, this.btnAccount)){}
+            if(this.isMouseOverButtonTool(mouseX, mouseY, this.btnAccount)){
+                console.log("Clicked btnAccount");
+                setOpenPopupAcc(true);
+            }
         }
         animateSlide(direct) {
             this.slide = true;
@@ -235,11 +245,13 @@ const Level = props => {
             cancelAnimationFrame(animate);
         };
     }, []);
+    
 
     return (
         <div>
             <canvas ref={canvasRef} {...props} />
             {openPopup && <PopUpInstruc openPopUp={openPopup} closePopUp= {HandleRemovePopUp} />}
+            {openPopupAcc && <PopUpAcc openPopUpAcc={openPopupAcc} closePopUpAcc= {HandleRemovePopUpAcc} />}
         </div>
         
     );
