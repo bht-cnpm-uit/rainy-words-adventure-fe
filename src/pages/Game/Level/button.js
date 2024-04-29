@@ -2,13 +2,15 @@ class Button {
     constructor(game) {
         this.game = game;
         this.scaleY = this.game.background.scaleY
+        this.width = this.game.width;
+        this.height = this.game.height;
     }
     update() {
 
     }
     draw(context) {
         if (this.image.complete)
-            context.drawImage(this.image, 0, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.spriteWidth / 2.5, this.spriteHeight / 2.5);
+            context.drawImage(this.image, 0, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.spriteWidth, this.spriteHeight);
 
     }
 }
@@ -61,17 +63,17 @@ export class Guide extends Button {
         this.image.src = '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_24.png';
         this.spriteWidth = 433;
         this.spriteHeight = 279;
-        this.width = this.spriteWidth * this.scaleY;
-        this.height = this.spriteHeight * this.scaleY;
+        this.width = this.spriteWidth;
+        this.height = this.spriteHeight;
         this.x = this.width * 0.25;
-        this.y = -this.height * 0.25;
+        this.y = -this.height *0.1;
     }
     draw(context) {
-        context.drawImage(this.image, 0, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
+        context.drawImage(this.image, 0, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width/2, this.height/2);
         context.font = "30px Arial";
         context.fillStyle = "brown";
         context.textAlign = "center";
-        context.fillText("Hướng dẫn", this.x + this.width / 2, this.y + this.height * 3.5 / 4)
+        context.fillText("Hướng dẫn", this.x + this.width / 4, this.y + this.height * 3.5 / 8.5)
     }
 }
 

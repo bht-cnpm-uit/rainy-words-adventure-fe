@@ -5,12 +5,16 @@ import { Player } from './player';
 import { BtnBackMap, BtnNextMap, Guide, Library, Achievement, Account } from './button';
 import { LevelSetting } from './UI';
 import { Component } from 'react';
+import  PopUpInstruc  from './PopUpInstruc';
 const Level = props => {
     const canvasRef = useRef();
     function resizeCanvas(canvas) {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
     }
+    const [openPopup, setOpenPopup] = useState(false);
+    const HandleRemovePopUp = () => setOpenPopup(false);
+
     class MainScreen {
         constructor(canvas, ctx, width, height) {
             this.canvas = canvas;
@@ -55,7 +59,6 @@ const Level = props => {
                 else if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.play)) {
                     cursorStyle = 'pointer';
                 }
-
             }
             else if (this.isMouseOverButton(mouseX, mouseY, this.btnNextMap) || this.isMouseOverButton(mouseX, mouseY, this.btnBackMap)) {
                 cursorStyle = 'pointer';
@@ -67,6 +70,20 @@ const Level = props => {
                         cursorStyle = 'pointer'; // Change cursor style to pointer
                     }
                 }
+
+                if (this.isMouseOverButtonTool(mouseX, mouseY, this.btnGuide)) {
+                    cursorStyle = 'pointer';
+                }
+                else if (this.isMouseOverButtonTool(mouseX, mouseY, this.btnLibrary)) {
+                    cursorStyle = 'pointer';
+                }
+                else if (this.isMouseOverButtonTool(mouseX, mouseY, this.btnAchievement)) {
+                    cursorStyle = 'pointer';
+                }
+                else if (this.isMouseOverButtonTool(mouseX, mouseY, this.btnAccount)) {
+                    cursorStyle = 'pointer';
+                }
+
             }
             // Apply the cursor style
             this.canvas.style.cursor = cursorStyle;
@@ -119,6 +136,16 @@ const Level = props => {
                     });
                 }
             }
+
+            if(this.isMouseOverButtonTool(mouseX, mouseY, this.btnGuide)){
+                // Show the pop up
+                console.log("Clicked btnGuide");
+                setOpenPopup(true);
+    
+            }
+            if(this.isMouseOverButtonTool(mouseX, mouseY, this.btnLibrary)){}
+            if(this.isMouseOverButtonTool(mouseX, mouseY, this.btnAchievement)){}
+            if(this.isMouseOverButtonTool(mouseX, mouseY, this.btnAccount)){}
         }
         animateSlide(direct) {
             this.slide = true;
@@ -159,6 +186,15 @@ const Level = props => {
                 mouseY <= button.y + button.height
             );
         }
+
+        isMouseOverButtonTool(mouseX, mouseY, button) {
+            return (
+                mouseX >= button.x &&
+                mouseX <= button.x + button.spriteWidth/2 &&
+                mouseY >= button.y &&
+                mouseY <= button.y + button.spriteHeight/2
+            );
+        }
         update(deltaTime) {
             this.deltaTime = deltaTime;
             this.gameFrame++;
@@ -177,6 +213,7 @@ const Level = props => {
         }
     }
     useEffect(() => {
+
         const canvas = canvasRef.current;
         resizeCanvas(canvas);
         const context = canvas.getContext('2d');
@@ -200,7 +237,11 @@ const Level = props => {
     }, []);
 
     return (
-        <canvas ref={canvasRef} {...props} />
+        <div>
+            <canvas ref={canvasRef} {...props} />
+            {openPopup && <PopUpInstruc openPopUp={openPopup} closePopUp= {HandleRemovePopUp} />}
+        </div>
+        
     );
 }
 
