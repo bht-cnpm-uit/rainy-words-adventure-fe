@@ -1,59 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import DataTable from 'react-data-table-component';
 import { fakeData } from './fakeSchool';
+import PopUp from './PopUp';
 
 const SchoolManagement = () => {
-    const [editID, setEditID] = useState(null);
-    const [deleteID, setDeleteID] = useState(null);
-    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-
-    const handleEdit = (id) => {
-        setEditID(id);
-    };
-
-    const handleSaveEdit = (id) => {
-        // Xử lý logic lưu sửa đổi dữ liệu với ID là id
-        setEditID(null);
-    };
-
-    const handleCancelEdit = () => {
-        setEditID(null);
-    };
-
-    const handleDelete = (id) => {
-        setDeleteID(id);
-        setShowConfirmationModal(true); // Hiển thị popup xác nhận trước khi xóa
-    };
-
-    const handleConfirmDelete = () => {
-        // Xử lý logic xóa dữ liệu với ID là deleteID
-        setDeleteID(null);
-        setShowConfirmationModal(false); // Ẩn popup xác nhận sau khi xác nhận xóa
-    };
-
-    const handleCancelDelete = () => {
-        setDeleteID(null);
-        setShowConfirmationModal(false); // Ẩn popup xác nhận nếu người dùng hủy bỏ
-    };
-
-    const [isOpenModelImportData, setIsOpenModelImportData] = useState(false);
+    const [isOpenPopUp, setIsOpenPopUp] = useState(false);
+    const HandleRemovePopUp = () => setIsOpenPopUp(false);
 
     const columns = [
         {
             name: 'ID',
             selector: 'ID',
             sortable: true,
-            width: '10%',
+            width: '20%',
         },
         {
             name: 'Tên trường',
             selector: 'name',
-            sortable: true,
-            width: '60%',
+            sortable: false,
+            width: '70%',
         },
         {
             name: 'Thao tác',
-            width: '30%',
+            width: '10%',
             cell: (row) => {
                 return (
                     <div>
@@ -88,20 +57,22 @@ const SchoolManagement = () => {
     return (
         <div className="container">
             <DataTable
-                title="Danh sách trường học"
+                title={<div className="mt-8 text-center">DANH SÁCH TRƯỜNG HỌC</div>}
+                className="flex justify-items-center"
                 columns={columns}
                 data={fakeData}
                 pagination
                 customStyles={{
                     headRow: {
                         style: {
-                            backgroundColor: '#f0f0f0',
+                            backgroundColor: '',
                         },
                     },
                     headCells: {
                         style: {
                             fontWeight: 'bold',
                             color: '#333',
+                            // zIndex: 1,
                         },
                     },
                 }}
@@ -117,21 +88,15 @@ const SchoolManagement = () => {
                 subHeaderComponent={
                     <div className="sub">
                         <button
-                            className="left-0 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
-                            onClick={() => setIsOpenModelImportData(!isOpenModelImportData)}
-                        >
-                            <p>Thêm trường học</p>
-                        </button>
-
-                        <button
                             className="ml-4 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
-                            onClick={() => setIsOpenModelImportData(!isOpenModelImportData)}
+                            onClick={() => setIsOpenPopUp(!isOpenPopUp)}
                         >
                             <p>Nhập dữ liệu</p>
                         </button>
                     </div>
                 }
             />
+            {isOpenPopUp && <PopUp openPopUp={isOpenPopUp} closePopUp={HandleRemovePopUp} />}
         </div>
     );
 };
