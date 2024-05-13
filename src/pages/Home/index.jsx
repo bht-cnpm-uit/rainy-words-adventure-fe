@@ -1,7 +1,6 @@
 import { Player } from './player';
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { Background } from './backgroundNew';
-import { start } from './button';
+import { Background } from './background';
 const Home = (props) => {
     const canvasRef = useRef();
     function resizeCanvas(canvas) {
@@ -9,24 +8,33 @@ const Home = (props) => {
         canvas.height = window.innerHeight;
     }
     class Home {
-        constructor(canvas, ctx, width, height) {
-            this.canvas = canvas;
+        constructor(canvas, ctx) {
             this.ctx = ctx;
-            this.width = width;
-            this.height = height;
+            this.canvas = canvas;
+            this.width = window.innerWidth;
+            this.height = window.innerHeight;
+            this.scale = this.height / 1080;
             this.background = new Background(this);
             this.player = new Player(this);
             this.canvas.addEventListener('mousemove', this.onMouseMove.bind(this));
             this.canvas.addEventListener('click', this.onClick.bind(this));
+            window.addEventListener('resize', this.onResize.bind(this));
         }
-
+        onResize(event) {
+            var canvas = document.getElementById('responsive-canvas');
+            resizeCanvas(canvas);
+            this.width = window.innerWidth;
+            this.height = window.innerHeight;
+            this.scale = this.height / 1080;
+            this.background.onResize();
+        }
         draw(context) {
             this.background.draw(context);
-            this.player.draw(context);
+            // this.player.draw(context);
         }
         update() {
             this.gameFrame++;
-            this.background.update(this.gameFrame);
+            this.background.update();
         }
 
         onClick(event) {
@@ -63,19 +71,18 @@ const Home = (props) => {
     }
 
     useEffect(() => {
-        const canvas = canvasRef.current;
+        const canvas = document.getElementById('responsive-canvas');
         resizeCanvas(canvas);
         const context = canvas.getContext('2d');
-        const home = new Home(canvas, context, canvas.width, canvas.height);
+        const home = new Home(canvas, context);
         function animate() {
-            context.clearRect(0, 0, canvas.width, canvas.height);
             home.draw(context);
             home.update();
             requestAnimationFrame(animate);
         }
         animate();
     }, []);
-    return <canvas ref={canvasRef} {...props} />;
+    return <canvas id='responsive-canvas' ref={canvasRef} {...props}></canvas>;
 };
 
 export default Home;

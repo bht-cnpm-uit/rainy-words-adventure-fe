@@ -7,7 +7,24 @@
     src: url(../font/j-juvanze-font/Juvanze-ovw9A.otf);
 }
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     overflow: hidden;
-    max-width: 100vh;
+    font-size: 100%;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#responsive-canvas {
+    width: 100%;
+    height: auto;
 }
