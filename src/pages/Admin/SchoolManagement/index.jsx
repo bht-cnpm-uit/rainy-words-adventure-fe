@@ -58,7 +58,7 @@ const SchoolManagement = () => {
         <div className="container">
             <DataTable
                 title={<div className="mt-8 text-center">DANH SÁCH TRƯỜNG HỌC</div>}
-                className="flex justify-items-center"
+                className="flex justify-items-center z-0"
                 columns={columns}
                 data={fakeData}
                 pagination

@@ -47,7 +47,7 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc }) => {
                     <h2 className="py-3 text-center text-xl font-semibold">THÔNG TIN TÀI KHOẢN</h2>
                     <div className="my-2">
                         <div className="avt flex flex-col items-center">
-                            <div className="mx-auto h-40 w-40 rounded-full border-2 border-zinc-950 bg-[url('/assets/Asset/GameObject/SunflowerCatSpriteWalkBlink_cuts/image_1-1.png')] bg-cover"></div>
+                            <div className="mx-auto h-40 w-40 rounded-full border-2 border-zinc-950 bg-[url('/assets/Asset/Stars/4.png')] bg-cover"></div>
                             {/* <button
                                     onClick={() => console.log('Choose Avatar')}
                                     className="items-center justify-center mt-4 rounded bg-amber-600 px-2 py-1 font-bold text-white hover:bg-amber-800 mb-4"
