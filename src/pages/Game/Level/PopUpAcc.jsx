@@ -101,11 +101,11 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc }) => {
                                 ></div>
                             </div>
                         </div>
-                        <div className="mt-4 font-mono text-2xl text-orange-500">
-                            <span>BẬT/ TẮT ÂM THANH</span>
+                        <div className="flex justify-start items-center mt-4 font-mono text-2xl text-orange-500">
+                            <span>BẬT/TẮT ÂM THANH</span>
                             <button
                                 onClick={toggleSound}
-                                className={`ml-4 h-8 w-8 ${isSoundOn ? "bg-[url('assets/Asset/ButtonSliderAtlas_cuts/image_32.png')]" : "bg-[url('assets/Asset/ButtonSliderAtlas_cuts/image_9.png')]"} bg-cover`}
+                                className={`ml-8 h-6 w-6 ${isSoundOn ? "bg-[url('assets/Asset/ButtonSliderAtlas_cuts/image_32.png')]" : "bg-[url('assets/Asset/ButtonSliderAtlas_cuts/image_32copy.png')]"} bg-cover`}
                             ></button>
                         </div>
                     </div>

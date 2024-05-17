@@ -8,6 +8,7 @@ import { Component } from 'react';
 import  PopUpInstruc  from './PopUpInstruc';
 import  PopUpAcc from './PopUpAcc';
 import PopUpLibrary from './PopUpLibrary';
+import PopUpRank from './PopUpRank';
 import { set } from 'react-hook-form';
 
 const Level = props => {
@@ -24,6 +25,9 @@ const Level = props => {
 
     const [openPopupLib, setOpenPopupLib] = useState(false);
     const HandleRemovePopUpLib = () => setOpenPopupLib(false);
+
+    const [openPopupRank, setOpenPopupRank] = useState(false);
+    const HandleRemovePopUpRank = () => setOpenPopupRank(false);
 
     class MainScreen {
         constructor(canvas, ctx, width, height) {
@@ -157,7 +161,9 @@ const Level = props => {
                 console.log("Clicked btnLibrary");
                 setOpenPopupLib(true);
             }
-            if(this.isMouseOverButtonTool(mouseX, mouseY, this.btnAchievement)){}
+            if(this.isMouseOverButtonTool(mouseX, mouseY, this.btnAchievement)){
+                setOpenPopupRank(true);
+            }
             if(this.isMouseOverButtonTool(mouseX, mouseY, this.btnAccount)){
                 console.log("Clicked btnAccount");
                 setOpenPopupAcc(true);
@@ -259,6 +265,7 @@ const Level = props => {
             {openPopup && <PopUpInstruc openPopUp={openPopup} closePopUp= {HandleRemovePopUp} />}
             {openPopupAcc && <PopUpAcc openPopUpAcc={openPopupAcc} closePopUpAcc= {HandleRemovePopUpAcc} />}
             {openPopupLib && <PopUpLibrary openPopUpLib={openPopupLib} closePopUpLib= {HandleRemovePopUpLib} />}
+            {openPopupRank && <PopUpRank openPopUpRank={openPopupRank} closePopUpRank= {HandleRemovePopUpRank} />}
         </div>
         
     );
