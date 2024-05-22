@@ -33,7 +33,7 @@ const ModalImportData = ({ modalTitle, isOpenModelImportData, setIsOpenModelImpo
         setDataUpload(updatedData);
     };
     return (
-        <div className="absolute inset-0 h-screen overflow-y-auto">
+        <div className="absolute inset-10 h-screen overflow-y-auto">
             <div className="flex min-h-screen items-center justify-center">
                 <div className="fixed inset-0 transition-opacity">
                     <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
