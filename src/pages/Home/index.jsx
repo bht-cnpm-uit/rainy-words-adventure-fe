@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Background } from './background';
 
 const Home = (props) => {
@@ -11,10 +11,10 @@ const Home = (props) => {
         constructor(canvas, ctx) {
             this.ctx = ctx;
             this.canvas = canvas;
-            this.canvas.style.width = this.width;
-            this.canvas.style.height = this.height;
             this.width = window.innerWidth;
             this.height = window.innerHeight;
+            this.canvas.style.width = this.width;
+            this.canvas.style.height = this.height;
             this.spriteWidthBG = 1080;
             this.scale = this.height / this.spriteWidthBG;
             this.gameFrame = 0;

@@ -1,0 +1,51 @@
+#loginForm {
+    position: absolute;
+    left: 50%;
+    top: 45%;
+    max-width: 50vw;
+    max-height: 50vw;
+    background: url("../assets/Asset/Login/login_user_bg.png") no-repeat center / contain;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 50px;
+    border-radius: 10px;
+    background-position: 0%;
+    margin: 10px;
+}
+
+.form-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    width: 50%;
+    left: 0%;
+    margin-right: 30px;
+}
+
+#loginForm label {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: white;
+    flex-shrink: 0;
+    width: 100px;
+}
+
+#loginForm input[type="text"],
+#loginForm input[type="password"] {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+#loginForm input[type="submit"] {
+    justify-content: center;
+    /* width: 38%; */
+    padding: 10px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    background: url('../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png') no-repeat center / contain;
+}

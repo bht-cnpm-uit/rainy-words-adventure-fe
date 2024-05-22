@@ -1,7 +1,5 @@
-import { Player } from './player';
-import { Background, LogoGame, LoginForm } from './background';
-import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { btnSignIn, btnLogin } from './button';
+import { Background } from './background';
+import React, { useEffect, useRef, useMemo } from 'react';
 const Login = (props) => {
     const canvasRef = useRef();
     function resizeCanvas(canvas) {
@@ -9,50 +7,48 @@ const Login = (props) => {
         canvas.height = window.innerHeight;
     }
     class Home {
-        constructor(canvas, ctx, width, height) {
-            this.canvas = canvas;
+        constructor(canvas, ctx) {
             this.ctx = ctx;
-            this.width = width;
-            this.height = height;
+            this.canvas = canvas;
+            this.width = window.innerWidth;
+            this.height = window.innerHeight;
+            this.canvas.style.width = this.width;
+            this.canvas.style.height = this.height;
+            this.spriteWidthBG = 1080;
+            this.scale = this.height / this.spriteWidthBG;
+            this.widthCut = Math.ceil((2920 * this.scale - this.width) / this.scale);
+            this.gameFrame = 0;
             this.background = new Background(this);
-            this.logogame = new LogoGame(this);
-            this.loginForm = new LoginForm(this);
-            this.player = new Player(this);
-            this.btnSignIn = new btnSignIn(this);
-            this.btnLogin = new btnLogin(this);
             this.canvas.addEventListener('mousemove', this.onMouseMove.bind(this));
             this.canvas.addEventListener('click', this.onClick.bind(this));
-            this.loginForm.checkInput();
+            window.addEventListener('resize', this.onResize.bind(this));
         }
-
+        onResize(envent) {
+            var canvas = document.getElementById('responsive-canvas');
+            resizeCanvas(canvas);
+            this.width = window.innerWidth;
+            this.height = window.innerHeight;
+            canvas.style.width = this.width;
+            canvas.style.height = this.height;
+            this.scale = this.height / this.spriteWidthBG;
+            this.widthCut = Math.ceil((2920 * this.scale - this.width) / this.scale);
+        }
         draw(context) {
             this.background.draw(context);
-            this.logogame.draw(context);
-            this.loginForm.draw(context);
-            this.player.draw(context);
-            this.btnSignIn.draw(context);
-            this.btnLogin.drawLogin(context);
+            this.background.btnSignIn.draw(context);
         }
-        update(){
+        update() {
             this.gameFrame++;
-            this.background.update(this.gameFrame);
+            this.background.update();
         }
 
         onClick(event) {
             const rect = this.canvas.getBoundingClientRect();
-            const mouseX = event.clientX - rect.left; // x of item
-            const mouseY = event.clientY - rect.top; // y of item
+            const mouseX = event.clientX - rect.left;
+            const mouseY = event.clientY - rect.top;
             let cursorStyle = 'defaut';
-            if (this.isMouseOverButton(mouseX, mouseY, this.btnLogin)) {
-                if (
-                    this.loginForm.validateInput(this.loginForm.inputUsername) &&
-                    this.loginForm.validateInput(this.loginForm.inputPassword)
-                    
-                ) {
-                    window.location.href = '/level';
-                }
-            }
-            else if (this.isMouseOverButton(mouseX, mouseY, this.btnSignIn)) {
+
+            if (this.isMouseOverButton(mouseX, mouseY, this.background.btnSignIn)) {
                 window.location.href = '/signin';
             }
             this.canvas.style.cursor = cursorStyle;
@@ -61,9 +57,9 @@ const Login = (props) => {
         isMouseOverButton(mouseX, mouseY, button) {
             return (
                 mouseX >= button.x &&
-                mouseX <= button.x + button.spriteWidth/3 &&
-                mouseY >= button.y &&
-                mouseY <= button.y + button.spriteHeight/3
+                mouseX <= button.x + button.spriteWidth * this.scale / 1.4 &&
+                mouseY >= button.y + button.spriteHeight * this.scale / 2.8 &&
+                mouseY <= button.y + button.spriteHeight * this.scale / 1.4
             );
         }
 
@@ -73,33 +69,29 @@ const Login = (props) => {
             const mouseY = event.clientY - rect.top;
             let cursorStyle = 'default';
 
-           if (this.isMouseOverButton(mouseX  , mouseY , this.btnLogin)) {
-                cursorStyle = 'pointer';
-            }
-            else if (this.isMouseOverButton(mouseX  , mouseY , this.btnSignIn)){
+            if (this.isMouseOverButton(mouseX, mouseY, this.background.btnSignIn)) {
                 cursorStyle = 'pointer';
 
             }
-
             this.canvas.style.cursor = cursorStyle;
         }
 
     }
 
     useEffect(() => {
-        const canvas = canvasRef.current;
+        const canvas = document.getElementById('responsive-canvas');
         resizeCanvas(canvas);
         const context = canvas.getContext('2d');
-        const home = new Home(canvas, context, canvas.width, canvas.height);
+        const home = new Home(canvas, context);
         function animate() {
-            context.clearRect(0, 0, canvas.width, canvas.height);
+            home.gameFrame++;
             home.draw(context);
             home.update();
             requestAnimationFrame(animate);
         }
         animate();
     }, []);
-    return <canvas ref={canvasRef} {...props} />;
+    return <canvas id='responsive-canvas' ref={canvasRef} {...props}></canvas>;
 };
 
 export default Login;

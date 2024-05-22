@@ -257,15 +257,6 @@ export class Background {
 
         this.spriteWidthGame = 922;
         this.spriteHeightGame = 653;
-        this.widthGame = this.spriteWidthGame * this.game.scale;
-        this.heightGame = this.spriteHeightGame * this.game.scale;
-
-        this.spriteWidthBtn = 437;
-        this.spriteHeightBtn = 129;
-        this.widthBtn = this.spriteWidthBtn * this.game.scale / 1.5;
-        this.heightBtn = this.spriteHeightBtn * this.game.scale / 1.5;
-
-
 
         this.layerImage1 = new Layer(
             this.game,
@@ -289,8 +280,6 @@ export class Background {
             this.spriteHeightGame,
             '../assets/Asset/Logo.png'
         )
-        this.speedModifier = 0.5;
-        this.speed = this.speedModifier;
         this.logos = new LogoBar(game);
     }
     onResize(game) {
