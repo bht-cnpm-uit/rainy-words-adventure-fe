@@ -1,6 +1,6 @@
-import { Player } from './player';
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Background } from './background';
+
 const Home = (props) => {
     const canvasRef = useRef();
     function resizeCanvas(canvas) {
@@ -11,11 +11,15 @@ const Home = (props) => {
         constructor(canvas, ctx) {
             this.ctx = ctx;
             this.canvas = canvas;
+            this.canvas.style.width = this.width;
+            this.canvas.style.height = this.height;
             this.width = window.innerWidth;
             this.height = window.innerHeight;
-            this.scale = this.height / 1080;
+            this.spriteWidthBG = 1080;
+            this.scale = this.height / this.spriteWidthBG;
+            this.gameFrame = 0;
+            this.widthCut = Math.ceil((2920 * this.scale - this.width) / this.scale);
             this.background = new Background(this);
-            this.player = new Player(this);
             this.canvas.addEventListener('mousemove', this.onMouseMove.bind(this));
             this.canvas.addEventListener('click', this.onClick.bind(this));
             window.addEventListener('resize', this.onResize.bind(this));
@@ -25,12 +29,15 @@ const Home = (props) => {
             resizeCanvas(canvas);
             this.width = window.innerWidth;
             this.height = window.innerHeight;
-            this.scale = this.height / 1080;
-            this.background.onResize();
+            canvas.style.width = this.width;
+            canvas.style.height = this.height;
+            this.scale = this.height / this.spriteWidthBG;
+
+            this.widthCut = Math.ceil((2920 * this.scale - this.width) / this.scale);
+            this.background.onResize(this);
         }
         draw(context) {
             this.background.draw(context);
-            // this.player.draw(context);
         }
         update() {
             this.gameFrame++;
@@ -42,18 +49,19 @@ const Home = (props) => {
             const mouseX = event.clientX - rect.left; // x of item
             const mouseY = event.clientY - rect.top; // y of item
             let cursorStyle = 'defaut';
-            if (this.isMouseOverButton(mouseX, mouseY, this.background.buttonStart)) {
+            if (this.isMouseOverButton(mouseX, mouseY, this.background.logoGame.buttonStart)) {
                 window.location.href = '/login';
             }
             this.canvas.style.cursor = cursorStyle;
         }
 
         isMouseOverButton(mouseX, mouseY, button) {
+            console.log(button)
             return (
-                mouseX >= button.x &&
-                mouseX <= button.x + button.spriteWidth / 2 &&
-                mouseY >= button.y &&
-                mouseY <= button.y + button.spriteHeight / 2
+                mouseX >= button.x - button.width / 2 &&
+                mouseX <= button.x - button.width / 2 + button.spriteWidth / 2 &&
+                mouseY >= button.y - button.height / 2 &&
+                mouseY <= button.y - button.height / 2 + button.spriteHeight / 2
             );
         }
 
@@ -63,7 +71,7 @@ const Home = (props) => {
             const mouseY = event.clientY - rect.top;
             let cursorStyle = 'default';
 
-            if (this.isMouseOverButton(mouseX, mouseY, this.background.buttonStart)) {
+            if (this.isMouseOverButton(mouseX, mouseY, this.background.logoGame.buttonStart)) {
                 cursorStyle = 'pointer';
             }
             this.canvas.style.cursor = cursorStyle;
@@ -76,6 +84,7 @@ const Home = (props) => {
         const context = canvas.getContext('2d');
         const home = new Home(canvas, context);
         function animate() {
+            home.gameFrame++;
             home.draw(context);
             home.update();
             requestAnimationFrame(animate);
