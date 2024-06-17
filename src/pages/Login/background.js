@@ -84,8 +84,8 @@ class btnSignIn {
             this.spriteHeight,
             this.x,
             this.y,
-            this.spriteWidth * this.game.scale / 1.4,
-            this.spriteHeight * this.game.scale / 1.4,
+            this.spriteWidth * this.game.scale / 1.6,
+            this.spriteHeight * this.game.scale / 1.6,
         );
         context.font = this.game.scale * 45 + 'px Arial';
         context.fillStyle = 'brown';
@@ -93,28 +93,9 @@ class btnSignIn {
         context.testBaseline = 'middle';
         context.fillText(
             'Đăng ký',
-            this.x + this.spriteWidth * this.game.scale / 2.8,
-            this.y + this.spriteHeight * this.game.scale / 1.7,
-            this.spriteWidth * this.game.scale / 1.4
-        );
-    }
-}
-class LogoGame extends Layer {
-    constructor(game, spriteWidth, spriteHeight, src) {
-        super();
-        this.game = game;
-        this.spriteHeight = spriteHeight;
-        this.spriteWidth = spriteWidth;
-        this.image = new Image();
-        this.image.src = src;
-    }
-    update() { }
-    draw(context) {
-        context.drawImage(this.image,
-            0, 0,
-            this.spriteWidth, this.spriteHeight,
-            this.game.width / 2, this.game.height - this.spriteHeight * this.game.scale * 1.6,
-            this.spriteWidth * this.game.scale * 0.95, this.spriteHeight * this.game.scale * 0.95
+            this.x + this.spriteWidth * this.game.scale / 3.2,
+            this.y + this.spriteHeight * this.game.scale / 1.9,
+            this.spriteWidth * this.game.scale / 1.6
         );
     }
 }
@@ -134,12 +115,22 @@ class LoginForm {
     draw(context) {
     }
     createForm() {
-        const container = document.createElement('form');
-        container.id = 'loginForm';
+        const container = document.createElement('div');
+        container.id = 'container';
 
-        container.style.backgroundImage = 'url("../assets/Asset/Login/login_user_bg.png")';
-        // <img src='../assets/Asset/Logo.png' width="200px"/>
-        container.innerHTML = `
+        // Create the first sub-div
+        const container_bg = document.createElement('div');
+        container_bg.id = 'container_bg';
+
+        // Create the second sub-div
+        const container_form = document.createElement('form');
+        container_form.id = 'container_form';
+
+        container.appendChild(container_bg);
+        container.appendChild(container_form);
+
+        container_form.style.backgroundImage = 'url("../assets/Asset/Login/login_user_bg.png")';
+        container_form.innerHTML = `
             <div class="form-row row-1">
                 <label for="username">Tài khoản</label>
                 <input type="text" id="username" name="username">
@@ -150,19 +141,18 @@ class LoginForm {
             </div>
             <input type="submit" value="Đăng nhập">
         `;
+
         document.body.appendChild(container);
 
         container.addEventListener('submit', (event) => {
-            window.location.href = '/level'
+            event.preventDefault();
+            window.location.href = '/level';
         });
     }
 
     getUsername() {
-
     }
-
     getPassword() {
-
     }
     validateInput(input) {
         if (input.value.trim() === '') {
@@ -212,12 +202,6 @@ export class Background {
             this.game,
             '../assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png'
         );
-        this.logoGame = new LogoGame(
-            this.game,
-            this.spriteWidthGame,
-            this.spriteHeightGame,
-            '../assets/Asset/Logo.png'
-        )
         this.loginForm = new LoginForm(this);
         this.btnSignIn = new btnSignIn(this.game);
     }
