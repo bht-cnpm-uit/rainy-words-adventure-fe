@@ -22,8 +22,8 @@ class Layer {
 class Button {
     constructor(game, x, y, spriteWidth, spriteHeight, image) {
         this.game = game;
-        this.x = x;
-        this.y = y;
+        this.x = x*1.03;
+        this.y = y*0.94;
         this.spriteWidth = spriteWidth;
         this.spriteHeight = spriteHeight
         this.image = new Image();
@@ -92,7 +92,7 @@ class LogoGame extends Layer {
         context.drawImage(this.image,
             0, 0,
             this.spriteWidth, this.spriteHeight,
-            this.x, this.y,
+            this.x, this.y*0.75,
             this.spriteWidth * this.game.scale, this.spriteHeight * this.game.scale
         );
         this.buttonStart.draw(context);
@@ -225,10 +225,10 @@ class Player {
             this.frameY * this.spriteHeight,
             this.spriteWidth,
             this.spriteHeight,
-            (this.game.width / 2 - this.spriteWidth * 1.2 * this.game.scale) / 20,
-            this.game.height - this.spriteHeight * 1.05 * this.game.scale,
-            this.spriteWidth * this.game.scale,
-            this.spriteHeight * this.game.scale
+            (this.game.width / 2 - this.spriteWidth * this.game.scale) / 5,
+            this.game.height - this.spriteHeight * 1.3 * this.game.scale,
+            this.spriteWidth * this.game.scale*1.2,
+            this.spriteHeight * this.game.scale*1.2
         );
 
         if (this.gameFrame % (this.staggerFrames * 3) == 0) {
