@@ -4,7 +4,7 @@ import { useState } from 'react';
 const vocabularyLibrary = [
     {
         word: 'experience',
-        definition: 'quả táo',
+        definition: 'Kinh nghiệm',
         ex: 'This is an apple and I want to eat one and I sold out them in one day.',
     },
     { word: 'banana', definition: 'quả chuối', ex: 'This is a banana' },
@@ -15,15 +15,13 @@ const vocabularyLibrary = [
         ex: 'This is a dog This is an apple and I want to eat one and I sold out them in one day.',
     },
     { word: 'apple', definition: 'quả táo', ex: 'This is an apple' },
-    { word: 'banana', definition: 'quả chuối', ex: 'This is a banana' },
-    { word: 'cat', definition: 'con mèo', ex: 'This is a cat' },
-    { word: 'apple', definition: 'quả táo', ex: 'This is an apple' },
-    { word: 'banana', definition: 'quả chuối', ex: 'This is a banana' },
-    { word: 'cat', definition: 'con mèo', ex: 'This is a cat' },
-    { word: 'dog', definition: 'con chó', ex: 'This is a dog' },
-    { word: 'apple', definition: 'quả táo', ex: 'This is an apple' },
-    { word: 'banana', definition: 'quả chuối', ex: 'This is a banana' },
-    { word: 'cat', definition: 'con mèo', ex: 'This is a cat' },
+    { word: 'pen', definition: 'quả chuối', ex: 'This is a banana' },
+    { word: 'class', definition: 'con mèo', ex: 'This is a cat' },
+    { word: 'hello', definition: 'quả táo', ex: 'This is an apple' },
+    { word: 'hi', definition: 'quả chuối', ex: 'This is a banana' },
+    { word: 'function', definition: 'con mèo', ex: 'This is a cat' },
+    { word: 'no', definition: 'con chó', ex: 'This is a dog' },
+    { word: 'yes', definition: 'quả táo', ex: 'This is an apple' },
 ];
 
 const PopUpLibrary = ({ openPopUpLib, closePopUpLib }) => {
@@ -50,7 +48,7 @@ const PopUpLibrary = ({ openPopUpLib, closePopUpLib }) => {
             onClick={handleClosePopUp}
             className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 backdrop-blur-sm"
         >
-            <div className="grid  w-10/12 grid-cols-2  gap-4 p-2 py-5 md:w-1/2 lg:w-1/2">
+            <div className="grid w-10/12 grid-cols-2  gap-4 p-2 py-5 md:w-1/2 lg:w-1/2">
                 <div className="w-full items-center justify-center rounded-[22px] border  border-4 border-yellow-600 bg-orange-100 p-3  ">
                     <h2 className="py-3 text-center font-mono text-5xl font-semibold text-orange-700">
                         THƯ VIỆN
@@ -60,7 +58,7 @@ const PopUpLibrary = ({ openPopUpLib, closePopUpLib }) => {
                             {vocabularyLibrary.map((item, index) => (
                                 <li
                                     key={index}
-                                    className="cursor-pointer py-2"
+                                    className={`cursor-pointer py-2 ${selectedWord.word === item.word ? 'bg-orange-200': 'bg-orange-50'}`}
                                     onClick={() => handleWordClick(item)}
                                 >
                                     <p className="ml-4 text-xl font-semibold">{item.word}</p>
