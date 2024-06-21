@@ -1,6 +1,20 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
+// import Modal from 'react-modal';
 
 const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
+    
+    //gia su cup hien tai la 5
+    const [cupCount, setCupCount] = useState(5);
+
+    //popup unlock successfully
+    const [unlockSuccess, setUnlockSuccess] = useState(false);
+
+
+    const unlockFrame =  (frameType) => {
+        // setUnlockSuccess(true); // Hiển thị popup khi mở khóa thành công
+    };
+
+
     const handleClosePopUp = (e) => {
         if (e.target.id === 'ModelContainer') {
             closePopUpRank();
@@ -95,17 +109,23 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                         className="absolute -right-6 -top-8 h-12 w-12 bg-[url('/assets/Asset/ButtonSliderAtlas_cuts/image_19.png')] bg-cover"
                         onClick={closePopUpRank}
                     ></button>
-                    <div className='text-xl font-semibold text-center font-mono text-orange-950'>
-                        <h2 className={`rounded-lg mb-4 ${selectedTableRank ? 'bg-orange-300': 'bg-orange-100'}`} onClick={handleClick} >
+                    <div className="text-center font-mono text-xl font-semibold text-orange-950">
+                        <h2
+                            className={`mb-4 rounded-lg ${selectedTableRank ? 'bg-orange-300' : 'bg-orange-100'}`}
+                            onClick={handleClick}
+                        >
                             BẢNG XẾP HẠNG
                         </h2>
-                        <h2 className={`rounded-lg ${selectedTableAward ? 'bg-orange-300': 'bg-orange-100'}`} onClick={handleClick}>
+                        <h2
+                            className={`rounded-lg ${selectedTableAward ? 'bg-orange-300' : 'bg-orange-100'}`}
+                            onClick={handleClick}
+                        >
                             THÀNH TÍCH
                         </h2>
                     </div>
 
                     {selectedTableRank && (
-                        <table className="col-span-3 w-full table-auto text-center bg-orange-300 rounded-[20px] text-orange-950">
+                        <table className="col-span-3 w-full table-auto rounded-[20px] bg-orange-300 text-center text-orange-950">
                             <thead>
                                 <tr>
                                     <th className="px-4 py-2">STT</th>
@@ -128,7 +148,236 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                     )}
 
                     {!selectedTableRank && (
-                        <div className="bg-orange-300 w-[500px] h-[300px] rounded-[20px] text-center">HELLO</div>
+                        <div className="col-span-3 max-h-[500px] overflow-y-auto bg-gray-100 p-3 scrollbar-thin scrollbar-track-orange-200 scrollbar-thumb-orange-400">
+                            <div className="rounded-lg bg-orange-300 p-4 text-center shadow-lg">
+                                <h2 className="text-2xl font-bold">
+                                    Số cúp hiện tại: <span id="cup-count">1</span>
+                                </h2>
+                            </div>
+
+                            <div className="mt-6">
+                                <h3 className="mb-4 text-xl font-semibold">
+                                    Số lượng vật phẩm thu thập được:
+                                </h3>
+                                <div className="grid grid-cols-2 gap-4">
+                                    {/* hoa lài */}
+                                    <div className="rounded-lg bg-white p-4 shadow">
+                                        <div className=" items-baseline font-bold">
+                                            <img src="/assets/Asset/Asset/bonusItem/0.png" alt="" />
+                                            <div className="flex items-center">
+                                                <img
+                                                    src="/assets/Asset/ButtonSliderAtlas_cuts/image_3.png"
+                                                    className="mr-1 w-4/5"
+                                                    alt=""
+                                                />
+                                                <span id="flower1-count">0/500</span>
+                                            </div>
+                                        </div>
+                                        <button className="mx-auto mt-2 block rounded-lg bg-lime-400 p-2">
+                                            Nhận cúp
+                                        </button>
+                                    </div>
+                                    {/* Hoa hồng */}
+                                    <div className="rounded-lg bg-white p-4 shadow">
+                                        <div className="items-baseline text-center font-bold">
+                                            <img
+                                                src="/assets/Asset/Asset/bonusItem/1.png"
+                                                className="mx-auto mb-7"
+                                                alt=""
+                                            />
+                                            <div className="flex items-center">
+                                                <img
+                                                    src="/assets/Asset/ButtonSliderAtlas_cuts/image_3.png"
+                                                    className="mr-1 w-4/5"
+                                                    alt=""
+                                                />
+                                                <span id="flower1-count">0/500</span>
+                                            </div>
+                                        </div>
+                                        <button className="mx-auto mt-2 block rounded-lg bg-lime-400 p-2">
+                                            Nhận cúp
+                                        </button>
+                                    </div>
+
+                                    {/* Nhánh lá non xanh */}
+                                    <div className="rounded-lg bg-white p-4 shadow">
+                                        <div className="items-baseline text-center font-bold">
+                                            <img
+                                                src="/assets/Asset/Asset/bonusItem/2.png"
+                                                className="mx-auto mb-4"
+                                                alt=""
+                                            />
+                                            <div className="flex items-center">
+                                                <img
+                                                    src="/assets/Asset/ButtonSliderAtlas_cuts/image_3.png"
+                                                    className="mr-1 w-4/5"
+                                                    alt=""
+                                                />
+                                                <span id="flower1-count">0/500</span>
+                                            </div>
+                                        </div>
+                                        <button className="mx-auto mt-2 block rounded-lg bg-lime-400 p-2">
+                                            Nhận cúp
+                                        </button>
+                                    </div>
+
+                                    {/* Cái xẻng */}
+                                    <div className="rounded-lg bg-white p-4 shadow">
+                                        <div className=" items-baseline font-bold">
+                                            <img
+                                                src="/assets/Asset/Asset/bonusItem/3.png"
+                                                className="mx-auto mb-6"
+                                                alt=""
+                                            />
+                                            <div className="flex items-center">
+                                                <img
+                                                    src="/assets/Asset/ButtonSliderAtlas_cuts/image_3.png"
+                                                    className="mr-1 w-4/5"
+                                                    alt=""
+                                                />
+                                                <span id="flower1-count">0/500</span>
+                                            </div>
+                                        </div>
+                                        <button className="mx-auto mt-2 block rounded-lg bg-lime-400 p-2">
+                                            Nhận cúp
+                                        </button>
+                                    </div>
+
+                                    {/* Hoa hướng dương */}
+                                    <div className="rounded-lg bg-white p-4 shadow">
+                                        <div className=" items-baseline font-bold">
+                                            <img
+                                                src="/assets/Asset/Asset/bonusItem/4.png"
+                                                className="mx-auto mb-4"
+                                                alt=""
+                                            />
+                                            <div className="flex items-center">
+                                                <img
+                                                    src="/assets/Asset/ButtonSliderAtlas_cuts/image_3.png"
+                                                    className="mr-1 w-4/5"
+                                                    alt=""
+                                                />
+                                                <span id="flower1-count">0/500</span>
+                                            </div>
+                                        </div>
+                                        <button className="mx-auto mt-2 block rounded-lg bg-lime-400 p-2">
+                                            Nhận cúp
+                                        </button>
+                                    </div>
+
+                                    {/* Cái xúc */}
+                                    <div className="rounded-lg bg-white p-4 shadow">
+                                        <div className=" items-baseline font-bold">
+                                            <img
+                                                src="/assets/Asset/Asset/bonusItem/5.png"
+                                                className="mx-auto mb-9 mt-2"
+                                                alt=""
+                                            />
+                                            <div className="flex items-center">
+                                                <img
+                                                    src="/assets/Asset/ButtonSliderAtlas_cuts/image_3.png"
+                                                    className="mr-1 w-4/5"
+                                                    alt=""
+                                                />
+                                                <span id="flower1-count">0/500</span>
+                                            </div>
+                                        </div>
+                                        <button className="mx-auto mt-2 block rounded-lg bg-lime-400 p-2">
+                                            Nhận cúp
+                                        </button>
+                                    </div>
+
+                                    {/* Lá cây */}
+                                    <div className="rounded-lg bg-white p-4 shadow">
+                                        <div className=" items-baseline font-bold">
+                                            <img
+                                                src="/assets/Asset/Asset/bonusItem/6.png"
+                                                className="mx-auto mb-4"
+                                                alt=""
+                                            />
+                                            <div className="flex items-center">
+                                                <img
+                                                    src="/assets/Asset/ButtonSliderAtlas_cuts/image_3.png"
+                                                    className="mr-1 w-4/5"
+                                                    alt=""
+                                                />
+                                                <span id="flower1-count">0/500</span>
+                                            </div>
+                                        </div>
+                                        <button className="mx-auto mt-2 block rounded-lg bg-lime-400 p-2">
+                                            Nhận cúp
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="mt-6">
+                                <h3 className="mb-4 text-xl font-semibold">Danh hiệu:</h3>
+                                <div className="flex items-center justify-between rounded-lg  bg-white p-4 shadow">
+                                    <span className="flex-1">Học sinh chăm chỉ nhất tháng</span>
+                                    <button className="mx-auto mt-2 block rounded-lg bg-lime-400 p-2">
+                                        Nhận cúp
+                                    </button>
+                                </div>
+                                <div className="mt-4 flex items-center justify-between rounded-lg  bg-white p-4 shadow">
+                                    <span className="flex-1">Học sinh xuất sắc nhất tháng</span>
+                                    <button className="mx-auto mt-2 block rounded-lg bg-lime-400 p-2">
+                                        Nhận cúp
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div className="mt-6 rounded-lg bg-white p-4 shadow">
+                                <h2 className="mb-4 text-lg font-bold">
+                                    Số cúp hiện tại: {cupCount}
+                                </h2>
+                                <div className="flex space-x-4">
+                                    {/* Nút mở khóa khung */}
+                                    {cupCount >= 1 && (
+                                        <button
+                                            onClick={() => unlockFrame('bronze')} // Gọi hàm mở khóa với frameType tương ứng
+                                            className="rounded-lg bg-gray-200 px-4 py-2 text-gray-800 hover:bg-gray-300"
+                                        >
+                                            Mở khóa khung Đồng
+                                        </button>
+                                    )}
+                                    {cupCount >= 2 && (
+                                        <button
+                                            onClick={() => unlockFrame('silver')} // Gọi hàm mở khóa với frameType tương ứng
+                                            className="rounded-lg bg-gray-200 px-4 py-2 text-gray-800 hover:bg-gray-300"
+                                        >
+                                            Mở khóa khung Bạc
+                                        </button>
+                                    )}
+                                    {cupCount >= 3 && (
+                                        <button
+                                            onClick={() => unlockFrame('gold')} // Gọi hàm mở khóa với frameType tương ứng
+                                            className="rounded-lg bg-gray-200 px-4 py-2 text-gray-800 hover:bg-gray-300"
+                                        >
+                                            Mở khóa khung Vàng
+                                        </button>
+                                    )}
+                                    {cupCount >= 5 && (
+                                        <button
+                                            onClick={() => unlockFrame('platinum')} // Gọi hàm mở khóa với frameType tương ứng
+                                            className="rounded-lg bg-gray-200 px-4 py-2 text-gray-800 hover:bg-gray-300"
+                                        >
+                                            Mở khóa khung Bạch Kim
+                                        </button>
+                                    )}
+                                    {cupCount >= 7 && (
+                                        <button
+                                            onClick={() => unlockFrame('diamond')} // Gọi hàm mở khóa với frameType tương ứng
+                                            className="rounded-lg bg-gray-200 px-4 py-2 text-gray-800 hover:bg-gray-300"
+                                        >
+                                            Mở khóa khung Kim Cương
+                                        </button>
+                                    )}
+                                </div>
+
+                                
+                            </div>
+                        </div>
                     )}
                 </div>
             </div>
