@@ -72,10 +72,10 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc }) => {
             onClick={handleClosePopUpAcc}
             className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 backdrop-blur-sm "
         >
-            <div className="w-10/12 rounded-[20px] border border-4 border-yellow-600 bg-orange-100 p-2 py-5 shadow-md md:w-1/2 lg:w-1/3">
+            <div className="w-10/12 rounded-[20px] border border-4 border-yellow-600 bg-orange-100 p-2 py-4 shadow-md md:w-1/2 lg:w-1/3">
                 <button
                     onClick={closePopUpAcc}
-                    className="relative -right-2 -top-5 -mb-4 ml-auto flex h-10 w-10 bg-[url('/assets/Asset/ButtonSliderAtlas_cuts/image_19.png')] bg-cover"
+                    className="relative -right-6 -top-8 -mb-4 ml-auto flex h-10 w-10 bg-[url('/assets/Asset/ButtonSliderAtlas_cuts/image_19.png')] bg-cover"
                 ></button>
                 <div className="relative max-h-[500px] w-full items-center justify-center overflow-y-auto p-3 scrollbar-thin scrollbar-track-orange-200 scrollbar-thumb-orange-400">
                     <h2 className="py-3 text-center font-mono text-3xl font-semibold text-orange-500">
