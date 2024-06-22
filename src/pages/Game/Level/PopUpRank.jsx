@@ -11,7 +11,8 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
 
 
     const unlockFrame =  (frameType) => {
-        // setUnlockSuccess(true); // Hiển thị popup khi mở khóa thành công
+        // unlockSuccess = true;
+        setUnlockSuccess(true); // Hiển thị popup khi mở khóa thành công
     };
 
 
@@ -20,6 +21,11 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
             closePopUpRank();
         }
     };
+
+    const handleCloseSuccessModal = () => {
+        setUnlockSuccess(false);
+    };
+
 
     if (!openPopUpRank) return null;
 
@@ -103,8 +109,8 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
             onClick={handleClosePopUp}
             className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 backdrop-blur-sm"
         >
-            <div className="w-10/12 rounded-lg border border-emerald-600 bg-orange-100 p-2 py-5 shadow-md md:w-1/2 lg:w-1/2">
-                <div className="relative flex grid w-full grid-cols-4 items-center justify-center p-3">
+            <div className="w-10/12 rounded-lg border border-emerald-600 bg-orange-100 p-2 py-5 shadow-md md:w-1/2 lg:w-1/2 border border-4 border-yellow-600">
+                <div className="relative flex grid w-full grid-cols-4 items-center justify-center p-3 ">
                     <button
                         className="absolute -right-6 -top-8 h-12 w-12 bg-[url('/assets/Asset/ButtonSliderAtlas_cuts/image_19.png')] bg-cover"
                         onClick={closePopUpRank}
@@ -125,7 +131,7 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                     </div>
 
                     {selectedTableRank && (
-                        <table className="col-span-3 w-full table-auto rounded-[20px] bg-orange-300 text-center text-orange-950">
+                        <table className="col-span-3 w-full table-auto rounded-[20px] bg-orange-200 text-center text-orange-950">
                             <thead>
                                 <tr>
                                     <th className="px-4 py-2">STT</th>
@@ -151,7 +157,7 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                         <div className="col-span-3 max-h-[500px] overflow-y-auto bg-gray-100 p-3 scrollbar-thin scrollbar-track-orange-200 scrollbar-thumb-orange-400">
                             <div className="rounded-lg bg-orange-300 p-4 text-center shadow-lg">
                                 <h2 className="text-2xl font-bold">
-                                    Số cúp hiện tại: <span id="cup-count">1</span>
+                                    THÀNH TỰU ĐẠT ĐƯỢC
                                 </h2>
                             </div>
 
@@ -381,6 +387,21 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                     )}
                 </div>
             </div>
+
+            {unlockSuccess && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="bg-orange-50 p-6 rounded-lg shadow-lg text-center">
+                        <h2 className="text-2xl font-bold mb-4">Mở khóa thành công!</h2>
+                        <p className="mb-4">Bạn đã mở khóa thành công một khung mới.</p>
+                        <button
+                            onClick={handleCloseSuccessModal}
+                            className="px-4 py-2 bg-orange-400 text-white rounded hover:bg-orange-500"
+                        >
+                            Đóng
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

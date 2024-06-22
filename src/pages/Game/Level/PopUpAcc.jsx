@@ -3,6 +3,7 @@ import PopUpUpdateAcc from './PopUpUpdateAcc';
 
 const PopUpAcc = ({ openPopUpAcc, closePopUpAcc }) => {
     const [selectedMode, setSelectedMode] = useState(null);
+    const [confirmLogOut, setConfirmLogOut] = useState(false);
     const [isSoundOn, setIsSoundOn] = useState(true);
     const [isAvatarModalOpen, setAvatarModalOpen] = useState(false);
     const [selectedAvatar, setSelectedAvatar] = useState(
@@ -14,6 +15,10 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc }) => {
         '/assets/Asset/GameObject/SunflowerCatSpriteWalkBlink_cuts/image_0-3.png',
         '/assets/Asset/GameObject/SunflowerCatSpriteWalkBlink_cuts/image_1-2.png',
     ];
+
+    const showPopUpConfirmLogout = () => {
+        setConfirmLogOut(true);
+    };
 
     const handleClosePopUpAcc = (e) => {
         if (e.target.id === 'ModelContainer') {
@@ -33,6 +38,10 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc }) => {
     const handleClose = () => {
         closePopUpAcc();
     };
+
+    const handleCloseConfirmLogOut = () => {
+        setConfirmLogOut(false);
+    }
 
     if (!openPopUpAcc) return null;
 
@@ -65,7 +74,7 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc }) => {
         >
             <div className="w-10/12 rounded-[20px] border border-4 border-yellow-600 bg-orange-100 p-2 py-5 shadow-md md:w-1/2 lg:w-1/3">
                 <button
-                    onClick={handleClose}
+                    onClick={closePopUpAcc}
                     className="relative -right-2 -top-5 -mb-4 ml-auto flex h-10 w-10 bg-[url('/assets/Asset/ButtonSliderAtlas_cuts/image_19.png')] bg-cover"
                 ></button>
                 <div className="relative max-h-[500px] w-full items-center justify-center overflow-y-auto p-3 scrollbar-thin scrollbar-track-orange-200 scrollbar-thumb-orange-400">
@@ -150,7 +159,7 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc }) => {
                         </button>
 
                         <button
-                            onClick={handleLogout}
+                            onClick={showPopUpConfirmLogout}
                             className="mx-2 rounded bg-amber-600 px-4 py-2 font-bold text-white hover:bg-amber-800"
                         >
                             Đăng xuất
@@ -190,6 +199,21 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc }) => {
                                 Đóng
                             </button>
                         </div>
+                    </div>
+                </div>
+            )}
+
+            {confirmLogOut && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="rounded-lg border border-4 border-yellow-600 bg-white p-6 text-center shadow-lg">
+                        <h2 className="mb-4 text-2xl font-bold">Thoát khỏi trò chơi</h2>
+                        <p className="mb-4">Bạn có chắc chắn muốn thoát khỏi trò chơi không?</p>
+                        <button className="rounded-lg bg-red-500 px-4 py-2 mr-4 text-white hover:bg-red-600" onClick={handleLogout}>
+                            Có
+                        </button>
+                        <button className="rounded-lg bg-orange-500 px-4 py-2 text-white hover:bg-orange-600" onClick={handleCloseConfirmLogOut}>
+                            Không
+                        </button>
                     </div>
                 </div>
             )}
