@@ -1,20 +1,18 @@
 import React, { useState } from 'react';
+import ProgressBar from './ProgressBar';
 // import Modal from 'react-modal';
 
 const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
-    
     //gia su cup hien tai la 5
     const [cupCount, setCupCount] = useState(5);
 
     //popup unlock successfully
     const [unlockSuccess, setUnlockSuccess] = useState(false);
 
-
-    const unlockFrame =  (frameType) => {
+    const unlockFrame = (frameType) => {
         // unlockSuccess = true;
         setUnlockSuccess(true); // Hiển thị popup khi mở khóa thành công
     };
-
 
     const handleClosePopUp = (e) => {
         if (e.target.id === 'ModelContainer') {
@@ -25,7 +23,6 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
     const handleCloseSuccessModal = () => {
         setUnlockSuccess(false);
     };
-
 
     if (!openPopUpRank) return null;
 
@@ -109,7 +106,7 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
             onClick={handleClosePopUp}
             className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 backdrop-blur-sm"
         >
-            <div className="w-10/12 rounded-lg border border-emerald-600 bg-orange-100 p-2 py-5 shadow-md md:w-1/2 lg:w-1/2 border border-4 border-yellow-600">
+            <div className="w-10/12 rounded-lg border border border-4 border-emerald-600 border-yellow-600 bg-orange-100 p-2 py-5 shadow-md md:w-1/2 lg:w-1/2">
                 <div className="relative flex grid w-full grid-cols-4 items-center justify-center p-3 ">
                     <button
                         className="absolute -right-6 -top-8 h-12 w-12 bg-[url('/assets/Asset/ButtonSliderAtlas_cuts/image_19.png')] bg-cover"
@@ -156,9 +153,7 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                     {!selectedTableRank && (
                         <div className="col-span-3 max-h-[500px] overflow-y-auto bg-gray-100 p-3 scrollbar-thin scrollbar-track-orange-200 scrollbar-thumb-orange-400">
                             <div className="rounded-lg bg-orange-300 p-4 text-center shadow-lg">
-                                <h2 className="text-2xl font-bold">
-                                    THÀNH TỰU ĐẠT ĐƯỢC
-                                </h2>
+                                <h2 className="text-2xl font-bold">THÀNH TỰU ĐẠT ĐƯỢC</h2>
                             </div>
 
                             <div className="mt-6">
@@ -171,12 +166,8 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                         <div className=" items-baseline font-bold">
                                             <img src="/assets/Asset/Asset/bonusItem/0.png" alt="" />
                                             <div className="flex items-center">
-                                                <img
-                                                    src="/assets/Asset/ButtonSliderAtlas_cuts/image_3.png"
-                                                    className="mr-1 w-4/5"
-                                                    alt=""
-                                                />
-                                                <span id="flower1-count">0/500</span>
+                                                <ProgressBar currentValue={100} maxValue={500} />
+                                                <span id="flower1-count">100/500</span>
                                             </div>
                                         </div>
                                         <button className="mx-auto mt-2 block rounded-lg bg-lime-400 p-2">
@@ -192,12 +183,8 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                                 alt=""
                                             />
                                             <div className="flex items-center">
-                                                <img
-                                                    src="/assets/Asset/ButtonSliderAtlas_cuts/image_3.png"
-                                                    className="mr-1 w-4/5"
-                                                    alt=""
-                                                />
-                                                <span id="flower1-count">0/500</span>
+                                                <ProgressBar currentValue={200} maxValue={500} />
+                                                <span id="flower1-count">200/500</span>
                                             </div>
                                         </div>
                                         <button className="mx-auto mt-2 block rounded-lg bg-lime-400 p-2">
@@ -214,12 +201,8 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                                 alt=""
                                             />
                                             <div className="flex items-center">
-                                                <img
-                                                    src="/assets/Asset/ButtonSliderAtlas_cuts/image_3.png"
-                                                    className="mr-1 w-4/5"
-                                                    alt=""
-                                                />
-                                                <span id="flower1-count">0/500</span>
+                                                <ProgressBar currentValue={250} maxValue={500} />
+                                                <span id="flower1-count">250/500</span>
                                             </div>
                                         </div>
                                         <button className="mx-auto mt-2 block rounded-lg bg-lime-400 p-2">
@@ -236,12 +219,8 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                                 alt=""
                                             />
                                             <div className="flex items-center">
-                                                <img
-                                                    src="/assets/Asset/ButtonSliderAtlas_cuts/image_3.png"
-                                                    className="mr-1 w-4/5"
-                                                    alt=""
-                                                />
-                                                <span id="flower1-count">0/500</span>
+                                                <ProgressBar currentValue={500} maxValue={500} />
+                                                <span id="flower1-count">500/500</span>
                                             </div>
                                         </div>
                                         <button className="mx-auto mt-2 block rounded-lg bg-lime-400 p-2">
@@ -258,11 +237,7 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                                 alt=""
                                             />
                                             <div className="flex items-center">
-                                                <img
-                                                    src="/assets/Asset/ButtonSliderAtlas_cuts/image_3.png"
-                                                    className="mr-1 w-4/5"
-                                                    alt=""
-                                                />
+                                                <ProgressBar currentValue={0} maxValue={500} />
                                                 <span id="flower1-count">0/500</span>
                                             </div>
                                         </div>
@@ -280,12 +255,8 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                                 alt=""
                                             />
                                             <div className="flex items-center">
-                                                <img
-                                                    src="/assets/Asset/ButtonSliderAtlas_cuts/image_3.png"
-                                                    className="mr-1 w-4/5"
-                                                    alt=""
-                                                />
-                                                <span id="flower1-count">0/500</span>
+                                                <ProgressBar currentValue={234} maxValue={500} />
+                                                <span id="flower1-count">234/500</span>
                                             </div>
                                         </div>
                                         <button className="mx-auto mt-2 block rounded-lg bg-lime-400 p-2">
@@ -302,12 +273,8 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                                 alt=""
                                             />
                                             <div className="flex items-center">
-                                                <img
-                                                    src="/assets/Asset/ButtonSliderAtlas_cuts/image_3.png"
-                                                    className="mr-1 w-4/5"
-                                                    alt=""
-                                                />
-                                                <span id="flower1-count">0/500</span>
+                                                <ProgressBar currentValue={10} maxValue={500} />
+                                                <span id="flower1-count">10/500</span>
                                             </div>
                                         </div>
                                         <button className="mx-auto mt-2 block rounded-lg bg-lime-400 p-2">
@@ -380,8 +347,6 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                         </button>
                                     )}
                                 </div>
-
-                                
                             </div>
                         </div>
                     )}
@@ -390,12 +355,12 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
 
             {unlockSuccess && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-orange-50 p-6 rounded-lg shadow-lg text-center">
-                        <h2 className="text-2xl font-bold mb-4">Mở khóa thành công!</h2>
+                    <div className="rounded-lg bg-orange-50 p-6 text-center shadow-lg">
+                        <h2 className="mb-4 text-2xl font-bold">Mở khóa thành công!</h2>
                         <p className="mb-4">Bạn đã mở khóa thành công một khung mới.</p>
                         <button
                             onClick={handleCloseSuccessModal}
-                            className="px-4 py-2 bg-orange-400 text-white rounded hover:bg-orange-500"
+                            className="rounded bg-orange-400 px-4 py-2 text-white hover:bg-orange-500"
                         >
                             Đóng
                         </button>
