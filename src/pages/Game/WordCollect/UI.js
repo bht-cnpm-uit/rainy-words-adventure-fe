@@ -1,26 +1,28 @@
 
 class Text {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y
+    constructor(game, currentBoard) {
+        this.game = game
+        this.currentBoard = currentBoard;
     }
     writeText(context, text, font = "30px Arial", textAlign = 'center', fillStyle = 'brown') {
-        context.font = font;
+        context.font = Math.floor(60 * this.game.scale) + "px Arial";
         context.textAlign = textAlign;
         context.fillStyle = fillStyle;
-        context.fillText(text, this.x, this.y);
+        context.fillText(text, this.currentBoard.width / 2, this.currentBoard.height / 2.2, this.currentBoard.width * 0.8);
     }
 }
 
-export class Score extends Text {
+export class Score {
     constructor(game) {
-        super(game.width / 2, game.height / 12);
         this.game = game;
         this.score = 0;
     }
-
     draw(context) {
-        super.writeText(context, this.score, "60px fontgame", "center");
+        let fontsize = Math.floor(90 * this.game.scale);
+        context.font = fontsize + "px fontgame";
+        context.fillStyle = 'brown';
+        context.textAlign = "center";
+        context.fillText(this.score, this.game.width / 2, fontsize);
     }
     update(score) {
         this.score += score;
@@ -30,12 +32,9 @@ export class Score extends Text {
 export class BonusItems {
     constructor(game) {
         this.game = game;
-        this.scaleY = this.game.background.scaleY;
         this.spriteWidth = 100;
         this.spriteHeight = 100;
-        this.width = this.spriteWidth * this.scaleY;
-        this.height = this.spriteHeight * this.scaleY;
-        this.x = 10;
+        this.x = 15;
         this.y = 10;
         this.maxItems = 3;
         this.noItems = 3;
@@ -43,22 +42,16 @@ export class BonusItems {
         this.image.src = "../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_11.png";
         this.spriteWidth0 = 192;
         this.spriteHeight0 = 112;
-        this.width0 = this.spriteWidth0 * this.scaleY / 1.5;
-        this.height0 = this.spriteHeight0 * this.scaleY / 1.5;
         this.noItems0 = 0;
         this.imagebonus0 = new Image();
         this.imagebonus0.src = '../assets/Asset/Asset/bonusItem/0.png';
         this.spriteWidth1 = 171;
         this.spriteHeight1 = 84;
-        this.width1 = this.spriteWidth1 * this.scaleY / 1.5;
-        this.height1 = this.spriteHeight1 * this.scaleY / 1.5;
         this.noItems1 = 0;
         this.imagebonus1 = new Image();
         this.imagebonus1.src = '../assets/Asset/Asset/bonusItem/1.png';
         this.spriteWidth2 = 136;
         this.spriteHeight2 = 94;
-        this.width2 = this.spriteWidth2 * this.scaleY / 1.5;
-        this.height2 = this.spriteHeight2 * this.scaleY / 1.5;
         this.noItems2 = 0;
         this.imagebonus2 = new Image();
         this.imagebonus2.src = '../assets/Asset/Asset/bonusItem/2.png';
@@ -68,25 +61,25 @@ export class BonusItems {
 
     draw(context) {
         for (let i = 0; i < this.noItems; i++) {
-            context.drawImage(this.image, this.x + i * this.width, this.y, this.width, this.height);
+            context.drawImage(this.image, this.x + i * this.spriteWidth * this.game.scale, this.y, this.spriteWidth * this.game.scale, this.spriteHeight * this.game.scale);
         }
-        context.font = "18px";
+        context.font = Math.floor(80 * this.game.scale) + "px fontgame";
         if (this.noItems0) {
-            context.fillText(`x ${this.noItems0}`, this.x + 20, this.y + this.height * 1.1 + this.height0);
-            context.drawImage(this.imagebonus0, this.x + 60, this.y + this.height * 1.1, this.width0, this.height0);
+            context.fillText(`x ${this.noItems0}`, this.x + 20, this.y + this.spriteHeight * this.game.scale * 1.1 + this.spriteHeight0 * this.game.scale / 1.5);
+            context.drawImage(this.imagebonus0, this.x + 60, this.y + this.spriteHeight * this.game.scale * 1.1, this.spriteWidth0 * this.game.scale / 1.5, this.spriteHeight0 * this.game.scale / 1.5);
         }
         if (this.noItems1) {
             let yOffset = (this.noItems0 > 0) ? 1.1 : 0;
-            let y = this.y + yOffset * this.height0 + this.height * 1.1;
-            context.fillText(`x ${this.noItems1}`, this.x + 20, y + this.height1);
-            context.drawImage(this.imagebonus1, this.x + 60, y, this.width1, this.height1);
+            let y = this.y + yOffset * this.spriteHeight0 * this.game.scale / 1.5 + this.spriteHeight * this.game.scale * 1.1;
+            context.fillText(`x ${this.noItems1}`, this.x + 20, y + this.spriteHeight1 * this.game.scale / 1.5);
+            context.drawImage(this.imagebonus1, this.x + 60, y, this.spriteWidth1 * this.game.scale / 1.5, this.spriteHeight1 * this.game.scale / 1.5);
         }
         if (this.noItems2) {
             let yOffset0 = (this.noItems0 > 0) ? 1.1 : 0;
             let yOffset1 = (this.noItems1 > 0) ? 1.1 : 0;
-            let y = this.y + this.height * 1.1 + yOffset0 * this.height0 + yOffset1 * this.height1 * 1.1
-            context.fillText(`x ${this.noItems2}`, this.x + 20, y + this.height2);
-            context.drawImage(this.imagebonus2, this.x + 60, y, this.width2, this.height2);
+            let y = this.y + this.spriteHeight * this.game.scale * 1.1 + yOffset0 * this.spriteHeight0 * this.game.scale / 1.5 + yOffset1 * this.spriteHeight1 * this.game.scale / 1.5
+            context.fillText(`x ${this.noItems2}`, this.x + 20, y + this.spriteHeight2 * this.game.scale / 1.5);
+            context.drawImage(this.imagebonus2, this.x + 60, y, this.spriteWidth2 * this.game.scale / 1.5, this.spriteHeight2 * this.game.scale / 1.5);
         }
     }
 
@@ -121,17 +114,46 @@ export class BonusItems {
 }
 
 class Button {
-    constructor(game, image, x, y, width, height, spriteWidth, spriteHeight, type) {
+    constructor(game, currentBoard, image, spriteWidth, spriteHeight, type) {
         this.image = new Image();
         this.game = game;
+        this.currentBoard = currentBoard;
         this.image.src = image;
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
         this.spriteWidth = spriteWidth;
         this.spriteHeight = spriteHeight;
-        this.type = type
+        this.type = type;
+        this.x = null;
+        this.y = null;
+        if (type === 'continue') {
+            this.x = (this.currentBoard.width / 3 - this.currentBoard.widthBtn) / 2;
+            this.y = this.currentBoard.height - this.currentBoard.heightBtn * 1.5;
+        }
+        else if (type === "replay") {
+            this.x = this.currentBoard.width / 3 + (this.currentBoard.width / 3 - this.currentBoard.widthBtn) / 2;
+            this.y = this.currentBoard.height - this.currentBoard.heightBtn * 1.5;
+        }
+        else {
+            this.x = this.currentBoard.width * 2 / 3 + (this.currentBoard.width / 3 - this.currentBoard.widthBtn) / 2;
+            this.y = this.currentBoard.height - this.currentBoard.heightBtn * 1.5;
+        }
+        this.width = this.currentBoard.widthBtn;
+        this.height = this.currentBoard.heightBtn;
+    }
+    updatePosition() {
+        if (this.type === 'continue') {
+            this.x = (this.currentBoard.width / 3 - this.currentBoard.widthBtn) / 2;
+            this.y = this.currentBoard.height - this.currentBoard.heightBtn * 1.5;
+        }
+        else if (this.type === "replay") {
+            this.x = this.currentBoard.width / 3 + (this.currentBoard.width / 3 - this.currentBoard.widthBtn) / 2;
+            this.y = this.currentBoard.height - this.currentBoard.heightBtn * 1.5;
+        }
+        else {
+            this.x = this.currentBoard.width * 2 / 3 + (this.currentBoard.width / 3 - this.currentBoard.widthBtn) / 2;
+            this.y = this.currentBoard.height - this.currentBoard.heightBtn * 1.5;
+        }
+        this.width = this.currentBoard.widthBtn;
+        this.height = this.currentBoard.heightBtn;
     }
 
     draw(context) {
@@ -143,15 +165,16 @@ class Button {
             this.spriteHeight,
             this.x,
             this.y,
-            this.width,
-            this.height
+            this.currentBoard.widthBtn,
+            this.currentBoard.heightBtn
         );
+
     }
     writeText(context, text, font = "25px Arial", textAlign = 'center') {
-        context.font = font;
+        context.font = Math.floor(40 * this.game.scale) + "px Arial";
         context.textAlign = "center";
         context.fillStyle = "brown";
-        context.fillText(text, this.x + this.width / 2, this.y + this.height / 1.5);
+        context.fillText(text, this.x + this.currentBoard.widthBtn / 2, this.y + this.currentBoard.heightBtn / 1.5);
     }
     onClickButton(type) {
         if (type === 'replay') {
@@ -173,13 +196,12 @@ class Button {
     }
 }
 class StaticUI {
-    constructor(image, x, y, width, height, spriteWidth, spriteHeight) {
+    constructor(game, image, x, y, spriteWidth, spriteHeight) {
         this.image = new Image();
         this.image.src = image;
+        this.game = game;
         this.x = x;
         this.y = y;
-        this.width = width;
-        this.height = height;
         this.spriteWidth = spriteWidth;
         this.spriteHeight = spriteHeight;
     }
@@ -192,8 +214,8 @@ class StaticUI {
             this.spriteHeight,
             this.x,
             this.y,
-            this.width,
-            this.height
+            this.spriteWidth * this.game.scale,
+            this.spriteHeight * this.game.scale
         );
     }
 }
@@ -201,66 +223,67 @@ class StaticUI {
 export class BoardStopGame {
     constructor(game) {
         this.game = game;
-        this.scaleY = this.game.background.scaleY;
         this.hidden = true;
         this.spriteWidthBoard = 908;
         this.spriteHeightBoard = 476;
-        this.width = this.spriteWidthBoard * this.scaleY / 1.2;
-        this.height = this.spriteHeightBoard * this.scaleY / 1.2
+        this.width = this.spriteWidthBoard * this.game.scale;
+        this.height = this.spriteHeightBoard * this.game.scale;
         this.translateX = (this.game.width - this.width) / 2;
         this.translateY = (this.game.height - this.height) / 2;
         this.spriteWidthButton = 437;
         this.spriteHeightButton = 129;
-        this.widthBtn = this.spriteWidthButton * this.scaleY / 1.95;
-        this.heightBtn = this.spriteHeightButton * this.scaleY / 1.5;
+        this.widthBtn = this.width / 3.5;
+        this.heightBtn = this.spriteHeightButton * this.game.scale / 1.5;
         this.staticUI = {
             board: new StaticUI(
+                game,
                 '../assets/Asset/PanelAtlas_cuts/image_1.png',
-                0, 0, this.width, this.height,
+                0, 0,
                 this.spriteWidthBoard, this.spriteHeightBoard
             )
         }
         this.text = {
             textTitleStop: new Text(
-                this.width / 2,
-                this.height / 2.2
+                game,
+                this,
             )
         }
         this.buttons = {
             continue: new Button(
                 this.game,
+                this,
                 '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
-                (this.width / 3 - this.widthBtn) / 2,
-                this.height - this.heightBtn * 1.5,
-                this.widthBtn,
-                this.heightBtn,
                 this.spriteWidthButton,
                 this.spriteHeightButton,
                 'continue'
             ),
             replay: new Button(
                 this.game,
+                this,
                 '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
-                this.width / 3 + (this.width / 3 - this.widthBtn) / 2,
-                this.height - this.heightBtn * 1.5,
-                this.widthBtn,
-                this.heightBtn,
                 this.spriteWidthButton,
                 this.spriteHeightButton,
                 'replay'
             ),
             back: new Button(
                 this.game,
+                this,
                 '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
-                this.width * 2 / 3 + (this.width / 3 - this.widthBtn) / 2,
-                this.height - this.heightBtn * 1.5,
-                this.widthBtn,
-                this.heightBtn,
                 this.spriteWidthButton,
                 this.spriteHeightButton,
                 'back'
             )
         }
+    }
+    updatePosition() {
+        this.width = this.spriteWidthBoard * this.game.scale;
+        this.height = this.spriteHeightBoard * this.game.scale;
+        this.translateX = (this.game.width - this.width) / 2;
+        this.translateY = (this.game.height - this.height) / 2;
+        this.widthBtn = this.width / 3.5
+        this.buttons.back.updatePosition();
+        this.buttons.continue.updatePosition();
+        this.buttons.replay.updatePosition();
     }
     update() {
 
@@ -300,7 +323,7 @@ export class BoardEndWordCollect {
         this.widthBtn = this.spriteWidthButton * this.scaleY / 1.95;
         this.heightBtn = this.spriteHeightButton * this.scaleY / 1.5;
         this.countDown = 10;
-        this.animationHandleCountDown;
+        this.animationHandleCountDown = null;
         this.staticUI = {
             board: new StaticUI(
                 '../assets/Asset/PanelAtlas_cuts/image_1.png',
@@ -413,21 +436,27 @@ export class BtnGameState {
         this.game = game;
         this.spriteWidth = 135;
         this.spriteHeight = 134;
-        this.width = this.spriteWidth / 2;
-        this.height = this.spriteHeight / 2;
+        this.width = this.spriteWidth * this.game.scale / 1.3;
+        this.height = this.spriteHeight * this.game.scale / 1.3;
         this.imagePause = new Image();
         this.imagePause.src = '../assets/Asset/Asset/btn_pause.png';
         this.imageStart = new Image();
         this.imageStart.src = '../assets/Asset/Asset/btn_start.png';
-        this.x = this.game.width - this.spriteWidth / 1.5;
-        this.y = this.spriteHeight / 4;
+        this.x = this.game.width - this.width * 1.2;
+        this.y = this.height / 4;
+    }
+    updatePosition() {
+        this.width = this.spriteWidth * this.game.scale / 1.3;
+        this.height = this.spriteHeight * this.game.scale / 1.3;
+        this.x = this.game.width - this.width * 1.2;
+        this.y = this.height / 4;
     }
     draw(context) {
         if (this.game.gameState === "Playing") {
-            context.drawImage(this.imageStart, this.x, this.y, this.spriteWidth / 2, this.spriteHeight / 2);
+            context.drawImage(this.imageStart, this.x, this.y, this.width, this.height);
         }
         else {
-            context.drawImage(this.imagePause, this.x, this.y, this.spriteWidth / 2, this.spriteHeight / 2);
+            context.drawImage(this.imagePause, this.x, this.y, this.width, this.height);
         }
     }
 }

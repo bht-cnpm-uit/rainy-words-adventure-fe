@@ -2,39 +2,41 @@ import { data } from "./fakeData";
 class Item {
     constructor(game, image) {
         this.game = game
-        this.context = this.game.ctx;
         this.spriteWidth = 304;
         this.spriteHeight = 304;
-        this.scaleY = this.game.background.scaleY;
-        this.width = this.spriteWidth * this.scaleY;
-        this.height = this.spriteHeight * this.scaleY;
-        this.x = Math.random() * (this.game.width - 2 * this.width) + this.width;
-        this.y = -this.height;
+        this.x = Math.random() * (this.game.width - 2 * this.spriteWidth * this.game.scale) + this.spriteWidth * this.game.scale;
+        this.y = -this.spriteHeight * this.game.scale;
         this.vy = 0.1;
+        this.vx = 0.04 * (Math.random() * 2 - 1);
         this.image = image;
         this.spinSpeed = Math.PI / 10000;
         this.maxAngleSpin = 10 * Math.PI / 180;
         this.angle = (Math.random() * 20 - 10) * Math.PI / 180;
         this.markedForDeletion = false;
-        this.wordIndex = Math.floor(Math.random() * 29);
-        this.setWord();
-        this.setFrameXY();
+        this.word = data[Math.floor(Math.random() * data.length)]
+        this.isTrueWord = true;
+        // this.setWord();
+        this.setFrameXY(); // Random bonus item
         this.animateFall();
     }
-    setWord() {
-        let rand = Math.random();
-        let wordIndex = Math.floor(Math.random() * data.length);
-        if (rand > 0.5) {
-            this.isTrueWord = true;
-            this.word = data[wordIndex];
-        }
-        else {
-            this.isTrueWord = false;
-            this.word = JSON.parse(JSON.stringify(data[wordIndex]));
-            let vietnameseIndex = (wordIndex + Math.ceil(Math.random() * (data.length - wordIndex - 1)));
-            this.word["vietnamese"] = data[vietnameseIndex]["vietnamese"];
-        }
+    updatePositionItem() {
+        this.x = this.x * this.game.scaleX;
+        this.y = this.y * this.game.scaleY;
     }
+    // setWord() {
+    // let rand = Math.random();
+    // let wordIndex = Math.floor(Math.random() * data.length);
+    // if (rand > 0.5) {
+    //     this.isTrueWord = true;
+    //     this.word = data[wordIndex];
+    // }
+    // else {
+    //     this.isTrueWord = false;
+    //     this.word = JSON.parse(JSON.stringify(data[wordIndex]));
+    //     let vietnameseIndex = (wordIndex + Math.ceil(Math.random() * (data.length - wordIndex - 1)));
+    //     this.word["vietnamese"] = data[vietnameseIndex]["vietnamese"];
+    // }
+    // }
     setFrameXY() {
         let rand = Math.random();
         if (rand < 0.05) {
@@ -59,48 +61,45 @@ class Item {
             this.typeItem = 2;
         }
     }
-
-    draw() {
-        const word = this.word["word"];
-        const vietnamese = this.word["vietnamese"];
-
-        this.context.save();
-        this.context.translate(this.x, this.y);
-        this.context.rotate(this.angle);
-        this.context.drawImage(
+    draw(context) {
+        context.save();
+        context.translate(this.x, this.y);
+        context.rotate(this.angle);
+        context.drawImage(
             this.image,
-            this.frameX * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight,
-            -this.width / 3,
-            -this.height / 3,
-            this.width,
-            this.height
+            this.frameX * this.spriteWidth,
+            this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight,
+            -this.spriteWidth * this.game.scale / 3,
+            -this.spriteHeight * this.game.scale / 3,
+            this.spriteWidth * this.game.scale,
+            this.spriteHeight * this.game.scale
         );
 
         // Set font size and style for both texts
-        this.context.font = 'bold 20px Arial';
-        this.context.textAlign = 'center';
+        context.font = 'bold 20px Arial';
+        context.textAlign = 'center';
 
         // Draw English text
-        this.context.fillText(word, this.width / 8, -this.height / 10);
+        context.fillText(this.word["word"], this.spriteWidth * this.game.scale / 8, -this.spriteHeight * this.game.scale / 10);
 
         // Adjust font size for Vietnamese text
-        this.context.font = '15px Arial';
+        context.font = '15px Arial';
 
         // Draw Vietnamese text
-        this.context.fillText(vietnamese, this.width / 8, -this.height / 30);
+        context.fillText(this.word["vietnamese"], this.spriteWidth * this.game.scale / 8, -this.spriteHeight * this.game.scale / 30);
 
-        this.context.restore();
+        context.restore();
     }
 
-    update(deltaTime) {
-        if (this.angle + this.spinSpeed * deltaTime > this.maxAngleSpin || this.angle + this.spinSpeed * deltaTime < -this.maxAngleSpin) {
-            this.spinSpeed = -this.spinSpeed;
-        } else {
-            this.angle += this.spinSpeed * deltaTime;
-        }
-        this.y += this.vy * deltaTime;
-        if (this.y > this.game.height) this.markedForDeletion = true;
-    }
+    // update(deltaTime) {
+    //     if (this.angle + this.spinSpeed * deltaTime > this.maxAngleSpin || this.angle + this.spinSpeed * deltaTime < -this.maxAngleSpin) {
+    //         this.spinSpeed = -this.spinSpeed;
+    //     } else {
+    //         this.angle += this.spinSpeed * deltaTime;
+    //     }
+    //     this.y += this.vy * deltaTime;
+    //     if (this.y > this.game.height) this.markedForDeletion = true;
+    // }
     animateFall() {
         let animateHandle;
         let self = this;
@@ -113,6 +112,10 @@ class Item {
                         self.angle += self.spinSpeed * self.game.deltaTime;
                     }
                     self.y += self.vy * self.game.deltaTime;
+                    self.x += self.vx * self.game.deltaTime;
+                    if (self.x < 0 || self.x > self.game.width) {
+                        self.vx = -self.vx;
+                    }
                 }
                 animateHandle = requestAnimationFrame(animate);
             } else {
@@ -132,6 +135,9 @@ export class WordFall {
         this.words = [];
         this.image = new Image();
         this.image.src = "../assets/Asset/GameObject/GameObject(5x12Atlas).png";
+    }
+    updatePositionItems() {
+        this.words.forEach(word => word.updatePositionItem())
     }
     update() {
         this.words = this.words.filter(word => !word.markedForDeletion);

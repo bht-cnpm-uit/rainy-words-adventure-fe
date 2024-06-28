@@ -1,20 +1,22 @@
 class Layer {
     constructor(game, spriteWidth, spriteHeight, src) {
         this.game = game;
-        this.width = this.game.width;
-        this.height = this.game.height
-        this.spriteWidth = spriteWidth;
-        this.spriteHeight = spriteHeight;
         this.image = new Image();
         this.image.src = src;
+        this.spriteWidth = spriteWidth;
+        this.spriteHeight = spriteHeight;
         this.x = 0;
         this.y = 0;
     }
-    update() {
-        // Add update logic if needed
-    }
-    draw(context) {
-        context.drawImage(this.image, this.x, this.y, this.width, this.height);
+    update() { }
+    draw(context, isTrue = false) {
+        if (isTrue) {
+            context.drawImage(this.image, 0, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.game.width, this.game.height);
+            context.drawImage(this.image, 0, 0, this.spriteWidth, this.spriteHeight, this.x + this.game.width, this.y, this.game.width, this.game.height);
+        }
+        else {
+            context.drawImage(this.image, 0, 0, this.spriteWidth - this.game.widthCut, this.spriteHeight, this.x, this.y, this.game.width, this.game.height);
+        }
     }
 }
 
@@ -23,20 +25,19 @@ export class Background {
         this.game = game;
         this.spriteWidth = 2920;
         this.spriteHeight = 1080;
-        this.width = this.game.width;
-        this.height = this.game.height;
-        this.scaleY = this.height / this.spriteHeight;
         this.layerImage1 = new Layer(this.game, this.spriteWidth, this.spriteHeight, '../assets/Asset/Map1/ScrollBG.png');
-        this.layerImage2 = new Layer(this.game, this.spriteWidth, this.spriteHeight, '../assets/Asset/Map1/StableBG_game.png');
+        this.layerImage2 = new Layer(this.game, this.spriteWidth, this.spriteHeight, '../assets/Asset/Map1/StableBG.png');
         this.speedModifier = 0.5;
         this.speed = this.speedModifier;
         this.animateBg();
     }
+    updatePosition() {
+
+    }
     draw(context) {
-        let widthCut = Math.ceil((this.spriteWidth * this.scaleY - this.width) / this.scaleY);
-        context.drawImage(this.layerImage1.image, 0, 0, this.spriteWidth, this.spriteHeight, this.layerImage1.x, 0, this.width, this.height);
-        context.drawImage(this.layerImage1.image, 0, 0, this.spriteWidth, this.spriteHeight, this.layerImage1.x + this.width, 0, this.width, this.height);
-        context.drawImage(this.layerImage2.image, 0, 0, this.spriteWidth - widthCut, this.spriteHeight, this.layerImage2.x, 0, this.width, this.height);
+        this.layerImage1.draw(context, true);
+        this.layerImage2.draw(context);
+        context.save();
     }
     animateBg() {
         let animateHandle;
@@ -46,7 +47,7 @@ export class Background {
                 if (self.game.gameState) {
                     let gameSpeed = 5;
                     self.speed = gameSpeed * self.speedModifier;
-                    if (self.layerImage1.x <= -self.width) {
+                    if (self.layerImage1.x <= -self.game.width) {
                         self.layerImage1.x = 0;
                     }
                     self.layerImage1.x = self.layerImage1.x - self.speed;

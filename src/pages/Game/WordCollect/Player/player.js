@@ -23,12 +23,11 @@ export class Player {
         this.game = game;
         this.spriteWidth = 653;
         this.spriteHeight = 800;
-        this.scaleY = this.game.background.scaleY;
-        this.width = this.spriteWidth * this.scaleY / 2;
-        this.height = this.spriteHeight * this.scaleY / 2;
+        this.width = this.spriteWidth * this.game.scale / 2;
+        this.height = this.spriteHeight * this.game.scale / 2;
         this.position = {
             x: this.game.width / 2,
-            y: this.game.height - this.height / 2
+            y: this.game.height - this.spriteHeight * this.game.scale / 4
         }
         this.velocity = 0;
         this.acceleration = 0.025;
@@ -43,10 +42,15 @@ export class Player {
         this.currentState.enter();
         this.input = new InputHandler();
     }
+    updatePositionPlayer() {
+        this.position.x = this.position.x * this.game.scaleX;
+        this.position.y = this.game.height - this.spriteHeight * this.game.scale / 4;
+    }
+
     draw(ctx) {
         ctx.save();
         // Translate the canvas to the center of the object
-        ctx.translate(this.position.x, this.position.y)
+        ctx.translate(this.position.x, this.position.y);
 
         if (this.velocity < 0) {
             ctx.scale(-1, 1); // Flip horizontally
@@ -59,10 +63,10 @@ export class Player {
             this.frameY * this.spriteHeight,
             this.spriteWidth,
             this.spriteHeight,
-            -this.width / 2,
-            -this.height / 2,
-            this.width,
-            this.height
+            -this.spriteWidth * this.game.scale / 4,
+            -this.spriteHeight * this.game.scale / 4,
+            this.spriteWidth * this.game.scale / 2,
+            this.spriteHeight * this.game.scale / 2
         );
 
         ctx.restore(); // Restore the canvas state

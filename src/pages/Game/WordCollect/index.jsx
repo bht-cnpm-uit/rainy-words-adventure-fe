@@ -17,18 +17,26 @@ const WordCollect = props => {
         canvas.height = window.innerHeight;
     }
     class Game {
-        constructor(canvas, ctx, width, height) {
+        constructor(canvas, ctx) {
             this.props = props
-            this.canvas = canvas;
-            this.canvas.style.cursor = 'default'
             this.ctx = ctx;
-            this.width = width;
-            this.height = height;
+            this.canvas = canvas;
+            this.width = window.innerWidth;
+            this.height = window.innerHeight;
+            this.canvas.style.width = this.width;
+            this.canvas.style.height = this.height;
+            this.spriteHeightBG = 1080;
             this.gameFrame = 0;
             this.deltaTime = null;
             this.gameState = GameState[3];
             this.wordTimer = 0;
             this.wordInterval = 2000;
+            this.scale = this.height / this.spriteHeightBG;
+            this.scaleX = 1;
+            this.scaleY = 1;
+            this.widthCut = Math.ceil((2920 * this.scale - this.width) / this.scale);
+            this.wordFall = new WordFall(this);
+            this.listWordCollect = [];
             this.background = new Background(this);
             this.Score = new Score(this);
             this.btnGameState = new BtnGameState(this);
@@ -36,10 +44,26 @@ const WordCollect = props => {
             this.player = new Player(this);
             this.boardStopGame = new BoardStopGame(this);
             this.boardEndWordCollect = new BoardEndWordCollect(this);
-            this.wordFall = new WordFall(this);
             this.canvas.addEventListener('mousemove', this.onMouseMove.bind(this));
             this.canvas.addEventListener('click', this.onClick.bind(this));
-            this.listWordCollect = [];
+            window.addEventListener('resize', this.onResize.bind(this));
+        }
+        onResize(event) {
+            var canvas = document.getElementById('responsive-canvas');
+            resizeCanvas(canvas);
+            this.scaleX = window.innerWidth / this.width;
+            this.scaleY = window.innerHeight / this.height;
+            this.width = window.innerWidth;
+            this.height = window.innerHeight;
+            canvas.style.height = this.height;
+            canvas.style.width = this.width;
+            this.scale = this.height / this.spriteHeightBG;
+            this.widthCut = Math.ceil((2920 * this.scale - this.width) / this.scale);
+            this.player.updatePositionPlayer();
+            this.wordFall.updatePositionItems();
+            this.btnGameState.updatePosition();
+            this.boardStopGame.updatePosition();
+            this.background.updatePosition();
         }
         updateResult() {
             this.props.setResult({
@@ -131,9 +155,16 @@ const WordCollect = props => {
                     }
                 }
             }
+            else {
+                if (this.isMouseOverButton(mouseX, mouseY, this.btnGameState)) {
+                    cursorStyle = 'pointer';
+                }
+            }
             this.canvas.style.cursor = cursorStyle;
         }
         isMouseOverButton(mouseX, mouseY, button) {
+            console.log(mouseY);
+            console.log(button)
             return (
                 mouseX >= button.x &&
                 mouseX <= button.x + button.width &&
@@ -167,10 +198,10 @@ const WordCollect = props => {
         }
     }
     useEffect(() => {
-        const canvas = canvasRef.current;
+        const canvas = document.getElementById('responsive-canvas');
         resizeCanvas(canvas);
         const context = canvas.getContext('2d');
-        const game = new Game(canvas, context, canvas.width, canvas.height);
+        const game = new Game(canvas, context);
         function animate(timeStamp) {
             context.clearRect(0, 0, canvas.width, canvas.height);
             const deltaTime = timeStamp - lastTime || 0;
@@ -187,10 +218,6 @@ const WordCollect = props => {
             cancelAnimationFrame(animate);
         };
     }, []);
-
-    return (
-        <canvas
-            ref={canvasRef} {...props} />
-    );
+    return <canvas id='responsive-canvas' ref={canvasRef} {...props}></canvas>
 }
 export default WordCollect;
