@@ -24,6 +24,8 @@ export class Player {
         this.frameJumpX = 0;
         this.frameJumpY = 0;
 
+        this.vx0 = 30;
+
         // Load images
         this.image.onload = () => {
             this.imageJump.onload = () => {
@@ -77,14 +79,15 @@ export class Player {
 
     updatePosition(level) {
         if (level.level <= this.maxCurrentLevel) {
-            // const direction = level.level > this.currentLevel.level ? 1 : -1;
-            // this.jump(level, direction);
-            this.currentLevel = JSON.parse(JSON.stringify(level));
+            const direction = level.level > this.currentLevel.level ? 1 : -1;
+            this.jump(level, direction);
+            // this.currentLevel = JSON.parse(JSON.stringify(level));
         }
     }
 
     jump(nextLevel, direction) {
         const self = this;
+        const g = 2;
         let animationHandle;
         let jumpTo
         if (direction == 1) {
@@ -95,27 +98,20 @@ export class Player {
             self.isJumping = 2;
             jumpTo = self.levels[self.currentLevel.level - 2];
         }
+        let t = (jumpTo.position.x - this.currentLevel.position.x) / (self.vx0);
+        let vy0 = (jumpTo.position.y - this.currentLevel.position.y - 1 / 2 * g * t ** 2) / (t);
         let currentY = self.currentLevel.position.y
         let currentX = self.currentLevel.position.x;
         let distanceX = Math.abs(jumpTo.position.x - currentX);
         let distanceY = Math.abs(jumpTo.position.y - currentY);
-        function animate() {
-            if ((direction === 1 && self.currentLevel.position.x < jumpTo.position.x)) {
-                self.currentLevel.position.x += self.game.deltaTime * direction / 5;
-                let dy = (Math.abs(distanceY) * Math.sin(((self.currentLevel.position.x - currentX) * Math.PI * 3 / (4 * distanceX))))
-                self.currentLevel.position.y = currentY - dy;
-                let dis = Math.abs(currentX - jumpTo.position.x);
-                if (self.frameJumpX < 2) {
-                    if (self.gameFrame % 2 == 0)
-                        self.frameJumpX++;
-                }
-                else if (dis < 20 && self.gameFrame % 2 == 0) {
-                    if (self.frameJumpX == 5) {
-                        self.frameJumpX = 0;
-                    }
-                    else
-                        self.frameJumpX++;
-                }
+        function animate(timeStamp) {
+            let deltaTime = timeStamp - lastTime || 0;
+            lastTime = timeStamp;
+            deltaTime /= 1200;
+            if (direction === 1 && self.currentLevel.position.x < jumpTo.position.x) {
+                self.currentLevel.position.x += self.vx0 * deltaTime;
+                self.currentLevel.position.y += vy0 * deltaTime + 1 / 2 * g * deltaTime ** 2;
+                vy0 += g * deltaTime;
                 animationHandle = requestAnimationFrame(animate);
             }
             else if (direction === -1 && self.currentLevel.position.x > jumpTo.position.x) {
@@ -164,7 +160,8 @@ export class Player {
                 return;
             }
         }
-        animate();
+        let lastTime = 0;
+        animate(0);
     }
 
     animateStand() {
