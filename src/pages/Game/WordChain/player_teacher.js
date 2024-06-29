@@ -1,11 +1,10 @@
 export class TeacherCat {
     constructor(game) {
         this.game = game;
-        this.scaleY = this.game.background.scaleY;
         this.spriteWidth = 883;
         this.spriteHeight = 611;
-        this.width = this.spriteWidth * this.scaleY;
-        this.height = this.spriteHeight * this.scaleY;
+        this.width = this.spriteWidth * this.game.scale;
+        this.height = this.spriteHeight * this.game.scale;
         this.frameX = 0;
         this.frameY = 0;
         this.staggerFrames = 5;
@@ -17,7 +16,11 @@ export class TeacherCat {
 
     draw(ctx) {
         ctx.save();
-        ctx.drawImage(this.image, this.frameX * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, this.game.boardWordChain.translateX - this.width * 0.9, this.game.height - this.height, this.width, this.height);
+        ctx.drawImage(this.image,
+            this.frameX * this.spriteWidth, this.frameY * this.spriteHeight,
+            this.spriteWidth, this.spriteHeight,
+            this.game.boardWordChain.translateX - this.spriteWidth * this.game.scale * 0.9, this.game.height - this.spriteHeight * this.game.scale,
+            this.spriteWidth * this.game.scale, this.spriteHeight * this.game.scale);
     }
 
     animateTeacher() {

@@ -18,30 +18,61 @@ const WordChain = (props) => {
     }
     class Game {
         constructor(canvas, ctx) {
-            this.props = props;
+            this.props = props
             this.listWords = this.props.listwordcollect;
-            this.canvas = canvas;
-            this.canvas.style.cursor = 'default';
+            this.listWords = [
+                { word: 'Pencil', vietnamese: 'bút chì', level: 30 },
+                { word: 'Playground', vietnamese: 'sân chơi', level: 20 },
+                { word: 'Math', vietnamese: 'toán học', level: 20 },
+                { word: 'Library', vietnamese: 'thư viện', level: 30 },
+                { word: 'Physical Education', vietnamese: 'thể dục', level: 30 },
+                { word: 'Presentation', vietnamese: 'trình bày', level: 30 },
+                { word: 'Book', vietnamese: 'sách', level: 10 },
+                { word: 'Homework', vietnamese: 'bài tập về nhà', level: 30 },
+                { word: 'School', vietnamese: 'trường học', level: 20 },
+                { word: 'Desk', vietnamese: 'cái bàn', level: 30 },
+                { word: 'School', vietnamese: 'trường học', level: 20 },
+                { word: 'Math', vietnamese: 'toán học', level: 20 }
+            ];
             this.ctx = ctx;
-            this.width = canvas.width;
-            this.height = canvas.height;
-            this.background = new Background(this);
-            this.scaleY = this.background.scaleY;
+            this.canvas = canvas;
+            this.width = window.innerWidth;
+            this.height = window.innerHeight;
+            this.canvas.style.width = this.width;
+            this.canvas.style.height = this.height;
+            this.spriteHeightBG = 1080;
+            this.scale = this.height / this.spriteHeightBG;
+            this.widthCut = Math.ceil((2920 * this.scale - this.width) / this.scale);
             this.slot = 1;
             this.maxSlot = 3;
             this.score = 0;
+            this.startX = null;
+            this.startY = null;
+            this.currentWordDrug = null;
+            this.gameState = GameWordChainState[3];
+            this.background = new Background(this);
+            this.boardWordChain = new BoardWordChain(this);
+            this.boardScoreChain = new BoardScoreChain(this);
+            this.teacherCat = new TeacherCat(this);
             this.canvas.addEventListener("mousedown", this.onMouseDown.bind(this));
             this.canvas.addEventListener('mousemove', this.onMouseMove.bind(this));
             this.canvas.addEventListener("mouseup", this.onMouseUp.bind(this));
             this.canvas.addEventListener("mouseout", this.onMouseOut.bind(this));
             this.canvas.addEventListener('click', this.onClick.bind(this));
-            this.startX = null;
-            this.startY = null;
-            this.currentWordDrug = null;
-            this.gameState = GameWordChainState[3];
-            this.boardWordChain = new BoardWordChain(this);
-            this.boardScoreChain = new BoardScoreChain(this);
-            this.teacherCat = new TeacherCat(this);
+            window.addEventListener('resize', this.onResize.bind(this));
+        }
+        onResize(event) {
+            var canvas = document.getElementById('responsive-canvas');
+            resizeCanvas(canvas);
+            this.width = window.innerWidth;
+            this.height = window.innerHeight;
+            canvas.style.height = this.height;
+            canvas.style.width = this.width;
+            this.scale = this.height / this.spriteHeightBG;
+            this.widthCut = Math.ceil((2920 * this.scale - this.width) / this.scale);
+            this.background.updatePosition();
+            this.boardWordChain.updatePosition();
+            this.boardScoreChain.updatePosition();
         }
         updateResult() {
             let score = this.props.result.score + this.score;
@@ -131,6 +162,9 @@ const WordChain = (props) => {
                 let mouseX = event.clientX - rect.left - this.boardWordChain.translateX;
                 let mouseY = event.clientY - rect.top - this.boardWordChain.translateY;
                 let cursorStyle = 'default';
+                if (this.isMouseOver(mouseX, mouseY, this.boardWordChain.button)) {
+                    cursorStyle = 'pointer';
+                }
                 const englishWords = this.boardWordChain.EnglishWord;
                 const vietnameseWords = this.boardWordChain.VietNameseWord;
 
@@ -214,17 +248,16 @@ const WordChain = (props) => {
                 this.boardWordChain.update();
             }
         }
-
         draw(context) {
             this.background.draw(context);
             this.boardWordChain.draw(context);
-            this.boardScoreChain.draw(context)
+            this.boardScoreChain.draw(context);
             this.teacherCat.draw(context);
         }
     }
 
     useEffect(() => {
-        const canvas = canvasRef.current;
+        const canvas = document.getElementById('responsive-canvas');
         resizeCanvas(canvas);
         const context = canvas.getContext('2d');
         const gameWordChain = new Game(canvas, context);
@@ -246,7 +279,7 @@ const WordChain = (props) => {
         };
     }, []);
 
-    return <canvas ref={canvasRef} {...props} />;
+    return <canvas id='responsive-canvas' ref={canvasRef} {...props}></canvas>;
 };
 
 export default WordChain;
