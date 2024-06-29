@@ -4,7 +4,7 @@ import WordChain from "./WordChain";
 import Result from "../Game/Result"
 
 const Game = () => {
-    const [typegame, settypegame] = useState('word-chain');
+    const [typegame, settypegame] = useState('word-collect');
     const [listwordcollect, setlistwordcollect] = useState([]);
     const [result, setResult] = useState({
         "noWords": 0,
