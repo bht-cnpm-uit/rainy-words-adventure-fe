@@ -1,122 +1,132 @@
+import './signin.css';
 class Layer {
     constructor(game, spriteWidth, spriteHeight, src) {
         this.game = game;
-        this.width = this.game.width;
-        this.height = this.game.height;
-        this.spriteHeight = spriteHeight;
-        this.spriteWidth = spriteWidth;
         this.image = new Image();
         this.image.src = src;
+        this.spriteWidth = spriteWidth;
+        this.spriteHeight = spriteHeight;
         this.x = 0;
         this.y = 0;
     }
     update() {}
-    draw(context) {
-        context.drawImage(this.image, this.x, this.y, this.width, this.height);
-    }
-}
-
-export class Background {
-    constructor(game) {
-        this.game = game;
-        this.spriteHeight = 1080;
-        this.spriteWidth = 2920;
-        this.width = this.game.width;
-        this.height = this.game.height;
-        this.scaleY = this.height / this.spriteHeight;
-        this.layerImage1 = new Layer(
-            this.game,
-            this.spriteWidth,
-            this.spriteHeight,
-            '../assets/Asset/Map1/ScrollBG.png',
-        );
-        this.layerImage2 = new Layer(
-            this.game,
-            this.spriteWidth,
-            this.spriteHeight,
-            '../assets/Asset/Map1/StableBG.png',
-        );
-        // this.layerLogo = new Layer(this.game, this.spriteWidth,this.spriteHeight,'../assets/Asset/Logo.png' );
-        this.speedModifier = 0.5;
-        this.speed = this.speedModifier;
-    }
-    update() {
-        let gameSpeed = 5;
-        this.speed = gameSpeed * this.speedModifier;
-        if (this.layerImage1.x <= -this.width) {
-            this.layerImage1.x = 0;
+    draw(context, isTrue = false) {
+        if (isTrue) {
+            context.drawImage(
+                this.image,
+                0,
+                0,
+                this.spriteWidth,
+                this.spriteHeight,
+                this.x,
+                this.y,
+                this.game.width,
+                this.game.height,
+            );
+            context.drawImage(
+                this.image,
+                0,
+                0,
+                this.spriteWidth,
+                this.spriteHeight,
+                this.x + this.game.width,
+                this.y,
+                this.game.width,
+                this.game.height,
+            );
+        } else {
+            context.drawImage(
+                this.image,
+                0,
+                0,
+                this.spriteWidth - this.game.widthCut,
+                this.spriteHeight,
+                this.x,
+                this.y,
+                this.game.width,
+                this.game.height,
+            );
         }
-        this.layerImage1.x = this.layerImage1.x - this.speed;
     }
-    draw(context) {
-        let widthCut = Math.ceil((this.spriteWidth * this.scaleY - this.width) / this.scaleY);
-        context.drawImage(
-            this.layerImage1.image,
-            0,
-            0,
+}
+class Player {
+    constructor(game, src) {
+        this.game = game;
+        this.spriteWidth = 653;
+        this.spriteHeight = 800;
+        this.position = {
+            x: this.game.width / 60,
+            y: this.game.height / 6,
+        };
+        this.image = new Image();
+        this.image.src = src;
+        this.frameX = 0;
+        this.frameY = 1;
+        this.staggerFrames = 5;
+        this.gameFrame = 0;
+    }
+    draw(ctx) {
+        ctx.translate(this.position.x + this.width / 2, this.position.y + this.height / 3);
+
+        ctx.drawImage(
+            this.image,
+            this.frameX * this.spriteWidth,
+            this.frameY * this.spriteHeight,
             this.spriteWidth,
             this.spriteHeight,
-            this.layerImage1.x,
-            0,
-            this.width,
-            this.height,
+            (this.game.width / 2 - this.spriteWidth *0.3 * this.game.scale) / 20,
+            this.game.height - this.spriteHeight * 1.05 * this.game.scale,
+            this.spriteWidth * this.game.scale,
+            this.spriteHeight * this.game.scale,
         );
-        context.drawImage(
-            this.layerImage1.image,
-            0,
-            0,
-            this.spriteWidth,
-            this.spriteHeight,
-            this.layerImage1.x + this.width,
-            0,
-            this.width,
-            this.height,
-        );
-        context.drawImage(
-            this.layerImage2.image,
-            0,
-            0,
-            this.spriteWidth - widthCut,
-            this.spriteHeight,
-            this.layerImage2.x,
-            0,
-            this.width,
-            this.height,
-        );
-        context.save();
+
+        if (this.gameFrame % (this.staggerFrames * 3) == 0) {
+            if (this.frameX < 4) this.frameX += 1;
+            else this.frameX = 0;
+        }
+        this.gameFrame++;
+        ctx.restore();
+    }
+    onResize(game) {
+        this.game = game;
+        if (this.spriteWidth * this.game.scale > this.game.width / 2) {
+            this.game.scale = this.game.width / (2.5 * this.spriteWidth);
+        }
     }
 }
 
-export class LogoGame {
+class btnLogIn {
     constructor(game) {
         this.game = game;
-        this.spriteHeight = 552;
-        this.spriteWidth = 922;
-        this.width = this.game.width;
-        this.height = this.game.height;
-        this.scaleY = this.height / this.spriteHeight;
-        this.layerLogo = new Layer(
-            this.game,
+        this.image = new Image();
+        this.image.src = '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_24.png';
+        this.spriteWidth = 433;
+        this.spriteHeight = 279;
+        this.x = 100;
+        this.y = -10;
+    }
+    draw(context) {
+        context.drawImage(
+            this.image,
+            0,
+            0,
             this.spriteWidth,
             this.spriteHeight,
-            '../assets/Asset/Logo.png',
+            this.x,
+            this.y,
+            (this.spriteWidth * this.game.scale) / 1.6,
+            (this.spriteHeight * this.game.scale) / 1.6,
         );
-    }
-    update() {}
-    draw(context) {
-        let widthCut = Math.ceil((this.spriteWidth * this.scaleY - this.width) / this.scaleY);
-        context.drawImage(
-            this.layerLogo.image,
-            widthCut,
-            0,
-            this.spriteWidth - widthCut,
-            this.spriteHeight,
-            this.layerLogo.x + this.width / 2,
-            100,
-            this.width / 3,
-            this.height / 3,
+        context.font = this.game.scale * 45 + 'px Arial';
+        context.fillStyle = 'brown';
+        context.textAlign = 'center';
+        context.testBaseline = 'middle';
+        context.fillText(
+            'Đăng nhập',
+            this.x + (this.spriteWidth * this.game.scale) / 3.2,
+            this.y + (this.spriteHeight * this.game.scale) / 1.9,
+            (this.spriteWidth * this.game.scale) / 1.6,
         );
-        context.save();
     }
 }
 
@@ -138,148 +148,94 @@ const optionSchools = [
     { value: 'Tiểu học Thủ Đức', label: 'Option 3' },
 ];
 
-export class SignInForm {
+class SigninForm {
     constructor(game) {
         this.game = game;
         this.spriteHeight = 1084;
         this.spriteWidth = 1508;
-        this.statusCheck = true;
         this.width = this.game.width;
         this.height = this.game.height;
-        this.scaleX = this.width / this.spriteWidth;
-        this.scaleY = this.height / this.spriteHeight;
-        this.layerForm = new Layer(
-            this.game,
-            this.spriteWidth,
-            this.spriteHeight,
-            '../assets/Asset/SignInForm.png',
-        );
-        this.inputName = this.createInput(
-            'text',
-            'Họ và tên: ',
-            `${this.width *0.49}px`,
-            `${this.height * 0.28}px`,
-            `${this.width / 5}px`,
-            `${this.height / 20}px`,
-            'Nhập họ và tên',
-        );
-        this.selectSchoolName = this.createSelectBox(
-            'Trường: ',
-            `${this.width * 0.49}px`,
-            `${this.height * 0.35}px`,
-            `${this.width / 5}px`,
-            `${this.height / 20}px`,
-            optionSchools,
-        );
-        this.selectClass = this.createSelectBox(
-            'Lớp: ',
-            `${this.width * 0.49}px`,
-            `${this.height * 0.42}px`,
-            `${this.width / 30}px`,
-            `${this.height / 20}px`,
-            optionGrades,
-        );
-        this.inputDayOfBirth = this.createInput(
-            'date',
-            'Ngày sinh: ',
-            `${this.width * 0.49}px`,
-            `${this.height * 0.49}px`,
-            `${this.width / 10}px`,
-            `${this.height / 20}px`,
-            'Nhập ngày sinh',
-        );
-        this.inputNumberPhone = this.createInput(
-            'text',
-            'SĐT: ',
-            `${this.width * 0.49}px`,
-            `${this.height * 0.56}px`,
-            `${this.width / 5}px`,
-            `${this.height / 20}px`,
-            'Nhập số điện thoại',
-        );
-        this.inputPassWord = this.createInput(
-            'password',
-            'Mật khẩu: ',
-            `${this.width * 0.49}px`,
-            `${this.height * 0.63}px`,
-            `${this.width / 5}px`,
-            `${this.height / 20}px`,
-            'Nhập mật khẩu',
-        );
+        this.img_form = new Image();
+        // this.img_form.src = '../assets/Asset/SignInForm.png';
+        this.createForm();
     }
     update() {}
-    draw(context) {
-        let widthCut = Math.ceil((this.spriteWidth * this.scaleX - this.width) / this.scaleX);
-        context.drawImage(
-            this.layerForm.image,
-            widthCut,
-            0,
-            this.spriteWidth - widthCut,
-            this.spriteHeight,
-            this.width / 2.3,
-            this.height / 5,
-            this.width /2.7,
-            this.height/1.6,
-        );
-        context.save();
-    }
+    draw(context) {}
 
-    createInput(type, labelText, left, top, width, height, placeholder) {
-        const container = document.createElement('div'); // create div
-        container.style.position = 'absolute';
-        container.style.left = left;
-        container.style.top = top;
+    createForm() {
+        const box = document.createElement('div');
+        box.id = 'box';
 
-        const label = document.createElement('span'); //create span includes lable
-        label.textContent = labelText;
-        label.style.paddingRight = `${this.width /100}px`;
-        label.style.textAlign = 'right'; // Căn lề bên phải cho labelText
+        // Create the first sub-div
+        const box_logo = document.createElement('div');
+        box_logo.id = 'box_logo';
 
-        container.appendChild(label);
+        // Create the second sub-div
+        const box_form = document.createElement('form');
+        box_form.id = 'box_form';
 
-        const input = document.createElement('input'); // create input
-        input.type = type;
-        input.style.width = width; // set width
-        input.style.height = height; // set height
-        input.placeholder = placeholder; // add placeholder
-        input.style.paddingLeft = '10px';
-        input.style.borderRadius = '10px';
-        container.appendChild(input);
-        document.body.appendChild(container);
-        return input;
+        box.appendChild(box_logo);
+        box.appendChild(box_form);
+
+        // box_form.style.backgroundImage = 'url("../assets/Asset/SignInForm.png")';
+        box_form.innerHTML = `
+            <div class="form-row row-1">
+                <label for="username">Họ và tên</label>
+                <input type="text" id="username" name="username">
+            </div>
+
+            <div class="form-row row-1">
+                <label for="school">Trường</label>
+                <select id="school" name="school">
+                ${optionSchools
+                    .map(
+                        (option) => `
+                    <option value="${option.label}">${option.value}</option>`,
+                    )
+                    .join('')}
+                </select>
+            </div>
+
+            <div class="form-row row-1">
+                <label for="class">Lớp</label>
+                <select id="class" name="class">
+                ${optionGrades
+                    .map(
+                        (option) => `
+                    <option value="${option.label}">${option.value}</option>`,
+                    )
+                    .join('')}
+                </select>
+            </div>
+
+             <div class="form-row row-1">
+                <label for="dateOfBirth">Ngày sinh</label>
+                <input type="date" id="dateOfBirth" name="dateOfBirth">
+            </div>
+
+            <div class="form-row row-1">
+                <label for="phoneNumber">Số điện thoại</label>
+                <input type="number" id="phoneNumber" name="phoneNumber">
+            </div>
+
+            <div class="form-row row-1">
+                <label for="password">Mật khẩu</label>
+                <input type="password" id="password" name="password">
+            </div>
+            <input type="submit" value="ĐĂNG KÍ">
+        `;
+
+        document.body.appendChild(box);
+
+        box.addEventListener('submit', (event) => {
+            event.preventDefault();
+            window.location.href = '/level';
+        });
     }
 
     getUsername() {}
 
     getPassword() {}
-
-    createSelectBox(labelText, left, top, width, height, options) {
-        const container = document.createElement('div'); // create div includes option box
-        container.style.position = 'absolute';
-        container.style.left = left;
-        container.style.top = top;
-
-        const label = document.createElement('label'); // create label
-        label.textContent = labelText;
-        label.style.paddingRight = `${this.width / 50}px`;
-        container.appendChild(label);
-
-        const selectBox = document.createElement('select');
-        selectBox.style.width = width;
-        selectBox.style.height = height;
-        selectBox.style.borderRadius = '10px';
-        // create options
-        Array.prototype.forEach.call(options, (option) => {
-            const optionElement = document.createElement('option');
-            optionElement.value = option.value;
-            optionElement.textContent = option.value;
-            selectBox.appendChild(optionElement);
-        });
-
-        container.appendChild(selectBox);
-        document.body.appendChild(container);
-        return selectBox;
-    }
 
     validateInput(input) {
         if (input.value.trim() === '') {
@@ -295,20 +251,57 @@ export class SignInForm {
     }
 
     checkInput() {
-        this.inputName.addEventListener('blur', () => {
-            this.validateInput(this.inputName);
-        });
+            // this.inputName.addEventListener('blur', () => {
+            //     this.validateInput(this.inputName);
+            // });
+            // this.inputDayOfBirth.addEventListener('blur', () => {
+            //     this.validateInput(this.inputDayOfBirth);
+            // });
+            // this.inputNumberPhone.addEventListener('blur', () => {
+            //     this.validateInput(this.inputNumberPhone);
+            // });
+            // this.inputPassWord.addEventListener('blur', () => {
+            //     this.validateInput(this.inputPassWord);
+            // });
+        }
+    
+}
 
-        this.inputDayOfBirth.addEventListener('blur', () => {
-            this.validateInput(this.inputDayOfBirth);
-        });
-
-        this.inputNumberPhone.addEventListener('blur', () => {
-            this.validateInput(this.inputNumberPhone);
-        });
-
-        this.inputPassWord.addEventListener('blur', () => {
-            this.validateInput(this.inputPassWord);
-        });
+export class Background {
+    constructor(game) {
+        this.game = game;
+        this.spriteHeight = 1080;
+        this.spriteWidth = 2920;
+        this.width = this.game.width;
+        this.height = this.game.height;
+        this.spriteWidthGame = 922;
+        this.spriteHeightGame = 653;
+        this.layerImage1 = new Layer(
+            this.game,
+            this.spriteWidth,
+            this.spriteHeight,
+            '../assets/Asset/Map1/ScrollBG.png',
+        );
+        this.layerImage2 = new Layer(
+            this.game,
+            this.spriteWidth,
+            this.spriteHeight,
+            '../assets/Asset/Map1/StableBG.png',
+        );
+        this.player = new Player(
+            this.game,
+            '../assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png',
+        );
+        this.signinForm = new SigninForm(this);
+        this.btnLogIn = new btnLogIn(this.game);
+    }
+    update() {
+        this.layerImage1.x = -this.game.gameFrame % this.game.width;
+    }
+    draw(context) {
+        this.layerImage1.draw(context, true);
+        this.layerImage2.draw(context);
+        this.player.draw(context);
+        context.save();
     }
 }
