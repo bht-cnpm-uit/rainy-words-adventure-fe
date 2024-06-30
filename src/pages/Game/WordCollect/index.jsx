@@ -64,6 +64,7 @@ const WordCollect = props => {
             this.btnGameState.updatePosition();
             this.boardStopGame.updatePosition();
             this.background.updatePosition();
+            this.boardEndWordCollect.updatePosition();
         }
         updateResult() {
             this.props.setResult({
@@ -163,8 +164,6 @@ const WordCollect = props => {
             this.canvas.style.cursor = cursorStyle;
         }
         isMouseOverButton(mouseX, mouseY, button) {
-            console.log(mouseY);
-            console.log(button)
             return (
                 mouseX >= button.x &&
                 mouseX <= button.x + button.width &&

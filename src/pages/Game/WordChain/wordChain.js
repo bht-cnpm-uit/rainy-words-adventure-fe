@@ -1,42 +1,69 @@
 import { data } from "../WordCollect/fakeData";
 class StaticUI {
-    constructor(image, x, y, spriteWidth, spriteHeight, width, height) {
+    constructor(game, image, x, y, spriteWidth, spriteHeight, type = '') {
+        this.game = game;
         this.image = new Image();
         this.image.src = image;
         this.x = x;
         this.y = y;
         this.spriteWidth = spriteWidth;
         this.spriteHeight = spriteHeight;
-        this.width = width;
-        this.height = height;
+        this.width = this.spriteWidth * this.game.scale;
+        this.height = this.spriteHeight * this.game.scale;
+        this.type = type;
+    }
+    updatePosition() {
+        this.width = this.spriteWidth * this.game.scale;
+        this.height = this.spriteHeight * this.game.scale;
     }
     draw(context) {
-        context.drawImage(
-            this.image,
-            0,
-            0,
-            this.spriteWidth,
-            this.spriteHeight,
-            this.x,
-            this.y,
-            this.width,
-            this.height
-        );
+        if (this.type === 'board-score-chain') {
+            context.drawImage(
+                this.image,
+                0,
+                0,
+                this.spriteWidth,
+                this.spriteHeight,
+                this.x,
+                this.y,
+                this.width * 0.5,
+                this.height * 0.5
+            );
+        }
+        else {
+            context.drawImage(
+                this.image,
+                0,
+                0,
+                this.spriteWidth,
+                this.spriteHeight,
+                this.x,
+                this.y,
+                this.width,
+                this.height
+            );
+        }
     }
 }
 class Button {
-    constructor(wordChain, image, spriteWidth, spriteHeight, scaleY) {
+    constructor(game, wordChain, image, spriteWidth, spriteHeight) {
+        this.game = game;
         this.wordChain = wordChain;
         this.image = new Image();
         this.image.src = image;
         this.spriteWidth = spriteWidth;
         this.spriteHeight = spriteHeight;
-        this.width = this.spriteWidth * scaleY / 1.5;
-        this.height = this.spriteHeight * scaleY / 1.5;
+        this.width = this.spriteWidth * this.game.scale / 1.5;
+        this.height = this.spriteHeight * this.game.scale / 1.5;
         this.x = this.wordChain.staticUI.board.width / 2 - this.width / 2;
         this.y = this.wordChain.staticUI.board.height * 6 / 7 - this.height / 2;
     }
-
+    updatePosition() {
+        this.width = this.spriteWidth * this.game.scale / 1.5;
+        this.height = this.spriteHeight * this.game.scale / 1.5;
+        this.x = this.wordChain.staticUI.board.width / 2 - this.width / 2;
+        this.y = this.wordChain.staticUI.board.height * 6 / 7 - this.height / 2;
+    }
     draw(context) {
         context.drawImage(
             this.image,
@@ -51,7 +78,8 @@ class Button {
         );
     }
     writeText(context, text, font = "25px Arial", textAlign = 'center') {
-        context.font = font;
+        let fontsize = 40;
+        context.font = Math.floor(fontsize * this.game.scale) + "px Arial";
         context.textAlign = "center";
         context.fillStyle = "brown";
         context.fillText(text, this.x + this.width / 2, this.y + this.height / 1.5);
@@ -78,7 +106,8 @@ function shuffleArray(array) {
     return array;
 }
 class Word {
-    constructor(wordChain, text, offsetX, offsetY, spriteWidth, spriteHeight, scaleY, type) {
+    constructor(game, wordChain, text, offsetX, offsetY, spriteWidth, spriteHeight, type) {
+        this.game = game;
         this.wordChain = wordChain;
         this.imagePlay = new Image();
         this.imagePlay.src = type === 'EN' ? '../assets/Asset/WordMatchingButton (1)/0.png' : '../assets/Asset/WordMatchingButton (1)/1.png';
@@ -88,10 +117,14 @@ class Word {
         this.imageWrong.src = type === 'EN' ? '../assets/Asset/WordMatchingButton (1)/2.png' : '../assets/Asset/WordMatchingButton (1)/3.png';
         this.spriteWidth = spriteWidth;
         this.spriteHeight = spriteHeight;
-        this.width = this.spriteWidth * scaleY;
-        this.height = this.spriteHeight * scaleY * 0.9;
-        this.x = offsetX === 0 ? this.wordChain.staticUI.board.width / 2 - this.width / 3 - this.width : offsetX + this.width / 3;
-        this.y = this.wordChain.staticUI.board.height * 1.5 / 7 + (this.wordChain.staticUI.board.height * 1 / 7) * offsetY + (this.wordChain.staticUI.board.height * 1 / 7 - this.height) / 2;
+        this.scaleBoardX = 1;
+        this.scaleBoardY = 1;
+        this.width = this.spriteWidth * this.game.scale;
+        this.height = this.spriteHeight * this.game.scale * 0.8;
+        this.offsetX = offsetX;
+        this.offsetY = offsetY
+        this.x = this.offsetX === 0 ? this.wordChain.staticUI.board.width / 2 - this.width / 3 - this.width : this.offsetX + this.width / 3;
+        this.y = this.wordChain.staticUI.board.height * 1.5 / 7 + (this.wordChain.staticUI.board.height * 1 / 7) * this.offsetY + (this.wordChain.staticUI.board.height * 1 / 7 - this.height) / 2;
         this.fixedX = this.x;
         this.fixedY = this.y;
         this.isDragging = false;
@@ -101,13 +134,22 @@ class Word {
         this.text = text;
         this.status = 'play';
     }
+    updatePosition() {
+        this.scaleBoardX = this.spriteWidth * this.game.scale / this.width;
+        this.scaleBoardY = this.spriteHeight * this.game.scale * 0.8 / this.height;
+        this.width = this.spriteWidth * this.game.scale;
+        this.height = this.spriteHeight * this.game.scale * 0.8;
+        this.x = this.x * this.scaleBoardX;
+        this.y = this.y * this.scaleBoardY;
+        this.fixedX = this.x;
+        this.fixedY = this.y;
+    }
     stickyWord(word) {
         // this.x = offsetX === 0 ? this.wordChain.staticUI.board.width / 2 - this.width * 0.95 : offsetX - this.width * 0.03;
         const offsetX = this.type === 'EN' ? -this.width * 0.92 : this.width * 0.92;
         this.x = word.x + offsetX;
         this.y = word.y;
     }
-
     draw(context) {
         if (this.wordChain.game.gameState === "Checking") {
             let dx = Math.random() * 2;
@@ -121,12 +163,12 @@ class Word {
             else {
                 context.drawImage(this.imageWrong, 0, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
             }
-
         }
         else if (this.wordChain.game.gameState === "Playing") {
             context.drawImage(this.imagePlay, 0, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
         }
-        context.fillText(this.text, this.x + this.width / 2, this.y + this.height / 2);
+        context.font = Math.floor(35 * this.game.scale) + "px Arial";
+        context.fillText(this.text, this.x + this.width / 2, this.y + this.height / 1.7);
     }
     returnPreviousPos() {
         this.x = this.fixedX;
@@ -221,26 +263,29 @@ class Word {
     }
 }
 class Timer {
-    constructor(game, x, y, radius) {
+    constructor(game, currentBoard) {
         this.game = game;
-        this.scaleY = this.game.scaleY
+        this.currentBoard = currentBoard
         this.timer = 20;
-        this.x = x;
-        this.y = y;
-        this.radius = radius * this.scaleY
         this.animationHandleTimer;
     }
     draw(context) {
-        context.font = "40px Arial";
+        context.font = Math.floor(60 * this.game.scale) + "px Arial";
         context.textBaseline = "middle";
-        context.strokeStyle = "brown"; // Set outline color to brown
         context.textAlign = "center";
-        context.fillText(`${this.timer}`, this.x, this.y);
-        context.fillStyle = "transparent"; // Set inside color to transparent
+
+        // Draw the circle
         context.beginPath();
-        context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+        context.arc(this.currentBoard.staticUI.scoreBoard.width / 4, this.currentBoard.staticUI.scoreBoard.height * 3 / 8, this.currentBoard.staticUI.scoreBoard.height * 1 / 10, 0, 2 * Math.PI);
+        context.fillStyle = "transparent"; // Set inside color to transparent
         context.fill(); // Fill the circle (inside) with transparent color
+        context.strokeStyle = "brown"; // Set outline color to brown
         context.stroke(); // Stroke the outline of the circle with brown color
+
+        // Draw the text
+        context.fillStyle = "brown"; // Set text color (adjust as needed)
+        context.fillText(`${this.timer}`, this.currentBoard.staticUI.scoreBoard.width / 4, this.currentBoard.staticUI.scoreBoard.height * 3 / 8);
+
     }
 
     animateCount(timer) {
@@ -248,7 +293,7 @@ class Timer {
         let frame = 1;
         self.timer = timer;
         function animate() {
-            if (self.timer > 0 && self.game.game.gameState === "Playing") {
+            if (self.timer > 0 && self.game.gameState === "Playing") {
                 if (frame % 60 == 0) {
                     self.timer--;
                 }
@@ -257,7 +302,7 @@ class Timer {
             }
             else {
                 cancelAnimationFrame(self.animationHandleTimer);
-                self.game.game.updateGameState(1);
+                self.game.updateGameState(1);
                 return;
             }
         }
@@ -268,39 +313,31 @@ class Timer {
 export class BoardScoreChain {
     constructor(game) {
         this.game = game;
-        this.scaleY = this.game.background.scaleY;
         this.spriteWidthScoreBoard = 693;
         this.spriteHeightScoreBoard = 843;
-        this.widthScoreBoard = this.spriteWidthScoreBoard * this.scaleY / 2;
-        this.heightScoreBoard = this.spriteHeightScoreBoard * this.scaleY / 2;
         this.staticUI = {
             scoreBoard: new StaticUI(
+                game,
                 '../assets/Asset/PanelAtlas_cuts/image_3.png',
                 0, 0,
                 this.spriteWidthScoreBoard,
                 this.spriteHeightScoreBoard,
-                this.widthScoreBoard, this.heightScoreBoard
+                "board-score-chain"
             )
         }
-        this.text = {
-            scoreText: new Text(
-                this.widthScoreBoard / 2,
-                this.heightScoreBoard * 1 / 4 - 30,
-                30
-            ),
-            slotText: new Text(
-                this.widthScoreBoard / 2,
-                this.heightScoreBoard * 2 / 4 - 30,
-                30
-            )
-        }
-        this.timer = new Timer(this, this.widthScoreBoard / 2, this.heightScoreBoard * 3 / 4, this.heightScoreBoard * 1 / 4)
+        this.timer = new Timer(this.game, this)
+    }
+    updatePosition() {
+        this.staticUI.scoreBoard.updatePosition();
     }
     draw(context) {
         context.save();
         this.staticUI.scoreBoard.draw(context);
-        this.text.scoreText.writeText(context, `Điểm số: ${this.game.score}`)
-        this.text.slotText.writeText(context, `Ván chơi: ${this.game.slot}/${this.game.maxSlot}`)
+        context.font = Math.floor(40 * this.game.scale) + "px Arial";
+        context.textAlign = "center";
+        context.fillStyle = "brown";
+        context.fillText(`Điểm số: ${this.game.score}`, this.staticUI.scoreBoard.width / 4, this.staticUI.scoreBoard.height * 1 / 8 - 30);
+        context.fillText(`Ván chơi: ${this.game.slot}/${this.game.maxSlot}`, this.staticUI.scoreBoard.width / 4, this.staticUI.scoreBoard.height * 1 / 4 - 30);
         this.timer.draw(context)
         context.restore();
     }
@@ -314,45 +351,25 @@ export class BoardWordChain {
     */
     constructor(game) {
         this.game = game;
-        this.scaleY = this.game.background.scaleY;
         this.spriteWidthBoard = 1441;
         this.spriteHeightBoard = 785;
-        this.widthBoard = this.spriteWidthBoard * this.scaleY / 1.1;
-        this.heightBoard = this.spriteHeightBoard * this.scaleY / 0.85
+        this.widthBoard = this.spriteWidthBoard * this.game.scale / 1.1;
+        this.heightBoard = this.spriteHeightBoard * this.game.scale / 0.85
         this.translateX = this.game.width * 1 / 3;
         this.translateY = (this.game.height - this.heightBoard) / 2;
         this.timerPrepareNewGame = 5;
         this.staticUI = {
             board: new StaticUI(
+                this.game,
                 '../assets/Asset/PanelAtlas_cuts/image_2.png',
                 0,
                 0,
-                this.spriteWidthBoard,
-                this.spriteHeightBoard,
-                this.widthBoard, this.heightBoard
+                this.spriteWidthBoard, this.spriteHeightBoard
             ),
         }
-        this.button = new Button(this,
+        this.button = new Button(game, this,
             '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
-            437, 129,
-            this.scaleY)
-        this.text = {
-            textQuestion: new Text(
-                this.staticUI.board.width / 2,
-                80,
-                20
-            ),
-            textButton: new Text(
-                this.button.x + this.button.width / 2,
-                this.button.y + this.button.height / 1.8,
-                20
-            ),
-            textTimerPrepare: new Text(
-                this.widthBoard / 2,
-                this.heightBoard / 2,
-                40
-            )
-        }
+            437, 129)
         this.EnglishWord = [];
         this.VietNameseWord = [];
         this.spriteWidthWord = 397;
@@ -361,6 +378,16 @@ export class BoardWordChain {
         this.createGame(0);
         this.animatePrepareNewGame();
         // this.timer.animateCount();
+    }
+    updatePosition() {
+        this.widthBoard = this.spriteWidthBoard * this.game.scale / 1.1;
+        this.heightBoard = this.spriteHeightBoard * this.game.scale / 0.85
+        this.translateX = this.game.width * 1 / 3;
+        this.translateY = (this.game.height - this.heightBoard) / 2;
+        this.staticUI.board.updatePosition();
+        this.button.updatePosition();
+        this.EnglishWord.forEach(word => word.updatePosition());
+        this.VietNameseWord.forEach(word => word.updatePosition());
     }
     createGame(gameSlot) {
         this.correctWords = {}
@@ -378,8 +405,8 @@ export class BoardWordChain {
         this.EnglishWord = [];
         this.VietNameseWord = [];
         for (let i = 0; i < 4; i++) {
-            this.EnglishWord.push(new Word(this, wordsEn[i], 0, i, this.spriteWidthWord, this.spriteHeightWord, this.scaleY, 'EN'));
-            this.VietNameseWord.push(new Word(this, wordsVi[i], this.staticUI.board.width / 2, i, this.spriteWidthWord, this.spriteHeightWord, this.scaleY, 'VI'));
+            this.EnglishWord.push(new Word(this.game, this, wordsEn[i], 0, i, this.spriteWidthWord, this.spriteHeightWord, 'EN'));
+            this.VietNameseWord.push(new Word(this.game, this, wordsVi[i], this.staticUI.board.width / 2, i, this.spriteWidthWord, this.spriteHeightWord, 'VI'));
         }
     }
     checkResut() {
@@ -446,9 +473,15 @@ export class BoardWordChain {
         context.save();
         context.translate(this.translateX, this.translateY);
         this.staticUI.board.draw(context);
-        this.text.textQuestion.writeText(context, "Hãy nối các từ dưới đây sao cho phù hợp với nghĩa");
+        context.fillText("", this.widthBoard / 2, this.heightBoard / 2)
+        context.font = Math.floor(40 * this.game.scale) + "px Arial";
+        context.textAlign = "center";
+        context.fillStyle = "brown";
+        context.fillText("Hãy nối các từ dưới đây sao cho phù hợp với nghĩa",
+            this.staticUI.board.width / 2, this.staticUI.board.height * 1 / 8);
+
         if (this.game.gameState === "Prepare-new-game") {
-            this.text.textTimerPrepare.writeText(context, `${this.timerPrepareNewGame}`);
+            context.fillText(`${this.timerPrepareNewGame}`, this.widthBoard / 1.8, this.heightBoard / 2)
         }
         else {
             if (this.game.gameState === "Checking" || this.game.gameState === "Checked") {
@@ -459,7 +492,7 @@ export class BoardWordChain {
                 this.VietNameseWord.forEach(word => word.draw(context));
                 this.EnglishWord.forEach(word => word.draw(context));
                 this.button.draw(context)
-                this.text.textButton.writeText(context, "Kiểm tra");
+                this.button.writeText(context, "Kiểm tra");
             }
         }
         context.restore();

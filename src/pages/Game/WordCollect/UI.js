@@ -4,11 +4,16 @@ class Text {
         this.game = game
         this.currentBoard = currentBoard;
     }
-    writeText(context, text, font = "30px Arial", textAlign = 'center', fillStyle = 'brown') {
+    writeText(context, text, font = "30px Arial", textAlign = 'center', fillStyle = 'brown', isCountDown = false) {
         context.font = Math.floor(60 * this.game.scale) + "px Arial";
         context.textAlign = textAlign;
         context.fillStyle = fillStyle;
-        context.fillText(text, this.currentBoard.width / 2, this.currentBoard.height / 2.2, this.currentBoard.width * 0.8);
+        if (isCountDown) {
+            context.fillText(text, this.currentBoard.width / 2, this.currentBoard.height / 1.6, this.currentBoard.width * 0.8);
+        }
+        else {
+            context.fillText(text, this.currentBoard.width / 2, this.currentBoard.height / 2.2, this.currentBoard.width * 0.8);
+        }
     }
 }
 
@@ -124,33 +129,69 @@ class Button {
         this.type = type;
         this.x = null;
         this.y = null;
-        if (type === 'continue') {
-            this.x = (this.currentBoard.width / 3 - this.currentBoard.widthBtn) / 2;
-            this.y = this.currentBoard.height - this.currentBoard.heightBtn * 1.5;
-        }
-        else if (type === "replay") {
-            this.x = this.currentBoard.width / 3 + (this.currentBoard.width / 3 - this.currentBoard.widthBtn) / 2;
-            this.y = this.currentBoard.height - this.currentBoard.heightBtn * 1.5;
+        if (this.currentBoard.type === 'board-stop-game') {
+            if (type === 'continue') {
+                this.x = (this.currentBoard.width / 3 - this.currentBoard.widthBtn) / 2;
+                this.y = this.currentBoard.height - this.currentBoard.heightBtn * 1.5;
+            }
+            else if (type === "replay") {
+                this.x = this.currentBoard.width / 3 + (this.currentBoard.width / 3 - this.currentBoard.widthBtn) / 2;
+                this.y = this.currentBoard.height - this.currentBoard.heightBtn * 1.5;
+            }
+            else {
+                this.x = this.currentBoard.width * 2 / 3 + (this.currentBoard.width / 3 - this.currentBoard.widthBtn) / 2;
+                this.y = this.currentBoard.height - this.currentBoard.heightBtn * 1.5;
+            }
         }
         else {
-            this.x = this.currentBoard.width * 2 / 3 + (this.currentBoard.width / 3 - this.currentBoard.widthBtn) / 2;
-            this.y = this.currentBoard.height - this.currentBoard.heightBtn * 1.5;
+            if (this.type === 'end_collect_play') {
+                this.x = (this.currentBoard.width - this.currentBoard.widthBtn) / 2;
+                this.y = this.currentBoard.height - this.currentBoard.heightBtn * 1.5;
+            }
+            else {
+                if (this.type === 'replay') {
+                    this.x = (this.currentBoard.width / 2 - this.currentBoard.widthBtn) / 2;
+                    this.y = this.currentBoard.height - this.currentBoard.heightBtn * 1.5;
+                }
+                else if (this.type === 'back') {
+                    this.x = this.currentBoard.width / 2 + (this.currentBoard.width / 2 - this.currentBoard.widthBtn) / 2;
+                    this.y = this.currentBoard.height - this.currentBoard.heightBtn * 1.5;
+                }
+            }
         }
         this.width = this.currentBoard.widthBtn;
         this.height = this.currentBoard.heightBtn;
     }
     updatePosition() {
-        if (this.type === 'continue') {
-            this.x = (this.currentBoard.width / 3 - this.currentBoard.widthBtn) / 2;
-            this.y = this.currentBoard.height - this.currentBoard.heightBtn * 1.5;
-        }
-        else if (this.type === "replay") {
-            this.x = this.currentBoard.width / 3 + (this.currentBoard.width / 3 - this.currentBoard.widthBtn) / 2;
-            this.y = this.currentBoard.height - this.currentBoard.heightBtn * 1.5;
+        if (this.currentBoard.type === 'board-stop-game') {
+            if (this.type === 'continue') {
+                this.x = (this.currentBoard.width / 3 - this.currentBoard.widthBtn) / 2;
+                this.y = this.currentBoard.height - this.currentBoard.heightBtn * 1.5;
+            }
+            else if (this.type === "replay") {
+                this.x = this.currentBoard.width / 3 + (this.currentBoard.width / 3 - this.currentBoard.widthBtn) / 2;
+                this.y = this.currentBoard.height - this.currentBoard.heightBtn * 1.5;
+            }
+            else {
+                this.x = this.currentBoard.width * 2 / 3 + (this.currentBoard.width / 3 - this.currentBoard.widthBtn) / 2;
+                this.y = this.currentBoard.height - this.currentBoard.heightBtn * 1.5;
+            }
         }
         else {
-            this.x = this.currentBoard.width * 2 / 3 + (this.currentBoard.width / 3 - this.currentBoard.widthBtn) / 2;
-            this.y = this.currentBoard.height - this.currentBoard.heightBtn * 1.5;
+            if (this.type === 'end_collect_play') {
+                this.x = (this.currentBoard.width - this.currentBoard.widthBtn) / 2;
+                this.y = this.currentBoard.height - this.currentBoard.heightBtn * 1.5;
+            }
+            else {
+                if (this.type === 'replay') {
+                    this.x = (this.currentBoard.width / 2 - this.currentBoard.widthBtn) / 2;
+                    this.y = this.currentBoard.height - this.currentBoard.heightBtn * 1.5;
+                }
+                else if (this.type === 'back') {
+                    this.x = this.currentBoard.width / 2 + (this.currentBoard.width / 2 - this.currentBoard.widthBtn) / 2;
+                    this.y = this.currentBoard.height - this.currentBoard.heightBtn * 1.5;
+                }
+            }
         }
         this.width = this.currentBoard.widthBtn;
         this.height = this.currentBoard.heightBtn;
@@ -186,7 +227,6 @@ class Button {
         else if (type === 'continue') {
             this.game.updateGameState(3);
             this.game.boardStopGame.updateState(!this.game.boardStopGame.hidden);
-            this.game.btnGameState.setState(!this.game.btnGameState.currentState)
         }
         else if (type === 'end_collect_play') {
             cancelAnimationFrame(this.animationHandleCountDown)
@@ -234,6 +274,7 @@ export class BoardStopGame {
         this.spriteHeightButton = 129;
         this.widthBtn = this.width / 3.5;
         this.heightBtn = this.spriteHeightButton * this.game.scale / 1.5;
+        this.type = 'board-stop-game';
         this.staticUI = {
             board: new StaticUI(
                 game,
@@ -280,7 +321,8 @@ export class BoardStopGame {
         this.height = this.spriteHeightBoard * this.game.scale;
         this.translateX = (this.game.width - this.width) / 2;
         this.translateY = (this.game.height - this.height) / 2;
-        this.widthBtn = this.width / 3.5
+        this.widthBtn = this.width / 3.5;
+        this.heightBtn = this.spriteHeightButton * this.game.scale / 1.5;
         this.buttons.back.updatePosition();
         this.buttons.continue.updatePosition();
         this.buttons.replay.updatePosition();
@@ -310,75 +352,75 @@ export class BoardStopGame {
 export class BoardEndWordCollect {
     constructor(game) {
         this.game = game;
-        this.scaleY = this.game.background.scaleY;
         this.hidden = true;
         this.spriteWidthBoard = 908;
         this.spriteHeightBoard = 476;
-        this.width = this.spriteWidthBoard * this.scaleY / 1.2;
-        this.height = this.spriteHeightBoard * this.scaleY / 1.2
+        this.width = this.spriteWidthBoard * this.game.scale;
+        this.height = this.spriteHeightBoard * this.game.scale;
         this.translateX = (this.game.width - this.width) / 2;
         this.translateY = (this.game.height - this.height) / 2;
         this.spriteWidthButton = 437;
         this.spriteHeightButton = 129;
-        this.widthBtn = this.spriteWidthButton * this.scaleY / 1.95;
-        this.heightBtn = this.spriteHeightButton * this.scaleY / 1.5;
+        this.widthBtn = this.width / 3;
+        this.heightBtn = this.spriteHeightButton * this.game.scale / 1.5;
         this.countDown = 10;
         this.animationHandleCountDown = null;
+        this.type = 'board-end-word-collect';
         this.staticUI = {
             board: new StaticUI(
+                game,
                 '../assets/Asset/PanelAtlas_cuts/image_1.png',
-                0, 0, this.width, this.height,
+                0, 0,
                 this.spriteWidthBoard, this.spriteHeightBoard
             )
         }
         this.text = {
             textTitle: new Text(
-                this.width / 2,
-                this.height / 2.2
+                game,
+                this
             ),
             countDown: new Text(
-                this.width / 2,
-                this.height / 1.6
+                game,
+                this
             )
         }
         this.buttons = {
             replay: new Button(
                 this.game,
+                this,
                 '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
-                (this.width / 2 - this.widthBtn) / 2,
-                this.height - this.heightBtn * 1.5,
-                this.widthBtn,
-                this.heightBtn,
                 this.spriteWidthButton,
                 this.spriteHeightButton,
                 'replay'
             ),
             back: new Button(
                 this.game,
+                this,
                 '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
-                this.width / 2 + (this.width / 2 - this.widthBtn) / 2,
-                this.height - this.heightBtn * 1.5,
-                this.widthBtn,
-                this.heightBtn,
                 this.spriteWidthButton,
                 this.spriteHeightButton,
                 'back'
             ),
             play: new Button(
                 this.game,
+                this,
                 '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
-                (this.width - this.widthBtn) / 2,
-                this.height - this.heightBtn * 1.5,
-                this.widthBtn,
-                this.heightBtn,
                 this.spriteWidthButton,
                 this.spriteHeightButton,
                 'end_collect_play'
             ),
         }
     }
-    update() {
-
+    updatePosition() {
+        this.width = this.spriteWidthBoard * this.game.scale;
+        this.height = this.spriteHeightBoard * this.game.scale;
+        this.translateX = (this.game.width - this.width) / 2;
+        this.translateY = (this.game.height - this.height) / 2;
+        this.widthBtn = this.width / 3.5;
+        this.heightBtn = this.spriteHeightButton * this.game.scale / 1.5;
+        this.buttons.replay.updatePosition();
+        this.buttons.back.updatePosition();
+        this.buttons.play.updatePosition();
     }
     draw(context) {
         if (!this.hidden) {
@@ -389,7 +431,7 @@ export class BoardEndWordCollect {
                 this.buttons.play.draw(context);
                 this.buttons.play.writeText(context, "Bắt đầu")
                 this.text.textTitle.writeText(context, 'Vòng chơi nối từ bắt đầu sau:');
-                this.text.countDown.writeText(context, `${this.countDown}`, "50px fontgame");
+                this.text.countDown.writeText(context, `${this.countDown}`, "50px fontgame", 'center', 'brown', true);
                 context.restore();
             }
             else if (this.game.gameState == 'Loss') {
