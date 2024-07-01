@@ -1,15 +1,14 @@
 export class Player {
     constructor(game) {
         this.game = game;
-        this.scaleY = this.game.background.scaleY;
         this.spriteWidth = 653;
         this.spriteHeight = 800;
-        this.width = this.spriteWidth * this.scaleY / 2;
-        this.height = this.spriteHeight * this.scaleY / 2;
+        this.width = this.spriteWidth * this.game.scale / 2;
+        this.height = this.spriteHeight * this.game.scale / 2;
         this.spriteHeightJump = 780.5;
         this.spriteWidthJump = 702;
-        this.widthJump = this.spriteWidthJump * this.scaleY / 2;
-        this.heightJump = this.spriteHeightJump * this.scaleY / 2
+        this.widthJump = this.spriteWidthJump * this.game.scale / 2;
+        this.heightJump = this.spriteHeightJump * this.game.scale / 2;
         this.levels = null;
         this.velocity = 0;
         this.image = new Image();
@@ -37,9 +36,16 @@ export class Player {
         this.image.src = '../assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png';
         this.animateStand()
     }
+    updatePositionResize() {
+        this.width = this.spriteWidth * this.game.scale / 2;
+        this.height = this.spriteHeight * this.game.scale / 2;
+        this.widthJump = this.spriteWidthJump * this.game.scale / 2;
+        this.heightJump = this.spriteHeightJump * this.game.scale / 2;
+    }
 
     draw(ctx) {
         ctx.save();
+        ctx.translate(-this.game.background.xImageCut * this.game.scale, 0);
         if (this.isJumping == 1) {
             ctx.drawImage(this.imageJump,
                 this.frameJumpX * this.spriteWidthJump, this.frameJumpY * this.spriteHeightJump,
@@ -64,7 +70,8 @@ export class Player {
             ctx.drawImage(this.image,
                 this.frameX * this.spriteWidth, this.frameY * this.spriteHeight,
                 this.spriteWidth, this.spriteHeight,
-                this.currentLevel.position.x - this.width / 3.5, this.currentLevel.position.y - this.height / 1.6, this.width, this.height);
+                this.currentLevel.position.x - this.width / 3.5, this.currentLevel.position.y - this.height / 1.6,
+                this.width, this.height);
         }
         ctx.restore();
     }
@@ -81,7 +88,6 @@ export class Player {
         if (level.level <= this.maxCurrentLevel) {
             const direction = level.level > this.currentLevel.level ? 1 : -1;
             this.jump(level, direction);
-            // this.currentLevel = JSON.parse(JSON.stringify(level));
         }
     }
 
@@ -98,7 +104,7 @@ export class Player {
             self.isJumping = 2;
             jumpTo = self.levels[self.currentLevel.level - 2];
         }
-        let t = (jumpTo.position.x - this.currentLevel.position.x) / (self.vx0);
+        let t = Math.abs(jumpTo.position.x - this.currentLevel.position.x) / (self.vx0);
         let vy0 = (jumpTo.position.y - this.currentLevel.position.y - 1 / 2 * g * t ** 2) / (t);
         let currentY = self.currentLevel.position.y
         let currentX = self.currentLevel.position.x;

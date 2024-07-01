@@ -5,8 +5,8 @@ import { Player } from './player';
 import { BtnBackMap, BtnNextMap, Guide, Library, Achievement, Account } from './button';
 import { LevelSetting } from './UI';
 import { Component } from 'react';
-import  PopUpInstruc  from './PopUpInstruc';
-import  PopUpAcc from './PopUpAcc';
+import PopUpInstruc from './PopUpInstruc';
+import PopUpAcc from './PopUpAcc';
 import PopUpLibrary from './PopUpLibrary';
 import PopUpRank from './PopUpRank';
 import { set } from 'react-hook-form';
@@ -30,12 +30,17 @@ const Level = props => {
     const HandleRemovePopUpRank = () => setOpenPopupRank(false);
 
     class MainScreen {
-        constructor(canvas, ctx, width, height) {
+        constructor(canvas, ctx) {
             this.canvas = canvas;
-            this.canvas.style.cursor = 'default'
+            this.canvas.style.width = window.innerWidth;
+            this.canvas.style.height = window.innerHeight;
             this.ctx = ctx;
-            this.width = width;
-            this.height = height;
+            this.width = window.innerWidth;
+            this.height = window.innerHeight;
+            this.spriteHeightBG = 1580;
+            this.scale = this.height / this.spriteHeightBG;
+            this.widthCut = Math.ceil((7920 * this.scale - this.width) / this.scale);
+            this.scaleX = 1;
             this.background = new Background(this);
             this.player = new Player(this);
             this.levels = new Levels(this);
@@ -46,13 +51,33 @@ const Level = props => {
             this.btnAchievement = new Achievement(this);
             this.btnAccount = new Account(this);
             this.levelSetting = new LevelSetting(this);
-            this.canvas.addEventListener('mousemove', this.onMouseMove.bind(this));
-            this.canvas.addEventListener('click', this.onClick.bind(this));
             this.gameFrame = 0;
             this.slide = false;
             this.deltaTime = null;
+            this.canvas.addEventListener('mousemove', this.onMouseMove.bind(this));
+            this.canvas.addEventListener('click', this.onClick.bind(this));
+            window.addEventListener('resize', this.onResize.bind(this));
         }
-
+        onResize(event) {
+            var canvas = document.getElementById('responsive-canvas');
+            resizeCanvas(canvas);
+            this.scaleX = window.innerWidth / this.width;
+            this.width = window.innerWidth;
+            this.height = window.innerHeight;
+            canvas.style.height = this.height;
+            canvas.style.width = this.width;
+            this.scale = this.height / this.spriteHeightBG;
+            this.widthCut = Math.ceil((7920 * this.scale - this.width) / this.scale);
+            this.levels.updatePosition();
+            this.btnNextMap.updatePosition();
+            this.btnBackMap.updatePosition();
+            this.btnGuide.updatePosition();
+            this.btnLibrary.updatePosition();
+            this.btnAchievement.updatePosition();
+            this.btnAccount.updatePosition();
+            this.player.updatePositionResize();
+            this.background.updatePosition();
+        }
         onMouseMove(event) {
             const rect = this.canvas.getBoundingClientRect();
             let mouseX = event.clientX - rect.left;
@@ -74,13 +99,13 @@ const Level = props => {
                     cursorStyle = 'pointer';
                 }
             }
-            else if (this.isMouseOverButton(mouseX, mouseY, this.btnNextMap) || this.isMouseOverButton(mouseX, mouseY, this.btnBackMap)) {
+            else if ((this.isMouseOverButton(mouseX, mouseY, this.btnNextMap) && !this.btnNextMap.hidden) || (this.isMouseOverButton(mouseX, mouseY, this.btnBackMap) && !this.btnBackMap.hidden)) {
                 cursorStyle = 'pointer';
             }
             else {
                 // // Check if the mouse is over any level
                 for (const level of this.levels.levels) {
-                    if (this.isMouseOverLevel(mouseX, mouseY, level)) {
+                    if (this.isMouseOverLevel(mouseX - this.levels.xVirtual, mouseY, level)) {
                         cursorStyle = 'pointer'; // Change cursor style to pointer
                     }
                 }
@@ -121,18 +146,18 @@ const Level = props => {
             }
             // Check if the mouse is over the next map button
             else if (this.levelSetting.hidden) {
-                if (this.isMouseOverButton(mouseX, mouseY, this.btnNextMap) && !this.slide) {
+                if (this.isMouseOverButton(mouseX, mouseY, this.btnNextMap) && !this.slide && !this.btnNextMap.hidden) {
                     this.animateSlide(1);
                     return;
                 }
                 // Check if the mouse is over the back map button
-                else if (this.isMouseOverButton(mouseX, mouseY, this.btnBackMap) && !this.slide) {
+                else if (this.isMouseOverButton(mouseX, mouseY, this.btnBackMap) && !this.slide && !this.btnBackMap.hidden) {
                     this.animateSlide(-1);
                     return;
                 }
                 else {
                     this.levels.levels.forEach(level => {
-                        if (this.isMouseOverLevel(mouseX, mouseY, level)) {
+                        if (this.isMouseOverLevel(mouseX - this.levels.xVirtual, mouseY, level)) {
                             if (level.state == "Block") {
                                 if (this.player.maxCurrentLevel + 1 == level.level) {
                                     this.levels.updateStateLevel(level);
@@ -151,34 +176,32 @@ const Level = props => {
                 }
             }
 
-            if(this.isMouseOverButtonTool(mouseX, mouseY, this.btnGuide)){
+            if (this.isMouseOverButtonTool(mouseX, mouseY, this.btnGuide)) {
                 // Show the pop up
-                // console.log("Clicked btnGuide");
                 setOpenPopup(true);
-    
+
             }
-            if(this.isMouseOverButtonTool(mouseX, mouseY, this.btnLibrary)){
-                console.log("Clicked btnLibrary");
+            if (this.isMouseOverButtonTool(mouseX, mouseY, this.btnLibrary)) {
                 setOpenPopupLib(true);
             }
-            if(this.isMouseOverButtonTool(mouseX, mouseY, this.btnAchievement)){
+            if (this.isMouseOverButtonTool(mouseX, mouseY, this.btnAchievement)) {
                 setOpenPopupRank(true);
             }
-            if(this.isMouseOverButtonTool(mouseX, mouseY, this.btnAccount)){
-                console.log("Clicked btnAccount");
+            if (this.isMouseOverButtonTool(mouseX, mouseY, this.btnAccount)) {
                 setOpenPopupAcc(true);
             }
         }
         animateSlide(direct) {
             this.slide = true;
             this.background.onclick(direct);
-            this.levels.onclickNextMap(-direct);
+            this.btnNextMap.hidden = (this.background.xImage == this.widthCut);
+            this.btnBackMap.hidden = (this.background.xImage == 0);
             const self = this;
             let animateHandle;
             function animate() {
                 if (self.slide) {
                     self.background.updateSlide();
-                    self.levels.updateSlide();
+                    self.levels.xVirtual = -self.background.xImageCut * self.scale;
                     animateHandle = requestAnimationFrame(animate);
                 }
                 else {
@@ -212,9 +235,9 @@ const Level = props => {
         isMouseOverButtonTool(mouseX, mouseY, button) {
             return (
                 mouseX >= button.x &&
-                mouseX <= button.x + button.spriteWidth/2 &&
+                mouseX <= button.x + button.spriteWidth / 2 &&
                 mouseY >= button.y &&
-                mouseY <= button.y + button.spriteHeight/2
+                mouseY <= button.y + button.spriteHeight / 2
             );
         }
         update(deltaTime) {
@@ -235,11 +258,10 @@ const Level = props => {
         }
     }
     useEffect(() => {
-
-        const canvas = canvasRef.current;
+        const canvas = document.getElementById('responsive-canvas');
         resizeCanvas(canvas);
         const context = canvas.getContext('2d');
-        const mainScreen = new MainScreen(canvas, context, canvas.width, canvas.height);
+        const mainScreen = new MainScreen(canvas, context);
         mainScreen.levels.updatePositionLevel();
         function animate(timeStamp) {
             context.clearRect(0, 0, canvas.width, canvas.height);
@@ -257,17 +279,17 @@ const Level = props => {
             cancelAnimationFrame(animate);
         };
     }, []);
-    
+
 
     return (
         <div>
-            <canvas ref={canvasRef} {...props} />
-            {openPopup && <PopUpInstruc openPopUp={openPopup} closePopUp= {HandleRemovePopUp} />}
-            {openPopupAcc && <PopUpAcc openPopUpAcc={openPopupAcc} closePopUpAcc= {HandleRemovePopUpAcc} />}
-            {openPopupLib && <PopUpLibrary openPopUpLib={openPopupLib} closePopUpLib= {HandleRemovePopUpLib} />}
-            {openPopupRank && <PopUpRank openPopUpRank={openPopupRank} closePopUpRank= {HandleRemovePopUpRank} />}
+            <canvas id='responsive-canvas' ref={canvasRef} {...props}></canvas>
+            {openPopup && <PopUpInstruc openPopUp={openPopup} closePopUp={HandleRemovePopUp} />}
+            {openPopupAcc && <PopUpAcc openPopUpAcc={openPopupAcc} closePopUpAcc={HandleRemovePopUpAcc} />}
+            {openPopupLib && <PopUpLibrary openPopUpLib={openPopupLib} closePopUpLib={HandleRemovePopUpLib} />}
+            {openPopupRank && <PopUpRank openPopUpRank={openPopupRank} closePopUpRank={HandleRemovePopUpRank} />}
         </div>
-        
+
     );
 }
 
