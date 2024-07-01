@@ -65,7 +65,7 @@ const PopUpInstruc = ({ openPopUp, closePopUp }) => {
                     </div>
 
                     {selectedCard && (
-                        <div className=" col-span-3 ml-4 mr-4 mt-4 bg-orange-50 rounded-lg max-h-[500px] overflow-y-auto p-3 scrollbar-thin scrollbar-track-orange-200 scrollbar-thumb-orange-400">
+                        <div className=" col-span-3 ml-4 mr-4 mt-4 bg-orange-50 rounded-lg max-h-96 overflow-y-auto p-3 scrollbar-thin scrollbar-track-orange-200 scrollbar-thumb-orange-400">
                             <p className="ml-4 mr-4 text-lg text-justify">
                                 {selectedCard.content}
                             </p>

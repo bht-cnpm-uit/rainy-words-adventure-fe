@@ -151,7 +151,7 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                     )}
 
                     {!selectedTableRank && (
-                        <div className="col-span-3 max-h-[500px] overflow-y-auto bg-gray-100 p-3 scrollbar-thin scrollbar-track-orange-200 scrollbar-thumb-orange-400">
+                        <div className="col-span-3 max-h-96 overflow-y-auto bg-gray-100 p-3 scrollbar-thin scrollbar-track-orange-200 scrollbar-thumb-orange-400">
                             <div className="rounded-lg bg-orange-300 p-4 text-center shadow-lg">
                                 <h2 className="text-2xl font-bold">THÀNH TỰU ĐẠT ĐƯỢC</h2>
                             </div>
@@ -164,7 +164,7 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                     {/* hoa lài */}
                                     <div className="rounded-lg bg-white p-4 shadow">
                                         <div className=" items-baseline font-bold">
-                                            <img src="/assets/Asset/Asset/bonusItem/0.png" alt="" />
+                                            <img src="/assets/Asset/Asset/bonusItem/0.png" className='mx-auto h-24 w-32' alt="" />
                                             <div className="flex items-center">
                                                 <ProgressBar currentValue={100} maxValue={500} />
                                                 <span id="flower1-count">100/500</span>
@@ -179,7 +179,7 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                         <div className="items-baseline text-center font-bold">
                                             <img
                                                 src="/assets/Asset/Asset/bonusItem/1.png"
-                                                className="mx-auto mb-7"
+                                                className="mx-auto h-24 w-32"
                                                 alt=""
                                             />
                                             <div className="flex items-center">
@@ -197,7 +197,7 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                         <div className="items-baseline text-center font-bold">
                                             <img
                                                 src="/assets/Asset/Asset/bonusItem/2.png"
-                                                className="mx-auto mb-4"
+                                                className="mx-auto mb-4 h-24 w-32"
                                                 alt=""
                                             />
                                             <div className="flex items-center">
@@ -215,7 +215,7 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                         <div className=" items-baseline font-bold">
                                             <img
                                                 src="/assets/Asset/Asset/bonusItem/3.png"
-                                                className="mx-auto mb-6"
+                                                className="mx-auto mb-4 h-24 w-32"
                                                 alt=""
                                             />
                                             <div className="flex items-center">
@@ -233,7 +233,7 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                         <div className=" items-baseline font-bold">
                                             <img
                                                 src="/assets/Asset/Asset/bonusItem/4.png"
-                                                className="mx-auto mb-4"
+                                                className="mx-auto mb-4 h-24 w-32"
                                                 alt=""
                                             />
                                             <div className="flex items-center">
@@ -251,7 +251,7 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                         <div className=" items-baseline font-bold">
                                             <img
                                                 src="/assets/Asset/Asset/bonusItem/5.png"
-                                                className="mx-auto mb-9 mt-2"
+                                                className="mx-auto mb-4 h-24 w-32"
                                                 alt=""
                                             />
                                             <div className="flex items-center">
@@ -269,7 +269,7 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                         <div className=" items-baseline font-bold">
                                             <img
                                                 src="/assets/Asset/Asset/bonusItem/6.png"
-                                                className="mx-auto mb-4"
+                                                className="mx-auto mb-4 h-24 w-32"
                                                 alt=""
                                             />
                                             <div className="flex items-center">
@@ -304,44 +304,44 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                 <h2 className="mb-4 text-lg font-bold">
                                     Số cúp hiện tại: {cupCount}
                                 </h2>
-                                <div className="flex space-x-4">
+                                <div className="flex justify-center items-center grid grid-cols-2 gap-4">
                                     {/* Nút mở khóa khung */}
                                     {cupCount >= 1 && (
                                         <button
                                             onClick={() => unlockFrame('bronze')} // Gọi hàm mở khóa với frameType tương ứng
-                                            className="rounded-lg bg-gray-200 px-4 py-2 text-gray-800 hover:bg-gray-300"
+                                            className="rounded-lg h-24 bg-[#B87333] text-gray-800 hover:bg-orange-700"
                                         >
                                             Mở khóa khung Đồng
                                         </button>
                                     )}
                                     {cupCount >= 2 && (
                                         <button
-                                            onClick={() => unlockFrame('silver')} // Gọi hàm mở khóa với frameType tương ứng
-                                            className="rounded-lg bg-gray-200 px-4 py-2 text-gray-800 hover:bg-gray-300"
+                                            onClick={() => unlockFrame('silver')} // Gọi hàm mở khóa
+                                            className="rounded-lg h-24 bg-gray-200  text-gray-800 hover:bg-gray-300"
                                         >
                                             Mở khóa khung Bạc
                                         </button>
                                     )}
                                     {cupCount >= 3 && (
                                         <button
-                                            onClick={() => unlockFrame('gold')} // Gọi hàm mở khóa với frameType tương ứng
-                                            className="rounded-lg bg-gray-200 px-4 py-2 text-gray-800 hover:bg-gray-300"
+                                            onClick={() => unlockFrame('gold')} // Call unlockFrame
+                                            className="rounded-lg h-24 bg-[#ffd700] text-gray-800 hover:bg-amber-400"
                                         >
                                             Mở khóa khung Vàng
                                         </button>
                                     )}
                                     {cupCount >= 5 && (
                                         <button
-                                            onClick={() => unlockFrame('platinum')} // Gọi hàm mở khóa với frameType tương ứng
-                                            className="rounded-lg bg-gray-200 px-4 py-2 text-gray-800 hover:bg-gray-300"
+                                            onClick={() => unlockFrame('platinum')} // Call unlockFrame
+                                            className="rounded-lg h-24 bg-gray-400 text-gray-800 hover:bg-gray-500"
                                         >
                                             Mở khóa khung Bạch Kim
                                         </button>
                                     )}
                                     {cupCount >= 7 && (
                                         <button
-                                            onClick={() => unlockFrame('diamond')} // Gọi hàm mở khóa với frameType tương ứng
-                                            className="rounded-lg bg-gray-200 px-4 py-2 text-gray-800 hover:bg-gray-300"
+                                            onClick={() => unlockFrame('diamond')} // Call unlockFrame
+                                            className="rounded-lg h-24 w-36 bg-gray-200 text-gray-800 hover:bg-gray-300"
                                         >
                                             Mở khóa khung Kim Cương
                                         </button>
