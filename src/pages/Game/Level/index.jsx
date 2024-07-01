@@ -77,6 +77,7 @@ const Level = props => {
             this.btnAccount.updatePosition();
             this.player.updatePositionResize();
             this.background.updatePosition();
+            this.levelSetting.updatePosition();
         }
         onMouseMove(event) {
             const rect = this.canvas.getBoundingClientRect();
