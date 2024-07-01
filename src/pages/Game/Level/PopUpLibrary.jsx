@@ -76,10 +76,10 @@ const PopUpLibrary = ({ openPopUpLib, closePopUpLib }) => {
                             className="absolute -right-4 -top-4 h-12 w-12 bg-[url('/assets/Asset/ButtonSliderAtlas_cuts/image_19.png')] bg-cover"
                         ></button>
                         <div className=" rounded-[20px] bg-orange-50 p-4">
-                            <h3 className="mt-8 text-center text-5xl font-bold text-orange-400">
+                            <h3 className="mt-8 text-center text-4xl font-bold text-orange-400">
                                 {selectedWord.word}
                             </h3>
-                            <p className="mt-12 text-center text-4xl text-gray-500 ">
+                            <p className="mt-12 text-center text-3xl text-gray-500 ">
                                 {selectedWord.definition}
                             </p>
                             <p className="mb-8 mt-12 text-2xl italic text-gray-500">
