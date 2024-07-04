@@ -30,5 +30,4 @@ const store = configureStore({
     preloadedState: reHydrateStore(),
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(localStorageMiddleware),
 });
-
-export default store;
+export default store
