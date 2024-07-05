@@ -205,17 +205,16 @@ export const LEVEL =
 export class Levels {
     constructor(game) {
         this.game = game;
-        this.scaleY = this.game.background.scaleY;
         this.levels = [];
         this.levelsNext = []
         this.spriteWidth = 259;
         this.spriteHeight = 259;
         this.spriteWidthStar = 325;
         this.spriteHeightStar = 172;
-        this.widthStar = this.spriteWidthStar * this.scaleY / 2;
-        this.heightStar = this.spriteHeightStar * this.scaleY / 2;
-        this.width = this.spriteWidth * this.scaleY;
-        this.height = this.spriteHeight * this.scaleY;
+        this.widthStar = this.spriteWidthStar * this.game.scale / 2;
+        this.heightStar = this.spriteHeightStar * this.game.scale / 2;
+        this.width = this.spriteWidth * this.game.scale;
+        this.height = this.spriteHeight * this.game.scale;
         this.image = new Image();
         this.image.src = '../assets/Asset/btn_level.png';
         this.imageStar0 = new Image();
@@ -226,17 +225,26 @@ export class Levels {
         this.imageStar2.src = '../assets/Asset/Stars/2.png'
         this.imageStar3 = new Image();
         this.imageStar3.src = '../assets/Asset/Stars/3.png'
-        this.xVirtual = 0;
-        // this.updatePositionLevel();
+        this.xVirtual = -this.game.background.xImageCut * this.game.scale;
         this.frameX = 0;
         this.frameY = 0;
-        this.maxWidthSlice = this.game.width / 2;
+        this.maxWidthSlice = this.game.width;
         this.isUnblocking = false;
         this.frame = 0;
+    }
+    updatePosition() {
+        this.widthStar = this.spriteWidthStar * this.game.scale / 2;
+        this.heightStar = this.spriteHeightStar * this.game.scale / 2;
+        this.width = this.spriteWidth * this.game.scale;
+        this.height = this.spriteHeight * this.game.scale;
+        this.maxWidthSlice = this.game.width;
+        this.xVirtual = -this.game.background.xImageCut * this.game.scale;
+        this.updatePositionLevel();
     }
 
     draw(context) {
         context.save()
+        context.translate(this.xVirtual, 0);
         this.levels.forEach(level => {
             if (level.state === 'Unblocking') {
                 if (this.frame % 8 == 0) {
@@ -262,9 +270,14 @@ export class Levels {
                 }
             }
             else {
-                context.drawImage(this.image, 1 * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, level.position.x, level.position.y, this.width, this.height);
+                context.drawImage(this.image,
+                    1 * this.spriteWidth, this.frameY * this.spriteHeight,
+                    this.spriteWidth, this.spriteHeight,
+                    level.position.x, level.position.y,
+                    this.width, this.height);
             }
         });
+        context.restore()
     }
     drawAnimateUnBlockLevel(context, frameX, level) {
         context.save();
@@ -276,8 +289,8 @@ export class Levels {
         this.levels = []; // Clear the levels array
         for (let i = 0; i < init_level.length; i++) { // Iterate over init_level.length
             const lv = init_level[i]; // Access each level data from init_level
-            lv.position.x = lv.position.x * this.scaleY;
-            lv.position.y = lv.position.y * this.scaleY;
+            lv.position.x = lv.position.x * this.game.scale;
+            lv.position.y = lv.position.y * this.game.scale;
             this.levels.push(lv); // Push the updated level data into levels array
             if (lv.level == this.game.player.maxCurrentLevel) {
                 this.game.player.initialPositionPlayer(lv)
@@ -285,48 +298,6 @@ export class Levels {
         }
         this.game.player.levels = JSON.parse(JSON.stringify(this.levels))
         this.levelsNext = JSON.parse(JSON.stringify(this.levels));
-    }
-    updateSlide() {
-        for (let i = 0; i < this.levelsNext.length; i++) {
-            if (this.levels[i].position.x + this.game.deltaTime < this.levelsNext[i].position.x) {
-                this.levels[i].position.x += this.game.deltaTime;
-            } else if (this.levels[i].position.x - this.game.deltaTime > this.levelsNext[i].position.x) {
-                this.levels[i].position.x -= this.game.deltaTime;
-            }
-            else {
-                this.levels[i].position.x = this.levelsNext[i].position.x
-            }
-            if (this.levels[i].level == this.game.player.currentLevel.level) {
-                this.game.player.currentLevel = JSON.parse(JSON.stringify(this.levels[i]));
-            }
-        }
-    }
-    onclickNextMap(direct) {
-        let first = this.levelsNext[0];
-        let last = this.levelsNext[this.levelsNext.length - 1];
-        let step = this.maxWidthSlice;
-
-        if (direct == 1 && this.xVirtual + direct * step > 0) {
-            step = 0 - this.xVirtual;
-        }
-        if (direct == -1 && this.xVirtual + direct * step <= -(this.game.background.widthScaleBg - this.game.width)) {
-            step = this.game.background.widthScaleBg + this.xVirtual - this.game.width;
-        }
-        if (step < this.maxWidthSlice && direct == -1) {
-            this.game.btnNextMap.hidden = true;
-        }
-        else if ((step < this.maxWidthSlice && direct == 1) || (direct == 1 && step == this.maxWidthSlice && this.xVirtual == -this.maxWidthSlice)) {
-            this.game.btnBackMap.hidden = true;
-        }
-        else {
-            this.game.btnNextMap.hidden = false;
-            this.game.btnBackMap.hidden = false;
-        }
-
-        this.levelsNext.forEach(levelItem => {
-            levelItem.position.x += direct * step;
-        });
-        this.xVirtual += direct * step;
     }
     updateStateLevel(lv) {
         this.levels.forEach(level => {

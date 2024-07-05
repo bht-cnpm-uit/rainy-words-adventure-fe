@@ -1,19 +1,16 @@
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
-
+import { useSelector } from "react-redux";
+import { userSelector } from "../redux/selectors";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 function AuthLayout({ children }) {
     const location = useLocation();
-    const user = useSelector((state) => {
-        return state.user;
-    });
+    const user = useSelector(userSelector);
     const navigate = useNavigate();
-
-    // useEffect(() => {
-    //     if (user.isLoggedIn == false) {
-    //         navigate('/login');
-    //     }
-    // }, [user, location.pathname]);
+    useEffect(() => {
+        if (user.userInfo === null || user.isLoggedIn == false) {
+            navigate('/login');
+        }
+    }, [user, location.pathname]);
     return <>{children}</>;
 }
 

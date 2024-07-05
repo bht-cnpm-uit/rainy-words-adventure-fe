@@ -1,15 +1,56 @@
 class Button {
-    constructor(image, x, y, width, height, spriteWidth, spriteHeight, scaleY) {
+    constructor(game, currentBoard, image, spriteWidth, spriteHeight, type) {
+        this.game = game;
+        this.currentBoard = currentBoard;
         this.image = new Image();
         this.image.src = image;
-        this.x = x;
-        this.y = y;
-        this.width = width * scaleY;
-        this.height = height * scaleY;
+        this.x = null;
+        this.y = null;
+        this.width = spriteWidth * this.game.scale;
+        this.height = spriteHeight * this.game.scale;
         this.spriteWidth = spriteWidth;
         this.spriteHeight = spriteHeight;
+        this.type = type;
+        if (type == 'close') {
+            this.x = this.currentBoard.staticUI.board.width - this.width / 1.5;
+            this.y = -this.height / 3;
+        }
+        else if (type == 'increase') {
+            this.x = this.currentBoard.staticUI.board.width - this.width;
+            this.y = this.currentBoard.staticUI.board.height / 2 + this.height / 4;
+        }
+        else if (type == 'decrease') {
+            this.x = this.currentBoard.staticUI.board.width / 2;
+            this.y = this.currentBoard.staticUI.board.height / 2 + this.height / 4;
+        }
+        else {
+            this.width = this.spriteWidth * this.game.scale * 0.8
+            this.x = (this.currentBoard.staticUI.board.width - this.width) / 2;
+            this.y = this.currentBoard.staticUI.board.height - this.height * 1.2;
+        }
     }
 
+    updatePosition() {
+        this.width = this.spriteWidth * this.game.scale;
+        this.height = this.spriteHeight * this.game.scale;
+        if (this.type == 'close') {
+            this.x = this.currentBoard.staticUI.board.width - this.width / 1.5;
+            this.y = -this.height / 3;
+        }
+        else if (this.type == 'increase') {
+            this.x = this.currentBoard.staticUI.board.width - this.width;
+            this.y = this.currentBoard.staticUI.board.height / 2 + this.height / 4;
+        }
+        else if (this.type == 'decrease') {
+            this.x = this.currentBoard.staticUI.board.width / 2;
+            this.y = this.currentBoard.staticUI.board.height / 2 + this.height / 4;
+        }
+        else {
+            this.width = this.spriteWidth * this.game.scale * 0.8
+            this.x = (this.currentBoard.staticUI.board.width - this.width) / 2;
+            this.y = this.currentBoard.staticUI.board.height - this.height * 1.2;
+        }
+    }
     draw(context) {
         context.drawImage(
             this.image,
@@ -22,18 +63,58 @@ class Button {
             this.width,
             this.height
         );
+    }
+    writeText(context, content) {
+        context.textAlign = 'center';
+        context.font = Math.floor(60 * this.game.scale) + "px Arial";
+        context.fillText(content, this.x + this.width / 2, this.y + this.height / 1.5, this.width)
     }
 }
 class StaticUI {
-    constructor(image, x, y, width, height, spriteWidth, spriteHeight, scaleY) {
+    constructor(game, currentBoard, image, spriteWidth, spriteHeight, type) {
+        this.game = game;
+        this.currentBoard = currentBoard;
         this.image = new Image();
         this.image.src = image;
-        this.x = x;
-        this.y = y;
-        this.width = width * scaleY;
-        this.height = height * scaleY;
+        this.x = null;
+        this.y = null;
         this.spriteWidth = spriteWidth;
         this.spriteHeight = spriteHeight;
+        this.width = spriteWidth * this.game.scale;
+        this.height = spriteHeight * this.game.scale;
+        this.type = type;
+        this.scalePlayer = 1;
+        if (type == 'board') {
+            this.x = 0;
+            this.y = 0;
+        }
+        else if (type == 'score') {
+            this.x = (this.currentBoard.spriteWidthBoard * this.game.scale - this.width) / 2;
+            this.y = this.height / 4;
+        }
+        else {
+            this.x = -this.width / 4;
+            this.y = this.height / 4;
+            this.scalePlayer = 0.6
+        }
+
+    }
+    updatePosition() {
+        this.width = this.spriteWidth * this.game.scale;
+        this.height = this.spriteHeight * this.game.scale;
+        if (this.type == 'board') {
+            this.x = 0;
+            this.y = 0;
+        }
+        else if (this.type == 'score') {
+            this.x = (this.currentBoard.spriteWidthBoard * this.game.scale - this.width) / 2;
+            this.y = this.height / 4;
+        }
+        else {
+            this.x = -this.width / 4;
+            this.y = this.height / 4;
+            this.scalePlayer = 0.6
+        }
     }
     draw(context) {
         context.drawImage(
@@ -44,22 +125,32 @@ class StaticUI {
             this.spriteHeight,
             this.x,
             this.y,
-            this.width,
-            this.height
+            this.width * this.scalePlayer,
+            this.height * this.scalePlayer
         );
+    }
+    writeText(context, content) {
+        context.textAlign = 'center';
+        context.font = Math.floor(100 * this.game.scale) + "px fontgame";
+        context.fillText(content, this.x + this.width / 2, this.y + this.height / 5, this.width)
     }
 }
 
 class Text {
-    constructor(x, y) {
+    constructor(game, x, y) {
+        this.game = game;
         this.x = x;
         this.y = y
     }
-    writeText(context, text, font = "30px Arial", textAlign = 'center', color = 'brown') {
-        context.font = font;
+    writeText(context, text, font = "Arial", textAlign = 'center', color = 'brown') {
+        context.font = Math.floor(60 * this.game.scale) + "px " + font;
         context.textAlign = "center";
         context.fillStyle = color;
         context.fillText(text, this.x, this.y);
+    }
+    updatePosition(x, y) {
+        this.x = x;
+        this.y = y;
     }
 }
 
@@ -68,7 +159,6 @@ export class LevelSetting {
         this.game = game;
         this.width = this.game.width;
         this.height = this.game.height;
-        this.scaleY = this.game.background.scaleY;
         this.spriteWidthBoard = 693;
         this.spriteHeightBoard = 843;
         this.spriteWidthBtnClose = 139;
@@ -85,97 +175,100 @@ export class LevelSetting {
         this.frameCount = 0;
         this.frameX = 1;
         this.currentLevel = null;
-        this.buttons = {
-            close: new Button(
-                '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_19.png',
-                this.spriteWidthBoard * this.scaleY - this.spriteWidthBtnClose * this.scaleY * 2 / 3,
-                - this.spriteHeightBtnClose * this.scaleY / 6,
-                this.spriteWidthBtnClose,
-                this.spriteHeightBtnClose,
-                this.spriteWidthBtnClose,
-                this.spriteHeightBtnClose,
-                this.scaleY
-            ),
-            increase: new Button(
-                '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_7.png',
-                this.spriteWidthBoard * this.scaleY / 2 + this.spriteWidthBtnNext * this.scaleY * 0.8 * 1.5,
-                this.spriteHeightBoard * this.scaleY / 2 + this.spriteHeightBtnNext * 0.8 * this.scaleY / 4,
-                this.spriteWidthBtnNext * 0.8,
-                this.spriteHeightBtnNext * 0.8,
-                this.spriteWidthBtnNext,
-                this.spriteHeightBtnNext,
-                this.scaleY
-            ),
-            decrease: new Button(
-                '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_8.png',
-                this.spriteWidthBoard * this.scaleY / 2,
-                this.spriteHeightBoard * this.scaleY / 2 + this.spriteHeightBtnNext * 0.8 * this.scaleY / 4,
-                this.spriteWidthBtnNext * 0.8,
-                this.spriteHeightBtnNext * 0.8,
-                this.spriteWidthBtnNext,
-                this.spriteHeightBtnNext,
-                this.scaleY
-            ),
-            play: new Button(
-                '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
-                this.spriteWidthBoard * this.scaleY / 2 - this.spriteWidthPlay * this.scaleY / 3,
-                this.spriteHeightBoard * this.scaleY - this.spriteHeightPlay * this.scaleY * 1.1,
-                this.spriteWidthPlay * 2 / 3,
-                this.spriteHeightPlay * 0.9,
-                this.spriteWidthPlay,
-                this.spriteHeightPlay,
-                this.scaleY
-            ),
-        };
         this.staticUI = {
             board: new StaticUI(
+                this.game,
+                this,
                 '../assets/Asset/PanelAtlas_cuts/image_3.png',
-                0, 0,
-                this.spriteWidthBoard, this.spriteHeightBoard,
                 this.spriteWidthBoard,
                 this.spriteHeightBoard,
-                this.scaleY
+                'board'
             ),
             score: new StaticUI(
+                this.game,
+                this,
                 '../assets/Asset/PanelAtlas_cuts/image_6.png',
-                (this.spriteWidthBoard * this.scaleY - this.spriteWidthScore * this.scaleY) / 4, this.spriteHeightScore * this.scaleY / 4,
-                this.spriteWidthScore, this.spriteHeightScore,
                 this.spriteWidthScore,
                 this.spriteHeightScore,
-                this.scaleY
+                'score'
             ),
             player: new StaticUI(
+                this.game,
+                this,
                 '../assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png',
-                -this.spriteWidthPlayer * this.scaleY / 4, this.spriteHeightPlayer * this.scaleY / 4,
-                this.spriteWidthPlayer / 1.6, this.spriteHeightPlayer / 1.6,
                 this.spriteWidthPlayer,
                 this.spriteHeightPlayer,
-                this.scaleY
+                'player'
             ),
         }
+        this.buttons = {
+            close: new Button(
+                this.game,
+                this,
+                '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_19.png',
+                this.spriteWidthBtnClose,
+                this.spriteHeightBtnClose,
+                'close'
+            ),
+            increase: new Button(
+                this.game,
+                this,
+                '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_7.png',
+                this.spriteWidthBtnNext,
+                this.spriteHeightBtnNext,
+                'increase'
+            ),
+            decrease: new Button(
+                this.game,
+                this,
+                '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_8.png',
+                this.spriteWidthBtnNext,
+                this.spriteHeightBtnNext,
+                'decrease'
+            ),
+            play: new Button(
+                this.game,
+                this,
+                '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
+                this.spriteWidthPlay,
+                this.spriteHeightPlay,
+                'play'
+            ),
+        };
         this.text = {
-            scoreText: new Text(
-                (this.spriteWidthBoard * this.scaleY - this.spriteWidthScore * this.scaleY) / 4 + this.staticUI.score.width / 2, this.spriteHeightScore * this.scaleY / 4 + this.staticUI.score.height * 1 / 4,
-            ),
-            playText: new Text(
-                this.spriteWidthBoard * this.scaleY / 2,
-                this.spriteHeightBoard * this.scaleY - this.spriteHeightPlay * this.scaleY * 1.1 + this.spriteHeightPlay * this.scaleY / 2,
-            ),
             levelText: new Text(
-                (this.spriteWidthBoard * this.scaleY - this.spriteWidthScore * this.scaleY) / 4 + this.staticUI.score.width / 2, this.spriteHeightScore * this.scaleY / 4 + this.staticUI.score.height * 1.1,
+                this.game,
+                this.staticUI.board.width / 2, this.staticUI.score.height * 1.3
             ),
             diffLevel: new Text(
-                this.spriteWidthBoard * this.scaleY * 3 / 4 - this.spriteWidthBtnNext * this.scaleY / 5, this.spriteHeightBoard * this.scaleY / 2
+                this.game,
+                this.staticUI.board.width * 3 / 4, this.staticUI.board.height / 2
             ),
             numDiffLevel: new Text(
-                this.spriteWidthBoard * this.scaleY * 3 / 4 - this.spriteWidthBtnNext * 0.8 * this.scaleY / 3, this.spriteHeightBoard * this.scaleY / 2 + this.spriteHeightBtnNext * 0.8 * this.scaleY / 4 + this.spriteHeightBtnNext * 0.8 * this.scaleY / 1.3,
+                this.game,
+                this.staticUI.board.width * 3 / 4, this.buttons.increase.y + this.buttons.increase.height / 1.5
             )
 
         }
         this.translateX = this.width * 2 / 3;
         this.translateY = this.height * 1 / 5;
     }
-
+    updatePosition() {
+        this.width = this.game.width;
+        this.height = this.game.height;
+        this.staticUI.board.updatePosition();
+        this.staticUI.score.updatePosition();
+        this.staticUI.player.updatePosition();
+        this.buttons.close.updatePosition();
+        this.buttons.decrease.updatePosition();
+        this.buttons.increase.updatePosition();
+        this.buttons.play.updatePosition();
+        this.translateX = this.width * 2 / 3;
+        this.translateY = this.height * 1 / 5;
+        this.text.levelText.updatePosition(this.staticUI.board.width / 2, this.staticUI.score.height * 1.3);
+        this.text.diffLevel.updatePosition(this.staticUI.board.width * 3 / 4, this.staticUI.board.height / 2);
+        this.text.numDiffLevel.updatePosition(this.staticUI.board.width * 3 / 4, this.buttons.increase.y + this.buttons.increase.height / 1.5)
+    }
     update() {
         // Add update logic if needed
     }
@@ -187,15 +280,16 @@ export class LevelSetting {
             // Draw your board and score here
             this.staticUI.board.draw(context);
             this.staticUI.score.draw(context);
+            this.staticUI.score.writeText(context, "1080");
             this.buttons.close.draw(context);
             this.buttons.increase.draw(context);
             this.buttons.decrease.draw(context);
             this.buttons.play.draw(context);
-            this.text.playText.writeText(context, "Chơi");
-            this.text.levelText.writeText(context, "Level " + this.currentLevel.level.toString(), "30px fontgame");
+            this.buttons.play.writeText(context, "Chơi")
+            this.text.levelText.writeText(context, "Level " + this.currentLevel.level.toString(), "fontgame");
             this.text.numDiffLevel.writeText(context, this.currentLevel.difficulty_level);
             this.text.diffLevel.writeText(context, "Độ khó");
-            this.text.scoreText.writeText(context, "1080", "55px fontgame");
+            // this.text.scoreText.writeText(context, "1080", "55px fontgame");
             context.restore();
             context.save();
             context.translate(this.translateX, this.translateY);

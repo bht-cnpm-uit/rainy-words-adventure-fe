@@ -12,6 +12,7 @@ import Admin from '../pages/Admin'
 // Public routes
 const publicRoutes = [
     {
+        requiresAuth: false,
         path: '/',
         component: Home,
         props: {
@@ -19,45 +20,49 @@ const publicRoutes = [
         },
     },
     {
+        requiresAuth: true,
         path: '/vocab-library',
         component: VocabLib,
     },
     {
+        requiresAuth: true,
         path: '/difficulty',
         component: DifficultyComponent,
     },
     {
+        requiresAuth: true,
         path: '/level',
         component: Level,
     },
     {
+        requiresAuth: true,
         path: '/result',
         component: Result,
     },
     {
+        requiresAuth: false,
         path: '/login',
         component: Login,
     },
     {
+        requiresAuth: false,
         path: '/signin',
+        isAuth: false,
         component: Signin,
     },
     {
+        requiresAuth: true,
         path: '/admin',
         component: Admin,
     },
     {
+        requiresAuth: true,
         path: '/game',
         component: Game,
     }
 
 ];
 
-const privateRoutes = [
-    {
-        // path: '/admin',
-        // component: Admin,
-    }
-];
+const privateRoutes = [];
 
 export { publicRoutes, privateRoutes };
