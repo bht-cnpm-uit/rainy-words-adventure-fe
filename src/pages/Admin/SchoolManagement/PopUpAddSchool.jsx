@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 
-const PopUpAddSchool = ({ openPopupAddSchool, closePopUpAddSchool }) => {
+const PopUpAddSchool = ({ openPopupAddSchool, closePopUpAddSchool,refreshData }) => {
+
+    // const [dataUpload, setDataUpload] = useState([]);
+
     const handleClosePopUp = (e) => {
         if (e.target.id === 'ModelContainer') {
             closePopUpAddSchool();
@@ -21,16 +24,40 @@ const PopUpAddSchool = ({ openPopupAddSchool, closePopUpAddSchool }) => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
+        
         setSchoolData({
             ...schoolData,
             [name]: value,
         });
+
+        console.log(schoolData);
     };
 
-    const handleAddSchool = () => {
-        console.log('ID:', schoolData.id);
-        console.log('Name:', schoolData.name);
+    const handleAddSchool = async () => {
+        try {
+            const response = await fetch('http://localhost:1000/api/school/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({listSchool: [schoolData]}),
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok.');
+            }
+
+            const result = await response.json();
+            console.log('Data successfully uploaded:', result);
+
+            // Optionally, close the modal after successful upload
+            handleClose();
+            refreshData();
+        } catch (error) {
+            console.error('There has been a problem with your fetch operation:', error);
+        }
     };
+
 
     return (
         <div

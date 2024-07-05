@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import readXlsxFile from 'read-excel-file';
 import DataTable from 'react-data-table-component';
 
-const ModalImportData = ({ modalTitle, isOpenModelImportData, setIsOpenModelImportData }) => {
+const ModalImportData = ({ modalTitle, isOpenModelImportData, setIsOpenModelImportData,refreshData }) => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [dataUpload, setDataUpload] = useState([]);
     const schema = {
-        schoolID: {
-            prop: 'schoolID',
+        id: {
+            prop: 'id',
             type: String,
         },
         name: {
@@ -32,6 +32,33 @@ const ModalImportData = ({ modalTitle, isOpenModelImportData, setIsOpenModelImpo
         const updatedData = dataUpload.filter((school) => school !== row);
         setDataUpload(updatedData);
     };
+
+    const saveChanges = async () => {
+        try {
+            const response = await fetch('http://localhost:1000/api/school/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({listSchool: dataUpload}),
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok.');
+            }
+
+            const result = await response.json();
+            console.log('Data successfully uploaded:', result);
+
+            // Optionally, close the modal after successful upload
+            closeModal();
+            refreshData();
+
+        } catch (error) {
+            console.error('There has been a problem with your fetch operation:', error);
+        }
+    };
+
     return (
         <div className="absolute inset-10 h-screen overflow-y-auto">
             <div className="flex min-h-screen items-center justify-center">
@@ -79,7 +106,7 @@ const ModalImportData = ({ modalTitle, isOpenModelImportData, setIsOpenModelImpo
                             columns={[
                                 {
                                     name: 'schoolID',
-                                    selector: 'schoolID',
+                                    selector: 'id',
                                     sortable: true,
                                     width: '30%',
                                 },
