@@ -1,15 +1,35 @@
 
 import { Background } from './background';
-import React, {useEffect, useRef } from 'react';
-
+import React, { useEffect, useRef } from 'react';
+import { handleSignUp } from '../../services/userServices';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { userActions } from '../../redux/slices/userSlice';
 const SignIn = (props) => {
     const canvasRef = useRef();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     function resizeCanvas(canvas) {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
     }
+    async function handleSubmitSignUp(values) {
+        try {
+            let data = await handleSignUp(values);
+            if (data && data.errCode == 0) {
+                dispatch(userActions.login(data.userInfo))
+                navigate('/level')
+                return 1;
+            }
+        }
+        catch (error) {
+            console.error("Error during sign up: ", error);
+        }
+        return 0;
+    }
     class Home {
         constructor(canvas, ctx) {
+            this.handleSubmitSignUp = handleSubmitSignUp.bind(this);
             this.canvas = canvas;
             this.ctx = ctx;
             this.width = window.innerWidth;
@@ -61,7 +81,7 @@ const SignIn = (props) => {
             return (
                 mouseX >= button.x &&
                 mouseX <= button.x + button.spriteWidth * this.scale / 1.4 &&
-                mouseY >= button.y  * this.scale / 1.4 &&
+                mouseY >= button.y * this.scale / 1.4 &&
                 mouseY <= button.y + + button.spriteHeight * this.scale / 1.4
             );
         }

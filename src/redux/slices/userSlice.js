@@ -9,6 +9,13 @@ export const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
+        signIn: (state, action) => {
+            return {
+                ...state,
+                isLoggedIn: false,
+                userInfo: null
+            }
+        },
         login: (state, action) => {
             return {
                 ...state,

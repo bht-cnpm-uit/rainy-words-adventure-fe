@@ -9,7 +9,7 @@ class Layer {
         this.x = 0;
         this.y = 0;
     }
-    update() {}
+    update() { }
     draw(context, isTrue = false) {
         if (isTrue) {
             context.drawImage(
@@ -74,7 +74,7 @@ class Player {
             this.frameY * this.spriteHeight,
             this.spriteWidth,
             this.spriteHeight,
-            (this.game.width / 2 - this.spriteWidth *0.3 * this.game.scale) / 20,
+            (this.game.width / 2 - this.spriteWidth * 0.3 * this.game.scale) / 20,
             this.game.height - this.spriteHeight * 1.05 * this.game.scale,
             this.spriteWidth * this.game.scale,
             this.spriteHeight * this.game.scale,
@@ -159,8 +159,8 @@ class SigninForm {
         // this.img_form.src = '../assets/Asset/SignInForm.png';
         this.createForm();
     }
-    update() {}
-    draw(context) {}
+    update() { }
+    draw(context) { }
 
     createForm() {
         const box = document.createElement('div');
@@ -188,11 +188,11 @@ class SigninForm {
                 <label for="school">Trường</label>
                 <select id="school" name="school">
                 ${optionSchools
-                    .map(
-                        (option) => `
+                .map(
+                    (option) => `
                     <option value="${option.label}">${option.value}</option>`,
-                    )
-                    .join('')}
+                )
+                .join('')}
                 </select>
             </div>
 
@@ -200,11 +200,11 @@ class SigninForm {
                 <label for="class">Lớp</label>
                 <select id="class" name="class">
                 ${optionGrades
-                    .map(
-                        (option) => `
+                .map(
+                    (option) => `
                     <option value="${option.label}">${option.value}</option>`,
-                    )
-                    .join('')}
+                )
+                .join('')}
                 </select>
             </div>
 
@@ -215,7 +215,7 @@ class SigninForm {
 
             <div class="form-row row-1">
                 <label for="phoneNumber">Số điện thoại</label>
-                <input type="number" id="phoneNumber" name="phoneNumber">
+                <input type="text" id="phoneNumber" name="phoneNumber">
             </div>
 
             <div class="form-row row-1">
@@ -227,15 +227,40 @@ class SigninForm {
 
         document.body.appendChild(box);
 
-        box.addEventListener('submit', (event) => {
+        box.addEventListener('submit', async (event) => {
             event.preventDefault();
-            window.location.href = '/level';
+
+            const box = event.target;
+
+            const phoneNumber = box.querySelector("#phoneNumber").value;
+            const password = box.querySelector("#password").value;
+            const username = box.querySelector("#username").value;
+            const dateOfBirth = box.querySelector("#dateOfBirth").value;
+
+            var isSuccess = await this.game.game.handleSubmitSignUp({
+                phoneNumber: phoneNumber,
+                password: password,
+                name: username,
+                schoolId: "1",
+                grade: "7",
+                birthday: dateOfBirth
+            });
+
+            if (isSuccess) {
+                this.deleteForm();
+            }
         });
     }
+    deleteForm() {
+        const box = document.getElementById('box');
+        if (box) {
+            document.body.removeChild(box);
+        }
+    }
 
-    getUsername() {}
+    getUsername() { }
 
-    getPassword() {}
+    getPassword() { }
 
     validateInput(input) {
         if (input.value.trim() === '') {
@@ -251,20 +276,20 @@ class SigninForm {
     }
 
     checkInput() {
-            // this.inputName.addEventListener('blur', () => {
-            //     this.validateInput(this.inputName);
-            // });
-            // this.inputDayOfBirth.addEventListener('blur', () => {
-            //     this.validateInput(this.inputDayOfBirth);
-            // });
-            // this.inputNumberPhone.addEventListener('blur', () => {
-            //     this.validateInput(this.inputNumberPhone);
-            // });
-            // this.inputPassWord.addEventListener('blur', () => {
-            //     this.validateInput(this.inputPassWord);
-            // });
-        }
-    
+        // this.inputName.addEventListener('blur', () => {
+        //     this.validateInput(this.inputName);
+        // });
+        // this.inputDayOfBirth.addEventListener('blur', () => {
+        //     this.validateInput(this.inputDayOfBirth);
+        // });
+        // this.inputNumberPhone.addEventListener('blur', () => {
+        //     this.validateInput(this.inputNumberPhone);
+        // });
+        // this.inputPassWord.addEventListener('blur', () => {
+        //     this.validateInput(this.inputPassWord);
+        // });
+    }
+
 }
 
 export class Background {
