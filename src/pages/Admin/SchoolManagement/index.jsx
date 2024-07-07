@@ -1,16 +1,35 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
-import { fakeData } from './fakeSchool';
 import PopUp from './PopUp';
 
 const SchoolManagement = () => {
     const [isOpenPopUp, setIsOpenPopUp] = useState(false);
     const HandleRemovePopUp = () => setIsOpenPopUp(false);
 
+    const [data, setData] = useState([])
+
+    const fetchDataFromAPI = async () => {
+        try {
+            const response = await fetch('http://localhost:1000/api/school/get-all');
+            if (!response.ok) {
+                throw new Error('Network response was not ok.');
+            }
+            const data = await response.json();
+            setData(data.listSchool);
+            
+        } catch (error) {
+            console.error('There has been a problem with your fetch operation:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchDataFromAPI();
+    }, []);
+
     const columns = [
         {
             name: 'ID',
-            selector: 'ID',
+            selector: 'id',
             sortable: true,
             width: '20%',
         },
@@ -60,7 +79,7 @@ const SchoolManagement = () => {
                 title={<div className="mt-8 text-center">DANH SÁCH TRƯỜNG HỌC</div>}
                 className="flex justify-items-center z-0"
                 columns={columns}
-                data={fakeData}
+                data={data}
                 pagination
                 customStyles={{
                     headRow: {
@@ -96,7 +115,7 @@ const SchoolManagement = () => {
                     </div>
                 }
             />
-            {isOpenPopUp && <PopUp openPopUp={isOpenPopUp} closePopUp={HandleRemovePopUp} />}
+            {isOpenPopUp && <PopUp openPopUp={isOpenPopUp} closePopUp={HandleRemovePopUp} refreshData={fetchDataFromAPI} />}
         </div>
     );
 };

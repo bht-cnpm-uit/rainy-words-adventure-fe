@@ -5,23 +5,23 @@ const ModalImportData = ({ modalTitle, isOpenModelImportData, setIsOpenModelImpo
     const [selectedFile, setSelectedFile] = useState(null);
     const [dataUpload, setDataUpload] = useState([])
     const schema = {
-        'STT': {
-            prop: 'STT',
+        'id': {
+            prop: 'id',
             type: String
         },
-        'English':
+        'vocab':
         {
-            prop: 'English',
+            prop: 'vocab',
             type: String
         },
-        'Vietnamese':
+        'vietnamese':
         {
-            prop: 'Vietnamese',
+            prop: 'vietnamese',
             type: String
         },
-        'Topic':
+        'topicId':
         {
-            prop: 'Topic',
+            prop: 'topicId',
             type: String
         }
     }
@@ -43,6 +43,32 @@ const ModalImportData = ({ modalTitle, isOpenModelImportData, setIsOpenModelImpo
         const updatedData = dataUpload.filter(word => word !== row);
         setDataUpload(updatedData);
     }
+
+    const saveChanges = async () => {
+        try {
+            const response = await fetch('http://localhost:1000/api/word/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({listWord: dataUpload}),
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok.');
+            }
+
+            const result = await response.json();
+            console.log('Data successfully uploaded:', result);
+
+            // Optionally, close the modal after successful upload
+            closeModal();
+        } catch (error) {
+            console.error('There has been a problem with your fetch operation:', error);
+        }
+    };
+
+
     return (
         <div className="absolute inset-0 h-screen overflow-y-auto">
             <div className="flex items-center justify-center min-h-screen">
@@ -83,23 +109,23 @@ const ModalImportData = ({ modalTitle, isOpenModelImportData, setIsOpenModelImpo
                             columns={[
                                 {
                                     name: "STT",
-                                    selector: "STT",
+                                    selector: "id",
                                     sortable: true,
                                     width: "15%"
                                 },
                                 {
                                     name: "Tiếng anh",
-                                    selector: "English",
+                                    selector: "vocab",
                                     sortable: true,
                                 },
                                 {
                                     name: "Tiếng việt",
-                                    selector: "Vietnamese",
+                                    selector: "vietnamese",
                                     sortable: true,
                                 },
                                 {
                                     name: "Chủ đề",
-                                    selector: "Topic",
+                                    selector: "topicId",
                                     sortable: true,
                                 },
                                 {

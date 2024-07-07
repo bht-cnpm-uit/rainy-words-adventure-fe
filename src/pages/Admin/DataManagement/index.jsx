@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useMemo, useRef } from 'react';
 import DataTable from 'react-data-table-component';
-import { fakeData } from '../fakeDataWords';
 import ModalImportData from './ModalImportData';
 import { Fragment } from 'react';
 const DataManagement = () => {
@@ -13,23 +12,40 @@ const DataManagement = () => {
     const [isOpenModelImportData, setIsOpenModelImportData] = useState(false);
     const [isOpenDropdown, setIsOpenDropdown] = useState(false)
     const [filterType, setFilterType] = useState(0)
-    const [data, setData] = useState(fakeData)
-    const [dataFilter, setDataFilter] = useState(fakeData);
+    const [data, setData] = useState([])
+    const [dataFilter, setDataFilter] = useState([]);
+
     useEffect(() => {
-    })
+        const fetchDataFromAPI = async () => {
+            try {
+                const response = await fetch('http://localhost:1000/api/word/get-all');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok.');
+                }
+                const data = await response.json();
+                setData(data.listWord);
+                setDataFilter(data.listWord);
+            } catch (error) {
+                console.error('There has been a problem with your fetch operation:', error);
+            }
+        };
+
+        fetchDataFromAPI();
+    }, []);
+
     const handleFilter = (text) => {
         let listWordsFilter;
         if (text.trim()) {
             if (filterType === 0) {
                 listWordsFilter = data.filter(row =>
-                    row['word'].toLowerCase().includes(text.toLowerCase()) ||
+                    row['vocab'].toLowerCase().includes(text.toLowerCase()) ||
                     row['vietnamese'].toLowerCase().includes(text.toLowerCase()) ||
-                    row['topic'].toLowerCase().includes(text.toLowerCase())
+                    row['topicId'].toLowerCase().includes(text.toLowerCase())
                 );
             }
             else if (filterType === 1) {
                 listWordsFilter = data.filter(row =>
-                    row['word'].toLowerCase().includes(text.toLowerCase())
+                    row['vocab'].toLowerCase().includes(text.toLowerCase())
                 );
             } else if (filterType === 2) {
                 // Implement filtering logic for filterType 2
@@ -39,7 +55,7 @@ const DataManagement = () => {
             } else if (filterType === 3) {
                 // Implement filtering logic for filterType 3
                 listWordsFilter = data.filter(row =>
-                    row['topic'].toLowerCase().includes(text.toLowerCase())
+                    row['topicId'].toLowerCase().includes(text.toLowerCase())
                 );
             } else {
                 listWordsFilter = data;
@@ -122,13 +138,13 @@ const DataManagement = () => {
                             columns={[
                                 {
                                     name: "STT",
-                                    selector: "ID",
+                                    selector: "id",
                                     sortable: true,
                                     width: '15%'
                                 },
                                 {
                                     name: "Tiếng anh",
-                                    selector: "word",
+                                    selector: "vocab",
                                     sortable: true,
                                 },
                                 {
@@ -138,7 +154,7 @@ const DataManagement = () => {
                                 },
                                 {
                                     name: "Chủ đề",
-                                    selector: "topic",
+                                    selector: "topicId",
                                     sortable: true,
                                 },
                                 {
