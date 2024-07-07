@@ -1,13 +1,33 @@
 import { Background } from './background';
 import React, { useEffect, useRef, useMemo } from 'react';
+import { handleLogin } from '../../services/userServices';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { userActions } from '../../redux/slices/userSlice';
 const Login = (props) => {
     const canvasRef = useRef();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     function resizeCanvas(canvas) {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
     }
+    async function handleSubmitLogin(values) {
+        try {
+            let data = await handleLogin(values.phoneNumber, values.password);
+            if (data && data.student) {
+                dispatch(userActions.login(data.student))
+                navigate('/level');
+                return 1;
+            }
+        } catch (error) {
+            console.error('Error during login:', error);
+        }
+        return 0;
+    }
     class Home {
         constructor(canvas, ctx) {
+            this.handleSubmitLogin = handleSubmitLogin.bind(this);
             this.ctx = ctx;
             this.canvas = canvas;
             this.width = window.innerWidth;

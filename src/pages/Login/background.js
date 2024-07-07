@@ -1,3 +1,5 @@
+import React from 'react';
+import { handleLogin } from '../../services/userServices';
 import './login.css';
 class Layer {
     constructor(game, spriteWidth, spriteHeight, src) {
@@ -144,12 +146,22 @@ class LoginForm {
 
         document.body.appendChild(container);
 
-        container.addEventListener('submit', (event) => {
+        container.addEventListener('submit', async (event) => {
             event.preventDefault();
-            window.location.href = '/level';
+            var phoneNumber = container.querySelector('#username').value;
+            var password = container.querySelector('#password').value;
+            var isSuccess = await this.game.game.handleSubmitLogin({ phoneNumber, password })
+            if (isSuccess) {
+                this.deleteForm()
+            }
         });
     }
-
+    deleteForm() {
+        const container = document.getElementById('container');
+        if (container) {
+            container.remove();
+        }
+    }
     getUsername() {
     }
     getPassword() {
