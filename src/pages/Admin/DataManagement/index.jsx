@@ -18,12 +18,13 @@ const DataManagement = () => {
     useEffect(() => {
         const fetchDataFromAPI = async () => {
             try {
-                const response = await fetch('http://localhost:1000/api/word/get-all');
+                const response = await fetch('http://localhost:6868/api/word/get-all');
                 if (!response.ok) {
                     throw new Error('Network response was not ok.');
                 }
                 const data = await response.json();
                 setData(data.listWord);
+                console.log(data.listWord);
                 setDataFilter(data.listWord);
             } catch (error) {
                 console.error('There has been a problem with your fetch operation:', error);
