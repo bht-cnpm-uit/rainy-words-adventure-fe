@@ -30,7 +30,7 @@ const publicRoutes = [
         component: DifficultyComponent,
     },
     {
-        requiresAuth: true,
+        requiresAuth: false,
         path: '/level',
         component: Level,
     },
