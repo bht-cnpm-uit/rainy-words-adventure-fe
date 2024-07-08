@@ -10,26 +10,20 @@ const StudentManagement = () => {
     const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
     const [dataStudent, setDataStudent] = useState([]);
-    
-    useEffect(() => {
-        getStudents();
-    });
 
     async function getStudents() {
         try {
-            let data= await getAllStudents();
-            setDataStudent(data.listStudent)
-            // if (data && data.student) {
-            //     dispatch(userActions.login(data.student))
-            //     navigate('/level');
-            //     return 1;
-            // }
+            let data = await getAllStudents();
+            setDataStudent(data.listStudent);
         } catch (error) {
             console.error('Error:', error);
         }
         return 0;
     }
 
+    useEffect(() => {
+        getStudents();
+    });
 
     const handleEdit = (id) => {
         setEditID(id);
@@ -122,7 +116,7 @@ const StudentManagement = () => {
                         </button>
                         <button
                             className="ml-5 h-6 w-6"
-                            onClick={() =>{}}
+                            onClick={() => {}}
                             data-tag="allowRowEvents"
                         >
                             <svg
@@ -135,7 +129,7 @@ const StudentManagement = () => {
                         </button>
                     </div>
                 );
-            },  
+            },
         },
     ];
 

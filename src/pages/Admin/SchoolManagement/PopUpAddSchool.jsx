@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
+import { createNewSchool } from '../../../services/schoolServices';
 
-const PopUpAddSchool = ({ openPopupAddSchool, closePopUpAddSchool,refreshData }) => {
-
-    // const [dataUpload, setDataUpload] = useState([]);
-
+const PopUpAddSchool = ({ openPopupAddSchool, closePopUpAddSchool }) => {
     const handleClosePopUp = (e) => {
         if (e.target.id === 'ModelContainer') {
             closePopUpAddSchool();
@@ -24,40 +22,32 @@ const PopUpAddSchool = ({ openPopupAddSchool, closePopUpAddSchool,refreshData })
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        
+
         setSchoolData({
             ...schoolData,
             [name]: value,
         });
 
-        console.log(schoolData);
+        // console.log(schoolData);
     };
 
     const handleAddSchool = async () => {
+        if (schoolData.id == '' || schoolData.name == '') {
+            const isConfirmed = window.confirm(`Bạn phải nhập dữ liệu đầy đủ!`);
+            return;
+        }
+
         try {
-            const response = await fetch('http://localhost:1000/api/school/create', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({listSchool: [schoolData]}),
-            });
+            const listSchool = [schoolData];
+            let response = await createNewSchool(listSchool);
 
-            if (!response.ok) {
-                throw new Error('Network response was not ok.');
-            }
-
-            const result = await response.json();
-            console.log('Data successfully uploaded:', result);
-
-            // Optionally, close the modal after successful upload
+            console.log('Respone: ', response);
+            alert('Thêm trường học thành công');
             handleClose();
-            refreshData();
         } catch (error) {
             console.error('There has been a problem with your fetch operation:', error);
         }
     };
-
 
     return (
         <div

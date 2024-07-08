@@ -1,30 +1,45 @@
 import React, { useState, Fragment, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
+import { getAllSchools, deleteSchool } from '../../../services/schoolServices';
 import PopUp from './PopUp';
 
 const SchoolManagement = () => {
     const [isOpenPopUp, setIsOpenPopUp] = useState(false);
     const HandleRemovePopUp = () => setIsOpenPopUp(false);
 
-    const [data, setData] = useState([])
+    const [data, setData] = useState([]);
 
-    const fetchDataFromAPI = async () => {
+    async function getSchools() {
         try {
-            const response = await fetch('http://localhost:6868/api/school/get-all');
-            if (!response.ok) {
-                throw new Error('Network response was not ok.');
-            }
-            const data = await response.json();
-            setData(data.listSchool);
-            
+            let getSchools = await getAllSchools();
+            setData(getSchools.listSchool);
         } catch (error) {
-            console.error('There has been a problem with your fetch operation:', error);
+            console.error('Error:', error);
         }
+        return 0;
+    }
+
+    const handleDeleteSchool = async (id) => {
+        const isConfirmed = window.confirm(`Bạn có chắc chắn muốn xóa trường có id là: ${id}?`);
+        if (!isConfirmed) {
+            return;
+        }
+
+        try {
+            let rowid = [id];
+            let respone = await deleteSchool(rowid);
+            console.log('Response: ', respone);
+            alert('Xóa thành công!');
+            getSchools();
+        } catch (error) {
+            console.error('Error:', error);
+        }
+        return 0;
     };
 
     useEffect(() => {
-        fetchDataFromAPI();
-    }, []);
+        getSchools();
+    });
 
     const columns = [
         {
@@ -45,7 +60,11 @@ const SchoolManagement = () => {
             cell: (row) => {
                 return (
                     <div>
-                        <button className="h-6 w-6" onClick={() => {}} data-tag="allowRowEvents">
+                        <button
+                            className="h-6 w-6"
+                            onClick={() => handleDeleteSchool(row.id)}
+                            data-tag="allowRowEvents"
+                        >
                             <svg
                                 className="fill-current text-zinc-500 hover:text-red-500"
                                 xmlns="http://www.w3.org/2000/svg"
@@ -77,32 +96,32 @@ const SchoolManagement = () => {
         <div className="container">
             <DataTable
                 title={<div className="mt-8 text-center">DANH SÁCH TRƯỜNG HỌC</div>}
-                className="flex justify-items-center z-0"
+                className="z-0 flex justify-items-center"
                 columns={columns}
                 data={data}
                 pagination
                 customStyles={{
                     headRow: {
                         style: {
-                            backgroundColor: '',
+                            backgroundColor: '#F2F2F2',
+                            fontSize: '18px',
+                            fontWeight: 'bold',
                         },
                     },
                     headCells: {
                         style: {
-                            fontWeight: 'bold',
                             color: '#333',
-                            // zIndex: 1,
                         },
                     },
                 }}
                 paginationComponentOptions={{
-                    rowsPerPageText: 'Filas por página',
-                    rangeSeparatorText: 'de',
+                    rowsPerPageText: 'Số lượng trường đang hiển thị: ',
+                    rangeSeparatorText: 'trong',
                     selectAllRowsItem: true,
-                    selectAllRowsItemText: 'Todos',
+                    selectAllRowsItemText: 'Tất cả',
                 }}
                 fixedHeader
-                fixedHeaderScrollHeight="570px"
+                fixedHeaderScrollHeight="550px"
                 subHeader
                 subHeaderComponent={
                     <div className="sub">
@@ -115,7 +134,7 @@ const SchoolManagement = () => {
                     </div>
                 }
             />
-            {isOpenPopUp && <PopUp openPopUp={isOpenPopUp} closePopUp={HandleRemovePopUp} refreshData={fetchDataFromAPI} />}
+            {isOpenPopUp && <PopUp openPopUp={isOpenPopUp} closePopUp={HandleRemovePopUp} />}
         </div>
     );
 };

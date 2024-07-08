@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import readXlsxFile from 'read-excel-file';
 import DataTable from 'react-data-table-component';
+import { createNewSchool } from '../../../services/schoolServices';
 
-const ModalImportData = ({ modalTitle, isOpenModelImportData, setIsOpenModelImportData,refreshData }) => {
+const ModalImportData = ({ modalTitle, isOpenModelImportData, setIsOpenModelImportData }) => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [dataUpload, setDataUpload] = useState([]);
     const schema = {
@@ -35,25 +36,13 @@ const ModalImportData = ({ modalTitle, isOpenModelImportData, setIsOpenModelImpo
 
     const saveChanges = async () => {
         try {
-            const response = await fetch('http://localhost:1000/api/school/create', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({listSchool: dataUpload}),
-            });
+            const result = await createNewSchool(dataUpload);
 
-            if (!response.ok) {
-                throw new Error('Network response was not ok.');
-            }
-
-            const result = await response.json();
             console.log('Data successfully uploaded:', result);
 
-            // Optionally, close the modal after successful upload
-            closeModal();
-            refreshData();
+            alert('Tải dữ liệu trường học thành công!');
 
+            closeModal();
         } catch (error) {
             console.error('There has been a problem with your fetch operation:', error);
         }
