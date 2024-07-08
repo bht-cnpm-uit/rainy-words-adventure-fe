@@ -8,8 +8,8 @@ const Admin = () => {
     const [optionManage, setOptionManage] = useState('data')
     return (
         <div className="w-full h-screen flex absolute">
-            <aside className="w-1/5 h-full bg-gray-100" aria-label="Sidebar">
-                <div className="overflow-y-auto rounded px-4 py-4 dark:bg-gray-800">
+            <aside className="w-1/5 bg-gray-100" aria-label="Sidebar">
+                <div className="overflow-y-auto h-full rounded px-4 py-4 dark:bg-gray-800">
                     <ul className="space-y-6">
                         <li>
                             <button

@@ -10,7 +10,7 @@ const SchoolManagement = () => {
 
     const fetchDataFromAPI = async () => {
         try {
-            const response = await fetch('http://localhost:1000/api/school/get-all');
+            const response = await fetch('http://localhost:6868/api/school/get-all');
             if (!response.ok) {
                 throw new Error('Network response was not ok.');
             }

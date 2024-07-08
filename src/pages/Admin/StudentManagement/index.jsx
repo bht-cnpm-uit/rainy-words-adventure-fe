@@ -1,11 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
-import { fakeStudent } from './fakeStudent';
+// import { fakeStudent } from './fakeStudent';
+import { getAllStudents } from '../../../services/studentServices';
+import { data } from 'autoprefixer';
 
 const StudentManagement = () => {
     const [editID, setEditID] = useState(null);
     const [deleteID, setDeleteID] = useState(null);
     const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+
+    const [dataStudent, setDataStudent] = useState([]);
+    
+    useEffect(() => {
+        getStudents();
+    });
+
+    async function getStudents() {
+        try {
+            let data= await getAllStudents();
+            setDataStudent(data.listStudent)
+            // if (data && data.student) {
+            //     dispatch(userActions.login(data.student))
+            //     navigate('/level');
+            //     return 1;
+            // }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+        return 0;
+    }
+
 
     const handleEdit = (id) => {
         setEditID(id);
@@ -41,7 +65,7 @@ const StudentManagement = () => {
     const columns = [
         {
             name: 'ID',
-            selector: 'studentID',
+            selector: 'id',
             sortable: true,
             width: '10%',
         },
@@ -49,35 +73,41 @@ const StudentManagement = () => {
             name: 'Khối',
             selector: 'grade',
             sortable: true,
-            width: '10%',
+            // width: '10%',
+        },
+        {
+            name: 'Họ và tên',
+            selector: 'name',
+            sortable: true,
+            // width: '20%',
         },
         {
             name: 'Ngày sinh',
             selector: 'birthday',
             sortable: true,
-            width: '10%',
+            // width: '10%',
         },
         {
-            name: 'Username',
-            selector: 'useName',
+            name: 'Số điện thoại',
+            selector: 'phoneNumber',
             sortable: true,
-            width: '20%',
-        },
-        {
-            name: 'Password',
-            selector: 'passWord',
-            sortable: true,
-            width: '20%',
+            // width: '10%',
         },
         {
             name: 'Mã trường',
-            selector: 'schoolID',
+            selector: 'schoolId',
             sortable: true,
-            width: '10%',
+            // width: '10%',
+        },
+        {
+            name: 'Cúp',
+            selector: 'cup',
+            sortable: true,
+            // width: '10%',
         },
         {
             name: 'Thao tác',
-            width: '20%',
+            // width: '20%',
             cell: (row) => {
                 return (
                     <div>
@@ -92,7 +122,7 @@ const StudentManagement = () => {
                         </button>
                         <button
                             className="ml-5 h-6 w-6"
-                            onClick={() => {}}
+                            onClick={() =>{}}
                             data-tag="allowRowEvents"
                         >
                             <svg
@@ -105,21 +135,22 @@ const StudentManagement = () => {
                         </button>
                     </div>
                 );
-            },
+            },  
         },
     ];
 
     return (
-        <div className="container">
+        <div className="container relative text-center">
             <DataTable
                 title="Danh sách học sinh"
                 columns={columns}
-                data={fakeStudent}
+                data={dataStudent}
                 pagination
                 customStyles={{
                     headRow: {
                         style: {
                             backgroundColor: '#f0f0f0',
+                            justifyContent: 'end',
                         },
                     },
                     headCells: {
@@ -130,13 +161,13 @@ const StudentManagement = () => {
                     },
                 }}
                 paginationComponentOptions={{
-                    rowsPerPageText: 'Filas por página',
+                    rowsPerPageText: 'Số lượng hiển thị',
                     rangeSeparatorText: 'de',
                     selectAllRowsItem: true,
                     selectAllRowsItemText: 'Todos',
                 }}
                 fixedHeader
-                fixedHeaderScrollHeight="570px"
+                fixedHeaderScrollHeight="620px"
             />
         </div>
     );
