@@ -52,17 +52,25 @@ export class Player {
                 this.widthJump, this.heightJump);
         }
         else if (this.isJumping == -1) {
-            ctx.translate(this.currentLevel.position.x - this.width / 3.5, this.currentLevel.position.y - this.height / 1.6)
+            ctx.save(); // Save the current state of the context
+
+            // Translate to the position where you want to draw the image
+            ctx.translate(this.currentLevel.position.x, this.currentLevel.position.y);
+
+            // Invert the object by scaling horizontally by -1
             ctx.scale(-1, 1);
-            ctx.drawImage(
-                this.imageJump,
+
+            // Translate back to draw the image correctly in the inverted context
+            ctx.translate(-this.width / 3.5, -this.height / 1.6);
+
+            // Draw the image
+            ctx.drawImage(this.imageJump,
                 this.frameJumpX * this.spriteWidthJump, this.frameJumpY * this.spriteHeightJump,
                 this.spriteWidthJump, this.spriteHeightJump,
-                -this.widthJump / 2,
-                -this.heightJump / 2,
-                this.widthJump,
-                this.heightJump
-            );
+                -this.widthJump, 0, // Adjust the position after flipping
+                this.widthJump, this.heightJump);
+
+            ctx.restore(); // Restore the context to its original state
         }
         else {
             ctx.drawImage(this.image,
@@ -94,46 +102,56 @@ export class Player {
         let animationHandle;
         let jumpTo;
 
-        if (nextLevel.level > self.currentLevel.level) {
-            self.isJumping = 1;
-            jumpTo = self.levels[self.currentLevel.level];
-        } else {
-            self.isJumping = -1;
-            jumpTo = self.levels[self.currentLevel.level - 2];
-        }
-
-        let vx0 = 80 * self.isJumping;
-        let t = (jumpTo.position.x - this.currentLevel.position.x) / vx0;
-        let vy0 = (jumpTo.position.y - this.currentLevel.position.y - 0.5 * g * t ** 2) / t;
-
         function animate(timeStamp) {
-            let deltaTime = (timeStamp - lastTime) / 500 || 0;  // Convert to seconds
-            deltaTime = deltaTime > 1 ? 0 : deltaTime;
-            lastTime = timeStamp;
+            if (!self.lastTime) self.lastTime = timeStamp;
+            let deltaTime = (timeStamp - self.lastTime) / 500;  // Convert to seconds
+            self.lastTime = timeStamp;
+
+            if (deltaTime > 1) deltaTime = 0;
 
             if (self.currentLevel.position.x * self.isJumping < jumpTo.position.x * self.isJumping) {
-                self.currentLevel.position.x += vx0 * deltaTime;
-                self.currentLevel.position.y += vy0 * deltaTime + 0.5 * g * deltaTime ** 2;
-                vy0 += g * deltaTime;
+                self.currentLevel.position.x += self.vx0 * deltaTime;
+                self.currentLevel.position.y += self.vy0 * deltaTime + 0.5 * g * deltaTime ** 2;
+                self.vy0 += g * deltaTime;
                 animationHandle = requestAnimationFrame(animate);
             } else {
                 self.currentLevel = JSON.parse(JSON.stringify(jumpTo));
-                if (nextLevel.level > self.currentLevel.level) {
-                    jumpTo = self.levels[self.currentLevel.level];
-                    animationHandle = requestAnimationFrame(animate);
-                } else if (nextLevel.level < self.currentLevel.level) {
-                    jumpTo = self.levels[self.currentLevel.level - 2];
-                    animationHandle = requestAnimationFrame(animate);
-                } else {
-                    self.isJumping = null;
-                    cancelAnimationFrame(animationHandle);
-                }
+                self.isJumping = null;
+                cancelAnimationFrame(animationHandle);
+
+                // Pause for 1 second before the next jump
+                setTimeout(() => {
+                    self.processNextJump();
+                }, 500);
             }
         }
 
-        let lastTime = 0;
-        animate(0);
+        this.processNextJump = function () {
+            if (self.currentLevel.level === nextLevel.level) {
+                self.isJumping = null;
+                cancelAnimationFrame(animationHandle);
+                return;
+            }
+
+            if (nextLevel.level > self.currentLevel.level) {
+                self.isJumping = 1;
+                jumpTo = self.levels[self.currentLevel.level];
+            } else {
+                self.isJumping = -1;
+                jumpTo = self.levels[self.currentLevel.level - 2];
+            }
+            let disX = Math.abs(jumpTo.position.x - self.currentLevel.position.x);
+            let disY = Math.abs(jumpTo.position.y - self.currentLevel.position.y);
+            self.vx0 = (disX > disY) ? 80 * self.isJumping : 20 * self.isJumping;
+            let t = (jumpTo.position.x - self.currentLevel.position.x) / self.vx0;
+            self.vy0 = (jumpTo.position.y - self.currentLevel.position.y - 0.5 * g * t ** 2) / t;
+            self.lastTime = 0;
+            animationHandle = requestAnimationFrame(animate);
+        };
+
+        self.processNextJump();
     }
+
 
 
     animateStand() {
