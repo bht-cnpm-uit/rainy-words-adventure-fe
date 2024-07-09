@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo, useRef } from 'react';
 import DataTable from 'react-data-table-component';
 import ModalImportData from './ModalImportData';
 import { deleteWord, getAllWords } from '../../../services/wordServices';
+import { getTopics } from '../../../services/topicServices';
 import { Fragment } from 'react';
 const DataManagement = () => {
     let FilterType = {
@@ -16,16 +17,34 @@ const DataManagement = () => {
     const [data, setData] = useState([]);
     const [dataFilter, setDataFilter] = useState([]);
 
-    async function getWords() {
+    // async function getWords() {
+    //     try {
+    //         let allWords = await getAllWords();
+    //         setData(allWords.listWord);
+    //         setDataFilter(allWords.listWord);
+    //     } catch (error) {
+    //         console.error('Error:', error);
+    //     }
+    //     return 0;
+    // }
+
+    const getCombinedData = async () => {
         try {
-            let allWpords = await getAllWords();
-            setData(allWpords.listWord);
-            setDataFilter(allWpords.listWord);
+            const [wordsResponse, topicsResponse] = await Promise.all([getAllWords(), getTopics()]);
+            const words = wordsResponse.listWord;
+            const topics = topicsResponse.listTopic;
+           
+            const combinedData = words.map(word => ({
+                ...word,
+                nameEn: topics.find(topic => topic.id === word.topicId)?.nameEn || 'Unknown',
+            }));
+
+            setData(combinedData);
+            setDataFilter(combinedData);
         } catch (error) {
             console.error('Error:', error);
         }
-        return 0;
-    }
+    };
 
     const handleDeleteWord = async (id) => {
         const isConfirmed = window.confirm(`Bạn có chắc chắn muốn xóa từ vựng có STT là: ${id}?`);
@@ -46,7 +65,7 @@ const DataManagement = () => {
     };
 
     useEffect(() => {
-        getWords();
+        getCombinedData();
     });
 
     const handleFilter = (text) => {
@@ -57,7 +76,7 @@ const DataManagement = () => {
                     (row) =>
                         row['vocab'].toLowerCase().includes(text.toLowerCase()) ||
                         row['vietnamese'].toLowerCase().includes(text.toLowerCase()) ||
-                        row['topicId'].toLowerCase().includes(text.toLowerCase()),
+                        row['nameEn'].toLowerCase().includes(text.toLowerCase()),
                 );
             } else if (filterType === 1) {
                 listWordsFilter = data.filter((row) =>
@@ -71,7 +90,7 @@ const DataManagement = () => {
             } else if (filterType === 3) {
                 // Implement filtering logic for filterType 3
                 listWordsFilter = data.filter((row) =>
-                    row['topicId'].toLowerCase().includes(text.toLowerCase()),
+                    row['nameEn'].toLowerCase().includes(text.toLowerCase()),
                 );
             } else {
                 listWordsFilter = data;
@@ -132,7 +151,7 @@ const DataManagement = () => {
                                                         setIsOpenDropdown(false);
                                                     }}
                                                 >
-                                                    Tiếng anh
+                                                    Tiếng Anh
                                                 </button>
                                             </li>
                                             <li>
@@ -192,7 +211,7 @@ const DataManagement = () => {
                                     width: '15%',
                                 },
                                 {
-                                    name: 'Tiếng anh',
+                                    name: 'Tiếng Anh',
                                     selector: 'vocab',
                                     sortable: true,
                                 },
@@ -203,7 +222,7 @@ const DataManagement = () => {
                                 },
                                 {
                                     name: 'Chủ đề',
-                                    selector: 'topicId',
+                                    selector: 'nameEn',
                                     sortable: true,
                                 },
                                 {

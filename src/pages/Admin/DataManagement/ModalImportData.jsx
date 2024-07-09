@@ -1,25 +1,42 @@
 import React, { useState } from 'react';
 import readXlsxFile from 'read-excel-file';
+import { createTopics } from '../../../services/topicServices';
 import { createNewWords } from '../../../services/wordServices';
 import DataTable from 'react-data-table-component';
 const ModalImportData = ({ modalTitle, isOpenModelImportData, setIsOpenModelImportData }) => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [dataUpload, setDataUpload] = useState([]);
     const schema = {
-        id: {
+        STT: {
             prop: 'id',
-            type: String,
+            type: Number,
         },
-        vocab: {
+        'Tiếng Anh': {
             prop: 'vocab',
             type: String,
         },
-        vietnamese: {
+        'Tiếng Việt': {
             prop: 'vietnamese',
             type: String,
         },
-        topicId: {
+        'Mức độ': {
+            prop: 'levelVocab',
+            type: String,
+        },
+        'Số thứ tự chủ đề': {
             prop: 'topicId',
+            type: Number,
+        },
+        'Tên chủ đề (E)': {
+            prop: 'nameEn',
+            type: String,
+        },
+        'Tên chủ đề (V)': {
+            prop: 'nameVi',
+            type: String,
+        },
+        'Ví dụ': {
+            prop: 'example',
             type: String,
         },
     };
@@ -43,9 +60,10 @@ const ModalImportData = ({ modalTitle, isOpenModelImportData, setIsOpenModelImpo
 
     const saveChanges = async () => {
         try {
-            const result = await createNewWords(dataUpload);
-
-            console.log('Data successfully uploaded:', result);
+            const uploadedWord = await createNewWords(dataUpload);
+            const uploadedTopic = await createTopics(dataUpload);
+            
+            console.log('Data successfully uploaded:', uploadedWord, uploadedTopic);
 
             alert('Tải dữ liệu từ vựng thành công!');
 
@@ -105,18 +123,18 @@ const ModalImportData = ({ modalTitle, isOpenModelImportData, setIsOpenModelImpo
                                     width: '15%',
                                 },
                                 {
-                                    name: 'Tiếng anh',
+                                    name: 'Tiếng Anh',
                                     selector: 'vocab',
                                     sortable: true,
                                 },
                                 {
-                                    name: 'Tiếng việt',
+                                    name: 'Tiếng Việt',
                                     selector: 'vietnamese',
                                     sortable: true,
                                 },
                                 {
                                     name: 'Chủ đề',
-                                    selector: 'topicId',
+                                    selector: 'nameEn',
                                     sortable: true,
                                 },
                                 {
