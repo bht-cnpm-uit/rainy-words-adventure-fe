@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
 import { fakeData } from '../fakeDataWords';
-import { scoreboard } from './fakedata';
+
 import { Fragment } from 'react';
+import { getLeaderboard } from '../../../services/gameServices'
 
 const ScoreboardManagement = () => {
     const FilterType = {
@@ -12,6 +13,25 @@ const ScoreboardManagement = () => {
         3: 'Khối'
     };
 
+    const [scoreboard, setScoreboard] = useState([]);
+    
+    const getLearderBoardData = async () => {
+        try {
+            let getData = await getLeaderboard();
+            setScoreboard(getData.leaderboard);
+            setScoreBoardData(getData.leaderboard);
+            setFilterScoreBoardData(getData.leaderboard);
+            setSchoolFilter([...new Set(getData.leaderboard.map(entry => entry.School))]);
+            setGrade([...new Set(getData.leaderboard.map(entry => entry.Grade))]);
+            // console.log(schoolFilter);
+            
+        } catch (error) {
+            console.error('Error:', error);
+        }
+        return 0;
+    }
+
+
     const [isOpenModelImportData, setIsOpenModelImportData] = useState(false);
     const [isOpenDropdownSchool, setIsOpenDropdownSchool] = useState(false);
     const [isOpenDropdownGrade, setIsOpenDropdownGrade] = useState(false);
@@ -19,27 +39,30 @@ const ScoreboardManagement = () => {
     const [filterGrade, setFilterGrade] = useState('Tất cả');
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
-    const schools = [...new Set(scoreboard.map(entry => entry.school))];
-    const [school, setSchool] = useState(schools);
-    const [schoolFilter, setSchoolFilter] = useState(schools)
-    const grades = [...new Set(scoreboard.map(entry => entry.grade))];
-    const [grade, setGrade] = useState(grades);
-    const [scoreBoardData, setScoreBoardData] = useState(scoreboard);
-    const [filterScoreBoardData, setFilterScoreBoardData] = useState(scoreboard);
+    
+    // const [school, setSchool] = useState(schools);
+    const [schoolFilter, setSchoolFilter] = useState([])
+    // const grades = [...new Set(scoreboard.map(entry => entry.Grade))];
+    const [grade, setGrade] = useState([]);
+    const [scoreBoardData, setScoreBoardData] = useState([]);
+    const [filterScoreBoardData, setFilterScoreBoardData] = useState([]);
+
+
 
     useEffect(() => {
         handleFilterData();
-    }, [filterSchool, filterGrade, startDate, endDate]);
+        getLearderBoardData();
+    },[filterSchool, grade, startDate, endDate]);
     const handleFilterData = () => {
         let filter = scoreBoardData;
 
         if (filterSchool !== "Tất cả") {
-            filter = filter.filter(row => row.school.includes(filterSchool));
+            filter = filter.filter(row => row.School.includes(filterSchool));
         }
 
         if (filterGrade !== "Tất cả") {
             console.log(filterGrade)
-            filter = filter.filter(row => row.grade === filterGrade);
+            filter = filter.filter(row => row.Grade === filterGrade);
         }
 
         // Parse start date if it exists
@@ -72,37 +95,37 @@ const ScoreboardManagement = () => {
                 columns={[
                     {
                         name: "STT",
-                        selector: "STT",
+                        selector: "id",
                         sortable: true,
                         width: '10%'
                     },
                     {
                         name: "Họ và tên",
-                        selector: "fullname",
+                        selector: "Name",
                         sortable: true,
-                        width: "15%"
+                       
                     },
                     {
                         name: "Trường",
-                        selector: "school",
+                        selector: "School",
                         sortable: true,
                     },
                     {
                         name: "Khối lớp",
-                        selector: "grade",
+                        selector: "Grade",
                         sortable: true,
-                        width: "10%"
+                        
                     },
                     {
                         name: "Điểm số",
-                        selector: "score",
+                        selector: "Score",
                         sortable: true,
-                        width: "15%"
+                        
                     },
                     {
                         name: "Thời gian",
                         selector: row => {
-                            return new Date(row.time).toLocaleDateString("en-GB");
+                            return new Date(row.LastTime).toLocaleDateString("en-GB");
                         },
                         sortable: true,
                     }
@@ -110,10 +133,10 @@ const ScoreboardManagement = () => {
                 title="Bảng xếp hạng"
                 data={filterScoreBoardData}
                 paginationComponentOptions={{
-                    rowsPerPageText: 'Filas por página',
-                    rangeSeparatorText: 'de',
+                    rowsPerPageText: 'Số lượng dòng đang hiển thị',
+                    rangeSeparatorText: 'trong',
                     selectAllRowsItem: true,
-                    selectAllRowsItemText: 'Todos',
+                    selectAllRowsItemText: 'Tất cả',
                 }}
                 fixedHeader
                 pagination
