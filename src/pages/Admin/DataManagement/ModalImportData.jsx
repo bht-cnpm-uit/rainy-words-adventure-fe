@@ -6,6 +6,7 @@ import DataTable from 'react-data-table-component';
 const ModalImportData = ({ modalTitle, isOpenModelImportData, setIsOpenModelImportData }) => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [dataUpload, setDataUpload] = useState([]);
+    const [uploadTopic, setUploadTopic] = useState([]);
     const schema = {
         STT: {
             prop: 'id',
@@ -46,6 +47,17 @@ const ModalImportData = ({ modalTitle, isOpenModelImportData, setIsOpenModelImpo
             setSelectedFile(file.name);
             readXlsxFile(file, { schema }).then(({ rows, errors }) => {
                 setDataUpload(rows);
+                console.log("Row:", rows);
+                const topics = [
+                    ...new Set(rows.map((row) => JSON.stringify({
+                        topicId: row.topicId,
+                        nameEn: row.nameEn,
+                        nameVi: row.nameVi
+                    })))
+                ].map((topic) => JSON.parse(topic));
+                
+                setUploadTopic(topics);
+                console.log("Upload topic", topics);
             });
         }
     };
@@ -61,7 +73,7 @@ const ModalImportData = ({ modalTitle, isOpenModelImportData, setIsOpenModelImpo
     const saveChanges = async () => {
         try {
             const uploadedWord = await createNewWords(dataUpload);
-            const uploadedTopic = await createTopics(dataUpload);
+            const uploadedTopic = await createTopics(uploadTopic);
             
             console.log('Data successfully uploaded:', uploadedWord, uploadedTopic);
 

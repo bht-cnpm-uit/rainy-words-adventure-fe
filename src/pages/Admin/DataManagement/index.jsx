@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useMemo, useRef } from 'react';
 import DataTable from 'react-data-table-component';
 import ModalImportData from './ModalImportData';
-import { deleteWord, getAllWords } from '../../../services/wordServices';
+import EditWordModal from './EditWordModal';
+
+import { deleteWord, getAllWords, updateWord } from '../../../services/wordServices';
 import { getTopics } from '../../../services/topicServices';
 import { Fragment } from 'react';
 const DataManagement = () => {
@@ -13,30 +15,23 @@ const DataManagement = () => {
     };
     const [isOpenModelImportData, setIsOpenModelImportData] = useState(false);
     const [isOpenDropdown, setIsOpenDropdown] = useState(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [selectedWord, setSelectedWord] = useState(null);
     const [filterType, setFilterType] = useState(0);
     const [data, setData] = useState([]);
     const [dataFilter, setDataFilter] = useState([]);
-
-    // async function getWords() {
-    //     try {
-    //         let allWords = await getAllWords();
-    //         setData(allWords.listWord);
-    //         setDataFilter(allWords.listWord);
-    //     } catch (error) {
-    //         console.error('Error:', error);
-    //     }
-    //     return 0;
-    // }
+    const [updatedWordData, setUpdatedWordData] = useState(null); 
+ 
 
     const getCombinedData = async () => {
         try {
             const [wordsResponse, topicsResponse] = await Promise.all([getAllWords(), getTopics()]);
             const words = wordsResponse.listWord;
             const topics = topicsResponse.listTopic;
-           
-            const combinedData = words.map(word => ({
+
+            const combinedData = words.map((word) => ({
                 ...word,
-                nameEn: topics.find(topic => topic.id === word.topicId)?.nameEn || 'Unknown',
+                nameEn: topics.find((topic) => topic.id === word.topicId)?.nameEn || 'Unknown',
             }));
 
             setData(combinedData);
@@ -44,6 +39,34 @@ const DataManagement = () => {
         } catch (error) {
             console.error('Error:', error);
         }
+    };
+
+    const handleEditWordSubmit = async (wordData) => {
+        try {
+            console.log('Word data:', wordData);
+            let response = await updateWord(wordData);
+            console.log('Response: ', response);
+            alert('Cập nhật thành công!');
+            setIsEditModalOpen(false);
+            setUpdatedWordData(wordData);
+            // getCombinedData();
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+    const handleUpdateWord = (word) => {
+        const selectedWord = {
+            wordId: word.id,
+            levelVocab: word.levelVocab,
+            vocab: word.vocab,
+            topicId: word.topicId,
+            vietnamese: word.vietnamese,
+            example: word.example
+        };
+        setSelectedWord(selectedWord);
+        setIsEditModalOpen(true);
+        console.log('Selected word:', selectedWord);
     };
 
     const handleDeleteWord = async (id) => {
@@ -244,7 +267,7 @@ const DataManagement = () => {
                                             </button>
                                             <button
                                                 className="ml-5 h-6 w-6"
-                                                onClick={() => {}}
+                                                onClick={() => handleUpdateWord(row)}
                                                 data-tag="allowRowEvents"
                                             >
                                                 <svg
@@ -292,6 +315,12 @@ const DataManagement = () => {
                     setIsOpenModelImportData={setIsOpenModelImportData}
                 />
             )}
+            <EditWordModal
+                isOpen={isEditModalOpen}
+                word={selectedWord}
+                onClose={() => setIsEditModalOpen(false)}
+                onSubmit={handleEditWordSubmit}
+            />
         </div>
     );
 };

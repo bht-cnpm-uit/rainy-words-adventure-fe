@@ -11,4 +11,8 @@ const deleteWord = (listId) => {
     return instance.post('api/word/delete', { listId });
 };
 
-export { getAllWords, createNewWords, deleteWord };
+const updateWord = (word) => {
+    return instance.post('api/word/update', word);
+}
+
+export { getAllWords, createNewWords, deleteWord, updateWord };
