@@ -11,4 +11,8 @@ const deleteSchool = (listId) => {
     return instance.post('api/school/delete', { listId });
 };
 
-export { getAllSchools, createNewSchool, deleteSchool };
+const updateSchool = (school) => {
+    return instance.post('api/school/update', school );
+}
+
+export { getAllSchools, createNewSchool, deleteSchool, updateSchool };

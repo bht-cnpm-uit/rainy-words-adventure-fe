@@ -1,10 +1,14 @@
 import React, { useState, Fragment, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
-import { getAllSchools, deleteSchool } from '../../../services/schoolServices';
+import { getAllSchools, deleteSchool, updateSchool } from '../../../services/schoolServices';
 import PopUp from './PopUp';
+import EditSchoolModal from './EditSchoolModal';
 
 const SchoolManagement = () => {
     const [isOpenPopUp, setIsOpenPopUp] = useState(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [selectedSchool, setSelectedSchool] = useState(null);
+    const [updatedSchoolData, setUpdatedSchoolData] = useState(null); 
     const HandleRemovePopUp = () => setIsOpenPopUp(false);
 
     const [data, setData] = useState([]);
@@ -18,6 +22,30 @@ const SchoolManagement = () => {
         }
         return 0;
     }
+    const handleEditSchoolSubmit = async (schoolData) => {
+        try {
+            console.log('School data:', schoolData);
+            let response = await updateSchool(schoolData);
+            console.log('Response: ', response);
+            alert('Cập nhật thành công!');
+            setIsEditModalOpen(false);
+            setUpdatedSchoolData(schoolData);
+            // getCombinedData();
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+    const handleUpdateSchool = (school) => {
+        const selectedSchool = {
+            schoolId: school.id,
+            schoolName: school.name
+        };
+        setSelectedSchool(selectedSchool);
+        setIsEditModalOpen(true);
+        console.log('Selected school:', selectedSchool);
+    };
+
 
     const handleDeleteSchool = async (id) => {
         const isConfirmed = window.confirm(`Bạn có chắc chắn muốn xóa trường có id là: ${id}?`);
@@ -75,7 +103,7 @@ const SchoolManagement = () => {
                         </button>
                         <button
                             className="ml-5 h-6 w-6"
-                            onClick={() => {}}
+                            onClick={() => handleUpdateSchool(row)}
                             data-tag="allowRowEvents"
                         >
                             <svg
@@ -135,6 +163,12 @@ const SchoolManagement = () => {
                 }
             />
             {isOpenPopUp && <PopUp openPopUp={isOpenPopUp} closePopUp={HandleRemovePopUp} />}
+            <EditSchoolModal
+                isOpen={isEditModalOpen}
+                school={selectedSchool}
+                onClose={() => setIsEditModalOpen(false)}
+                onSubmit={handleEditSchoolSubmit}
+            />
         </div>
     );
 };

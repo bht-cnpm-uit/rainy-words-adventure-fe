@@ -15,4 +15,6 @@ const updateWord = (word) => {
     return instance.post('api/word/update', word);
 }
 
+
+
 export { getAllWords, createNewWords, deleteWord, updateWord };

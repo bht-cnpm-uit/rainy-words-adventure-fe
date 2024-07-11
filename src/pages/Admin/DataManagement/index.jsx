@@ -45,7 +45,7 @@ const DataManagement = () => {
         try {
             console.log('Word data:', wordData);
             let response = await updateWord(wordData);
-            console.log('Response: ', response);
+            // console.log('Response: ', response);
             alert('Cập nhật thành công!');
             setIsEditModalOpen(false);
             setUpdatedWordData(wordData);

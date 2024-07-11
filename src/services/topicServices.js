@@ -8,4 +8,5 @@ const createTopics = (listTopic) => {
     return instance.post('api/topic/create', {listTopic});
 };
 
+
 export { createTopics, getTopics };
