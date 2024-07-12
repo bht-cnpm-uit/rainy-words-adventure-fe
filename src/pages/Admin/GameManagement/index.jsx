@@ -1,27 +1,53 @@
-import React, { useEffect } from 'react';
-import { topic_level, topics } from './fakeTopics';
-import { useState } from 'react';
-const ModelAddTopic = ({ level, isOpenModelAddTopic, setIsOpenModelAddTopic, currentTopics, setCurrentTopics }) => {
+import React, { useEffect, useState } from 'react';
+import { getTopics } from '../../../services/topicServices';
+import { getTopicLevels, addTopicToLevel, deleteTopicsFromLevel } from '../../../services/levelServices';
+
+
+const getData = async () => {
+    try {
+        const topicsData = await getTopics();
+        const topics = topicsData.listTopic.map((topic) => ({
+            id: topic.id,
+            topic: topic.nameEn
+        }));
+        console.log("Topic:", topics);
+
+        const topicLevelsData = await getTopicLevels();
+        const topic_level = topicLevelsData.listLevel.map((level) => ({
+            level: level.name,
+            topicId: level.listTopicId.map(topic => topic.id)
+        }));
+
+        console.log("Topic Level:", topic_level);
+
+        return { topics, topic_level };
+    } catch (error) {
+        console.error('Error initializing topics:', error);
+        return { topics: [], topic_level: [] };
+    }
+};
+
+const ModelAddTopic = ({ level, isOpenModelAddTopic, setIsOpenModelAddTopic, currentTopics, setCurrentTopics, topics }) => {
     const [topicAdd, setTopicAdd] = useState([]);
     const [listTopicsAdd, setListTopicsAdd] = useState([]);
     const topicNames = topics.map(topic => topic.topic);
     const [topicsState, setTopics] = useState(topicNames);
 
     useEffect(() => {
-        let tp = topicsState.map(topic => !currentTopics.includes(topic));
+        let tp = topicsState.filter(topic => !currentTopics.includes(topic));
         setListTopicsAdd(tp);
-    }, [currentTopics]);
+    }, [currentTopics, topicsState]);
 
     const handleDeleteTopic = (name) => {
         setTopicAdd(prevTopics => prevTopics.filter(topic => topic !== name));
-        let tp = topicNames.map(topic => !currentTopics.includes(topic));
+        let tp = topicNames.filter(topic => !currentTopics.includes(topic));
         setListTopicsAdd(tp);
     };
+
     const handleCheckbox = (topic) => {
         const updatedTopics = [...topicAdd];
-
         const topicIndex = updatedTopics.indexOf(topic);
-        console.log(topicIndex)
+
         if (topicIndex !== -1) {
             updatedTopics.splice(topicIndex, 1);
         } else {
@@ -30,10 +56,28 @@ const ModelAddTopic = ({ level, isOpenModelAddTopic, setIsOpenModelAddTopic, cur
 
         setTopicAdd(updatedTopics);
     };
-    const handleAddTopics = () => {
-        setCurrentTopics(currentTopics.concat(topicAdd));
+
+    const handleAddTopics = async () => {
+        const updatedTopics = currentTopics.concat(topicAdd);
+        setCurrentTopics(updatedTopics);
         setIsOpenModelAddTopic(false);
-    }
+
+        const listTopicId = updatedTopics.map(topicName => {
+            const topic = topics.find(t => t.topic === topicName);
+            return topic ? topic.id : null;
+        }).filter(id => id !== null);
+
+        const payload = {
+            levelId: level,
+            listTopicId
+        };
+
+        try {
+            await addTopicToLevel(payload);
+        } catch (error) {
+            console.error('Error updating topics in level:', error);
+        }
+    };
 
     return (
         <div className="absolute inset-0 h-screen overflow-y-auto">
@@ -68,7 +112,7 @@ const ModelAddTopic = ({ level, isOpenModelAddTopic, setIsOpenModelAddTopic, cur
                         <button
                             type="button"
                             className="px-4 py-2 bg-blue-400 text-white border border-transparent rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue transition duration-150 ease-in-out"
-                            onClick={() => handleAddTopics()}
+                            onClick={handleAddTopics}
                         >
                             Cập nhật
                         </button>
@@ -78,6 +122,7 @@ const ModelAddTopic = ({ level, isOpenModelAddTopic, setIsOpenModelAddTopic, cur
         </div>
     )
 }
+
 const ModelDelete = ({ level, nameTopicDelete, isOpenModalDelete, setIsOpenModalDelete, handleDeleteTopic }) => {
     return (
         <div className={`fixed inset-0 flex items-center justify-center z-50 ${isOpenModalDelete ? '' : 'hidden'}`} onClick={() => setIsOpenModalDelete(false)}>
@@ -110,19 +155,38 @@ const ModelDelete = ({ level, nameTopicDelete, isOpenModalDelete, setIsOpenModal
     )
 }
 
-const Level = ({ level, list_topics, setLevelTopics }) => {
-    const [currentTopics, setCurrentTopics] = useState([])
+const Level = ({ level, list_topics, setLevelTopics, topics }) => {
+    const [currentTopics, setCurrentTopics] = useState([]);
     const [isOpenModelAddTopic, setIsOpenModelAddTopic] = useState(false);
     const [isOpenModalDelete, setIsOpenModalDelete] = useState(false);
     const [nameTopicDelete, setNameTopicDelete] = useState();
+
     useEffect(() => {
-        let tp = list_topics.topicID.map(idx => topics[idx].topic);
+        let tp = list_topics.topicId.map(idx => topics.find(topic => topic.id === idx)?.topic);
         setCurrentTopics(tp);
-    }, [list_topics]);
-    const handleDeleteTopic = () => {
-        setCurrentTopics(prevTopics => prevTopics.filter(topic => topic !== nameTopicDelete));
+    }, [list_topics, topics]);
+
+    const handleDeleteTopic = async () => {
+        const updatedTopics = currentTopics.filter(topic => topic !== nameTopicDelete);
+        setCurrentTopics(updatedTopics);
+        setIsOpenModalDelete(false);
+
+        const topicToDelete = topics.find(topic => topic.topic === nameTopicDelete);
+        if (topicToDelete) {
+            const payload = {
+                levelId: level,
+                listTopicId: [topicToDelete.id]
+            };
+
+            try {
+                await deleteTopicsFromLevel(payload);
+            } catch (error) {
+                console.error('Error deleting topic from level:', error);
+            }
+        }
         setNameTopicDelete(null);
     };
+
     return (
         <div className="level mb-5">
             <div className="lv flex flex-row mb-1">
@@ -135,20 +199,18 @@ const Level = ({ level, list_topics, setLevelTopics }) => {
             </div>
             <div className=" flex flex-row">
                 <div className="topics">
-                    {
-                        currentTopics.map((name, index) => (
-                            <span key={index} className="inline-flex items-center px-2 py-1 me-2 text-sm font-medium text-blue-800 bg-blue-100 rounded dark:bg-blue-900 dark:text-blue-300">
-                                {name}
-                                <button type="button" className="inline-flex items-center p-1 ms-2 text-sm text-blue-400 bg-transparent rounded-sm hover:bg-blue-200 hover:text-blue-900 dark:hover:bg-blue-800 dark:hover:text-blue-300"
-                                    onClick={() => { setIsOpenModalDelete(!isOpenModalDelete); setNameTopicDelete(name) }}
-                                >
-                                    <svg className="w-2 h-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                                    </svg>
-                                </button>
-                            </span>
-                        ))
-                    }
+                    {currentTopics.map((name, index) => (
+                        <span key={index} className="inline-flex items-center px-2 py-1 me-2 text-sm font-medium text-blue-800 bg-blue-100 rounded dark:bg-blue-900 dark:text-blue-300">
+                            {name}
+                            <button type="button" className="inline-flex items-center p-1 ms-2 text-sm text-blue-400 bg-transparent rounded-sm hover:bg-blue-200 hover:text-blue-900 dark:hover:bg-blue-800 dark:hover:text-blue-300"
+                                onClick={() => { setIsOpenModalDelete(!isOpenModalDelete); setNameTopicDelete(name) }}
+                            >
+                                <svg className="w-2 h-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                </svg>
+                            </button>
+                        </span>
+                    ))}
                 </div>
                 <div className="add-topics">
                     <button
@@ -163,8 +225,7 @@ const Level = ({ level, list_topics, setLevelTopics }) => {
                         </svg>
                     </button>
                 </div>
-                {
-                    isOpenModalDelete && nameTopicDelete &&
+                {isOpenModalDelete && nameTopicDelete && (
                     <ModelDelete
                         level={level}
                         nameTopicDelete={nameTopicDelete}
@@ -172,26 +233,37 @@ const Level = ({ level, list_topics, setLevelTopics }) => {
                         setIsOpenModalDelete={setIsOpenModalDelete}
                         handleDeleteTopic={handleDeleteTopic}
                     />
-                }
-                {
-                    isOpenModelAddTopic &&
+                )}
+                {isOpenModelAddTopic && (
                     <ModelAddTopic
                         level={level}
                         isOpenModelAddTopic={isOpenModelAddTopic}
                         setIsOpenModelAddTopic={setIsOpenModelAddTopic}
                         currentTopics={currentTopics}
                         setCurrentTopics={setCurrentTopics}
+                        topics={topics}
                     />
-                }
+                )}
             </div>
-
         </div>
     );
 };
 
 const GameManagement = () => {
     const levels = Array.from({ length: 20 }, (_, index) => index + 1);
-    const [levelTopics, setLevelTopics] = useState(topic_level)
+    const [levelTopics, setLevelTopics] = useState([]);
+    const [topics, setTopics] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const data = await getData();
+            setTopics(data.topics);
+            setLevelTopics(data.topic_level);
+        };
+
+        fetchData();
+    }, []);
+
     const levelsInColumns = [
         levels.slice(0, Math.ceil(levels.length / 2)),
         levels.slice(Math.ceil(levels.length / 2))
@@ -205,11 +277,15 @@ const GameManagement = () => {
             <div className="h-4/5 level-manage ml-5 flex overflow-auto mt-2 mb-10">
                 {/* Render levels in two columns */}
                 {levelsInColumns.map((column, columnIndex) => (
-                    <div key={columnIndex}
-                        className="flex flex-col w-1/2"
-                    >
+                    <div key={columnIndex} className="flex flex-col w-1/2">
                         {column.map((level) => (
-                            <Level key={level} level={level} list_topics={levelTopics[level - 1]} setLevelTopics={setLevelTopics} />
+                            <Level
+                                key={level}
+                                level={level}
+                                list_topics={levelTopics[level - 1] || { topicId: [] }}
+                                setLevelTopics={setLevelTopics}
+                                topics={topics}
+                            />
                         ))}
                     </div>
                 ))}
@@ -217,6 +293,5 @@ const GameManagement = () => {
         </div>
     );
 };
-
 
 export default GameManagement;
