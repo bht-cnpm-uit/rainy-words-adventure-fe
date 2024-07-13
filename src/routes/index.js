@@ -6,7 +6,7 @@ import Game from '../pages/Game/Game';
 //import LoginForm from '../pages/Login/login';
 // import LoginForm from '../pages/Login/loginReal';
 import Login from '../pages/Login/';
-import Signin from '../pages/Signin/';
+import SignUp from '../pages/Signup';
 import Result from '../pages/Game/Result';
 import Admin from '../pages/Admin'
 // Public routes
@@ -46,9 +46,9 @@ const publicRoutes = [
     },
     {
         requiresAuth: false,
-        path: '/signin',
+        path: '/signup',
         isAuth: false,
-        component: Signin,
+        component: SignUp,
     },
     {
         requiresAuth: false,

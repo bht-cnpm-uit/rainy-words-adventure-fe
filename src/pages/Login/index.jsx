@@ -69,7 +69,7 @@ const Login = (props) => {
             let cursorStyle = 'defaut';
 
             if (this.isMouseOverButton(mouseX, mouseY, this.background.btnSignIn)) {
-                window.location.href = '/signin';
+                window.location.href = '/signup';
             }
             this.canvas.style.cursor = cursorStyle;
         }

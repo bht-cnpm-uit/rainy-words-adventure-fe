@@ -1,5 +1,3 @@
-import React from 'react';
-import { handleLogin } from '../../services/userServices';
 import './login.css';
 class Layer {
     constructor(game, spriteWidth, spriteHeight, src) {
@@ -157,7 +155,7 @@ class LoginForm {
         });
     }
     deleteForm() {
-        const container = document.getElementById('container');
+        var container = document.getElementById('container');
         if (container) {
             container.remove();
         }

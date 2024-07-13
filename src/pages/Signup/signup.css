@@ -19,7 +19,7 @@
     width: 100%;
     flex-direction: column;
     padding: 7px;
-    border:#e7811bb8 solid 10px;
+    border: #e7811bb8 solid 10px;
     border-radius: 20px;
     margin-right: 4rem;
     margin-bottom: 2.5rem;
@@ -34,19 +34,20 @@
     flex-shrink: 0;
     width: 30%;
     margin: 5px;
-    
-   
+
+
 }
 
 .form-row {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;;
+    margin-bottom: 10px;
+    ;
     width: 100%;
 }
 
-.form-row.row-1{
-    padding:0.3em;
+.form-row.row-1 {
+    padding: 0.3em;
 
 }
 
@@ -54,10 +55,9 @@
 #box_form input[type="password"],
 #box_form input[type="date"],
 #box_form input[type="number"],
-#box_form select
- {
+#box_form select {
     flex-grow: 1;
-    padding:5px;
+    padding: 5px;
     border: 1px solid #ccc;
     border-radius: 25px;
     box-sizing: border-box;
@@ -76,4 +76,3 @@
     cursor: pointer;
     background: url('../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png') no-repeat center / contain;
 }
-

@@ -1,4 +1,4 @@
-import './signin.css';
+import './signup.css';
 class Layer {
     constructor(game, spriteWidth, spriteHeight, src) {
         this.game = game;
@@ -95,7 +95,7 @@ class Player {
     }
 }
 
-class btnLogIn {
+class btnSignUp {
     constructor(game) {
         this.game = game;
         this.image = new Image();
@@ -141,83 +141,62 @@ const optionGrades = [
     { value: '8', label: 'Option 8' },
     { value: '9', label: 'Option 9' },
 ];
-
-const optionSchools = [
-    { value: 'Tiểu học Linh Trung', label: 'Option 1' },
-    { value: 'Trung học cơ sở Linh Trung', label: 'Option 2' },
-    { value: 'Tiểu học Thủ Đức', label: 'Option 3' },
-];
-
-class SigninForm {
+class SignupForm {
     constructor(game) {
         this.game = game;
         this.spriteHeight = 1084;
         this.spriteWidth = 1508;
+        this.img_form = new Image();
+        this.img_form.src = '../assets/Asset/SignInForm.png';
         this.width = this.game.width;
         this.height = this.game.height;
-        this.img_form = new Image();
-        // this.img_form.src = '../assets/Asset/SignInForm.png';
-        this.createForm();
+        this.createForm(game.dataSchool);
     }
     update() { }
     draw(context) { }
 
-    createForm() {
-        const box = document.createElement('div');
-        box.id = 'box';
+    createForm(dataSchool) {
+        const container = document.createElement('div');
+        container.id = 'container';
 
-        // Create the first sub-div
         const box_logo = document.createElement('div');
         box_logo.id = 'box_logo';
 
-        // Create the second sub-div
         const box_form = document.createElement('form');
         box_form.id = 'box_form';
 
-        box.appendChild(box_logo);
-        box.appendChild(box_form);
+        container.appendChild(box_logo);
+        container.appendChild(box_form);
 
-        // box_form.style.backgroundImage = 'url("../assets/Asset/SignInForm.png")';
         box_form.innerHTML = `
             <div class="form-row row-1">
                 <label for="username">Họ và tên</label>
                 <input type="text" id="username" name="username">
             </div>
-
             <div class="form-row row-1">
                 <label for="school">Trường</label>
                 <select id="school" name="school">
-                ${optionSchools
-                .map(
-                    (option) => `
-                    <option value="${option.label}">${option.value}</option>`,
-                )
+                ${dataSchool
+                .map(option => `<option value="${option.id}">${option.name}</option>`)
                 .join('')}
                 </select>
             </div>
-
             <div class="form-row row-1">
                 <label for="class">Lớp</label>
                 <select id="class" name="class">
                 ${optionGrades
-                .map(
-                    (option) => `
-                    <option value="${option.label}">${option.value}</option>`,
-                )
+                .map(option => `<option value="${option.label}">${option.value}</option>`)
                 .join('')}
                 </select>
             </div>
-
-             <div class="form-row row-1">
+            <div class="form-row row-1">
                 <label for="dateOfBirth">Ngày sinh</label>
                 <input type="date" id="dateOfBirth" name="dateOfBirth">
             </div>
-
             <div class="form-row row-1">
                 <label for="phoneNumber">Số điện thoại</label>
                 <input type="text" id="phoneNumber" name="phoneNumber">
             </div>
-
             <div class="form-row row-1">
                 <label for="password">Mật khẩu</label>
                 <input type="password" id="password" name="password">
@@ -225,25 +204,25 @@ class SigninForm {
             <input type="submit" value="ĐĂNG KÍ">
         `;
 
-        document.body.appendChild(box);
+        document.body.appendChild(container);
 
-        box.addEventListener('submit', async (event) => {
+        container.addEventListener('submit', async (event) => {
             event.preventDefault();
 
-            const box = event.target;
-
-            const phoneNumber = box.querySelector("#phoneNumber").value;
-            const password = box.querySelector("#password").value;
-            const username = box.querySelector("#username").value;
-            const dateOfBirth = box.querySelector("#dateOfBirth").value;
+            var phoneNumber = container.querySelector("#phoneNumber").value;
+            var password = container.querySelector("#password").value;
+            var username = container.querySelector("#username").value;
+            var dateOfBirth = container.querySelector("#dateOfBirth").value;
+            var schoolId = container.querySelector("#school").value;
+            var class_ = container.querySelector("#class").value;
 
             var isSuccess = await this.game.game.handleSubmitSignUp({
-                phoneNumber: phoneNumber,
-                password: password,
+                phoneNumber,
+                password,
                 name: username,
-                schoolId: "1",
-                grade: "7",
-                birthday: dateOfBirth
+                schoolId,
+                grade: class_,
+                birthday: dateOfBirth,
             });
 
             if (isSuccess) {
@@ -252,48 +231,16 @@ class SigninForm {
         });
     }
     deleteForm() {
-        const box = document.getElementById('box');
-        if (box) {
-            document.body.removeChild(box);
+        var container = document.getElementById('container');
+        if (container) {
+            container.remove()
         }
-    }
-
-    getUsername() { }
-
-    getPassword() { }
-
-    validateInput(input) {
-        if (input.value.trim() === '') {
-            // check empty?
-            input.style.border = '2px solid red';
-            input.placeholder = 'Vui lòng nhập thông tin !!!';
-            return false;
-        } else {
-            input.style.border = ''; // remove border
-            // this.statusCheck = true;
-            return true;
-        }
-    }
-
-    checkInput() {
-        // this.inputName.addEventListener('blur', () => {
-        //     this.validateInput(this.inputName);
-        // });
-        // this.inputDayOfBirth.addEventListener('blur', () => {
-        //     this.validateInput(this.inputDayOfBirth);
-        // });
-        // this.inputNumberPhone.addEventListener('blur', () => {
-        //     this.validateInput(this.inputNumberPhone);
-        // });
-        // this.inputPassWord.addEventListener('blur', () => {
-        //     this.validateInput(this.inputPassWord);
-        // });
     }
 
 }
 
 export class Background {
-    constructor(game) {
+    constructor(game, dataSchool) {
         this.game = game;
         this.spriteHeight = 1080;
         this.spriteWidth = 2920;
@@ -301,6 +248,7 @@ export class Background {
         this.height = this.game.height;
         this.spriteWidthGame = 922;
         this.spriteHeightGame = 653;
+        this.dataSchool = dataSchool;
         this.layerImage1 = new Layer(
             this.game,
             this.spriteWidth,
@@ -317,8 +265,8 @@ export class Background {
             this.game,
             '../assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png',
         );
-        this.signinForm = new SigninForm(this);
-        this.btnLogIn = new btnLogIn(this.game);
+        this.signupForm = new SignupForm(this);
+        this.btnSignUp = new btnSignUp(this.game);
     }
     update() {
         this.layerImage1.x = -this.game.gameFrame % this.game.width;

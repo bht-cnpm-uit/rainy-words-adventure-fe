@@ -1,66 +1,69 @@
-
-import { Background } from './background';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { handleSignUp } from '../../services/userServices';
-import { useDispatch } from 'react-redux';
+import { getAllSchools } from '../../services/schoolServices';
 import { useNavigate } from 'react-router-dom';
-import { userActions } from '../../redux/slices/userSlice';
-const SignIn = (props) => {
+import { Background } from './background';
+const SignUp = (props) => {
     const canvasRef = useRef();
-    const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [dataSchool, setDataSchool] = useState([]);
+
     function resizeCanvas(canvas) {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        if (canvas) {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
     }
+
     async function handleSubmitSignUp(values) {
         try {
             let data = await handleSignUp(values);
             if (data && data.errCode == 0) {
-                dispatch(userActions.login(data.userInfo))
-                navigate('/level')
+                navigate('/login');
                 return 1;
             }
-        }
-        catch (error) {
+        } catch (error) {
             console.error("Error during sign up: ", error);
         }
         return 0;
     }
+
     class Home {
-        constructor(canvas, ctx) {
+        constructor(canvas, ctx, dataSchool) {
             this.handleSubmitSignUp = handleSubmitSignUp.bind(this);
             this.canvas = canvas;
             this.ctx = ctx;
+            this.dataSchool = dataSchool;
             this.width = window.innerWidth;
             this.height = window.innerHeight;
-            this.canvas.style.width = this.width;
-            this.canvas.style.height = this.height;
+            this.canvas.style.width = `${this.width}px`;
+            this.canvas.style.height = `${this.height}px`;
             this.spriteWidthBG = 1080;
             this.scale = this.height / this.spriteWidthBG;
             this.widthCut = Math.ceil((2920 * this.scale - this.width) / this.scale);
             this.gameFrame = 0;
-            this.background = new Background(this);
+            this.background = new Background(this, this.dataSchool);
             this.canvas.addEventListener('mousemove', this.onMouseMove.bind(this));
             this.canvas.addEventListener('click', this.onClick.bind(this));
             window.addEventListener('resize', this.onResize.bind(this));
         }
 
-        onResize(envent) {
+        onResize(event) {
             var canvas = document.getElementById('responsive-canvas');
             resizeCanvas(canvas);
             this.width = window.innerWidth;
             this.height = window.innerHeight;
-            canvas.style.width = this.width;
-            canvas.style.height = this.height;
+            this.canvas.style.width = `${this.width}px`;
+            this.canvas.style.height = `${this.height}px`;
             this.scale = this.height / this.spriteWidthBG;
             this.widthCut = Math.ceil((2920 * this.scale - this.width) / this.scale);
         }
 
         draw(context) {
             this.background.draw(context);
-            this.background.btnLogIn.draw(context);
+            this.background.btnSignUp.draw(context);
         }
+
         update() {
             this.gameFrame++;
             this.background.update();
@@ -68,10 +71,10 @@ const SignIn = (props) => {
 
         onClick(event) {
             const rect = this.canvas.getBoundingClientRect();
-            const mouseX = event.clientX - rect.left; // x of item
-            const mouseY = event.clientY - rect.top; // y of item
-            let cursorStyle = 'defaut';
-            if (this.isMouseOverButton(mouseX, mouseY, this.background.btnLogIn)) {
+            const mouseX = event.clientX - rect.left;
+            const mouseY = event.clientY - rect.top;
+            let cursorStyle = 'default';
+            if (this.isMouseOverButton(mouseX, mouseY, this.background.btnSignUp)) {
                 window.location.href = '/login';
             }
             this.canvas.style.cursor = cursorStyle;
@@ -82,7 +85,7 @@ const SignIn = (props) => {
                 mouseX >= button.x &&
                 mouseX <= button.x + button.spriteWidth * this.scale / 1.4 &&
                 mouseY >= button.y * this.scale / 1.4 &&
-                mouseY <= button.y + + button.spriteHeight * this.scale / 1.4
+                mouseY <= button.y + button.spriteHeight * this.scale / 1.4
             );
         }
 
@@ -92,7 +95,7 @@ const SignIn = (props) => {
             const mouseY = event.clientY - rect.top;
             let cursorStyle = 'default';
 
-            if (this.isMouseOverButton(mouseX, mouseY, this.background.btnLogIn)) {
+            if (this.isMouseOverButton(mouseX, mouseY, this.background.btnSignUp)) {
                 cursorStyle = 'pointer';
             }
 
@@ -101,19 +104,41 @@ const SignIn = (props) => {
     }
 
     useEffect(() => {
-        const canvas = canvasRef.current;
-        resizeCanvas(canvas);
-        const context = canvas.getContext('2d');
-        const home = new Home(canvas, context, canvas.width, canvas.height);
-        function animate() {
-            home.gameFrame++;
-            home.draw(context);
-            home.update();
-            requestAnimationFrame(animate);
+        async function getSchools() {
+            try {
+                let dataSchool = await getAllSchools();
+                if (dataSchool && dataSchool.errCode === 0) {
+                    setDataSchool(dataSchool.listSchool);
+                }
+            } catch (error) {
+                console.error("Error during fetch data schools: ", error);
+            }
         }
-        animate();
+        getSchools();
     }, []);
-    return <canvas id='responsive-canvas' ref={canvasRef} {...props} />;
+
+    useEffect(() => {
+        const canvas = document.getElementById('responsive-canvas');
+        if (canvas) {
+            resizeCanvas(canvas);
+            const context = canvas.getContext('2d');
+            const home = new Home(canvas, context, dataSchool);
+            function animate() {
+                home.draw(context);
+                home.update();
+                requestAnimationFrame(animate);
+            }
+            animate();
+
+            return () => {
+                window.removeEventListener('resize', home.onResize);
+                canvas.removeEventListener('mousemove', home.onMouseMove);
+                canvas.removeEventListener('click', home.onClick);
+            };
+        }
+    }, [dataSchool]);
+
+    return <canvas id="responsive-canvas" ref={canvasRef} {...props} />;
 };
 
-export default SignIn;
+export default SignUp;
