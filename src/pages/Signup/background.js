@@ -183,11 +183,8 @@ class SignupForm {
             </div>
             <div class="form-row row-1">
                 <label for="class">Lớp</label>
-                <select id="class" name="class">
-                ${optionGrades
-                .map(option => `<option value="${option.label}">${option.value}</option>`)
-                .join('')}
-                </select>
+                <input type="text" id="class" name="class">
+                </input>
             </div>
             <div class="form-row row-1">
                 <label for="dateOfBirth">Ngày sinh</label>
@@ -197,14 +194,33 @@ class SignupForm {
                 <label for="phoneNumber">Số điện thoại</label>
                 <input type="text" id="phoneNumber" name="phoneNumber">
             </div>
-            <div class="form-row row-1">
+            <div class="form-row">
                 <label for="password">Mật khẩu</label>
-                <input type="password" id="password" name="password">
+                <div class="password-container">
+                    <input type="password" id="password" name="password">
+                    <button type="button" id="toggle-password">
+                        <img src="/assets/Asset/Login/eye-slash.png" alt="Toggle Password">
+                    </button>
+                </div>
+                
             </div>
+            <div class="error-message" id="error-message"></div>
             <input type="submit" value="ĐĂNG KÍ">
         `;
 
         document.body.appendChild(container);
+
+        const togglePasswordButton = container.querySelector('#toggle-password');
+        togglePasswordButton.addEventListener('click', () => {
+            const passwordInput = container.querySelector('#password');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                togglePasswordButton.querySelector('img').src = '/assets/Asset/Login/eye.png';
+            } else {
+                passwordInput.type = 'password';
+                togglePasswordButton.querySelector('img').src = '/assets/Asset/Login/eye-slash.png';
+            }
+        });
 
         container.addEventListener('submit', async (event) => {
             event.preventDefault();
@@ -227,6 +243,10 @@ class SignupForm {
 
             if (isSuccess) {
                 this.deleteForm();
+            }
+            else {
+                const errorMessage = document.getElementById('error-message');
+                errorMessage.innerText = "Số diện thoại đã tồn tại !";
             }
         });
     }

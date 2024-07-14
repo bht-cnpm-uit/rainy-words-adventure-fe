@@ -20,8 +20,7 @@ const DataManagement = () => {
     const [filterType, setFilterType] = useState(0);
     const [data, setData] = useState([]);
     const [dataFilter, setDataFilter] = useState([]);
-    const [updatedWordData, setUpdatedWordData] = useState(null); 
- 
+    const [updatedWordData, setUpdatedWordData] = useState(null);
 
     const getCombinedData = async () => {
         try {
@@ -62,7 +61,7 @@ const DataManagement = () => {
             vocab: word.vocab,
             topicId: word.topicId,
             vietnamese: word.vietnamese,
-            example: word.example
+            phonetic: word.phonetic,
         };
         setSelectedWord(selectedWord);
         setIsEditModalOpen(true);
@@ -288,10 +287,10 @@ const DataManagement = () => {
                             title="Danh sách từ vựng"
                             data={dataFilter}
                             paginationComponentOptions={{
-                                rowsPerPageText: 'Filas por página',
-                                rangeSeparatorText: 'de',
+                                rowsPerPageText: 'Số từ của mỗi trang',
+                                rangeSeparatorText: 'của',
                                 selectAllRowsItem: true,
-                                selectAllRowsItemText: 'Todos',
+                                selectAllRowsItemText: 'Tất cả',
                             }}
                             fixedHeader
                             pagination

@@ -170,9 +170,7 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                                 <span id="flower1-count">100/500</span>
                                             </div>
                                         </div>
-                                        <button className="mx-auto mt-2 block rounded-lg bg-lime-400 p-2">
-                                            Nhận cúp
-                                        </button>
+                                       
                                     </div>
                                     {/* Hoa hồng */}
                                     <div className="rounded-lg bg-white p-4 shadow">
@@ -187,9 +185,7 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                                 <span id="flower1-count">200/500</span>
                                             </div>
                                         </div>
-                                        <button className="mx-auto mt-2 block rounded-lg bg-lime-400 p-2">
-                                            Nhận cúp
-                                        </button>
+                                        
                                     </div>
 
                                     {/* Nhánh lá non xanh */}
@@ -205,9 +201,7 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                                 <span id="flower1-count">250/500</span>
                                             </div>
                                         </div>
-                                        <button className="mx-auto mt-2 block rounded-lg bg-lime-400 p-2">
-                                            Nhận cúp
-                                        </button>
+                                       
                                     </div>
 
                                     {/* Cái xẻng */}
@@ -223,9 +217,7 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                                 <span id="flower1-count">500/500</span>
                                             </div>
                                         </div>
-                                        <button className="mx-auto mt-2 block rounded-lg bg-lime-400 p-2">
-                                            Nhận cúp
-                                        </button>
+                                       
                                     </div>
 
                                     {/* Hoa hướng dương */}
@@ -241,9 +233,7 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                                 <span id="flower1-count">0/500</span>
                                             </div>
                                         </div>
-                                        <button className="mx-auto mt-2 block rounded-lg bg-lime-400 p-2">
-                                            Nhận cúp
-                                        </button>
+                                        
                                     </div>
 
                                     {/* Cái xúc */}
@@ -259,9 +249,7 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                                 <span id="flower1-count">234/500</span>
                                             </div>
                                         </div>
-                                        <button className="mx-auto mt-2 block rounded-lg bg-lime-400 p-2">
-                                            Nhận cúp
-                                        </button>
+                                       
                                     </div>
 
                                     {/* Lá cây */}
@@ -277,9 +265,7 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                                 <span id="flower1-count">10/500</span>
                                             </div>
                                         </div>
-                                        <button className="mx-auto mt-2 block rounded-lg bg-lime-400 p-2">
-                                            Nhận cúp
-                                        </button>
+                                       
                                     </div>
                                 </div>
                             </div>

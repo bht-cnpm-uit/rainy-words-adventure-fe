@@ -15,6 +15,7 @@ const Login = (props) => {
     async function handleSubmitLogin(values) {
         try {
             let data = await handleLogin(values.phoneNumber, values.password);
+            console.log("data:", data);
             if (data && data.student) {
                 dispatch(userActions.login(data.student))
                 navigate('/level');
@@ -28,6 +29,8 @@ const Login = (props) => {
     class Home {
         constructor(canvas, ctx) {
             this.handleSubmitLogin = handleSubmitLogin.bind(this);
+            // this.validateInput = validateInput.bind(this);
+            
             this.ctx = ctx;
             this.canvas = canvas;
             this.width = window.innerWidth;
@@ -70,6 +73,9 @@ const Login = (props) => {
 
             if (this.isMouseOverButton(mouseX, mouseY, this.background.btnSignIn)) {
                 window.location.href = '/signup';
+            }
+
+            if (this.isMouseOverButton(mouseX, mouseY, this.background.btnLogin)) {
             }
             this.canvas.style.cursor = cursorStyle;
         }

@@ -105,24 +105,23 @@ class LoginForm {
         this.spriteHeight = 667;
         this.spriteWidth = 1151;
         this.img_form = new Image();
-        this.img_form.src = "../assets/Asset/Login/login_user_bg.png"
+        this.img_form.src = "../assets/Asset/Login/login_user_bg.png";
         this.width = this.game.width;
         this.height = this.game.height;
         this.createForm();
     }
-    update() {
-    }
-    draw(context) {
-    }
+
+    update() { }
+
+    draw(context) { }
+
     createForm() {
         const container = document.createElement('div');
         container.id = 'container';
 
-        // Create the first sub-div
         const container_bg = document.createElement('div');
         container_bg.id = 'container_bg';
 
-        // Create the second sub-div
         const container_form = document.createElement('form');
         container_form.id = 'container_form';
 
@@ -132,59 +131,55 @@ class LoginForm {
         container_form.style.backgroundImage = 'url("../assets/Asset/Login/login_user_bg.png")';
         container_form.innerHTML = `
             <div class="form-row row-1">
-                <label for="username">Tài khoản</label>
+                <label for="username">Số điện thoại</label>
                 <input type="text" id="username" name="username">
             </div>
             <div class="form-row">
                 <label for="password">Mật khẩu</label>
-                <input type="password" id="password" name="password">
+                <div class="password-container">
+                    <input type="password" id="password" name="password">
+                    <button type="button" id="toggle-password">
+                        <img src="/assets/Asset/Login/eye-slash.png" alt="Toggle Password">
+                    </button>
+                </div>
             </div>
-            <input type="submit" value="Đăng nhập">
+            <div class="error-message" id="error-message"></div>
+            <input type="submit" value="ĐĂNG NHẬP">
         `;
 
         document.body.appendChild(container);
+
+        const togglePasswordButton = container.querySelector('#toggle-password');
+        togglePasswordButton.addEventListener('click', () => {
+            const passwordInput = container.querySelector('#password');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                togglePasswordButton.querySelector('img').src = '/assets/Asset/Login/eye.png';
+            } else {
+                passwordInput.type = 'password';
+                togglePasswordButton.querySelector('img').src = '/assets/Asset/Login/eye-slash.png';
+            }
+        });
 
         container.addEventListener('submit', async (event) => {
             event.preventDefault();
             var phoneNumber = container.querySelector('#username').value;
             var password = container.querySelector('#password').value;
-            var isSuccess = await this.game.game.handleSubmitLogin({ phoneNumber, password })
+            var isSuccess = await this.game.game.handleSubmitLogin({ phoneNumber, password });
             if (isSuccess) {
-                this.deleteForm()
+                this.deleteForm();
+            } else {
+                const errorMessage = document.getElementById('error-message');
+                errorMessage.innerText = "Số diện thoại hoặc mật khẩu không đúng !";
             }
         });
     }
+
     deleteForm() {
         var container = document.getElementById('container');
         if (container) {
             container.remove();
         }
-    }
-    getUsername() {
-    }
-    getPassword() {
-    }
-    validateInput(input) {
-        if (input.value.trim() === '') {
-            // check empty?
-            input.style.border = '2px solid red';
-            input.placeholder = 'Vui lòng nhập thông tin !!!';
-            return false;
-        } else {
-            input.style.border = ''; // remove border
-            // this.statusCheck = true;
-            return true;
-        }
-    }
-
-    checkInput() {
-        // this.inputUsername.addEventListener('blur', () => {
-        //     this.validateInput(this.inputUsername);
-        // });
-
-        // this.inputPassword.addEventListener('blur', () => {
-        //     this.validateInput(this.inputPassword);
-        // });
     }
 }
 export class Background {

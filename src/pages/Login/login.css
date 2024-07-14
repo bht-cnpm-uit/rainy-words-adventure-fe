@@ -7,7 +7,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* Center items horizontally */
     justify-content: center;
 }
 
@@ -29,7 +28,6 @@
     border-radius: 10px;
     background-position: 0%;
 }
-
 
 .form-row {
     display: flex;
@@ -53,7 +51,7 @@
 #container_form input[type="password"] {
     flex-grow: 1;
     padding: 10px;
-    padding-right: 20px;
+    padding-right: 40px; /* Make space for the toggle button */
     border: 1px solid #ccc;
     border-radius: 25px;
     box-sizing: border-box;
@@ -62,10 +60,38 @@
 
 #container_form input[type="submit"] {
     justify-content: center;
-    /* width: 38%; */
     padding: 10px;
-    color: white;
+    color: brown;
+    font-family: monospace;
+    font-size: 22px;
     border: none;
     cursor: pointer;
+    margin-top: 20px;
     background: url('../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png') no-repeat center / contain;
+}
+
+#error-message {
+    text-align: center;
+    color: red;
+}
+
+.password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%; /* Ensure the container takes the full width */
+}
+
+#toggle-password {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+#toggle-password img {
+    width: 20px;
+    height: 20px;
 }

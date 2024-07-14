@@ -20,14 +20,14 @@ const ModalImportData = ({ modalTitle, isOpenModelImportData, setIsOpenModelImpo
             prop: 'vietnamese',
             type: String,
         },
-        'Mức độ': {
-            prop: 'levelVocab',
-            type: String,
-        },
-        'Số thứ tự chủ đề': {
-            prop: 'topicId',
-            type: Number,
-        },
+        // 'Mức độ': {
+        //     prop: 'levelVocab',
+        //     type: String,
+        // },
+        // 'Số thứ tự chủ đề': {
+        //     prop: 'topicId',
+        //     type: Number,
+        // },
         'Tên chủ đề (E)': {
             prop: 'nameEn',
             type: String,
@@ -40,24 +40,39 @@ const ModalImportData = ({ modalTitle, isOpenModelImportData, setIsOpenModelImpo
             prop: 'example',
             type: String,
         },
+        'Cách phát âm': {
+            prop: 'phonetic',
+            type: String,
+        },
     };
 
     const handleFileUpload = (file) => {
         if (file) {
             setSelectedFile(file.name);
             readXlsxFile(file, { schema }).then(({ rows, errors }) => {
+                const updatedRows = rows.map((row) => {
+                    const vocabLengh = row.vocab.length;
+                    if (vocabLengh < 5) row.levelVocab = 'Easy';
+                    else if (vocabLengh >= 5 && vocabLengh <= 7) row.levelVocab = 'Medium';
+                    else row.levelVocab = 'Hard';
+                });
+
                 setDataUpload(rows);
-                console.log("Row:", rows);
+                console.log('Row:', rows);
                 const topics = [
-                    ...new Set(rows.map((row) => JSON.stringify({
-                        topicId: row.topicId,
-                        nameEn: row.nameEn,
-                        nameVi: row.nameVi
-                    })))
+                    ...new Set(
+                        rows.map((row) =>
+                            JSON.stringify({
+                                topicId: row.topicId,
+                                nameEn: row.nameEn,
+                                nameVi: row.nameVi,
+                            }),
+                        ),
+                    ),
                 ].map((topic) => JSON.parse(topic));
-                
+
                 setUploadTopic(topics);
-                console.log("Upload topic", topics);
+                console.log('Upload topic', topics);
             });
         }
     };
@@ -74,7 +89,7 @@ const ModalImportData = ({ modalTitle, isOpenModelImportData, setIsOpenModelImpo
         try {
             const uploadedWord = await createNewWords(dataUpload);
             const uploadedTopic = await createTopics(uploadTopic);
-            
+
             console.log('Data successfully uploaded:', uploadedWord, uploadedTopic);
 
             alert('Tải dữ liệu từ vựng thành công!');

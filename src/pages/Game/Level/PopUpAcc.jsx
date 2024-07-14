@@ -6,14 +6,12 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc }) => {
     const [confirmLogOut, setConfirmLogOut] = useState(false);
     const [isSoundOn, setIsSoundOn] = useState(true);
     const [isAvatarModalOpen, setAvatarModalOpen] = useState(false);
-    const [selectedAvatar, setSelectedAvatar] = useState(
-        '/assets/Asset/GameObject/SunflowerCatSpriteWalkBlink_cuts/image_1-1.png',
-    );
+    const [selectedAvatar, setSelectedAvatar] = useState('/assets/Asset/Avt_Frame_cuts/3.png');
 
     const avatarOptions = [
-        '/assets/Asset/GameObject/SunflowerCatSpriteWalkBlink_cuts/image_1-0.png',
-        '/assets/Asset/GameObject/SunflowerCatSpriteWalkBlink_cuts/image_0-3.png',
-        '/assets/Asset/GameObject/SunflowerCatSpriteWalkBlink_cuts/image_1-2.png',
+        '/assets/Asset/Avt_Frame_cuts/3.png',
+        '/assets/Asset/Avt_Frame_cuts/4.png',
+        '/assets/Asset/Avt_Frame_cuts/8.png',
     ];
 
     const showPopUpConfirmLogout = () => {
@@ -41,7 +39,7 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc }) => {
 
     const handleCloseConfirmLogOut = () => {
         setConfirmLogOut(false);
-    }
+    };
 
     if (!openPopUpAcc) return null;
 
@@ -208,10 +206,16 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc }) => {
                     <div className="rounded-lg border border-4 border-yellow-600 bg-white p-6 text-center shadow-lg">
                         <h2 className="mb-4 text-2xl font-bold">Thoát khỏi trò chơi</h2>
                         <p className="mb-4">Bạn có chắc chắn muốn thoát khỏi trò chơi không?</p>
-                        <button className="rounded-lg bg-red-500 px-4 py-2 mr-4 text-white hover:bg-red-600" onClick={handleLogout}>
+                        <button
+                            className="mr-4 rounded-lg bg-red-500 px-4 py-2 text-white hover:bg-red-600"
+                            onClick={handleLogout}
+                        >
                             Có
                         </button>
-                        <button className="rounded-lg bg-orange-500 px-4 py-2 text-white hover:bg-orange-600" onClick={handleCloseConfirmLogOut}>
+                        <button
+                            className="rounded-lg bg-orange-500 px-4 py-2 text-white hover:bg-orange-600"
+                            onClick={handleCloseConfirmLogOut}
+                        >
                             Không
                         </button>
                     </div>
