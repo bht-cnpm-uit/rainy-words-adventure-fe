@@ -29,8 +29,6 @@ const Login = (props) => {
     class Home {
         constructor(canvas, ctx) {
             this.handleSubmitLogin = handleSubmitLogin.bind(this);
-            // this.validateInput = validateInput.bind(this);
-            
             this.ctx = ctx;
             this.canvas = canvas;
             this.width = window.innerWidth;

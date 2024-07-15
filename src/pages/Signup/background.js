@@ -130,17 +130,6 @@ class btnSignUp {
     }
 }
 
-const optionGrades = [
-    { value: '1', label: 'Option 1' },
-    { value: '2', label: 'Option 2' },
-    { value: '3', label: 'Option 3' },
-    { value: '4', label: 'Option 4' },
-    { value: '5', label: 'Option 5' },
-    { value: '6', label: 'Option 6' },
-    { value: '7', label: 'Option 7' },
-    { value: '8', label: 'Option 8' },
-    { value: '9', label: 'Option 9' },
-];
 class SignupForm {
     constructor(game) {
         this.game = game;
@@ -225,14 +214,14 @@ class SignupForm {
         container.addEventListener('submit', async (event) => {
             event.preventDefault();
 
-            var phoneNumber = container.querySelector("#phoneNumber").value;
-            var password = container.querySelector("#password").value;
-            var username = container.querySelector("#username").value;
-            var dateOfBirth = container.querySelector("#dateOfBirth").value;
-            var schoolId = container.querySelector("#school").value;
-            var class_ = container.querySelector("#class").value;
+            let phoneNumber = container.querySelector("#phoneNumber").value;
+            let password = container.querySelector("#password").value;
+            let username = container.querySelector("#username").value;
+            let dateOfBirth = container.querySelector("#dateOfBirth").value;
+            let schoolId = container.querySelector("#school").value;
+            let class_ = container.querySelector("#class").value;
 
-            var isSuccess = await this.game.game.handleSubmitSignUp({
+            let isSuccess = await this.game.game.handleSubmitSignUp({
                 phoneNumber,
                 password,
                 name: username,
@@ -246,12 +235,15 @@ class SignupForm {
             }
             else {
                 const errorMessage = document.getElementById('error-message');
-                errorMessage.innerText = "Số diện thoại đã tồn tại !";
+                if( phoneNumber == '' || password == '' || username == '' || dateOfBirth == '' || class_ == ''){
+                    errorMessage.innerText = "Vui lòng nhập đủ thông tin !";
+                }
+                else errorMessage.innerText = "Số diện thoại đã tồn tại !";
             }
         });
     }
     deleteForm() {
-        var container = document.getElementById('container');
+        let container = document.getElementById('container');
         if (container) {
             container.remove()
         }
