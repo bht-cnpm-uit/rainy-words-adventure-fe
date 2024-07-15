@@ -150,13 +150,15 @@ class LoginForm {
             var password = container.querySelector('#password').value;
             var isSuccess = await this.game.game.handleSubmitLogin({ phoneNumber, password })
             if (isSuccess) {
-                this.deleteForm()
+                container.remove()
+                // this.deleteLoginForm()
             }
         });
     }
-    deleteForm() {
+    deleteLoginForm() {
         var container = document.getElementById('container');
         if (container) {
+            container.outerHTML = "";
             container.remove();
         }
     }

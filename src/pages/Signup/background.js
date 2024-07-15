@@ -131,15 +131,15 @@ class btnSignUp {
 }
 
 const optionGrades = [
-    { value: '1', label: 'Option 1' },
-    { value: '2', label: 'Option 2' },
-    { value: '3', label: 'Option 3' },
-    { value: '4', label: 'Option 4' },
-    { value: '5', label: 'Option 5' },
-    { value: '6', label: 'Option 6' },
-    { value: '7', label: 'Option 7' },
-    { value: '8', label: 'Option 8' },
-    { value: '9', label: 'Option 9' },
+    { value: '1', label: 'Lớp 1' },
+    { value: '2', label: 'Lớp 2' },
+    { value: '3', label: 'Lớp 3' },
+    { value: '4', label: 'Lớp 4' },
+    { value: '5', label: 'Lớp 5' },
+    { value: '6', label: 'Lớp 6' },
+    { value: '7', label: 'Lớp 7' },
+    { value: '8', label: 'Lớp 8' },
+    { value: '9', label: 'Lớp 9' },
 ];
 class SignupForm {
     constructor(game) {
@@ -185,7 +185,7 @@ class SignupForm {
                 <label for="class">Lớp</label>
                 <select id="class" name="class">
                 ${optionGrades
-                .map(option => `<option value="${option.label}">${option.value}</option>`)
+                .map(option => `<option value="${option.value}">${option.label}</option>`)
                 .join('')}
                 </select>
             </div>
@@ -226,14 +226,16 @@ class SignupForm {
             });
 
             if (isSuccess) {
-                this.deleteForm();
+                container.remove();
+                // this.deleteSignUpForm();
             }
         });
     }
-    deleteForm() {
+    deleteSignUpForm() {
         var container = document.getElementById('container');
         if (container) {
-            container.remove()
+            container.outerHTML = "";
+            container.remove();
         }
     }
 

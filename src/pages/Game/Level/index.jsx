@@ -9,6 +9,7 @@ import PopUpInstruc from './PopUpInstruc';
 import PopUpAcc from './PopUpAcc';
 import PopUpLibrary from './PopUpLibrary';
 import PopUpRank from './PopUpRank';
+import CongratNewLevel from './CongratNewLevel';
 import { set } from 'react-hook-form';
 
 const Level = props => {
@@ -28,6 +29,9 @@ const Level = props => {
 
     const [openPopupRank, setOpenPopupRank] = useState(false);
     const HandleRemovePopUpRank = () => setOpenPopupRank(false);
+
+    const [openCongratNewLevel, setOpenCongratNewLevel] = useState(true);
+    const HandleRemoveCongratNewLevel = () => setOpenCongratNewLevel(false);
 
     class MainScreen {
         constructor(canvas, ctx) {
@@ -289,6 +293,7 @@ const Level = props => {
             {openPopupAcc && <PopUpAcc openPopUpAcc={openPopupAcc} closePopUpAcc={HandleRemovePopUpAcc} />}
             {openPopupLib && <PopUpLibrary openPopUpLib={openPopupLib} closePopUpLib={HandleRemovePopUpLib} />}
             {openPopupRank && <PopUpRank openPopUpRank={openPopupRank} closePopUpRank={HandleRemovePopUpRank} />}
+            {openCongratNewLevel && <CongratNewLevel openCongratNewLevel={openCongratNewLevel} closeCongratNewLevel={HandleRemoveCongratNewLevel} nextLevel={10} />}
         </div>
 
     );
