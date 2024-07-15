@@ -18,6 +18,7 @@ const SignUp = (props) => {
     async function handleSubmitSignUp(values) {
         try {
             let data = await handleSignUp(values);
+            console.log("Data sign up: ", data);
             if (data && data.errCode == 0) {
                 navigate('/login');
                 return 1;

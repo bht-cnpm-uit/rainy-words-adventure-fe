@@ -130,6 +130,7 @@ class btnSignUp {
     }
 }
 
+<<<<<<< HEAD
 const optionGrades = [
     { value: '1', label: 'Lớp 1' },
     { value: '2', label: 'Lớp 2' },
@@ -141,6 +142,8 @@ const optionGrades = [
     { value: '8', label: 'Lớp 8' },
     { value: '9', label: 'Lớp 9' },
 ];
+=======
+>>>>>>> 70ef18f7f5212df940b903be799fe447d95c6e17
 class SignupForm {
     constructor(game) {
         this.game = game;
@@ -183,11 +186,16 @@ class SignupForm {
             </div>
             <div class="form-row row-1">
                 <label for="class">Lớp</label>
+<<<<<<< HEAD
                 <select id="class" name="class">
                 ${optionGrades
                 .map(option => `<option value="${option.value}">${option.label}</option>`)
                 .join('')}
                 </select>
+=======
+                <input type="text" id="class" name="class">
+                </input>
+>>>>>>> 70ef18f7f5212df940b903be799fe447d95c6e17
             </div>
             <div class="form-row row-1">
                 <label for="dateOfBirth">Ngày sinh</label>
@@ -197,26 +205,45 @@ class SignupForm {
                 <label for="phoneNumber">Số điện thoại</label>
                 <input type="text" id="phoneNumber" name="phoneNumber">
             </div>
-            <div class="form-row row-1">
+            <div class="form-row">
                 <label for="password">Mật khẩu</label>
-                <input type="password" id="password" name="password">
+                <div class="password-container">
+                    <input type="password" id="password" name="password">
+                    <button type="button" id="toggle-password">
+                        <img src="/assets/Asset/Login/eye-slash.png" alt="Toggle Password">
+                    </button>
+                </div>
+                
             </div>
+            <div class="error-message" id="error-message"></div>
             <input type="submit" value="ĐĂNG KÍ">
         `;
 
         document.body.appendChild(container);
 
+        const togglePasswordButton = container.querySelector('#toggle-password');
+        togglePasswordButton.addEventListener('click', () => {
+            const passwordInput = container.querySelector('#password');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                togglePasswordButton.querySelector('img').src = '/assets/Asset/Login/eye.png';
+            } else {
+                passwordInput.type = 'password';
+                togglePasswordButton.querySelector('img').src = '/assets/Asset/Login/eye-slash.png';
+            }
+        });
+
         container.addEventListener('submit', async (event) => {
             event.preventDefault();
 
-            var phoneNumber = container.querySelector("#phoneNumber").value;
-            var password = container.querySelector("#password").value;
-            var username = container.querySelector("#username").value;
-            var dateOfBirth = container.querySelector("#dateOfBirth").value;
-            var schoolId = container.querySelector("#school").value;
-            var class_ = container.querySelector("#class").value;
+            let phoneNumber = container.querySelector("#phoneNumber").value;
+            let password = container.querySelector("#password").value;
+            let username = container.querySelector("#username").value;
+            let dateOfBirth = container.querySelector("#dateOfBirth").value;
+            let schoolId = container.querySelector("#school").value;
+            let class_ = container.querySelector("#class").value;
 
-            var isSuccess = await this.game.game.handleSubmitSignUp({
+            let isSuccess = await this.game.game.handleSubmitSignUp({
                 phoneNumber,
                 password,
                 name: username,
@@ -229,10 +256,22 @@ class SignupForm {
                 container.remove();
                 // this.deleteSignUpForm();
             }
+            else {
+                const errorMessage = document.getElementById('error-message');
+                if( phoneNumber == '' || password == '' || username == '' || dateOfBirth == '' || class_ == ''){
+                    errorMessage.innerText = "Vui lòng nhập đủ thông tin !";
+                }
+                else errorMessage.innerText = "Số diện thoại đã tồn tại !";
+            }
         });
     }
+<<<<<<< HEAD
     deleteSignUpForm() {
         var container = document.getElementById('container');
+=======
+    deleteForm() {
+        let container = document.getElementById('container');
+>>>>>>> 70ef18f7f5212df940b903be799fe447d95c6e17
         if (container) {
             container.outerHTML = "";
             container.remove();
