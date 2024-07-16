@@ -130,20 +130,6 @@ class btnSignUp {
     }
 }
 
-<<<<<<< HEAD
-const optionGrades = [
-    { value: '1', label: 'Lớp 1' },
-    { value: '2', label: 'Lớp 2' },
-    { value: '3', label: 'Lớp 3' },
-    { value: '4', label: 'Lớp 4' },
-    { value: '5', label: 'Lớp 5' },
-    { value: '6', label: 'Lớp 6' },
-    { value: '7', label: 'Lớp 7' },
-    { value: '8', label: 'Lớp 8' },
-    { value: '9', label: 'Lớp 9' },
-];
-=======
->>>>>>> 70ef18f7f5212df940b903be799fe447d95c6e17
 class SignupForm {
     constructor(game) {
         this.game = game;
@@ -186,16 +172,8 @@ class SignupForm {
             </div>
             <div class="form-row row-1">
                 <label for="class">Lớp</label>
-<<<<<<< HEAD
-                <select id="class" name="class">
-                ${optionGrades
-                .map(option => `<option value="${option.value}">${option.label}</option>`)
-                .join('')}
-                </select>
-=======
                 <input type="text" id="class" name="class">
                 </input>
->>>>>>> 70ef18f7f5212df940b903be799fe447d95c6e17
             </div>
             <div class="form-row row-1">
                 <label for="dateOfBirth">Ngày sinh</label>
@@ -253,28 +231,21 @@ class SignupForm {
             });
 
             if (isSuccess) {
-                container.remove();
-                // this.deleteSignUpForm();
+                this.deleteForm();
             }
             else {
                 const errorMessage = document.getElementById('error-message');
-                if( phoneNumber == '' || password == '' || username == '' || dateOfBirth == '' || class_ == ''){
+                if (phoneNumber == '' || password == '' || username == '' || dateOfBirth == '' || class_ == '') {
                     errorMessage.innerText = "Vui lòng nhập đủ thông tin !";
                 }
                 else errorMessage.innerText = "Số diện thoại đã tồn tại !";
             }
         });
     }
-<<<<<<< HEAD
-    deleteSignUpForm() {
-        var container = document.getElementById('container');
-=======
     deleteForm() {
         let container = document.getElementById('container');
->>>>>>> 70ef18f7f5212df940b903be799fe447d95c6e17
         if (container) {
-            container.outerHTML = "";
-            container.remove();
+            container.remove()
         }
     }
 

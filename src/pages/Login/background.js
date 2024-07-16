@@ -167,14 +167,6 @@ class LoginForm {
             var password = container.querySelector('#password').value;
             var isSuccess = await this.game.game.handleSubmitLogin({ phoneNumber, password });
             if (isSuccess) {
-<<<<<<< HEAD
-                container.remove()
-                // this.deleteLoginForm()
-            }
-        });
-    }
-    deleteLoginForm() {
-=======
                 this.deleteForm();
             } else {
                 const errorMessage = document.getElementById('error-message');
@@ -184,10 +176,8 @@ class LoginForm {
     }
 
     deleteForm() {
->>>>>>> 70ef18f7f5212df940b903be799fe447d95c6e17
         var container = document.getElementById('container');
         if (container) {
-            container.outerHTML = "";
             container.remove();
         }
     }
@@ -230,4 +220,3 @@ export class Background {
         context.save();
     }
 }
-
