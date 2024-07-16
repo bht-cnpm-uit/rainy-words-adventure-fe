@@ -11,7 +11,9 @@ export class Player {
         this.heightJump = this.spriteHeightJump * this.game.scale / 2;
         this.levels = null;
         this.velocity = 0;
-        this.image = new Image();
+        this.image_morning = new Image();
+        this.image_afternoon = new Image();
+        this.image_night = new Image();
         this.imageJump = new Image();
         this.frameX = 0;
         this.frameY = 1;
@@ -23,15 +25,17 @@ export class Player {
         this.frameJumpX = 0;
         this.frameJumpY = 0;
 
+        this.image_morning.src = '../assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png';
+        this.image_afternoon.src = '../assets/Asset/GameObject/SunflowerCatSprite_NightWalkBlink.png';
+        this.image_night.src = '../assets/Asset/GameObject/SunflowerCatSprite_Night2WalkBlink.png';
         // Load images
-        this.image.onload = () => {
+        this.image_morning.onload = () => {
             this.imageJump.onload = () => {
                 // Once images are loaded, set the initial position
                 this.initialPositionPlayer(this.currentLevel);
             }
             this.imageJump.src = '../assets/Asset/Asset/SunflowerCatSprite(Jump).png';
         }
-        this.image.src = '../assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png';
         this.animateStand()
     }
     updatePositionResize() {
@@ -73,11 +77,26 @@ export class Player {
             ctx.restore(); // Restore the context to its original state
         }
         else {
-            ctx.drawImage(this.image,
-                this.frameX * this.spriteWidth, this.frameY * this.spriteHeight,
-                this.spriteWidth, this.spriteHeight,
-                this.currentLevel.position.x - this.width / 3.5, this.currentLevel.position.y - this.height / 1.6,
-                this.width, this.height);
+            if (this.game.mode == 'morning')
+                ctx.drawImage(this.image_morning,
+                    this.frameX * this.spriteWidth, this.frameY * this.spriteHeight,
+                    this.spriteWidth, this.spriteHeight,
+                    this.currentLevel.position.x - this.width / 3.5, this.currentLevel.position.y - this.height / 1.6,
+                    this.width, this.height);
+            else if (this.game.mode == 'afternoon') {
+                ctx.drawImage(this.image_afternoon,
+                    this.frameX * this.spriteWidth, this.frameY * this.spriteHeight,
+                    this.spriteWidth, this.spriteHeight,
+                    this.currentLevel.position.x - this.width / 3.5, this.currentLevel.position.y - this.height / 1.6,
+                    this.width, this.height);
+            }
+            else {
+                ctx.drawImage(this.image_night,
+                    this.frameX * this.spriteWidth, this.frameY * this.spriteHeight,
+                    this.spriteWidth, this.spriteHeight,
+                    this.currentLevel.position.x - this.width / 3.5, this.currentLevel.position.y - this.height / 1.6,
+                    this.width, this.height);
+            }
         }
         ctx.restore();
     }

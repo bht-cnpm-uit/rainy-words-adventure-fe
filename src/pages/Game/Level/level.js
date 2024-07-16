@@ -243,6 +243,13 @@ export class Levels {
     }
 
     draw(context) {
+        if (this.game.mode == 'morning') {
+            this.frameY = 0;
+        }
+        else if (this.game.mode == 'afternoon') {
+            this.frameY = 2;
+        }
+        else this.frameY = 1;
         context.save()
         context.translate(this.xVirtual, 0);
         this.levels.forEach(level => {

@@ -11,34 +11,37 @@ import PopUpLibrary from './PopUpLibrary';
 import PopUpRank from './PopUpRank';
 import CongratNewLevel from './CongratNewLevel';
 import { set } from 'react-hook-form';
-
+import { configSelector } from '../../../redux/selectors';
+import { useSelector } from 'react-redux';
 const Level = props => {
     const canvasRef = useRef();
-    function resizeCanvas(canvas) {
+    const animationRef = useRef();
+    const mainScreenRef = useRef();
+
+    const resizeCanvas = (canvas) => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-    }
+    };
     const [openPopup, setOpenPopup] = useState(false);
-    const HandleRemovePopUp = () => setOpenPopup(false);
-
     const [openPopupAcc, setOpenPopupAcc] = useState(false);
-    const HandleRemovePopUpAcc = () => setOpenPopupAcc(false);
-
     const [openPopupLib, setOpenPopupLib] = useState(false);
-    const HandleRemovePopUpLib = () => setOpenPopupLib(false);
-
     const [openPopupRank, setOpenPopupRank] = useState(false);
-    const HandleRemovePopUpRank = () => setOpenPopupRank(false);
-
     const [openCongratNewLevel, setOpenCongratNewLevel] = useState(true);
+    const [mode, setMode] = useState(useSelector(configSelector));
+
+    const HandleRemovePopUp = () => setOpenPopup(false);
+    const HandleRemovePopUpAcc = () => setOpenPopupAcc(false);
+    const HandleRemovePopUpLib = () => setOpenPopupLib(false);
+    const HandleRemovePopUpRank = () => setOpenPopupRank(false);
     const HandleRemoveCongratNewLevel = () => setOpenCongratNewLevel(false);
 
     class MainScreen {
-        constructor(canvas, ctx) {
+        constructor(canvas, ctx, mode) {
             this.canvas = canvas;
             this.canvas.style.width = window.innerWidth;
             this.canvas.style.height = window.innerHeight;
             this.ctx = ctx;
+            this.mode = mode;
             this.width = window.innerWidth;
             this.height = window.innerHeight;
             this.spriteHeightBG = 1580;
@@ -61,6 +64,9 @@ const Level = props => {
             this.canvas.addEventListener('mousemove', this.onMouseMove.bind(this));
             this.canvas.addEventListener('click', this.onClick.bind(this));
             window.addEventListener('resize', this.onResize.bind(this));
+        }
+        updateMode(mode) {
+            this.mode = mode
         }
         onResize(event) {
             var canvas = document.getElementById('responsive-canvas');
@@ -263,34 +269,40 @@ const Level = props => {
         }
     }
     useEffect(() => {
-        const canvas = document.getElementById('responsive-canvas');
+        const canvas = canvasRef.current;
         resizeCanvas(canvas);
         const context = canvas.getContext('2d');
-        const mainScreen = new MainScreen(canvas, context);
+        const mainScreen = new MainScreen(canvas, context, mode);
         mainScreen.levels.updatePositionLevel();
-        function animate(timeStamp) {
+        mainScreenRef.current = mainScreen;
+
+        let lastTime = 0;
+        const animate = (timeStamp) => {
             context.clearRect(0, 0, canvas.width, canvas.height);
             const deltaTime = timeStamp - lastTime || 0;
             lastTime = timeStamp;
             mainScreen.update(deltaTime);
             mainScreen.draw(context);
-            requestAnimationFrame(animate);
-        }
-
-        let lastTime = 0; // Initialize lastTime
-        animate(0);
+            animationRef.current = requestAnimationFrame(animate);
+        };
+        animationRef.current = requestAnimationFrame(animate);
 
         return () => {
-            cancelAnimationFrame(animate);
+            cancelAnimationFrame(animationRef.current);
         };
     }, []);
 
+    useEffect(() => {
+        if (mainScreenRef.current) {
+            mainScreenRef.current.updateMode(mode);
+        }
+    }, [mode]);
 
     return (
         <div>
             <canvas id='responsive-canvas' ref={canvasRef} {...props}></canvas>
             {openPopup && <PopUpInstruc openPopUp={openPopup} closePopUp={HandleRemovePopUp} />}
-            {openPopupAcc && <PopUpAcc openPopUpAcc={openPopupAcc} closePopUpAcc={HandleRemovePopUpAcc} />}
+            {openPopupAcc && <PopUpAcc openPopUpAcc={openPopupAcc} closePopUpAcc={HandleRemovePopUpAcc} mode={mode} setMode={setMode} />}
             {openPopupLib && <PopUpLibrary openPopUpLib={openPopupLib} closePopUpLib={HandleRemovePopUpLib} />}
             {openPopupRank && <PopUpRank openPopUpRank={openPopupRank} closePopUpRank={HandleRemovePopUpRank} />}
             {openCongratNewLevel && <CongratNewLevel openCongratNewLevel={openCongratNewLevel} closeCongratNewLevel={HandleRemoveCongratNewLevel} nextLevel={10} />}
