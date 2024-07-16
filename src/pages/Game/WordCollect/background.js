@@ -25,8 +25,26 @@ export class Background {
         this.game = game;
         this.spriteWidth = 2920;
         this.spriteHeight = 1080;
-        this.layerImage1 = new Layer(this.game, this.spriteWidth, this.spriteHeight, '../assets/Asset/Map1/ScrollBG.png');
-        this.layerImage2 = new Layer(this.game, this.spriteWidth, this.spriteHeight, '../assets/Asset/Map1/StableBG.png');
+        this.layerImage1 = new Layer(
+            this.game,
+            this.spriteWidth,
+            this.spriteHeight,
+            game.mode === 'morning'
+                ? '../assets/Asset/Map1/ScrollBG.png'
+                : game.mode === 'afternoon'
+                    ? '../assets/Asset/Map2/ScrollBG.png'
+                    : '../assets/Asset/Map3/RollBackground.png'
+        );
+        this.layerImage2 = new Layer(
+            this.game,
+            this.spriteWidth,
+            this.spriteHeight,
+            game.mode === 'morning'
+                ? '../assets/Asset/Map1/StableBG.png'
+                : game.mode === 'afternoon'
+                    ? '../assets/Asset/Map2/StableBG.png'
+                    : '../assets/Asset/Map3/StableBG.png'
+        );
         this.speedModifier = 0.5;
         this.speed = this.speedModifier;
         this.animateBg();

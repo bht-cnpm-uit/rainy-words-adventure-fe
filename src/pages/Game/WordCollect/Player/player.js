@@ -32,7 +32,8 @@ export class Player {
         this.velocity = 0;
         this.acceleration = 0.025;
         this.image = new Image();
-        this.image.src = '../assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png';
+        this.image.src = game.mode == 'morning' ? '../assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png' :
+            game.mode == 'afternoon' ? '../assets/Asset/GameObject/SunflowerCatSprite_NightWalkBlink.png' : '../assets/Asset/GameObject/SunflowerCatSprite_Night2WalkBlink.png'
         this.frameX = 0;
         this.frameY = 1;
         this.staggerFrames = 5;

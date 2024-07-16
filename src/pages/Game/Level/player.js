@@ -48,6 +48,12 @@ export class Player {
     draw(ctx) {
         ctx.save();
         ctx.translate(-this.game.background.xImageCut * this.game.scale, 0);
+        if (this.game.mode == 'night') {
+            this.frameJumpY = 1;
+        }
+        else {
+            this.frameJumpY = 0;
+        }
         if (this.isJumping == 1) {
             ctx.drawImage(this.imageJump,
                 this.frameJumpX * this.spriteWidthJump, this.frameJumpY * this.spriteHeightJump,

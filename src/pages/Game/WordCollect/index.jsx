@@ -3,6 +3,8 @@ import { Player } from './Player/player';
 import { Background } from './background';
 import { Score, BonusItems, BoardStopGame, BtnGameState, BoardEndWordCollect } from './UI';
 import { WordFall } from './wordFall';
+import { configSelector } from '../../../redux/selectors';
+import { useSelector } from 'react-redux';
 const GameState =
 {
     0: 'Loss',
@@ -12,14 +14,16 @@ const GameState =
 }
 const WordCollect = props => {
     const canvasRef = useRef()
-    function resizeCanvas(canvas) {
+    const resizeCanvas = (canvas) => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
     }
+    const mode = useSelector(configSelector);
     class Game {
-        constructor(canvas, ctx) {
+        constructor(canvas, ctx, mode) {
             this.props = props
             this.ctx = ctx;
+            this.mode = mode;
             this.canvas = canvas;
             this.width = window.innerWidth;
             this.height = window.innerHeight;
@@ -200,7 +204,7 @@ const WordCollect = props => {
         const canvas = document.getElementById('responsive-canvas');
         resizeCanvas(canvas);
         const context = canvas.getContext('2d');
-        const game = new Game(canvas, context);
+        const game = new Game(canvas, context, mode);
         function animate(timeStamp) {
             context.clearRect(0, 0, canvas.width, canvas.height);
             const deltaTime = timeStamp - lastTime || 0;

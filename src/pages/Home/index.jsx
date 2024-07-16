@@ -1,16 +1,19 @@
 import React, { useEffect, useRef } from 'react';
 import { Background } from './background';
-
+import { configSelector } from '../../redux/selectors';
+import { useSelector } from 'react-redux';
 const Home = (props) => {
     const canvasRef = useRef();
-    function resizeCanvas(canvas) {
+    const resizeCanvas = (canvas) => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
     }
+    const mode = useSelector(configSelector);
     class Home {
-        constructor(canvas, ctx) {
+        constructor(canvas, ctx, mode) {
             this.ctx = ctx;
             this.canvas = canvas;
+            this.mode = mode;
             this.width = window.innerWidth;
             this.height = window.innerHeight;
             this.canvas.style.width = this.width;
@@ -82,7 +85,7 @@ const Home = (props) => {
         const canvas = document.getElementById('responsive-canvas');
         resizeCanvas(canvas);
         const context = canvas.getContext('2d');
-        const home = new Home(canvas, context);
+        const home = new Home(canvas, context, mode);
         function animate() {
             home.gameFrame++;
             home.draw(context);
