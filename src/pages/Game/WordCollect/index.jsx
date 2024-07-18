@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Player } from './Player/player';
 import { Background } from './background';
 import { Score, BonusItems, BoardStopGame, BtnGameState, BoardEndWordCollect } from './UI';
@@ -12,6 +12,7 @@ const GameState =
 }
 const WordCollect = props => {
     const canvasRef = useRef();
+    const GameRef = useRef();
     const resizeCanvas = (canvas) => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;

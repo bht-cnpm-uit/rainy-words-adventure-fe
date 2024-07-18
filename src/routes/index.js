@@ -1,6 +1,5 @@
 import Home from '../pages/Home';
 import VocabLib from '../pages/VocabLib';
-import DifficultyComponent from '../pages/Game/DifficultyComponent';
 import Level from '../pages/Game/Level';
 import Game from '../pages/Game/Game';
 //import LoginForm from '../pages/Login/login';
@@ -23,11 +22,6 @@ const publicRoutes = [
         requiresAuth: true,
         path: '/vocab-library',
         component: VocabLib,
-    },
-    {
-        requiresAuth: true,
-        path: '/difficulty',
-        component: DifficultyComponent,
     },
     {
         requiresAuth: false,
