@@ -9,6 +9,7 @@ export const configSlice = createSlice({
     initialState,
     reducers: {
         changeMode: (state, action) => {
+            console.log("call change mode", action)
             return {
                 ...state,
                 mode: action.payload,

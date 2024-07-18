@@ -3,7 +3,6 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { combineReducers } from 'redux';
 import userReducer from './slices/userSlice';
-import configReducer from './slices/configSlice';
 
 // Middleware to save state to localStorage
 const localStorageMiddleware = (store) => (next) => (action) => {

@@ -3,24 +3,32 @@ import React, { useState } from 'react';
 const cards = [
     {
         name: 'Hướng dẫn',
-        content: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. '
-        + 'Lorem Ipsum has been the industrs standard dummy text ever since the 1500s, when an unknown printer took a galley of' 
-        + 'type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'
-        + 'Lorem Ipsum has been the industrs standard dummy text ever since the 1500s, when an unknown printer took a galley of' 
-        + 'type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'
-        + 'Lorem Ipsum has been the industrs standard dummy text ever since the 1500s, when an unknown printer took a galley of' 
-        + 'type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'
-        + 'Lorem Ipsum has been the industrs standard dummy text ever since the 1500s, when an unknown printer took a galley of' 
-        + 'type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
-
+        content: `Chào mừng các bạn đến với "Rainy Words Adventure". Mình là Hướng Dương, sẽ hướng dẫn các bạn chơi trò chơi này nhé!
+            Đầu tiên, các bé hãy đăng ký hoặc đăng nhập để bắt đầu cuộc phiêu lưu.
+            Trò chơi có 20 level, mỗi level có 3 mức độ khó: dễ, trung bình, và khó. Các bạn sẽ chọn level và mức độ phù hợp để bắt đầu chơi.\n
+            Trong trò chơi, các bạn sẽ tham gia vào hai phần: Hứng từ và Nối từ.
+            Ở phần Hứng từ, các bạn sẽ di chuyển nhân vật bằng các phím trái và phải để hứng từ, đồng thời nhanh chóng ghi nhớ các từ vựng đó.
+            Khi các bạn thu thập đủ 12 từ vựng, trò chơi sẽ tự động chuyển sang phần Nối từ.
+            Mỗi màn chơi, các bạn sẽ có 3 mạng sống để tiếp tục cuộc phiêu lưu.
+            Trong quá trình chơi, các bé có thể thu thập các vật phẩm bonus như hoa hướng dương để tăng lại mạng đã mất, hoa hồng, hoa trắng, lá cây ở level từ 1 đến 10, và kẹo, bánh, kẹo mút ở level từ 11 đến 20.\n
+            Điểm được tính dựa trên độ khó của từ vựng: mức dễ (10 điểm/ từ), mức trung bình (20 điểm/ từ), và mức khó (30 điểm/ từ).\n
+            Ở phần Nối từ, các bạn sẽ nối từ tiếng Anh với nghĩa tiếng Việt trong 3 lượt, mỗi lượt gồm 4 từ.
+            Mỗi lượt nối kéo dài 20 giây.
+            Điểm được tính dựa trên số từ nối đúng, với số điểm mỗi từ tương ứng với phần hứng từ.
+            Kết quả mỗi màn chơi sẽ bao gồm tổng điểm và tổng thời gian hoàn thành cả hai phần.
+            Chúc các bé chơi vui vẻ và học được nhiều từ vựng mới cùng mình nhé!`
     },
     {
         name: 'Giải thưởng',
-        content: 'Đây là giải thưởng của game'
-        + 'Lorem Ipsum has been the industrs standard dummy text ever since the 1500s, when an unknown printer took a galley of' 
-        + 'type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'
-        + 'Lorem Ipsum has been the industrs standard dummy text ever since the 1500s, when an unknown printer took a galley of' 
-        + 'type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
+        content: `
+        Chào mừng các bé tiểu học đến với "Rainy Words Adventure". Mình là bạn Hướng Dương, sẽ hướng dẫn các bé chơi trò chơi này nhé!
+        Các bạn cố gắng đạt điểm cao nhất trong mỗi màn chơi để đứng đầu bảng xếp hạng hằng tháng.
+        Trong quá trình chơi, các bạn có thể thu thập các vật phẩm như kẹo, bánh, hoa hồng,... Khi các bé thu thập vượt ngưỡng 500 cái mỗi loại, các bạn sẽ được thưởng danh hiệu (cúp).
+        Có các danh hiệu như Học sinh chăm chỉ nhất tháng dành cho bé hoàn thành màn chơi nhiều nhất tháng và Học sinh xuất sắc nhất tháng dành cho bé đạt top 1 trong tháng.
+        Khi các bạn thu thập đủ số cúp, các bạn có thể mở khóa các ảnh đại diện đặc biệt: đồng (>=1 cúp), bạc (>=2 cúp), vàng (>=3 cúp), bạch kim (>=5 cúp), và kim cương (>=7 cúp). 
+        Bảng xếp hạng sẽ xếp hạng các bé theo tổng điểm của các level đã mở khóa. Mỗi level chỉ tính điểm cao nhất và thời gian hoàn thành nhanh nhất. Nếu điểm bằng nhau, sẽ so sánh thời gian hoàn thành.
+        Chúc các bé chơi vui vẻ và học được nhiều từ vựng mới cùng mình nhé!
+        `
     },
 ];
 
@@ -59,14 +67,14 @@ const PopUpInstruc = ({ openPopUp, closePopUp }) => {
                                 className="cursor-pointer py-2 text-center"
                                 onClick={() => handleClickCard(item)}
                             >
-                                <p className={`text-xl rounded-lg font-semibold bg-orange-300 ${selectedCard.name === item.name ? 'bg-orange-500': 'bg-orange-300'}`}>{item.name}</p>
+                                <p className={`text-xl rounded-lg font-semibold bg-orange-300 ${selectedCard.name === item.name ? 'bg-orange-500' : 'bg-orange-300'}`}>{item.name}</p>
                             </li>
                         ))}
                     </div>
 
                     {selectedCard && (
                         <div className=" col-span-3 ml-4 mr-4 mt-4 bg-orange-50 rounded-lg max-h-96 overflow-y-auto p-3 scrollbar-thin scrollbar-track-orange-200 scrollbar-thumb-orange-400">
-                            <p className="ml-4 mr-4 text-lg text-justify">
+                            <p className="text-lg text-justify whitespace-pre-line">
                                 {selectedCard.content}
                             </p>
                         </div>

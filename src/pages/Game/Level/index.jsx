@@ -4,15 +4,11 @@ import { Levels } from './level';
 import { Player } from './player';
 import { BtnBackMap, BtnNextMap, Guide, Library, Achievement, Account } from './button';
 import { LevelSetting } from './UI';
-import { Component } from 'react';
 import PopUpInstruc from './PopUpInstruc';
 import PopUpAcc from './PopUpAcc';
 import PopUpLibrary from './PopUpLibrary';
 import PopUpRank from './PopUpRank';
 import CongratNewLevel from './CongratNewLevel';
-import { set } from 'react-hook-form';
-import { configSelector } from '../../../redux/selectors';
-import { useSelector } from 'react-redux';
 const Level = props => {
     const canvasRef = useRef();
     const animationRef = useRef();
@@ -27,7 +23,7 @@ const Level = props => {
     const [openPopupLib, setOpenPopupLib] = useState(false);
     const [openPopupRank, setOpenPopupRank] = useState(false);
     const [openCongratNewLevel, setOpenCongratNewLevel] = useState(true);
-    const [mode, setMode] = useState(useSelector(configSelector));
+    const [mode, setMode] = useState(localStorage.getItem('theme') || 'morning');
 
     const HandleRemovePopUp = () => setOpenPopup(false);
     const HandleRemovePopUpAcc = () => setOpenPopupAcc(false);
