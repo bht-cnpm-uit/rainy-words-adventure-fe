@@ -12,5 +12,7 @@ const addTopicToLevel = (topics) => {
 const deleteTopicsFromLevel = (topics) => {
     return instance.post('api/level/delete-topic', topics);
 }
-
-export { getTopicLevels, addTopicToLevel, deleteTopicsFromLevel };
+const getCurrentLevelUser = (userId) => {
+    return instance.get(`api/level/get-current/${userId}`);
+};
+export { getTopicLevels, addTopicToLevel, deleteTopicsFromLevel, getCurrentLevelUser };

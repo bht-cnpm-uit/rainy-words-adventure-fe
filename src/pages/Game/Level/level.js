@@ -6,9 +6,8 @@ export const LEVEL =
                 "x": 465,
                 "y": 515
             },
-            "state": "Unblock",
-            "difficulty_level": 1,
-            "max_difficulty_level": 3
+            "state": 0,
+            "difficulty_level": 0,
         },
         {
             "level": 2,
@@ -16,9 +15,8 @@ export const LEVEL =
                 "x": 950,
                 "y": 580
             },
-            "state": "Unblock",
+            "state": 0,
             "difficulty_level": 0,
-            "max_difficulty_level": 3
         },
         {
             "level": 3,
@@ -26,9 +24,8 @@ export const LEVEL =
                 "x": 1550,
                 "y": 505
             },
-            "state": "Unblock",
+            "state": 0,
             "difficulty_level": 0,
-            "max_difficulty_level": 3
         },
         {
             "level": 4,
@@ -36,9 +33,8 @@ export const LEVEL =
                 "x": 2020,
                 "y": 280
             },
-            "state": "Block",
+            "state": 0,
             "difficulty_level": 0,
-            "max_difficulty_level": 3
         },
         {
             "level": 5,
@@ -46,9 +42,8 @@ export const LEVEL =
                 "x": 2449,
                 "y": 320
             },
-            "state": "Block",
+            "state": 0,
             "difficulty_level": 0,
-            "max_difficulty_level": 3
         },
         {
             "level": 6,
@@ -56,9 +51,8 @@ export const LEVEL =
                 "x": 2862,
                 "y": 420
             },
-            "state": "Block",
+            "state": 0,
             "difficulty_level": 0,
-            "max_difficulty_level": 3
         },
         {
             "level": 7,
@@ -66,9 +60,8 @@ export const LEVEL =
                 "x": 3420,
                 "y": 600
             },
-            "state": "Block",
+            "state": 0,
             "difficulty_level": 0,
-            "max_difficulty_level": 3
         },
         {
             "level": 8,
@@ -76,9 +69,8 @@ export const LEVEL =
                 "x": 3185,
                 "y": 890
             },
-            "state": "Block",
+            "state": 0,
             "difficulty_level": 0,
-            "max_difficulty_level": 3
         },
         {
             "level": 9,
@@ -86,9 +78,8 @@ export const LEVEL =
                 "x": 3651,
                 "y": 1120
             },
-            "state": "Block",
+            "state": 0,
             "difficulty_level": 0,
-            "max_difficulty_level": 3
         },
         {
             "level": 10,
@@ -96,9 +87,8 @@ export const LEVEL =
                 "x": 3950,
                 "y": 365
             },
-            "state": "Block",
+            "state": 0,
             "difficulty_level": 0,
-            "max_difficulty_level": 3
         },
         {
             "level": 11,
@@ -106,9 +96,8 @@ export const LEVEL =
                 "x": 4061,
                 "y": 1095
             },
-            "state": "Block",
+            "state": 0,
             "difficulty_level": 0,
-            "max_difficulty_level": 3
         },
         {
             "level": 12,
@@ -116,9 +105,8 @@ export const LEVEL =
                 "x": 4400,
                 "y": 950
             },
-            "state": "Block",
+            "state": 0,
             "difficulty_level": 0,
-            "max_difficulty_level": 3
         },
         {
             "level": 13,
@@ -126,9 +114,8 @@ export const LEVEL =
                 "x": 4650,
                 "y": 600
             },
-            "state": "Block",
+            "state": 0,
             "difficulty_level": 0,
-            "max_difficulty_level": 3
         },
         {
             "level": 14,
@@ -136,9 +123,8 @@ export const LEVEL =
                 "x": 5300,
                 "y": 550
             },
-            "state": "Block",
+            "state": 0,
             "difficulty_level": 0,
-            "max_difficulty_level": 3
         },
         {
             "level": 15,
@@ -146,9 +132,8 @@ export const LEVEL =
                 "x": 5765,
                 "y": 630
             },
-            "state": "Block",
+            "state": 0,
             "difficulty_level": 0,
-            "max_difficulty_level": 3
         },
         {
             "level": 16,
@@ -156,9 +141,8 @@ export const LEVEL =
                 "x": 6175,
                 "y": 480
             },
-            "state": "Block",
+            "state": 0,
             "difficulty_level": 0,
-            "max_difficulty_level": 3
         },
         {
             "level": 17,
@@ -166,9 +150,8 @@ export const LEVEL =
                 "x": 6625,
                 "y": 400
             },
-            "state": "Block",
+            "state": 0,
             "difficulty_level": 0,
-            "max_difficulty_level": 3
         },
         {
             "level": 18,
@@ -176,9 +159,8 @@ export const LEVEL =
                 "x": 6900,
                 "y": 900
             },
-            "state": "Block",
+            "state": 0,
             "difficulty_level": 0,
-            "max_difficulty_level": 3
         },
         {
             "level": 19,
@@ -186,9 +168,8 @@ export const LEVEL =
                 "x": 7223,
                 "y": 470
             },
-            "state": "Block",
+            "state": 0,
             "difficulty_level": 0,
-            "max_difficulty_level": 3
         },
         {
             "level": 20,
@@ -196,15 +177,14 @@ export const LEVEL =
                 "x": 7650,
                 "y": 430
             },
-            "state": "Block",
+            "state": 0,
             "difficulty_level": 0,
-            "max_difficulty_level": 3
         }
     ]
-
 export class Levels {
     constructor(game) {
         this.game = game;
+        this.levelStatus = game.levelStatus
         this.levels = [];
         this.levelsNext = []
         this.spriteWidth = 259;

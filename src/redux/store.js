@@ -21,6 +21,7 @@ const reHydrateStore = () => {
         user: {
             isLoggedIn: false,
             userInfo: null,
+            level: null
         },
     };
 };
