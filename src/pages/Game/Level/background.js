@@ -1,5 +1,3 @@
-import { configSelector } from "../../../redux/selectors";
-import { useSelector } from "react-redux";
 export class Background {
     constructor(game) {
         this.game = game;

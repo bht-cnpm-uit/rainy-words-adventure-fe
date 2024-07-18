@@ -1,12 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PopUpUpdateAcc from './PopUpUpdateAcc';
-
 const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
     const [confirmLogOut, setConfirmLogOut] = useState(false);
     const [isSoundOn, setIsSoundOn] = useState(true);
     const [isAvatarModalOpen, setAvatarModalOpen] = useState(false);
     const [selectedAvatar, setSelectedAvatar] = useState('/assets/Asset/Avt_Frame_cuts/3.png');
+    const handleChangeMode = (mode) => {
+        setMode(mode);
+        localStorage.setItem('theme', mode)
+    }
 
+    useEffect(() => {
+        if (typeof window !== 'undefined' && localStorage.getItem('theme') === 'undefined') {
+            localStorage.setItem('theme', mode)
+        }
+    })
     const avatarOptions = [
         '/assets/Asset/Avt_Frame_cuts/3.png',
         '/assets/Asset/Avt_Frame_cuts/4.png',
@@ -125,15 +133,15 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
                             <p className="text-orange-500">CHẾ ĐỘ</p>
                             <div className="flex justify-center space-x-4">
                                 <div
-                                    onClick={() => setMode('morning')}
+                                    onClick={() => handleChangeMode('morning')}
                                     className={`cursor-pointer h-12 w-12 rounded-full bg-white ${mode === 'morning' ? 'border-4 border-orange-500' : ''}`}
                                 ></div>
                                 <div
-                                    onClick={() => setMode('afternoon')}
+                                    onClick={() => handleChangeMode('afternoon')}
                                     className={`cursor-pointer h-12 w-12 rounded-full bg-amber-200 ${mode === 'afternoon' ? 'border-4 border-orange-500' : ''}`}
                                 ></div>
                                 <div
-                                    onClick={() => setMode('night')}
+                                    onClick={() => handleChangeMode('night')}
                                     className={`cursor-pointer h-12 w-12 rounded-full bg-gray-500 text-white ${mode === 'night' ? 'border-4 border-orange-500' : ''}`}
                                 ></div>
                             </div>

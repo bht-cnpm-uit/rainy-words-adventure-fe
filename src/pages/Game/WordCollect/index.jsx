@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Player } from './Player/player';
 import { Background } from './background';
 import { Score, BonusItems, BoardStopGame, BtnGameState, BoardEndWordCollect } from './UI';
 import { WordFall } from './wordFall';
-import { configSelector } from '../../../redux/selectors';
-import { useSelector } from 'react-redux';
 const GameState =
 {
     0: 'Loss',
@@ -13,17 +11,16 @@ const GameState =
     3: 'Playing'
 }
 const WordCollect = props => {
-    const canvasRef = useRef()
+    const canvasRef = useRef();
     const resizeCanvas = (canvas) => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
     }
-    const mode = useSelector(configSelector);
     class Game {
-        constructor(canvas, ctx, mode) {
+        constructor(canvas, ctx) {
             this.props = props
             this.ctx = ctx;
-            this.mode = mode;
+            this.mode = localStorage.getItem('theme') || 'morning';;
             this.canvas = canvas;
             this.width = window.innerWidth;
             this.height = window.innerHeight;
@@ -204,7 +201,7 @@ const WordCollect = props => {
         const canvas = document.getElementById('responsive-canvas');
         resizeCanvas(canvas);
         const context = canvas.getContext('2d');
-        const game = new Game(canvas, context, mode);
+        const game = new Game(canvas, context);
         function animate(timeStamp) {
             context.clearRect(0, 0, canvas.width, canvas.height);
             const deltaTime = timeStamp - lastTime || 0;

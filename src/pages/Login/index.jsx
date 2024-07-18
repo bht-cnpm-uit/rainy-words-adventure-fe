@@ -15,7 +15,6 @@ const Login = (props) => {
     async function handleSubmitLogin(values) {
         try {
             let data = await handleLogin(values.phoneNumber, values.password);
-            console.log("data:", data);
             if (data && data.student) {
                 dispatch(userActions.login(data.student))
                 navigate('/level');
