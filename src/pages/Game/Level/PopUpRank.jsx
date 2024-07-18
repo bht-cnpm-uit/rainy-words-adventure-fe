@@ -1,17 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ProgressBar from './ProgressBar';
-// import Modal from 'react-modal';
+import { getAchivementOfStudent, getItemsOfStudent } from '../../../services/studentServices';
 
 const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
-    //gia su cup hien tai la 5
-    const [cupCount, setCupCount] = useState(5);
+    const [cupCount, setCupCount] = useState(2);
+    const [items, setItems] = useState([]);
+    const [achivements, setAchivements] = useState([]);
 
-    //popup unlock successfully
-    const [unlockSuccess, setUnlockSuccess] = useState(false);
+    useEffect(() => {
+        // Assuming you have a studentId available
+        const studentId = 'some-student-id';
+        getAchivementOfStudent(studentId);
+        getItemsOfStudent(studentId);
+    }, []);
 
     const unlockFrame = (frameType) => {
-        // unlockSuccess = true;
-        setUnlockSuccess(true); // Hiển thị popup khi mở khóa thành công
+        setUnlockSuccess(true);
+    };
+
+    const getAchivementOfStudent = async (studentId) => {
+        let response = await getAchivementOfStudent(studentId);
+        console.log('Achivement: ', response);
+        let getListAchivement = response.listAchievement.map((achivement) => ({
+            id: achivement.id,
+            name: achivement.name,
+        }));
+        setAchivements(getListAchivement);
+    };
+
+    const getItemsOfStudent = async (studentId) => {
+        let response = await getItemsOfStudent(studentId);
+        console.log('Items: ', response);
+        let getItemsOfStudent = response.map((item) => ({
+            id: item.id,
+            count: item.count,
+        }));
+        setItems(getItemsOfStudent);
     };
 
     const handleClosePopUp = (e) => {
@@ -41,14 +65,6 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                 { level: 1, score: 150, time: 20 },
                 { level: 2, score: 200, time: 35 },
                 { level: 2, score: 200, time: 38 },
-            ],
-        },
-        {
-            name: 'Player 3',
-            levels: [
-                { level: 1, score: 250, time: 20 },
-                { level: 2, score: 500, time: 35 },
-                { level: 2, score: 500, time: 38 },
             ],
         },
     ];
@@ -161,175 +177,69 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                     Số lượng vật phẩm thu thập được:
                                 </h3>
                                 <div className="grid grid-cols-2 gap-4">
-                                    {/* hoa lài */}
-                                    <div className="rounded-lg bg-white p-4 shadow">
-                                        <div className=" items-baseline font-bold">
-                                            <img src="/assets/Asset/Asset/bonusItem/0.png" className='mx-auto h-24 w-32' alt="" />
-                                            <div className="flex items-center">
-                                                <ProgressBar currentValue={100} maxValue={500} />
-                                                <span id="flower1-count">100/500</span>
+                                    {items.map((item, index) => (
+                                        <div
+                                            key={item.id}
+                                            className="rounded-lg bg-white p-4 shadow"
+                                        >
+                                            <div className="items-baseline text-center font-bold">
+                                                <img
+                                                    src={`/assets/Asset/Asset/item/${index}.png`}
+                                                    className="mx-auto h-24 w-32"
+                                                    alt=""
+                                                />
+                                                <div className="flex items-center justify-center">
+                                                    <ProgressBar
+                                                        currentValue={item.count}
+                                                        maxValue={500}
+                                                    />
+                                                    <span>{item.count}/500</span>
+                                                </div>
                                             </div>
                                         </div>
-                                       
-                                    </div>
-                                    {/* Hoa hồng */}
-                                    <div className="rounded-lg bg-white p-4 shadow">
-                                        <div className="items-baseline text-center font-bold">
-                                            <img
-                                                src="/assets/Asset/Asset/bonusItem/1.png"
-                                                className="mx-auto h-24 w-32"
-                                                alt=""
-                                            />
-                                            <div className="flex items-center">
-                                                <ProgressBar currentValue={200} maxValue={500} />
-                                                <span id="flower1-count">200/500</span>
-                                            </div>
-                                        </div>
-                                        
-                                    </div>
-
-                                    {/* Nhánh lá non xanh */}
-                                    <div className="rounded-lg bg-white p-4 shadow">
-                                        <div className="items-baseline text-center font-bold">
-                                            <img
-                                                src="/assets/Asset/Asset/bonusItem/2.png"
-                                                className="mx-auto mb-4 h-24 w-32"
-                                                alt=""
-                                            />
-                                            <div className="flex items-center">
-                                                <ProgressBar currentValue={250} maxValue={500} />
-                                                <span id="flower1-count">250/500</span>
-                                            </div>
-                                        </div>
-                                       
-                                    </div>
-
-                                    {/* Cái xẻng */}
-                                    <div className="rounded-lg bg-white p-4 shadow">
-                                        <div className=" items-baseline font-bold">
-                                            <img
-                                                src="/assets/Asset/Asset/bonusItem/3.png"
-                                                className="mx-auto mb-4 h-24 w-32"
-                                                alt=""
-                                            />
-                                            <div className="flex items-center">
-                                                <ProgressBar currentValue={500} maxValue={500} />
-                                                <span id="flower1-count">500/500</span>
-                                            </div>
-                                        </div>
-                                       
-                                    </div>
-
-                                    {/* Hoa hướng dương */}
-                                    <div className="rounded-lg bg-white p-4 shadow">
-                                        <div className=" items-baseline font-bold">
-                                            <img
-                                                src="/assets/Asset/Asset/bonusItem/4.png"
-                                                className="mx-auto mb-4 h-24 w-32"
-                                                alt=""
-                                            />
-                                            <div className="flex items-center">
-                                                <ProgressBar currentValue={0} maxValue={500} />
-                                                <span id="flower1-count">0/500</span>
-                                            </div>
-                                        </div>
-                                        
-                                    </div>
-
-                                    {/* Cái xúc */}
-                                    <div className="rounded-lg bg-white p-4 shadow">
-                                        <div className=" items-baseline font-bold">
-                                            <img
-                                                src="/assets/Asset/Asset/bonusItem/5.png"
-                                                className="mx-auto mb-4 h-24 w-32"
-                                                alt=""
-                                            />
-                                            <div className="flex items-center">
-                                                <ProgressBar currentValue={234} maxValue={500} />
-                                                <span id="flower1-count">234/500</span>
-                                            </div>
-                                        </div>
-                                       
-                                    </div>
-
-                                    {/* Lá cây */}
-                                    <div className="rounded-lg bg-white p-4 shadow">
-                                        <div className=" items-baseline font-bold">
-                                            <img
-                                                src="/assets/Asset/Asset/bonusItem/6.png"
-                                                className="mx-auto mb-4 h-24 w-32"
-                                                alt=""
-                                            />
-                                            <div className="flex items-center">
-                                                <ProgressBar currentValue={10} maxValue={500} />
-                                                <span id="flower1-count">10/500</span>
-                                            </div>
-                                        </div>
-                                       
-                                    </div>
+                                    ))}
                                 </div>
                             </div>
 
                             <div className="mt-6">
-                                <h3 className="mb-4 text-xl font-semibold">Danh hiệu:</h3>
+                                <h3 className="mb-4 text-xl font-semibold">Danh hiệu đạt được:</h3>
                                 <div className="flex items-center justify-between rounded-lg  bg-white p-4 shadow">
                                     <span className="flex-1">Học sinh chăm chỉ nhất tháng</span>
-                                    <button className="mx-auto mt-2 block rounded-lg bg-lime-400 p-2">
-                                        Nhận cúp
-                                    </button>
                                 </div>
                                 <div className="mt-4 flex items-center justify-between rounded-lg  bg-white p-4 shadow">
                                     <span className="flex-1">Học sinh xuất sắc nhất tháng</span>
-                                    <button className="mx-auto mt-2 block rounded-lg bg-lime-400 p-2">
-                                        Nhận cúp
-                                    </button>
                                 </div>
                             </div>
 
                             <div className="mt-6 rounded-lg bg-white p-4 shadow">
-                                <h2 className="mb-4 text-lg font-bold">
-                                    Số cúp hiện tại: {cupCount}
-                                </h2>
-                                <div className="flex justify-center items-center grid grid-cols-2 gap-4">
-                                    {/* Nút mở khóa khung */}
+                                <h2 className="mb-4 text-lg font-bold">Số khung đã được mở:</h2>
+                                <div className="ml-8 flex grid grid-cols-2 items-center justify-center gap-4">
                                     {cupCount >= 1 && (
                                         <button
-                                            onClick={() => unlockFrame('bronze')} // Gọi hàm mở khóa với frameType tương ứng
-                                            className="rounded-lg h-24 bg-[#B87333] text-gray-800 hover:bg-orange-700"
-                                        >
-                                            Mở khóa khung Đồng
-                                        </button>
+                                            onClick={() => unlockFrame('bronze')}
+                                            className="h-40 w-44 rounded-lg bg-[url('/assets/Asset/Avt_Frame_cuts/5.png')] bg-cover text-gray-800 hover:bg-gray-300"
+                                        ></button>
                                     )}
                                     {cupCount >= 2 && (
                                         <button
-                                            onClick={() => unlockFrame('silver')} // Gọi hàm mở khóa
-                                            className="rounded-lg h-24 bg-gray-200  text-gray-800 hover:bg-gray-300"
-                                        >
-                                            Mở khóa khung Bạc
-                                        </button>
+                                            onClick={() => unlockFrame('silver')}
+                                            className="h-40 w-44 rounded-lg bg-[url('/assets/Asset/Avt_Frame_cuts/6.png')] bg-cover text-gray-800 hover:bg-gray-300"
+                                        ></button>
                                     )}
                                     {cupCount >= 3 && (
                                         <button
-                                            onClick={() => unlockFrame('gold')} // Call unlockFrame
-                                            className="rounded-lg h-24 bg-[#ffd700] text-gray-800 hover:bg-amber-400"
+                                            onClick={() => unlockFrame('gold')}
+                                            className="h-40 w-44 rounded-lg bg-[url('/assets/Asset/Avt_Frame_cuts/7.png')] bg-cover text-gray-800 hover:bg-gray-300"
                                         >
-                                            Mở khóa khung Vàng
+                                            <img src="/assets/Asset/Avt_Frame_cuts/7.png" alt="" />
                                         </button>
                                     )}
                                     {cupCount >= 5 && (
                                         <button
-                                            onClick={() => unlockFrame('platinum')} // Call unlockFrame
-                                            className="rounded-lg h-24 bg-gray-400 text-gray-800 hover:bg-gray-500"
+                                            onClick={() => unlockFrame('platinum')}
+                                            className="h-40 w-44 rounded-lg bg-[url('/assets/Asset/Avt_Frame_cuts/9.png')] bg-cover text-gray-800 hover:bg-gray-300"
                                         >
-                                            Mở khóa khung Bạch Kim
-                                        </button>
-                                    )}
-                                    {cupCount >= 7 && (
-                                        <button
-                                            onClick={() => unlockFrame('diamond')} // Call unlockFrame
-                                            className="rounded-lg h-24 w-36 bg-gray-200 text-gray-800 hover:bg-gray-300"
-                                        >
-                                            Mở khóa khung Kim Cương
+                                            <img src="/assets/Asset/Avt_Frame_cuts/9.png" alt="" />
                                         </button>
                                     )}
                                 </div>
@@ -338,21 +248,6 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                     )}
                 </div>
             </div>
-
-            {unlockSuccess && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="rounded-lg bg-orange-50 p-6 text-center shadow-lg">
-                        <h2 className="mb-4 text-2xl font-bold">Mở khóa thành công!</h2>
-                        <p className="mb-4">Bạn đã mở khóa thành công một khung mới.</p>
-                        <button
-                            onClick={handleCloseSuccessModal}
-                            className="rounded bg-orange-400 px-4 py-2 text-white hover:bg-orange-500"
-                        >
-                            Đóng
-                        </button>
-                    </div>
-                </div>
-            )}
         </div>
     );
 };

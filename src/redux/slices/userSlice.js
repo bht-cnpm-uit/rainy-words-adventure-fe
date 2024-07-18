@@ -3,6 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     isLoggedIn: false,
     userInfo: null,
+    avatar: '/assets/Asset/Avt_Frame_cuts/3.png',
+    frame: null,
 };
 
 export const userSlice = createSlice({
@@ -12,9 +14,9 @@ export const userSlice = createSlice({
         signIn: (state, action) => {
             return {
                 ...state,
-                isLoggedIn: false,
-                userInfo: null
-            }
+                isLoggedIn: true,
+                userInfo: action.payload,
+            };
         },
         login: (state, action) => {
             return {
@@ -23,16 +25,22 @@ export const userSlice = createSlice({
                 userInfo: action.payload,
             };
         },
-        logout: () => null,
+        logout: () => initialState,
         update: (state, action) => {
             return { ...state, ...action.payload };
+        },
+        setAvatar(state, action) {
+            state.avatar = action.payload;
+        },
+        setFrame(state, action) {
+            state.frame = action.payload;
         },
     },
 });
 
-// Action creators are generated for each case reducer function
 const userReducer = userSlice.reducer;
 const userActions = userSlice.actions;
 
+export const { setAvatar, setFrame } = userSlice.actions;
 export default userReducer;
 export { userActions };
