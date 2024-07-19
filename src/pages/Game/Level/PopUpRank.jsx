@@ -1,24 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import ProgressBar from './ProgressBar';
+import { useSelector } from 'react-redux';
 import { getAchivementOfStudent, getItemsOfStudent } from '../../../services/studentServices';
 
 const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
     const [cupCount, setCupCount] = useState(2);
     const [items, setItems] = useState([]);
     const [achivements, setAchivements] = useState([]);
+    const userInfo = useSelector((state) => state.user.userInfo);
 
     useEffect(() => {
-        // Assuming you have a studentId available
-        const studentId = 'some-student-id';
-        getAchivementOfStudent(studentId);
-        getItemsOfStudent(studentId);
-    }, []);
+        console.log('User info:', userInfo);
+        if (userInfo && userInfo.id) {
+            achivementOfStudent(userInfo.id);
+            itemsOfStudent(userInfo.id);
+        }
+    }, [userInfo]);
 
-    const unlockFrame = (frameType) => {
-        setUnlockSuccess(true);
-    };
-
-    const getAchivementOfStudent = async (studentId) => {
+    const achivementOfStudent = async (studentId) => {
         let response = await getAchivementOfStudent(studentId);
         console.log('Achivement: ', response);
         let getListAchivement = response.listAchievement.map((achivement) => ({
@@ -28,24 +27,19 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
         setAchivements(getListAchivement);
     };
 
-    const getItemsOfStudent = async (studentId) => {
+    const itemsOfStudent = async (studentId) => {
         let response = await getItemsOfStudent(studentId);
-        console.log('Items: ', response);
-        let getItemsOfStudent = response.map((item) => ({
+        let getItemsOfStudents = response.items.map((item) => ({
             id: item.id,
             count: item.count,
         }));
-        setItems(getItemsOfStudent);
+        setItems(getItemsOfStudents);
     };
 
     const handleClosePopUp = (e) => {
         if (e.target.id === 'ModelContainer') {
             closePopUpRank();
         }
-    };
-
-    const handleCloseSuccessModal = () => {
-        setUnlockSuccess(false);
     };
 
     if (!openPopUpRank) return null;
@@ -177,14 +171,14 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                     Số lượng vật phẩm thu thập được:
                                 </h3>
                                 <div className="grid grid-cols-2 gap-4">
-                                    {items.map((item, index) => (
+                                    {items.map((item) => (
                                         <div
                                             key={item.id}
                                             className="rounded-lg bg-white p-4 shadow"
                                         >
                                             <div className="items-baseline text-center font-bold">
                                                 <img
-                                                    src={`/assets/Asset/Asset/item/${index}.png`}
+                                                    src={`/assets/Asset/Asset/item/${item.id}.png`}
                                                     className="mx-auto h-24 w-32"
                                                     alt=""
                                                 />
@@ -215,30 +209,18 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                 <h2 className="mb-4 text-lg font-bold">Số khung đã được mở:</h2>
                                 <div className="ml-8 flex grid grid-cols-2 items-center justify-center gap-4">
                                     {cupCount >= 1 && (
-                                        <button
-                                            onClick={() => unlockFrame('bronze')}
-                                            className="h-40 w-44 rounded-lg bg-[url('/assets/Asset/Avt_Frame_cuts/5.png')] bg-cover text-gray-800 hover:bg-gray-300"
-                                        ></button>
+                                        <button className="h-40 w-44 rounded-lg bg-[url('/assets/Asset/Avt_Frame_cuts/5.png')] bg-cover text-gray-800 hover:bg-gray-300"></button>
                                     )}
                                     {cupCount >= 2 && (
-                                        <button
-                                            onClick={() => unlockFrame('silver')}
-                                            className="h-40 w-44 rounded-lg bg-[url('/assets/Asset/Avt_Frame_cuts/6.png')] bg-cover text-gray-800 hover:bg-gray-300"
-                                        ></button>
+                                        <button className="h-40 w-44 rounded-lg bg-[url('/assets/Asset/Avt_Frame_cuts/6.png')] bg-cover text-gray-800 hover:bg-gray-300"></button>
                                     )}
                                     {cupCount >= 3 && (
-                                        <button
-                                            onClick={() => unlockFrame('gold')}
-                                            className="h-40 w-44 rounded-lg bg-[url('/assets/Asset/Avt_Frame_cuts/7.png')] bg-cover text-gray-800 hover:bg-gray-300"
-                                        >
+                                        <button className="h-40 w-44 rounded-lg bg-[url('/assets/Asset/Avt_Frame_cuts/7.png')] bg-cover text-gray-800 hover:bg-gray-300">
                                             <img src="/assets/Asset/Avt_Frame_cuts/7.png" alt="" />
                                         </button>
                                     )}
                                     {cupCount >= 5 && (
-                                        <button
-                                            onClick={() => unlockFrame('platinum')}
-                                            className="h-40 w-44 rounded-lg bg-[url('/assets/Asset/Avt_Frame_cuts/9.png')] bg-cover text-gray-800 hover:bg-gray-300"
-                                        >
+                                        <button className="h-40 w-44 rounded-lg bg-[url('/assets/Asset/Avt_Frame_cuts/9.png')] bg-cover text-gray-800 hover:bg-gray-300">
                                             <img src="/assets/Asset/Avt_Frame_cuts/9.png" alt="" />
                                         </button>
                                     )}
