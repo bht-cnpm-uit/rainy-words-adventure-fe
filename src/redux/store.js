@@ -16,7 +16,15 @@ const localStorageMiddleware = (store) => (next) => (action) => {
 const reHydrateStore = () => {
   if (localStorage.getItem('user') !== null) {
     return {
+<<<<<<< HEAD
+        user: {
+            isLoggedIn: false,
+            userInfo: null,
+            level: null
+        },
+=======
       user: JSON.parse(localStorage.getItem('user')),
+>>>>>>> cc4c6f80d2bb04ed31bd8b70bb3b2f7c85e81426
     };
   }
   return {

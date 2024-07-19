@@ -9,6 +9,11 @@ import PopUpAcc from './PopUpAcc';
 import PopUpLibrary from './PopUpLibrary';
 import PopUpRank from './PopUpRank';
 import CongratNewLevel from './CongratNewLevel';
+import { useDispatch, useSelector } from 'react-redux';
+import { userActions } from '../../../redux/slices/userSlice';
+import { getCurrentLevelUser } from '../../../services/levelServices';
+import { userSelector } from '../../../redux/selectors/userSelector';
+import { LEVEL } from './level';
 const Level = props => {
     const canvasRef = useRef();
     const animationRef = useRef();
@@ -18,11 +23,13 @@ const Level = props => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
     };
+
     const [openPopup, setOpenPopup] = useState(false);
     const [openPopupAcc, setOpenPopupAcc] = useState(false);
     const [openPopupLib, setOpenPopupLib] = useState(false);
     const [openPopupRank, setOpenPopupRank] = useState(false);
     const [openCongratNewLevel, setOpenCongratNewLevel] = useState(true);
+    const [level, setLevel] = useState(null);
     const [mode, setMode] = useState(localStorage.getItem('theme') || 'morning');
 
     const HandleRemovePopUp = () => setOpenPopup(false);
@@ -32,12 +39,13 @@ const Level = props => {
     const HandleRemoveCongratNewLevel = () => setOpenCongratNewLevel(false);
 
     class MainScreen {
-        constructor(canvas, ctx, mode) {
+        constructor(canvas, ctx, mode, level) {
             this.canvas = canvas;
             this.canvas.style.width = window.innerWidth;
             this.canvas.style.height = window.innerHeight;
             this.ctx = ctx;
             this.mode = mode;
+            this.level = level;
             this.width = window.innerWidth;
             this.height = window.innerHeight;
             this.spriteHeightBG = 1580;
@@ -63,6 +71,14 @@ const Level = props => {
         }
         updateMode(mode) {
             this.mode = mode
+        }
+        updateLevel(level) {
+            let init_level = JSON.parse(JSON.stringify(LEVEL));
+            init_level.forEach((item, idx) => {
+                init_level[idx]["state"] = level[0][idx];
+                init_level[idx]['difficulty_level'] = level[0][idx] + level[1][idx] + level[2][idx];
+            });
+            this.level = init_level;
         }
         onResize(event) {
             var canvas = document.getElementById('responsive-canvas');
@@ -264,11 +280,17 @@ const Level = props => {
             this.levelSetting.draw(context);
         }
     }
+    const handleGetLevel = async () => {
+        const userId = useSelector(userSelector)
+        console.log(userId)
+
+    }
+    const userInfor = useSelector(userSelector);
     useEffect(() => {
         const canvas = canvasRef.current;
         resizeCanvas(canvas);
         const context = canvas.getContext('2d');
-        const mainScreen = new MainScreen(canvas, context, mode);
+        const mainScreen = new MainScreen(canvas, context, mode, level);
         mainScreen.levels.updatePositionLevel();
         mainScreenRef.current = mainScreen;
 
@@ -287,6 +309,11 @@ const Level = props => {
             cancelAnimationFrame(animationRef.current);
         };
     }, []);
+    useEffect(async () => {
+        level = await getCurrentLevelUser(userInfor.id)
+        setLevel(level);
+        mainScreenRef.current.updateLevel(mode);
+    }, [level])
 
     useEffect(() => {
         if (mainScreenRef.current) {
