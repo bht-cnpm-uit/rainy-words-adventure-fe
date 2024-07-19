@@ -3,12 +3,9 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     isLoggedIn: false,
     userInfo: null,
-<<<<<<< HEAD
-    level: null
-=======
+    level: null,
     avatar: '/assets/Asset/Avt_Frame_cuts/3.png',
     frame: null,
->>>>>>> cc4c6f80d2bb04ed31bd8b70bb3b2f7c85e81426
 };
 
 export const userSlice = createSlice({
@@ -18,23 +15,20 @@ export const userSlice = createSlice({
         signIn: (state, action) => {
             return {
                 ...state,
-<<<<<<< HEAD
                 isLoggedIn: false,
                 userInfo: null,
                 level: null
             }
-=======
-                isLoggedIn: true,
-                userInfo: action.payload,
-            };
->>>>>>> cc4c6f80d2bb04ed31bd8b70bb3b2f7c85e81426
+
         },
         login: (state, action) => {
             return {
                 ...state,
                 isLoggedIn: true,
                 userInfo: action.payload,
-                level: null
+                level: null,
+                avatar: '/assets/Asset/Avt_Frame_cuts/3.png',
+                frame: null,
             };
         },
         logout: () => initialState,
