@@ -304,7 +304,12 @@ const Level = props => {
         return () => {
             cancelAnimationFrame(animationRef.current);
         };
-    }, [dispatch, mode]);
+    }, []);
+    useEffect(() => {
+        if (mainScreenRef.current) {
+            mainScreenRef.current.updateMode(mode)
+        }
+    }, [mode])
     useEffect(() => {
         const getLevel = async () => {
             let dataLevel = await getCurrentLevelUser(userInfor.id);

@@ -21,7 +21,7 @@ const WordCollect = props => {
         constructor(canvas, ctx) {
             this.props = props
             this.ctx = ctx;
-            this.mode = localStorage.getItem('theme') || 'morning';;
+            this.mode = localStorage.getItem('theme') || 'light';;
             this.canvas = canvas;
             this.width = window.innerWidth;
             this.height = window.innerHeight;

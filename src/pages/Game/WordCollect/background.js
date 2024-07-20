@@ -25,26 +25,22 @@ export class Background {
         this.game = game;
         this.spriteWidth = 2920;
         this.spriteHeight = 1080;
-        this.mode = localStorage.getItem('theme') || 'morning';
+        this.mode = localStorage.getItem('theme') || 'light';
         this.layerImage1 = new Layer(
             this.game,
             this.spriteWidth,
             this.spriteHeight,
-            this.mode === 'morning'
+            this.mode === 'light'
                 ? '../assets/Asset/Map1/ScrollBG.png'
-                : this.mode === 'afternoon'
-                    ? '../assets/Asset/Map2/ScrollBG.png'
-                    : '../assets/Asset/Map3/RollBackground.png'
+                : '../assets/Asset/Map3/RollBackground.png'
         );
         this.layerImage2 = new Layer(
             this.game,
             this.spriteWidth,
             this.spriteHeight,
-            this.mode === 'morning'
+            this.mode === 'light'
                 ? '../assets/Asset/Map1/StableBG.png'
-                : this.mode === 'afternoon'
-                    ? '../assets/Asset/Map2/StableBG.png'
-                    : '../assets/Asset/Map3/StableBG.png'
+                : '../assets/Asset/Map3/StableBG.png'
         );
         this.speedModifier = 0.5;
         this.speed = this.speedModifier;
