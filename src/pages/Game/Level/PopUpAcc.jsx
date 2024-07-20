@@ -1,10 +1,12 @@
-import  { useState } from 'react';
+import  { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PopUpUpdateAcc from './PopUpUpdateAcc';
 import { setAvatar, setFrame } from '../../../redux/slices/userSlice';
+import { getAchivementOfStudent, getItemsOfStudent, getStudentInfo } from '../../../services/studentServices';
 
 const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
     const dispatch = useDispatch();
+    const [data, setData] = useState({});
     const user = useSelector((state) => state.user);
     const [confirmLogOut, setConfirmLogOut] = useState(false);
     const [isSoundOn, setIsSoundOn] = useState(true);
@@ -40,20 +42,27 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
         }
     };
 
-    function formatDate(dateString) {
-        const [datePart] = dateString.split('T'); 
-        const [year, day, month] = datePart.split('-'); 
-        return `${day}/${month}/${year}`;
+    function dateFormat(dateStr) {
+        let dateObj = new Date(dateStr);
+    
+        let day = String(dateObj.getUTCDate()).padStart(2, '0');
+        let month = String(dateObj.getUTCMonth() + 1).padStart(2, '0');
+        let year = dateObj.getUTCFullYear();
+        
+        let formattedDate = `${day}/${month}/${year}`;
+        
+        return formattedDate;
     }
     
-    const student = [
-        {
-            name: userInfo.name,
-            grade: userInfo.grade,
-            dayOfBirth: formatDate(userInfo.birthday),
-            phoneNumber: userInfo.phoneNumber
-        },
-    ];
+
+    useEffect(() => {
+        getStudentInfomation(userInfo.id);
+    }, [data]);
+
+    const getStudentInfomation = async (studentId) =>{
+        let response = await getStudentInfo(studentId);
+        setData(response.student);
+    }
 
     const handleCloseConfirmLogOut = () => {
         setConfirmLogOut(false);
@@ -87,6 +96,8 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
         dispatch(setFrame(frame));
         setIsFrameModalOpen(false);
     };
+
+ 
 
     return (
         <div
@@ -139,18 +150,18 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
 
                     <div className="my-2 ml-4 mr-4 mt-4 bg-orange-50">
                         <p className="ml-4 text-lg">
-                            <span className="mr-4 font-semibold">Tên:</span> {student[0].name}
+                            <span className="mr-4 font-semibold">Tên:</span> {data.name}
                         </p>
                         <p className="ml-4 text-lg">
-                            <span className="mr-4 font-semibold">Lớp:</span> {student[0].grade}
+                            <span className="mr-4 font-semibold">Lớp:</span> {data.grade}
                         </p>
                         <p className="ml-4 text-lg">
                             <span className="mr-4 font-semibold">Ngày sinh:</span>
-                            {student[0].dayOfBirth}
+                            {dateFormat(data.birthday)}
                         </p>
                         <p className="ml-4 text-lg">
                             <span className="mr-4 font-semibold">Số điện thoại:</span>
-                            {student[0].phoneNumber}
+                            {data.phoneNumber}
                         </p>
                     </div>
 
@@ -199,7 +210,7 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
                 <PopUpUpdateAcc
                     openPopUpUpdate={openPopupUpdate}
                     closePopUpUpdate={handleRemovePopUpUpdate}
-                    student={student}
+                    student={data}
                 />
             )}
 

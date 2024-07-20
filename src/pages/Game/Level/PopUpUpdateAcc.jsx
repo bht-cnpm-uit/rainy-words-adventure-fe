@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-
-
+import { updateInfo } from '../../../services/studentServices';
 
 const PopUpUpdateAcc = ({ openPopUpUpdate, closePopUpUpdate, student }) => {
     const [updatedStudent, setUpdatedStudent] = useState(student);
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
 
     const handleClosePopUpUpdate = (e) => {
         if (e.target.id === 'ModelContainerUpdate') {
@@ -11,15 +12,58 @@ const PopUpUpdateAcc = ({ openPopUpUpdate, closePopUpUpdate, student }) => {
         }
     };
 
+    function dateFormat(dateStr) {
+        let dateObj = new Date(dateStr);
+        let day = String(dateObj.getUTCDate()).padStart(2, '0');
+        let month = String(dateObj.getUTCMonth() + 1).padStart(2, '0');
+        let year = dateObj.getUTCFullYear();
+        return `${day}/${month}/${year}`;
+    }
+    function dateFormat2(dateStr) {
+        let dateObj = new Date(dateStr);
+        let day = String(dateObj.getUTCDate()).padStart(2, '0');
+        let month = String(dateObj.getUTCMonth() + 1).padStart(2, '0');
+        let year = dateObj.getUTCFullYear();
+        return `${year}-${month}-${day}`;
+    }
+
     if (!openPopUpUpdate) return null;
 
     const handleClose = () => {
         closePopUpUpdate();
     };
 
-    const handleUpdate = () => {
-        // Handle updating data
-        console.log(updatedStudent);
+    const handleUpdate = async () => {
+        if (password !== confirmPassword) {
+            alert("Passwords do not match!");
+            return;
+        }
+        if(!password || !confirmPassword) {
+            alert("Vui lòng nhập mật khẩu và xác nhận mật khẩu!");
+            return;
+        }
+        const updateData = {
+            phoneNumber: updatedStudent.phoneNumber,
+            oldPassword: password,
+            newPassword: password,
+            grade: updatedStudent.grade,
+            birthday: dateFormat2(updatedStudent.birthday),
+        };
+        console.log("UPDATED DATA: ", updateData);
+
+        try {
+            const response = await updateInfo(updateData);
+            console.log("Update successful", response);
+            if(response.errCode !== "0")
+            alert("Mật khẩu sai!");
+            else{
+                alert("Cập nhật thành công!");
+                closePopUpUpdate();
+            }
+        } catch (error) {
+            console.error("Update failed", error);
+            alert("Sai mật khẩu!");
+        }
     };
 
     const handleChange = (e) => {
@@ -29,8 +73,6 @@ const PopUpUpdateAcc = ({ openPopUpUpdate, closePopUpUpdate, student }) => {
             [name]: value,
         }));
     };
-
-
 
     return (
         <div
@@ -42,40 +84,45 @@ const PopUpUpdateAcc = ({ openPopUpUpdate, closePopUpUpdate, student }) => {
                 <div className="w-full items-center justify-center p-3">
                     <h2 className="py-3 text-center text-xl font-semibold">CẬP NHẬT THÔNG TIN</h2>
                     <div className="my-2">
-                      
                         <div className="flex justify-center mt-4 flex-col items-center">
-                            <div
+                            <input
                                 name="name"
-                                contentEditable="true"
-                                onBlur={handleChange}
-                                className="mb-2 border border-gray-400  px-2 py-1 text-lg rounded-full text-center w-8/12"
-                            >
-                                {student[0].name}
-                            </div>
-                            <div
+                                value={updatedStudent.name}
+                                onChange={handleChange}
+                                className="mb-2 border border-gray-400 px-2 py-1 text-lg rounded-full text-center w-8/12"
+                            />
+                            <input
                                 name="grade"
-                                contentEditable="true"
-                                onBlur={handleChange}
-                                className="mb-2 border border-gray-400  px-2 py-1 text-lg rounded-full text-center w-8/12"
-                            >
-                                {student[0].grade}
-                            </div>
-                            <div
-                                name="dayOfBirth"
-                                contentEditable="true"
-                                onBlur={handleChange}
-                                className="mb-2 border border-gray-400  px-2 py-1 text-lg rounded-full text-center w-8/12"
-                            >
-                                {student[0].dayOfBirth}
-                            </div>
-                            <div
+                                value={updatedStudent.grade}
+                                onChange={handleChange}
+                                className="mb-2 border border-gray-400 px-2 py-1 text-lg rounded-full text-center w-8/12"
+                            />
+                            <input
+                                name="birthday"
+                                value={dateFormat(updatedStudent.birthday)}
+                                onChange={handleChange}
+                                className="mb-2 border border-gray-400 px-2 py-1 text-lg rounded-full text-center w-8/12"
+                            />
+                            <input
                                 name="phoneNumber"
-                                contentEditable="true"
-                                onBlur={handleChange}
-                                className="mb-2 border border-gray-400  px-2 py-1 text-lg rounded-full text-center w-8/12"
-                            >
-                                {student[0].phoneNumber}
-                            </div>
+                                value={updatedStudent.phoneNumber}
+                                onChange={handleChange}
+                                className="mb-2 border border-gray-400 px-2 py-1 text-lg rounded-full text-center w-8/12"
+                            />
+                            <input
+                                type="password"
+                                placeholder="Password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="mb-2 border border-gray-400 px-2 py-1 text-lg rounded-full text-center w-8/12"
+                            />
+                            <input
+                                type="password"
+                                placeholder="Confirm Password"
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                className="mb-2 border border-gray-400 px-2 py-1 text-lg rounded-full text-center w-8/12"
+                            />
                         </div>
                     </div>
                     <div className="mt-4 flex justify-center">
@@ -93,7 +140,6 @@ const PopUpUpdateAcc = ({ openPopUpUpdate, closePopUpUpdate, student }) => {
                         </button>
                     </div>
                 </div>
-               
             </div>
         </div>
     );

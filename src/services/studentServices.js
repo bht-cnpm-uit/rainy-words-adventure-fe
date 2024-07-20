@@ -7,7 +7,15 @@ const getItemsOfStudent = (id) => {
 }
 
 const getAchivementOfStudent = (id) => {
-    return instance.get(`user/get-achievement/${id}`);
+    return instance.get(`api/user/get-achievement/${id}`);
 }
 
-export { getAllStudents, getItemsOfStudent, getAchivementOfStudent }                  
+const updateInfo = async (data) => {
+    return instance.post('api/user/update-info', data);
+}
+
+const getStudentInfo = (id) => {
+    return instance.get(`api/user/get-info/${id}`);
+}
+
+export { getAllStudents, getItemsOfStudent, getAchivementOfStudent, updateInfo, getStudentInfo}                  

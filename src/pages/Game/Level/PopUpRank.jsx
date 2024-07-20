@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import ProgressBar from './ProgressBar';
 import { useSelector } from 'react-redux';
-import { getAchivementOfStudent, getItemsOfStudent } from '../../../services/studentServices';
+import { getAchivementOfStudent, getItemsOfStudent, getStudentInfo } from '../../../services/studentServices';
+
 
 const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
     const [cupCount, setCupCount] = useState(2);
@@ -14,6 +15,7 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
         if (userInfo && userInfo.id) {
             achivementOfStudent(userInfo.id);
             itemsOfStudent(userInfo.id);
+            getStudentInfomation(userInfo.id);
         }
     }, [userInfo]);
 
@@ -43,6 +45,13 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
     };
 
     if (!openPopUpRank) return null;
+
+    const getStudentInfomation = async (studentId) =>{
+        let response = await getStudentInfo(studentId);
+        console.log('Student Info: ', response);
+        setCupCount(response.student.cup);
+        console.log('Cup Count: ', response.student.cup)
+    }
 
     const players = [
         {
@@ -195,7 +204,7 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                 </div>
                             </div>
 
-                            <div className="mt-6">
+                            {/* <div className="mt-6">
                                 <h3 className="mb-4 text-xl font-semibold">Danh hiệu đạt được:</h3>
                                 <div className="flex items-center justify-between rounded-lg  bg-white p-4 shadow">
                                     <span className="flex-1">Học sinh chăm chỉ nhất tháng</span>
@@ -203,7 +212,7 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                 <div className="mt-4 flex items-center justify-between rounded-lg  bg-white p-4 shadow">
                                     <span className="flex-1">Học sinh xuất sắc nhất tháng</span>
                                 </div>
-                            </div>
+                            </div> */}
 
                             <div className="mt-6 rounded-lg bg-white p-4 shadow">
                                 <h2 className="mb-4 text-lg font-bold">Số khung đã được mở:</h2>
