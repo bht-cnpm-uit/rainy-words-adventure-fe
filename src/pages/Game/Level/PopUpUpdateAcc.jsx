@@ -1,16 +1,8 @@
 import React, { useState } from 'react';
 
-const student = {
-    name: 'Nguyễn Văn A',
-    school: 'Trường THPT ABC',
-    grade: '12',
-    dayOfBirth: '01/01/2004',
-    phoneNumber: '0123456789',
-};
 
 
-
-const PopUpUpdateAcc = ({ openPopUpUpdate, closePopUpUpdate }) => {
+const PopUpUpdateAcc = ({ openPopUpUpdate, closePopUpUpdate, student }) => {
     const [updatedStudent, setUpdatedStudent] = useState(student);
 
     const handleClosePopUpUpdate = (e) => {
@@ -58,15 +50,7 @@ const PopUpUpdateAcc = ({ openPopUpUpdate, closePopUpUpdate }) => {
                                 onBlur={handleChange}
                                 className="mb-2 border border-gray-400  px-2 py-1 text-lg rounded-full text-center w-8/12"
                             >
-                                {student.name}
-                            </div>
-                            <div
-                                name="school"
-                                contentEditable="true"
-                                onBlur={handleChange}
-                                className="mb-2 border border-gray-400  px-2 py-1 text-lg rounded-full text-center w-8/12"
-                            >
-                               {student.school}
+                                {student[0].name}
                             </div>
                             <div
                                 name="grade"
@@ -74,7 +58,7 @@ const PopUpUpdateAcc = ({ openPopUpUpdate, closePopUpUpdate }) => {
                                 onBlur={handleChange}
                                 className="mb-2 border border-gray-400  px-2 py-1 text-lg rounded-full text-center w-8/12"
                             >
-                                {student.grade}
+                                {student[0].grade}
                             </div>
                             <div
                                 name="dayOfBirth"
@@ -82,7 +66,7 @@ const PopUpUpdateAcc = ({ openPopUpUpdate, closePopUpUpdate }) => {
                                 onBlur={handleChange}
                                 className="mb-2 border border-gray-400  px-2 py-1 text-lg rounded-full text-center w-8/12"
                             >
-                                {student.dayOfBirth}
+                                {student[0].dayOfBirth}
                             </div>
                             <div
                                 name="phoneNumber"
@@ -90,7 +74,7 @@ const PopUpUpdateAcc = ({ openPopUpUpdate, closePopUpUpdate }) => {
                                 onBlur={handleChange}
                                 className="mb-2 border border-gray-400  px-2 py-1 text-lg rounded-full text-center w-8/12"
                             >
-                                {student.phoneNumber}
+                                {student[0].phoneNumber}
                             </div>
                         </div>
                     </div>

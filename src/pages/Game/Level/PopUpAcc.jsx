@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PopUpUpdateAcc from './PopUpUpdateAcc';
 import { setAvatar, setFrame } from '../../../redux/slices/userSlice';
@@ -10,6 +10,7 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
     const [isSoundOn, setIsSoundOn] = useState(true);
     const [isAvatarModalOpen, setAvatarModalOpen] = useState(false);
     const [isFrameModalOpen, setIsFrameModalOpen] = useState(false);
+    const userInfo = useSelector((state) => state.user.userInfo);
 
     const avatarOptions = [
         '/assets/Asset/Avt_Frame_cuts/3.png',
@@ -39,19 +40,20 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
         }
     };
 
+    function formatDate(dateString) {
+        const [datePart] = dateString.split('T'); 
+        const [year, day, month] = datePart.split('-'); 
+        return `${day}/${month}/${year}`;
+    }
+    
     const student = [
         {
-            name: 'Nguyễn Văn A',
-            school: 'Trường THPT ABC',
-            grade: '12',
-            dayOfBirth: '01/01/2004',
-            phoneNumber: '0123456789',
+            name: userInfo.name,
+            grade: userInfo.grade,
+            dayOfBirth: formatDate(userInfo.birthday),
+            phoneNumber: userInfo.phoneNumber
         },
     ];
-
-    const handleClose = () => {
-        closePopUpAcc();
-    };
 
     const handleCloseConfirmLogOut = () => {
         setConfirmLogOut(false);
@@ -140,10 +142,6 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
                             <span className="mr-4 font-semibold">Tên:</span> {student[0].name}
                         </p>
                         <p className="ml-4 text-lg">
-                            <span className="mr-4 font-semibold">Trường:</span>
-                            {student[0].school}
-                        </p>
-                        <p className="ml-4 text-lg">
                             <span className="mr-4 font-semibold">Lớp:</span> {student[0].grade}
                         </p>
                         <p className="ml-4 text-lg">
@@ -201,6 +199,7 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
                 <PopUpUpdateAcc
                     openPopUpUpdate={openPopupUpdate}
                     closePopUpUpdate={handleRemovePopUpUpdate}
+                    student={student}
                 />
             )}
 
