@@ -1,33 +1,22 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
-import { combineReducers } from 'redux';
 import userReducer from './slices/userSlice';
 
-// Middleware to save state to localStorage
 const localStorageMiddleware = (store) => (next) => (action) => {
   const result = next(action);
   // Save to localStorage
   const state = store.getState();
   localStorage.setItem('user', JSON.stringify(state.user));
+
   return result;
 };
 
-// Rehydrate store from localStorage
 const reHydrateStore = () => {
   if (localStorage.getItem('user') !== null) {
     return {
-<<<<<<< HEAD
-        user: {
-            isLoggedIn: false,
-            userInfo: null,
-            level: null
-        },
-=======
       user: JSON.parse(localStorage.getItem('user')),
->>>>>>> cc4c6f80d2bb04ed31bd8b70bb3b2f7c85e81426
     };
   }
+
   return {
     user: {
       isLoggedIn: false,
@@ -36,30 +25,9 @@ const reHydrateStore = () => {
   };
 };
 
-// Persist config
-const persistConfig = {
-  key: 'root',
-  storage,
-};
-
-// Combine reducers
-const rootReducer = combineReducers({
-  user: persistReducer(persistConfig, userReducer),
-//   config: configReducer,
-});
-
-// Create persisted reducer
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-
-// Create store
 const store = configureStore({
-  reducer: persistedReducer,
+  reducer: { user: userReducer },
   preloadedState: reHydrateStore(),
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(localStorageMiddleware),
 });
-
-// Create persistor
-const persistor = persistStore(store);
-
-export { store, persistor };
-export default store;
+export default store

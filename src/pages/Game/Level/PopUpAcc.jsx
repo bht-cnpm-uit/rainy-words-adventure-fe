@@ -24,6 +24,11 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
         // Add more frame options here
     ];
 
+    const handleSetMode = (mode) => {
+        setMode(mode);
+        localStorage.setItem('theme', mode)
+    }
+
     const showPopUpConfirmLogout = () => {
         setConfirmLogOut(true);
     };
@@ -156,16 +161,12 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
                             <p className="text-orange-500">CHẾ ĐỘ</p>
                             <div className="flex justify-center space-x-4">
                                 <div
-                                    onClick={() => setMode('morning')}
-                                    className={`h-12 w-12 cursor-pointer rounded-full bg-white ${mode === 'morning' ? 'border-4 border-orange-500' : ''}`}
+                                    onClick={() => handleSetMode('light')}
+                                    className={`h-12 w-12 cursor-pointer rounded-full bg-white ${mode === 'light' ? 'border-4 border-orange-500' : ''}`}
                                 ></div>
                                 <div
-                                    onClick={() => setMode('afternoon')}
-                                    className={`h-12 w-12 cursor-pointer rounded-full bg-amber-200 ${mode === 'afternoon' ? 'border-4 border-orange-500' : ''}`}
-                                ></div>
-                                <div
-                                    onClick={() => setMode('night')}
-                                    className={`h-12 w-12 cursor-pointer rounded-full bg-gray-500 text-white ${mode === 'night' ? 'border-4 border-orange-500' : ''}`}
+                                    onClick={() => handleSetMode('dark')}
+                                    className={`h-12 w-12 cursor-pointer rounded-full bg-gray-500 text-white ${mode === 'dark' ? 'border-4 border-orange-500' : ''}`}
                                 ></div>
                             </div>
                         </div>

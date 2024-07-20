@@ -175,6 +175,7 @@ export class LevelSetting {
         this.frameCount = 0;
         this.frameX = 1;
         this.currentLevel = null;
+        this.maxDiffLevel = null;
         this.staticUI = {
             board: new StaticUI(
                 this.game,
@@ -280,7 +281,7 @@ export class LevelSetting {
             // Draw your board and score here
             this.staticUI.board.draw(context);
             this.staticUI.score.draw(context);
-            this.staticUI.score.writeText(context, "1080");
+            this.staticUI.score.writeText(context, "0");
             this.buttons.close.draw(context);
             this.buttons.increase.draw(context);
             this.buttons.decrease.draw(context);
@@ -289,7 +290,6 @@ export class LevelSetting {
             this.text.levelText.writeText(context, "Level " + this.currentLevel.level.toString(), "fontgame");
             this.text.numDiffLevel.writeText(context, this.currentLevel.difficulty_level);
             this.text.diffLevel.writeText(context, "Độ khó");
-            // this.text.scoreText.writeText(context, "1080", "55px fontgame");
             context.restore();
             context.save();
             context.translate(this.translateX, this.translateY);
@@ -309,14 +309,16 @@ export class LevelSetting {
         this.hidden = true;
     }
     open(lv) {
-        this.currentLevel = lv;
+        this.currentLevel = JSON.parse(JSON.stringify(lv));
+        this.maxDiffLevel = this.currentLevel.difficulty_level + 1;
         this.hidden = false;
     }
     updateDifficultyLevel(d) {
         var newLevel = this.currentLevel.difficulty_level + d;
-        if (newLevel >= 0 && newLevel <= this.currentLevel.max_difficulty_level) {
+        if (newLevel >= 0 && newLevel <= this.maxDiffLevel) {
             this.currentLevel.difficulty_level = newLevel;
         }
+
     }
 
 
