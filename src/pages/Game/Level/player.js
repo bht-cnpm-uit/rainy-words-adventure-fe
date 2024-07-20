@@ -11,9 +11,8 @@ export class Player {
         this.heightJump = this.spriteHeightJump * this.game.scale / 2;
         this.levels = null;
         this.velocity = 0;
-        this.image_morning = new Image();
-        this.image_afternoon = new Image();
-        this.image_night = new Image();
+        this.image_light = new Image();
+        this.image_dark = new Image();
         this.imageJump = new Image();
         this.frameX = 0;
         this.frameY = 1;
@@ -24,12 +23,10 @@ export class Player {
         this.isJumping = null;
         this.frameJumpX = 0;
         this.frameJumpY = 0;
-
-        this.image_morning.src = '../assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png';
-        this.image_afternoon.src = '../assets/Asset/GameObject/SunflowerCatSprite_NightWalkBlink.png';
-        this.image_night.src = '../assets/Asset/GameObject/SunflowerCatSprite_Night2WalkBlink.png';
+        this.image_light.src = '../assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png';
+        this.image_dark.src = '../assets/Asset/GameObject/SunflowerCatSprite_Night2WalkBlink.png';
         // Load images
-        this.image_morning.onload = () => {
+        this.image_light.onload = () => {
             this.imageJump.onload = () => {
                 // Once images are loaded, set the initial position
                 this.initialPositionPlayer(this.currentLevel);
@@ -48,59 +45,44 @@ export class Player {
     draw(ctx) {
         ctx.save();
         ctx.translate(-this.game.background.xImageCut * this.game.scale, 0);
-        if (this.game.mode == 'night') {
-            this.frameJumpY = 1;
-        }
-        else {
-            this.frameJumpY = 0;
-        }
-        if (this.isJumping == 1) {
-            ctx.drawImage(this.imageJump,
-                this.frameJumpX * this.spriteWidthJump, this.frameJumpY * this.spriteHeightJump,
-                this.spriteWidthJump, this.spriteHeightJump,
-                this.currentLevel.position.x - this.width / 3.5, this.currentLevel.position.y - this.height / 1.6,
-                this.widthJump, this.heightJump);
-        }
-        else if (this.isJumping == -1) {
-            ctx.save(); // Save the current state of the context
-
-            // Translate to the position where you want to draw the image
-            ctx.translate(this.currentLevel.position.x, this.currentLevel.position.y);
-
-            // Invert the object by scaling horizontally by -1
-            ctx.scale(-1, 1);
-
-            // Translate back to draw the image correctly in the inverted context
-            ctx.translate(-this.width / 3.5, -this.height / 1.6);
-
-            // Draw the image
-            ctx.drawImage(this.imageJump,
-                this.frameJumpX * this.spriteWidthJump, this.frameJumpY * this.spriteHeightJump,
-                this.spriteWidthJump, this.spriteHeightJump,
-                -this.widthJump, 0, // Adjust the position after flipping
-                this.widthJump, this.heightJump);
-
-            ctx.restore(); // Restore the context to its original state
-        }
-        else {
-            if (this.game.mode == 'morning')
-                ctx.drawImage(this.image_morning,
-                    this.frameX * this.spriteWidth, this.frameY * this.spriteHeight,
-                    this.spriteWidth, this.spriteHeight,
-                    this.currentLevel.position.x - this.width / 3.5, this.currentLevel.position.y - this.height / 1.6,
-                    this.width, this.height);
-            else if (this.game.mode == 'afternoon') {
-                ctx.drawImage(this.image_afternoon,
-                    this.frameX * this.spriteWidth, this.frameY * this.spriteHeight,
-                    this.spriteWidth, this.spriteHeight,
-                    this.currentLevel.position.x - this.width / 3.5, this.currentLevel.position.y - this.height / 1.6,
-                    this.width, this.height);
+        let image;
+        if (this.currentLevel) {
+            if (this.game.mode == 'dark') {
+                this.frameJumpY = 1;
+                image = this.image_dark;
             }
             else {
-                ctx.drawImage(this.image_night,
+                this.frameJumpY = 0;
+                image = this.image_light
+            }
+            if (this.isJumping == 1) {
+                ctx.drawImage(this.imageJump,
+                    this.frameJumpX * this.spriteWidthJump, this.frameJumpY * this.spriteHeightJump,
+                    this.spriteWidthJump, this.spriteHeightJump,
+                    this.currentLevel.position.x * this.game.scale - this.width / 3.5, this.currentLevel.position.y * this.game.scale - this.height / 1.6,
+                    this.widthJump, this.heightJump);
+            }
+            else if (this.isJumping == -1) {
+                ctx.save(); // Save the current state of the context
+                // Translate to the position where you want to draw the image
+                ctx.translate(this.currentLevel.position.x * this.game.scale, this.currentLevel.position.y * this.game.scale);
+                // Invert the object by scaling horizontally by -1
+                ctx.scale(-1, 1);
+                // Translate back to draw the image correctly in the inverted context
+                ctx.translate(-this.width / 3.5, -this.height / 1.6);
+                // Draw the image
+                ctx.drawImage(this.imageJump,
+                    this.frameJumpX * this.spriteWidthJump, this.frameJumpY * this.spriteHeightJump,
+                    this.spriteWidthJump, this.spriteHeightJump,
+                    -this.widthJump, 0, // Adjust the position after flipping
+                    this.widthJump, this.heightJump);
+                ctx.restore(); // Restore the context to its original state
+            }
+            else {
+                ctx.drawImage(image,
                     this.frameX * this.spriteWidth, this.frameY * this.spriteHeight,
                     this.spriteWidth, this.spriteHeight,
-                    this.currentLevel.position.x - this.width / 3.5, this.currentLevel.position.y - this.height / 1.6,
+                    this.currentLevel.position.x * this.game.scale - this.width / 3.5, this.currentLevel.position.y * this.game.scale - this.height / 1.6,
                     this.width, this.height);
             }
         }
@@ -114,22 +96,20 @@ export class Player {
     initialPositionPlayer(level) {
         this.currentLevel = JSON.parse(JSON.stringify(level));
     }
-
-    updatePosition(level) {
-        if (level.level <= this.maxCurrentLevel) {
-            this.jump(level);
-        }
-    }
+    // updatePosition(level) {
+    //     if (level.level <= this.maxCurrentLevel) {
+    //         this.jump(level);
+    //     }
+    // }
 
     jump(nextLevel) {
         const self = this;
         const g = 5;
         let animationHandle;
         let jumpTo;
-
         function animate(timeStamp) {
             if (!self.lastTime) self.lastTime = timeStamp;
-            let deltaTime = (timeStamp - self.lastTime) / 500;  // Convert to seconds
+            let deltaTime = (timeStamp - self.lastTime) / 300;
             self.lastTime = timeStamp;
 
             if (deltaTime > 1) deltaTime = 0;
@@ -160,10 +140,10 @@ export class Player {
 
             if (nextLevel.level > self.currentLevel.level) {
                 self.isJumping = 1;
-                jumpTo = self.levels[self.currentLevel.level];
+                jumpTo = self.game.level[self.currentLevel.level];
             } else {
                 self.isJumping = -1;
-                jumpTo = self.levels[self.currentLevel.level - 2];
+                jumpTo = self.game.level[self.currentLevel.level - 2];
             }
             let disX = Math.abs(jumpTo.position.x - self.currentLevel.position.x);
             let disY = Math.abs(jumpTo.position.y - self.currentLevel.position.y);
@@ -176,9 +156,6 @@ export class Player {
 
         self.processNextJump();
     }
-
-
-
     animateStand() {
         const self = this;
         let animationHandle;

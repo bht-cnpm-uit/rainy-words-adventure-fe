@@ -18,7 +18,7 @@ const Level = props => {
     const canvasRef = useRef();
     const animationRef = useRef();
     const mainScreenRef = useRef();
-
+    const dispatch = useDispatch();
     const resizeCanvas = (canvas) => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
@@ -29,14 +29,15 @@ const Level = props => {
     const [openPopupLib, setOpenPopupLib] = useState(false);
     const [openPopupRank, setOpenPopupRank] = useState(false);
     const [openCongratNewLevel, setOpenCongratNewLevel] = useState(true);
-    const [level, setLevel] = useState(null);
-    const [mode, setMode] = useState(localStorage.getItem('theme') || 'morning');
+    const [level, setLevel] = useState(LEVEL);
+    const [mode, setMode] = useState(localStorage.getItem('theme') || 'light');
 
     const HandleRemovePopUp = () => setOpenPopup(false);
     const HandleRemovePopUpAcc = () => setOpenPopupAcc(false);
     const HandleRemovePopUpLib = () => setOpenPopupLib(false);
     const HandleRemovePopUpRank = () => setOpenPopupRank(false);
     const HandleRemoveCongratNewLevel = () => setOpenCongratNewLevel(false);
+    const userInfor = useSelector(userSelector);
 
     class MainScreen {
         constructor(canvas, ctx, mode, level) {
@@ -46,6 +47,8 @@ const Level = props => {
             this.ctx = ctx;
             this.mode = mode;
             this.level = level;
+            this.currentLevelPlayer = null;
+            this.currentLevel;
             this.width = window.innerWidth;
             this.height = window.innerHeight;
             this.spriteHeightBG = 1580;
@@ -72,11 +75,17 @@ const Level = props => {
         updateMode(mode) {
             this.mode = mode
         }
-        updateLevel(level) {
+        setLevel(level) {
             let init_level = JSON.parse(JSON.stringify(LEVEL));
             init_level.forEach((item, idx) => {
-                init_level[idx]["state"] = level[0][idx];
-                init_level[idx]['difficulty_level'] = level[0][idx] + level[1][idx] + level[2][idx];
+                item["state"] = 1;
+                // item["state"] = level[0][idx] || idx === 0 ? 1 : 0;
+                item['difficulty_level'] = level[0][idx] + level[1][idx] + level[2][idx];
+                if (!this.player.currentLevel) {
+                    if (idx == 19 || !level[0][idx + 1]) {
+                        this.player.currentLevel = JSON.parse(JSON.stringify(item))
+                    }
+                }
             });
             this.level = init_level;
         }
@@ -127,9 +136,9 @@ const Level = props => {
             }
             else {
                 // // Check if the mouse is over any level
-                for (const level of this.levels.levels) {
+                for (const level of this.level) {
                     if (this.isMouseOverLevel(mouseX - this.levels.xVirtual, mouseY, level)) {
-                        cursorStyle = 'pointer'; // Change cursor style to pointer
+                        cursorStyle = 'pointer';
                     }
                 }
 
@@ -154,18 +163,20 @@ const Level = props => {
             const rect = this.canvas.getBoundingClientRect();
             const mouseX = event.clientX - rect.left;
             const mouseY = event.clientY - rect.top;
-            if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.close)) {
-                this.levelSetting.close();
-            }
-            else if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.decrease)) {
-                this.levelSetting.updateDifficultyLevel(-1);
-            }
-            else if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.increase)) {
-                this.levelSetting.updateDifficultyLevel(1);
-            }
-            else if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.play)) {
-                //  play
-                window.location.href = '/game';
+            if (!this.levelSetting.hidden) {
+                if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.close)) {
+                    this.levelSetting.close();
+                }
+                else if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.decrease)) {
+                    this.levelSetting.updateDifficultyLevel(-1);
+                }
+                else if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.increase)) {
+                    this.levelSetting.updateDifficultyLevel(1);
+                }
+                else if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.play)) {
+                    //  play
+                    window.location.href = '/game';
+                }
             }
             // Check if the mouse is over the next map button
             else if (this.levelSetting.hidden) {
@@ -179,24 +190,21 @@ const Level = props => {
                     return;
                 }
                 else {
-                    this.levels.levels.forEach(level => {
+                    this.level.forEach(level => {
                         if (this.isMouseOverLevel(mouseX - this.levels.xVirtual, mouseY, level)) {
-                            if (level.state == "Block") {
-                                if (this.player.maxCurrentLevel + 1 == level.level) {
-                                    this.levels.updateStateLevel(level);
-                                    this.player.updateMaxCurrentLevel(level.level);
+                            if (level.state) {
+                                if (this.player.currentLevel.level == level.level) {
+                                    this.levelSetting.open(level)
                                 }
-                            }
-                            else if (this.player.currentLevel.level == level.level) {
-                                this.levelSetting.open(level);
-                            }
-                            else {
-                                this.player.updatePosition(level);
+                                else {
+                                    this.player.jump(level)
+                                }
                             }
                             return;
                         }
                     });
                 }
+
             }
 
             if (this.isMouseOverButtonTool(mouseX, mouseY, this.btnGuide)) {
@@ -234,17 +242,15 @@ const Level = props => {
             }
             animate();
         }
-
         // Function to check if the mouse is over a level
         isMouseOverLevel(mouseX, mouseY, level) {
             return (
-                mouseX >= level.position.x + this.levels.width / 5 &&
-                mouseX <= level.position.x + this.levels.width / 1.5 &&
-                mouseY >= level.position.y + this.levels.height / 5 &&
-                mouseY <= level.position.y + this.levels.height / 1.5
+                mouseX >= level.position.x * this.scale + this.levels.width / 5 &&
+                mouseX <= level.position.x * this.scale + this.levels.width / 1.5 &&
+                mouseY >= level.position.y * this.scale + this.levels.height / 5 &&
+                mouseY <= level.position.y * this.scale + this.levels.height / 1.5
             );
         }
-
         // Function to check if the mouse is over a button
         isMouseOverButton(mouseX, mouseY, button) {
             return (
@@ -254,7 +260,6 @@ const Level = props => {
                 mouseY <= button.y + button.height
             );
         }
-
         isMouseOverButtonTool(mouseX, mouseY, button) {
             return (
                 mouseX >= button.x &&
@@ -280,47 +285,36 @@ const Level = props => {
             this.levelSetting.draw(context);
         }
     }
-    const handleGetLevel = async () => {
-        const userId = useSelector(userSelector)
-        console.log(userId)
-
-    }
-    const userInfor = useSelector(userSelector);
     useEffect(() => {
         const canvas = canvasRef.current;
         resizeCanvas(canvas);
         const context = canvas.getContext('2d');
         const mainScreen = new MainScreen(canvas, context, mode, level);
-        mainScreen.levels.updatePositionLevel();
         mainScreenRef.current = mainScreen;
 
-        let lastTime = 0;
         const animate = (timeStamp) => {
+            const deltaTime = timeStamp - (animate.lastTime || 0);
+            animate.lastTime = timeStamp;
             context.clearRect(0, 0, canvas.width, canvas.height);
-            const deltaTime = timeStamp - lastTime || 0;
-            lastTime = timeStamp;
             mainScreen.update(deltaTime);
             mainScreen.draw(context);
             animationRef.current = requestAnimationFrame(animate);
         };
         animationRef.current = requestAnimationFrame(animate);
-
         return () => {
             cancelAnimationFrame(animationRef.current);
         };
-    }, []);
-    useEffect(async () => {
-        level = await getCurrentLevelUser(userInfor.id)
-        setLevel(level);
-        mainScreenRef.current.updateLevel(mode);
-    }, [level])
-
+    }, [dispatch, mode]);
     useEffect(() => {
-        if (mainScreenRef.current) {
-            mainScreenRef.current.updateMode(mode);
-        }
-    }, [mode]);
-
+        const getLevel = async () => {
+            let dataLevel = await getCurrentLevelUser(userInfor.id);
+            let levelInfor = dataLevel.levelMatrix;
+            setLevel(levelInfor);
+            mainScreenRef.current.setLevel(levelInfor);
+            dispatch(userActions.setLevel(levelInfor));
+        };
+        getLevel();
+    }, [])
     return (
         <div>
             <canvas id='responsive-canvas' ref={canvasRef} {...props}></canvas>

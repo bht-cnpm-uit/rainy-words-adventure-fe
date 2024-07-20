@@ -184,8 +184,6 @@ export const LEVEL =
 export class Levels {
     constructor(game) {
         this.game = game;
-        this.levelStatus = game.levelStatus
-        this.levels = [];
         this.levelsNext = []
         this.spriteWidth = 259;
         this.spriteHeight = 259;
@@ -219,75 +217,74 @@ export class Levels {
         this.height = this.spriteHeight * this.game.scale;
         this.maxWidthSlice = this.game.width;
         this.xVirtual = -this.game.background.xImageCut * this.game.scale;
-        this.updatePositionLevel();
+        // this.updatePositionLevel();
     }
 
     draw(context) {
-        if (this.game.mode == 'morning') {
-            this.frameY = 0;
-        }
-        else if (this.game.mode == 'afternoon') {
-            this.frameY = 2;
-        }
-        else this.frameY = 1;
-        context.save()
-        context.translate(this.xVirtual, 0);
-        this.levels.forEach(level => {
-            if (level.state === 'Unblocking') {
-                if (this.frame % 8 == 0) {
-                    context.drawImage(this.image, this.frameX * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, level.position.x + Math.random() * 5, level.position.y + Math.random() * 3, this.width, this.height);
+        if (this.game.level) {
+            if (this.game.mode == 'light') {
+                this.frameY = 0;
+            }
+            else this.frameY = 1;
+            context.save()
+            context.translate(this.xVirtual, 0);
+            this.game.level.forEach(level => {
+                if (level.state === 'Unblocking') {
+                    if (this.frame % 8 == 0) {
+                        context.drawImage(this.image, this.frameX * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, level.position.x * this.game.scale + Math.random() * 5, level.position.y * this.game.scale + Math.random() * 3, this.width, this.height);
+                    }
+                    else {
+                        context.drawImage(this.image, this.frameX * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, level.position.x * this.game.scale, level.position.y * this.game.scale, this.width, this.height);
+                    }
+                }
+                else if (level.state) {
+                    context.drawImage(this.image, 0 * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, level.position.x * this.game.scale, level.position.y * this.game.scale, this.width, this.height);
+                    if (level.difficulty_level == 0) {
+                        context.drawImage(this.imageStar0, level.position.x * this.game.scale + (this.width - this.widthStar) / 2, level.position.y * this.game.scale - this.heightStar / 6, this.widthStar, this.heightStar);
+                    }
+                    else if (level.difficulty_level == 1) {
+                        context.drawImage(this.imageStar1, level.position.x * this.game.scale + (this.width - this.widthStar) / 2, level.position.y * this.game.scale - this.heightStar / 6, this.widthStar, this.heightStar);
+                    }
+                    else if (level.difficulty_level == 2) {
+                        context.drawImage(this.imageStar2, level.position.x * this.game.scale + (this.width - this.widthStar) / 2, level.position.y * this.game.scale - this.heightStar / 6, this.widthStar, this.heightStar);
+                    }
+                    else if (level.difficulty_level == 3) {
+                        context.drawImage(this.imageStar3, level.position.x * this.game.scale + (this.width - this.widthStar) / 2, level.position.y * this.game.scale - this.heightStar / 6, this.widthStar, this.heightStar);
+                    }
                 }
                 else {
-                    context.drawImage(this.image, this.frameX * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, level.position.x, level.position.y, this.width, this.height);
+                    context.drawImage(this.image,
+                        1 * this.spriteWidth, this.frameY * this.spriteHeight,
+                        this.spriteWidth, this.spriteHeight,
+                        level.position.x * this.game.scale, level.position.y * this.game.scale,
+                        this.width, this.height);
                 }
-            }
-            else if (level.state === 'Unblock') {
-                context.drawImage(this.image, 0 * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, level.position.x, level.position.y, this.width, this.height);
-                if (level.difficulty_level == 0) {
-                    context.drawImage(this.imageStar0, level.position.x + (this.width - this.widthStar) / 2, level.position.y - this.heightStar / 6, this.widthStar, this.heightStar);
-                }
-                else if (level.difficulty_level == 1) {
-                    context.drawImage(this.imageStar1, level.position.x + (this.width - this.widthStar) / 2, level.position.y - this.heightStar / 6, this.widthStar, this.heightStar);
-                }
-                else if (level.difficulty_level == 2) {
-                    context.drawImage(this.imageStar2, level.position.x + (this.width - this.widthStar) / 2, level.position.y - this.heightStar / 6, this.widthStar, this.heightStar);
-                }
-                else if (level.difficulty_level == 3) {
-                    context.drawImage(this.imageStar3, level.position.x + (this.width - this.widthStar) / 2, level.position.y - this.heightStar / 6, this.widthStar, this.heightStar);
-                }
-            }
-            else {
-                context.drawImage(this.image,
-                    1 * this.spriteWidth, this.frameY * this.spriteHeight,
-                    this.spriteWidth, this.spriteHeight,
-                    level.position.x, level.position.y,
-                    this.width, this.height);
-            }
-        });
-        context.restore()
+            });
+            context.restore()
+        }
     }
     drawAnimateUnBlockLevel(context, frameX, level) {
         context.save();
-        context.drawImage(this.image, frameX * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, level.position.x, level.position.y, this.width, this.height);
+        context.drawImage(this.image, frameX * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, level.position.x * this.game.scale, level.position.y * this.game.scale, this.width, this.height);
     }
 
-    updatePositionLevel() {
-        const init_level = JSON.parse(JSON.stringify(LEVEL)); // Assuming LEVEL is a constant containing the initial level data
-        this.levels = []; // Clear the levels array
-        for (let i = 0; i < init_level.length; i++) { // Iterate over init_level.length
-            const lv = init_level[i]; // Access each level data from init_level
-            lv.position.x = lv.position.x * this.game.scale;
-            lv.position.y = lv.position.y * this.game.scale;
-            this.levels.push(lv); // Push the updated level data into levels array
-            if (lv.level == this.game.player.maxCurrentLevel) {
-                this.game.player.initialPositionPlayer(lv)
-            }
-        }
-        this.game.player.levels = JSON.parse(JSON.stringify(this.levels))
-        this.levelsNext = JSON.parse(JSON.stringify(this.levels));
-    }
+    // updatePositionLevel() {
+    //     const init_level = JSON.parse(JSON.stringify(LEVEL));
+    //     // this.levels = []; // Clear the levels array
+    //     for (let i = 0; i < init_level.length; i++) { // Iterate over init_level.length
+    //         const lv = init_level[i]; // Access each level data from init_level
+    //         lv.position.x = lv.position.x * this.game.scale;
+    //         lv.position.y = lv.position.y * this.game.scale;
+    //         this.levels.push(lv); // Push the updated level data into levels array
+    //         if (lv.level == this.game.player.maxCurrentLevel) {
+    //             this.game.player.initialPositionPlayer(lv)
+    //         }
+    //     }
+    //     this.game.player.levels = JSON.parse(JSON.stringify(this.levels))
+    //     this.levelsNext = JSON.parse(JSON.stringify(this.levels));
+    // }
     updateStateLevel(lv) {
-        this.levels.forEach(level => {
+        this.game.level.forEach(level => {
             if (level.level == lv.level) {
                 level.state = "Unblocking"
                 this.animateUnblockLevel(level);

@@ -32,14 +32,20 @@ export const userSlice = createSlice({
             };
         },
         logout: () => initialState,
-        update: (state, action) => {
-            return { ...state, ...action.payload };
-        },
         setAvatar(state, action) {
             state.avatar = action.payload;
         },
         setFrame(state, action) {
             state.frame = action.payload;
+        },
+        setLevel(state, action) {
+            return {
+                ...state,
+                level: action.payload
+            }
+        },
+        update: (state, action) => {
+            return { ...state, ...action.payload };
         },
     },
 });

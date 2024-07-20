@@ -3,12 +3,10 @@ export class Background {
         this.game = game;
         this.spriteWidth = 7920;
         this.spriteHeight = 1580;
-        this.image_morning = new Image();
-        this.image_afternoon = new Image();
-        this.image_night = new Image();
-        this.image_morning.src = '../assets/Asset/LevelMap_Day.png';
-        this.image_afternoon.src = '../assets/Asset/LevelMap_Night.png';
-        this.image_night.src = '../assets/Asset/LevelMap_Night2.png'
+        this.image_light = new Image();
+        this.image_dark = new Image();
+        this.image_light.src = '../assets/Asset/LevelMap_Day.png';
+        this.image_dark.src = '../assets/Asset/LevelMap_Night2.png'
         this.xImage = 0;
         this.xImageCut = 0;
         this.x = 0;
@@ -32,22 +30,9 @@ export class Background {
         }
     }
     draw(context) {
-        if (this.game.mode == 'morning') {
+        if (this.game.mode == 'light') {
             context.drawImage(
-                this.image_morning,
-                this.xImageCut,
-                0,
-                this.spriteWidth - this.game.widthCut,
-                this.spriteHeight,
-                this.x,
-                this.y,
-                this.game.width,
-                this.game.height
-            );
-        }
-        else if (this.game.mode == 'night') {
-            context.drawImage(
-                this.image_night,
+                this.image_light,
                 this.xImageCut,
                 0,
                 this.spriteWidth - this.game.widthCut,
@@ -60,7 +45,7 @@ export class Background {
         }
         else {
             context.drawImage(
-                this.image_afternoon,
+                this.image_dark,
                 this.xImageCut,
                 0,
                 this.spriteWidth - this.game.widthCut,
