@@ -13,7 +13,7 @@ class Item {
         this.maxAngleSpin = 10 * Math.PI / 180;
         this.angle = (Math.random() * 20 - 10) * Math.PI / 180;
         this.markedForDeletion = false;
-        this.word = data[Math.floor(Math.random() * data.length)]
+        this.word = this.game.props.listwordcollect[Math.floor(Math.random() * this.game.props.listwordcollect.length)]
         this.isTrueWord = true;
         // this.setWord();
         this.setFrameXY(); // Random bonus item
@@ -80,7 +80,7 @@ class Item {
         context.textAlign = 'center';
 
         // Draw English text
-        context.fillText(this.word["word"], this.spriteWidth * this.game.scale / 8, -this.spriteHeight * this.game.scale / 10);
+        context.fillText(this.word["vocab"], this.spriteWidth * this.game.scale / 8, -this.spriteHeight * this.game.scale / 10);
 
         // Adjust font size for Vietnamese text
         context.font = '15px Arial';

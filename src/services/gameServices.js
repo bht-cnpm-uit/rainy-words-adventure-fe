@@ -3,7 +3,7 @@ const getLeaderboard = () => {
     return instance.get('api/leaderboard/get-all');
 };
 const createNewGame = (data) => {
-    return instance.get(`api/game/create-new-game/${data.level}/${data.diff}`);
+    return instance.post(`api/game/create-new-game`, data);
 };
 
 export { getLeaderboard, createNewGame };

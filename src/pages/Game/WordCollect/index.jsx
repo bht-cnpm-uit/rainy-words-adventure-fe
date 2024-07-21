@@ -1,46 +1,29 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Player } from './Player/player';
 import { Background } from './background';
 import { Score, BonusItems, BoardStopGame, BtnGameState, BoardEndWordCollect } from './UI';
 import { WordFall } from './wordFall';
-import { useLocation } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import { createNewGame } from '../../../services/gameServices';
-const GameState =
-{
+
+const GameState = {
     0: 'Loss',
     1: 'Stop',
     2: 'Win',
     3: 'Playing'
-}
-const WordCollect = props => {
-    const location = useLocation();
-    const navigate = useNavigate();
+};
+
+const WordCollect = (props) => {
     const canvasRef = useRef();
-    const GameRef = useRef();
+
     const resizeCanvas = (canvas) => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-    }
-    const [listWords, setListWords] = useState(null);
-    useEffect(() => {
-        const getAllWords = async (data) => {
-            let res = await createNewGame(data)
-            console.log(res)
-        }
-        const state = location.state || {}
-        if (state && state.level !== undefined && state.diff !== undefined) {
-            getAllWords(state)
-        }
-        else {
-            navigate('/level')
-        }
-    })
+    };
+
     class Game {
         constructor(canvas, ctx) {
-            this.props = props
+            this.props = props;
             this.ctx = ctx;
-            this.mode = localStorage.getItem('theme') || 'light';;
+            this.mode = localStorage.getItem('theme') || 'light';
             this.canvas = canvas;
             this.width = window.innerWidth;
             this.height = window.innerHeight;
@@ -69,6 +52,7 @@ const WordCollect = props => {
             this.canvas.addEventListener('click', this.onClick.bind(this));
             window.addEventListener('resize', this.onResize.bind(this));
         }
+
         onResize(event) {
             var canvas = document.getElementById('responsive-canvas');
             resizeCanvas(canvas);
@@ -87,29 +71,30 @@ const WordCollect = props => {
             this.background.updatePosition();
             this.boardEndWordCollect.updatePosition();
         }
+
         updateResult() {
             this.props.setResult({
-                "noWords": this.listWordCollect.length,
-                "score": this.Score.score,
-                "bonus":
-                {
-                    "item1": this.bonusItems.noItems0,
-                    "item2": this.bonusItems.noItems1,
-                    "item3": this.bonusItems.noItems2,
+                noWords: this.listWordCollect.length,
+                score: this.Score.score,
+                bonus: {
+                    item1: this.bonusItems.noItems0,
+                    item2: this.bonusItems.noItems1,
+                    item3: this.bonusItems.noItems2,
                 }
-            })
+            });
         }
+
         updateGameState(state) {
             this.gameState = GameState[state];
             if (state === 2) {
                 this.props.setlistwordcollect(this.listWordCollect);
                 this.boardEndWordCollect.hidden = false;
                 this.boardEndWordCollect.animateCountDown();
-            }
-            else if (state === 0) {
+            } else if (state === 0) {
                 this.boardEndWordCollect.hidden = false;
             }
         }
+
         onClick(event) {
             const rect = this.canvas.getBoundingClientRect();
             const mouseX = event.clientX - rect.left;
@@ -121,35 +106,31 @@ const WordCollect = props => {
                         return;
                     }
                 }
-            }
-            else if (!this.boardEndWordCollect.hidden) {
+            } else if (!this.boardEndWordCollect.hidden) {
                 if (this.gameState === 'Win') {
                     if (this.isMouseOverButton(mouseX - this.boardEndWordCollect.translateX, mouseY - this.boardEndWordCollect.translateY, this.boardEndWordCollect.buttons.play)) {
                         this.boardEndWordCollect.buttons.play.onClickButton('end_collect_play');
                         return;
                     }
-                }
-                else if (this.gameState === 'win') {
+                } else if (this.gameState === 'win') {
                     if (this.isMouseOverButton(mouseX - this.boardEndWordCollect.translateX, mouseY - this.boardEndWordCollect.translateY, this.boardEndWordCollect.buttons.replay)) {
                         this.boardEndWordCollect.buttons.play.onClickButton('replay');
                         return;
-                    }
-                    else if (this.isMouseOverButton(mouseX - this.boardEndWordCollect.translateX, mouseY - this.boardEndWordCollect.translateY, this.boardEndWordCollect.buttons.back)) {
+                    } else if (this.isMouseOverButton(mouseX - this.boardEndWordCollect.translateX, mouseY - this.boardEndWordCollect.translateY, this.boardEndWordCollect.buttons.back)) {
                         this.boardEndWordCollect.buttons.play.onClickButton('back');
                         return;
                     }
                 }
-            }
-            else if (this.isMouseOverButton(mouseX, mouseY, this.btnGameState)) {
+            } else if (this.isMouseOverButton(mouseX, mouseY, this.btnGameState)) {
                 if (this.gameState === 'Playing') {
                     this.updateGameState(1);
-                }
-                else if (this.gameState === "Stop") {
+                } else if (this.gameState === 'Stop') {
                     this.updateGameState(3);
                 }
                 this.boardStopGame.updateState(!this.boardStopGame.hidden);
             }
         }
+
         onMouseMove(event) {
             const rect = this.canvas.getBoundingClientRect();
             const mouseX = event.clientX - rect.left;
@@ -161,29 +142,26 @@ const WordCollect = props => {
                         cursorStyle = 'pointer';
                     }
                 }
-            }
-            else if (!this.boardEndWordCollect.hidden) {
+            } else if (!this.boardEndWordCollect.hidden) {
                 if (this.gameState === 'Win') {
                     if (this.isMouseOverButton(mouseX - this.boardEndWordCollect.translateX, mouseY - this.boardEndWordCollect.translateY, this.boardEndWordCollect.buttons.play)) {
                         cursorStyle = 'pointer';
                     }
-                }
-                else if (this.gameState === 'win') {
+                } else if (this.gameState === 'win') {
                     if (this.isMouseOverButton(mouseX - this.boardEndWordCollect.translateX, mouseY - this.boardEndWordCollect.translateY, this.boardEndWordCollect.buttons.replay)) {
                         cursorStyle = 'pointer';
-                    }
-                    else if (this.isMouseOverButton(mouseX - this.boardEndWordCollect.translateX, mouseY - this.boardEndWordCollect.translateY, this.boardEndWordCollect.buttons.back)) {
+                    } else if (this.isMouseOverButton(mouseX - this.boardEndWordCollect.translateX, mouseY - this.boardEndWordCollect.translateY, this.boardEndWordCollect.buttons.back)) {
                         cursorStyle = 'pointer';
                     }
                 }
-            }
-            else {
+            } else {
                 if (this.isMouseOverButton(mouseX, mouseY, this.btnGameState)) {
                     cursorStyle = 'pointer';
                 }
             }
             this.canvas.style.cursor = cursorStyle;
         }
+
         isMouseOverButton(mouseX, mouseY, button) {
             return (
                 mouseX >= button.x &&
@@ -192,6 +170,7 @@ const WordCollect = props => {
                 mouseY <= button.y + button.height
             );
         }
+
         update(deltaTime) {
             this.deltaTime = deltaTime;
             if (this.gameState === 'Playing') {
@@ -206,8 +185,9 @@ const WordCollect = props => {
                 }
             }
         }
+
         draw(context) {
-            this.background.draw(context)
+            this.background.draw(context);
             this.wordFall.draw(context);
             this.bonusItems.draw(context);
             this.player.draw(context);
@@ -217,27 +197,37 @@ const WordCollect = props => {
             this.boardEndWordCollect.draw(context);
         }
     }
+
     useEffect(() => {
-        const canvas = document.getElementById('responsive-canvas');
-        resizeCanvas(canvas);
-        const context = canvas.getContext('2d');
-        const game = new Game(canvas, context);
-        function animate(timeStamp) {
-            context.clearRect(0, 0, canvas.width, canvas.height);
-            const deltaTime = timeStamp - lastTime || 0;
-            lastTime = timeStamp;
-            game.draw(context);
-            game.update(deltaTime);
-            requestAnimationFrame(animate);
+        if (props.listwordcollect && props.listwordcollect.length > 0) {
+            const canvas = document.getElementById('responsive-canvas');
+            resizeCanvas(canvas);
+            const context = canvas.getContext('2d');
+            const game = new Game(canvas, context);
+            let lastTime = 0; // Initialize lastTime
+
+            function animate(timeStamp) {
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                const deltaTime = timeStamp - lastTime || 0;
+                lastTime = timeStamp;
+                game.draw(context);
+                game.update(deltaTime);
+                requestAnimationFrame(animate);
+            }
+
+            animate(0);
+
+            return () => {
+                cancelAnimationFrame(animate);
+            };
         }
+    }, [props.listwordcollect]);
 
-        let lastTime = 0; // Initialize lastTime
-        animate(0);
+    if (!props.listwordcollect || props.listwordcollect.length === 0) {
+        return null; // Render nothing if listwordcollect is null or empty
+    }
 
-        return () => {
-            cancelAnimationFrame(animate);
-        };
-    }, []);
-    return <canvas id='responsive-canvas' ref={canvasRef} {...props}></canvas>
-}
+    return <canvas id='responsive-canvas' ref={canvasRef} {...props}></canvas>;
+};
+
 export default WordCollect;

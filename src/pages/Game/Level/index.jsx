@@ -176,7 +176,6 @@ const Level = props => {
                 }
                 else if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.play)) {
                     //  play
-                    // window.location.href = '/game';
                     navigate('/game', { state: { level: this.levelSetting.currentLevel.level, diff: this.levelSetting.currentLevel.difficulty_level } });
                 }
             }
