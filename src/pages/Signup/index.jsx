@@ -24,6 +24,7 @@ const SignUp = (props) => {
                 return 1;
             }
         } catch (error) {
+            alert("Vui lòng nhập đủ thông tin!")
             console.error("Error during sign up: ", error);
         }
         return 0;
