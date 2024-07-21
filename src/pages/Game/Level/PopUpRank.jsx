@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import ProgressBar from './ProgressBar';
 import { useSelector } from 'react-redux';
-import { getAchivementOfStudent, getItemsOfStudent, getStudentInfo } from '../../../services/studentServices';
-
+import {
+    getAchivementOfStudent,
+    getItemsOfStudent,
+    getStudentInfo,
+} from '../../../services/studentServices';
+import { getLeaderboard } from '../../../services/gameServices';
 
 const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
     const [cupCount, setCupCount] = useState(2);
     const [items, setItems] = useState([]);
     const [achivements, setAchivements] = useState([]);
     const userInfo = useSelector((state) => state.user.userInfo);
+    const [leaderboardStudents, setLeaderboardStudents] = useState([]);
 
     useEffect(() => {
         console.log('User info:', userInfo);
@@ -16,6 +21,7 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
             achivementOfStudent(userInfo.id);
             itemsOfStudent(userInfo.id);
             getStudentInfomation(userInfo.id);
+            getLeaderBoads();
         }
     }, [userInfo]);
 
@@ -46,31 +52,26 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
 
     if (!openPopUpRank) return null;
 
-    const getStudentInfomation = async (studentId) =>{
+    const getStudentInfomation = async (studentId) => {
         let response = await getStudentInfo(studentId);
         console.log('Student Info: ', response);
         setCupCount(response.student.cup);
-        console.log('Cup Count: ', response.student.cup)
-    }
+        console.log('Cup Count: ', response.student.cup);
+    };
 
-    const players = [
-        {
-            name: 'Player 1',
-            levels: [
-                { level: 1, score: 100, time: 30 },
-                { level: 1, score: 150, time: 25 },
-                { level: 2, score: 200, time: 40 },
-            ],
-        },
-        {
-            name: 'Player 2',
-            levels: [
-                { level: 1, score: 150, time: 20 },
-                { level: 2, score: 200, time: 35 },
-                { level: 2, score: 200, time: 38 },
-            ],
-        },
-    ];
+    const getLeaderBoads = async () => {
+        let response = await getLeaderboard();
+        console.log('Leaderboard: ', response);
+        let getLeaderboardStudents = response.leaderboard.map((student) => ({
+            id: student.id,
+            name: student.Name,
+            school: student.School,
+            grade: student.Grade,
+            score: student.Score,
+            cup: student.cup,
+        }));
+        setLeaderboardStudents(getLeaderboardStudents);
+    };
 
     const [selectedTableRank, setSelectedRank] = useState(1);
     const [selectedTableAward, setSelectedAward] = useState(0);
@@ -79,45 +80,6 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
         setSelectedAward(!selectedTableAward);
         setSelectedRank(!selectedTableRank);
     };
-
-    const calculatePlayerStats = (players) => {
-        return players.map((player) => {
-            const levelStats = player.levels.reduce((acc, level) => {
-                if (!acc[level.level]) {
-                    acc[level.level] = { score: level.score, time: level.time };
-                } else {
-                    if (
-                        level.score > acc[level.level].score ||
-                        (level.score === acc[level.level].score &&
-                            level.time < acc[level.level].time)
-                    ) {
-                        acc[level.level] = { score: level.score, time: level.time };
-                    }
-                }
-                return acc;
-            }, {});
-
-            const totalScore = Object.values(levelStats).reduce(
-                (total, level) => total + level.score,
-                0,
-            );
-            const totalTime = Object.values(levelStats).reduce(
-                (total, level) => total + level.time,
-                0,
-            );
-
-            return {
-                name: player.name,
-                totalScore,
-                totalTime,
-            };
-        });
-    };
-
-    const rankedPlayers = calculatePlayerStats(players).sort((a, b) => {
-        if (b.totalScore !== a.totalScore) return b.totalScore - a.totalScore;
-        return a.totalTime - b.totalTime;
-    });
 
     return (
         <div
@@ -152,17 +114,19 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                 <tr>
                                     <th className="px-4 py-2">STT</th>
                                     <th className="px-4 py-2">Tên</th>
+                                    <th className="px-4 py-2">Trường</th>
+                                    <th className="px-4 py-2">Lớp</th>
                                     <th className="px-4 py-2">Tổng Điểm</th>
-                                    <th className="px-4 py-2">Thời Gian Hoàn Thành</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {rankedPlayers.map((player, index) => (
-                                    <tr key={player.name}>
+                                {leaderboardStudents.map((player, index) => (
+                                    <tr key={player.id}>
                                         <td className="border px-4 py-2">{index + 1}</td>
                                         <td className="border px-4 py-2">{player.name}</td>
-                                        <td className="border px-4 py-2">{player.totalScore}</td>
-                                        <td className="border px-4 py-2">{player.totalTime}</td>
+                                        <td className="border px-4 py-2">{player.school}</td>
+                                        <td className="border px-4 py-2">{player.grade}</td>
+                                        <td className="border px-4 py-2">{player.score}</td>
                                     </tr>
                                 ))}
                             </tbody>
