@@ -14,11 +14,13 @@ import { userActions } from '../../../redux/slices/userSlice';
 import { getCurrentLevelUser } from '../../../services/levelServices';
 import { userSelector } from '../../../redux/selectors/userSelector';
 import { LEVEL } from './level';
+import { useNavigate } from 'react-router-dom';
 const Level = props => {
     const canvasRef = useRef();
     const animationRef = useRef();
     const mainScreenRef = useRef();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const resizeCanvas = (canvas) => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
@@ -28,7 +30,7 @@ const Level = props => {
     const [openPopupAcc, setOpenPopupAcc] = useState(false);
     const [openPopupLib, setOpenPopupLib] = useState(false);
     const [openPopupRank, setOpenPopupRank] = useState(false);
-    const [openCongratNewLevel, setOpenCongratNewLevel] = useState(true);
+    const [openCongratNewLevel, setOpenCongratNewLevel] = useState(false);
     const [level, setLevel] = useState(LEVEL);
     const [mode, setMode] = useState(localStorage.getItem('theme') || 'light');
 
@@ -78,8 +80,7 @@ const Level = props => {
         setLevel(level) {
             let init_level = JSON.parse(JSON.stringify(LEVEL));
             init_level.forEach((item, idx) => {
-                item["state"] = 1;
-                // item["state"] = level[0][idx] || idx === 0 ? 1 : 0;
+                item["state"] = level[0][idx] || idx === 0 ? 1 : 0;
                 item['difficulty_level'] = level[0][idx] + level[1][idx] + level[2][idx];
                 if (!this.player.currentLevel) {
                     if (idx == 19 || !level[0][idx + 1]) {
@@ -175,7 +176,8 @@ const Level = props => {
                 }
                 else if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.play)) {
                     //  play
-                    window.location.href = '/game';
+                    // window.location.href = '/game';
+                    navigate('/game', { state: { level: this.levelSetting.currentLevel.level, diff: this.levelSetting.currentLevel.difficulty_level } });
                 }
             }
             // Check if the mouse is over the next map button

@@ -3,6 +3,9 @@ import { Player } from './Player/player';
 import { Background } from './background';
 import { Score, BonusItems, BoardStopGame, BtnGameState, BoardEndWordCollect } from './UI';
 import { WordFall } from './wordFall';
+import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { createNewGame } from '../../../services/gameServices';
 const GameState =
 {
     0: 'Loss',
@@ -11,12 +14,28 @@ const GameState =
     3: 'Playing'
 }
 const WordCollect = props => {
+    const location = useLocation();
+    const navigate = useNavigate();
     const canvasRef = useRef();
     const GameRef = useRef();
     const resizeCanvas = (canvas) => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
     }
+    const [listWords, setListWords] = useState(null);
+    useEffect(() => {
+        const getAllWords = async (data) => {
+            let res = await createNewGame(data)
+            console.log(res)
+        }
+        const state = location.state || {}
+        if (state && state.level !== undefined && state.diff !== undefined) {
+            getAllWords(state)
+        }
+        else {
+            navigate('/level')
+        }
+    })
     class Game {
         constructor(canvas, ctx) {
             this.props = props
