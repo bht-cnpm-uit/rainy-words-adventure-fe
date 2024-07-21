@@ -58,7 +58,7 @@ const ModalImportData = ({ modalTitle, isOpenModelImportData, setIsOpenModelImpo
                 });
 
                 setDataUpload(rows);
-                console.log('Row:', rows);
+                // console.log('Row:', rows);
                 const topics = [
                     ...new Set(
                         rows.map((row) =>
@@ -72,7 +72,7 @@ const ModalImportData = ({ modalTitle, isOpenModelImportData, setIsOpenModelImpo
                 ].map((topic) => JSON.parse(topic));
 
                 setUploadTopic(topics);
-                console.log('Upload topic', topics);
+                // console.log('Upload topic', topics);
             });
         }
     };
@@ -87,8 +87,8 @@ const ModalImportData = ({ modalTitle, isOpenModelImportData, setIsOpenModelImpo
 
     const saveChanges = async () => {
         try {
-            const uploadedWord = await createNewWords(dataUpload);
             const uploadedTopic = await createTopics(uploadTopic);
+            const uploadedWord = await createNewWords(dataUpload);
 
             console.log('Data successfully uploaded:', uploadedWord, uploadedTopic);
 
