@@ -9,31 +9,22 @@ import {
 import { getLeaderboard } from '../../../services/gameServices';
 
 const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
-    const [cupCount, setCupCount] = useState(2);
+    const [cupCount, setCupCount] = useState(0);
     const [items, setItems] = useState([]);
-    const [achivements, setAchivements] = useState([]);
+    
     const userInfo = useSelector((state) => state.user.userInfo);
     const [leaderboardStudents, setLeaderboardStudents] = useState([]);
 
     useEffect(() => {
         console.log('User info:', userInfo);
         if (userInfo && userInfo.id) {
-            achivementOfStudent(userInfo.id);
             itemsOfStudent(userInfo.id);
             getStudentInfomation(userInfo.id);
             getLeaderBoads();
         }
     }, [userInfo]);
 
-    const achivementOfStudent = async (studentId) => {
-        let response = await getAchivementOfStudent(studentId);
-        console.log('Achivement: ', response);
-        let getListAchivement = response.listAchievement.map((achivement) => ({
-            id: achivement.id,
-            name: achivement.name,
-        }));
-        setAchivements(getListAchivement);
-    };
+    
 
     const itemsOfStudent = async (studentId) => {
         let response = await getItemsOfStudent(studentId);

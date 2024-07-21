@@ -35,7 +35,7 @@ const PopUpUpdateAcc = ({ openPopUpUpdate, closePopUpUpdate, student }) => {
 
     const handleUpdate = async () => {
         if (password !== confirmPassword) {
-            alert("Passwords do not match!");
+            alert("Mật khẩu không trùng khớp!");
             return;
         }
         if(!password || !confirmPassword) {
@@ -111,14 +111,14 @@ const PopUpUpdateAcc = ({ openPopUpUpdate, closePopUpUpdate, student }) => {
                             />
                             <input
                                 type="password"
-                                placeholder="Password"
+                                placeholder="Mật khẩu"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 className="mb-2 border border-gray-400 px-2 py-1 text-lg rounded-full text-center w-8/12"
                             />
                             <input
                                 type="password"
-                                placeholder="Confirm Password"
+                                placeholder="Xác thực mật khẩu"
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                                 className="mb-2 border border-gray-400 px-2 py-1 text-lg rounded-full text-center w-8/12"

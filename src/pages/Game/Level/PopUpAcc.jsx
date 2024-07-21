@@ -1,8 +1,12 @@
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PopUpUpdateAcc from './PopUpUpdateAcc';
 import { setAvatar, setFrame } from '../../../redux/slices/userSlice';
-import { getAchivementOfStudent, getItemsOfStudent, getStudentInfo } from '../../../services/studentServices';
+import {
+    getAchivementOfStudent,
+    getItemsOfStudent,
+    getStudentInfo,
+} from '../../../services/studentServices';
 
 const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
     const dispatch = useDispatch();
@@ -13,6 +17,7 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
     const [isAvatarModalOpen, setAvatarModalOpen] = useState(false);
     const [isFrameModalOpen, setIsFrameModalOpen] = useState(false);
     const userInfo = useSelector((state) => state.user.userInfo);
+    const [achivements, setAchivements] = useState([]);
 
     const avatarOptions = [
         '/assets/Asset/Avt_Frame_cuts/3.png',
@@ -20,17 +25,46 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
         '/assets/Asset/Avt_Frame_cuts/8.png',
     ];
 
-    const frameOptions = [
+    const [frameOptions, setFrameOptions] = useState([
         '/assets/Asset/Avt_Frame_cuts/0.png',
         '/assets/Asset/Avt_Frame_cuts/1.png',
         '/assets/Asset/Avt_Frame_cuts/2.png',
-        // Add more frame options here
-    ];
+        // Add more initial frame options here
+    ]);
+
+    const setFramOptions = () => {
+        let newFrameOptions = [...frameOptions];
+        for (let i = 0; i < achivements.length; i++) {
+            //if have the same url not push
+
+            if (achivements[i].id === 2) {
+                if (!newFrameOptions.includes('/assets/Asset/Avt_Frame_cuts/5.png')) {
+                    newFrameOptions.push('/assets/Asset/Avt_Frame_cuts/5.png');
+                }
+            }
+            if (achivements[i].id === 3) {
+                if (!newFrameOptions.includes('/assets/Asset/Avt_Frame_cuts/6.png')) {
+                    newFrameOptions.push('/assets/Asset/Avt_Frame_cuts/6.png');
+                }
+            }
+            if (achivements[i].id === 4) {
+                if (!newFrameOptions.includes('/assets/Asset/Avt_Frame_cuts/7.png')) {
+                    newFrameOptions.push('/assets/Asset/Avt_Frame_cuts/7.png');
+                }
+            }
+            if (achivements[i].id === 5) {
+                if (!newFrameOptions.includes('/assets/Asset/Avt_Frame_cuts/9.png')) {
+                    newFrameOptions.push('/assets/Asset/Avt_Frame_cuts/9.png');
+                }
+            }
+        }
+        setFrameOptions(newFrameOptions);
+    };
 
     const handleSetMode = (mode) => {
         setMode(mode);
-        localStorage.setItem('theme', mode)
-    }
+        localStorage.setItem('theme', mode);
+    };
 
     const showPopUpConfirmLogout = () => {
         setConfirmLogOut(true);
@@ -44,25 +78,37 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
 
     function dateFormat(dateStr) {
         let dateObj = new Date(dateStr);
-    
+
         let day = String(dateObj.getUTCDate()).padStart(2, '0');
         let month = String(dateObj.getUTCMonth() + 1).padStart(2, '0');
         let year = dateObj.getUTCFullYear();
-        
+
         let formattedDate = `${day}/${month}/${year}`;
-        
+
         return formattedDate;
     }
-    
 
     useEffect(() => {
         getStudentInfomation(userInfo.id);
+        achivementOfStudent(userInfo.id);
+        setFramOptions();
     }, [data]);
 
-    const getStudentInfomation = async (studentId) =>{
+    const getStudentInfomation = async (studentId) => {
         let response = await getStudentInfo(studentId);
         setData(response.student);
-    }
+    };
+
+    const achivementOfStudent = async (studentId) => {
+        let response = await getAchivementOfStudent(studentId);
+        // console.log('Achivement: ', response);
+        let getListAchivement = response.listAchievement.map((achivement) => ({
+            id: achivement.id,
+            name: achivement.name,
+        }));
+        setAchivements(getListAchivement);
+        // console.log('Achivement: ', getListAchivement);
+    };
 
     const handleCloseConfirmLogOut = () => {
         setConfirmLogOut(false);
@@ -96,8 +142,6 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
         dispatch(setFrame(frame));
         setIsFrameModalOpen(false);
     };
-
- 
 
     return (
         <div

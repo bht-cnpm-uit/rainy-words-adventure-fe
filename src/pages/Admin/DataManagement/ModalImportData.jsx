@@ -8,7 +8,7 @@ const ModalImportData = ({ modalTitle, isOpenModelImportData, setIsOpenModelImpo
     const [dataUpload, setDataUpload] = useState([]);
     const [uploadTopic, setUploadTopic] = useState([]);
     const schema = {
-        STT: {
+        id: {
             prop: 'id',
             type: Number,
         },
@@ -63,7 +63,6 @@ const ModalImportData = ({ modalTitle, isOpenModelImportData, setIsOpenModelImpo
                     ...new Set(
                         rows.map((row) =>
                             JSON.stringify({
-                                topicId: row.topicId,
                                 nameEn: row.nameEn,
                                 nameVi: row.nameVi,
                             }),
