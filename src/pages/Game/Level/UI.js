@@ -175,7 +175,7 @@ export class LevelSetting {
         this.frameCount = 0;
         this.frameX = 1;
         this.currentLevel = null;
-        this.maxDiffLevel = null;
+        this.currentDiffLevel = 0;
         this.staticUI = {
             board: new StaticUI(
                 this.game,
@@ -288,7 +288,7 @@ export class LevelSetting {
             this.buttons.play.draw(context);
             this.buttons.play.writeText(context, "Chơi")
             this.text.levelText.writeText(context, "Level " + this.currentLevel.level.toString(), "fontgame");
-            this.text.numDiffLevel.writeText(context, this.currentLevel.difficulty_level);
+            this.text.numDiffLevel.writeText(context, this.currentDiffLevel + 1);
             this.text.diffLevel.writeText(context, "Độ khó");
             context.restore();
             context.save();
@@ -310,15 +310,18 @@ export class LevelSetting {
     }
     open(lv) {
         this.currentLevel = JSON.parse(JSON.stringify(lv));
-        this.maxDiffLevel = this.currentLevel.difficulty_level + 1;
         this.hidden = false;
     }
     updateDifficultyLevel(d) {
-        var newLevel = this.currentLevel.difficulty_level + d;
-        if (newLevel >= 0 && newLevel <= this.maxDiffLevel) {
-            this.currentLevel.difficulty_level = newLevel;
+        let newLevel = this.currentDiffLevel + d;
+        if (newLevel >= 0 && newLevel <= 2) {
+            if (newLevel == 1 && this.currentLevel.difficulty_level[0]) {
+                this.currentDiffLevel = newLevel;
+            }
+            else if (newLevel == 2 && this.currentLevel.difficulty_level[0] && this.currentLevel.difficulty_level[1]) {
+                this.currentDiffLevel = newLevel;
+            }
         }
-
     }
 
 

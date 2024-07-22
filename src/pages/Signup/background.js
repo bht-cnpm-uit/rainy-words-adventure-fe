@@ -229,11 +229,7 @@ class SignupForm {
                 grade: class_,
                 birthday: dateOfBirth,
             });
-
-            if (isSuccess) {
-                this.deleteForm();
-            }
-            else {
+            if (!isSuccess) {
                 const errorMessage = document.getElementById('error-message');
                 if (phoneNumber == '' || password == '' || username == '' || dateOfBirth == '' || class_ == '') {
                     errorMessage.innerText = "Vui lòng nhập đủ thông tin !";
@@ -242,13 +238,6 @@ class SignupForm {
             }
         });
     }
-    deleteForm() {
-        let container = document.getElementById('container');
-        if (container) {
-            container.remove()
-        }
-    }
-
 }
 
 export class Background {

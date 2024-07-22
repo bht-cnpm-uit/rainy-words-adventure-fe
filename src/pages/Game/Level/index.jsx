@@ -81,7 +81,7 @@ const Level = props => {
             let init_level = JSON.parse(JSON.stringify(LEVEL));
             init_level.forEach((item, idx) => {
                 item["state"] = level[0][idx] || idx === 0 ? 1 : 0;
-                item['difficulty_level'] = level[0][idx] + level[1][idx] + level[2][idx];
+                item['difficulty_level'] = [level[0][idx], level[1][idx], level[2][idx]]
                 if (!this.player.currentLevel) {
                     if (idx == 19 || !level[0][idx + 1]) {
                         this.player.currentLevel = JSON.parse(JSON.stringify(item))
@@ -176,7 +176,12 @@ const Level = props => {
                 }
                 else if (this.isMouseOverButton(mouseX - this.levelSetting.translateX, mouseY - this.levelSetting.translateY, this.levelSetting.buttons.play)) {
                     //  play
-                    navigate('/game', { state: { level: this.levelSetting.currentLevel.level, diff: this.levelSetting.currentLevel.difficulty_level } });
+                    navigate('/game', {
+                        state: {
+                            level: this.levelSetting.currentLevel.level,
+                            diff: this.levelSetting.currentDiffLevel
+                        }
+                    });
                 }
             }
             // Check if the mouse is over the next map button

@@ -31,13 +31,13 @@ export class Score {
     }
     update(vocabLevel) {
         if (vocabLevel == 'Hard') {
-            this.score += 20;
+            this.score += 30 * (this.game.diffLevel * 0.5 + 1);
         }
         else if (vocabLevel == 'Medium') {
-            this.score += 15
+            this.score += 20 * (this.game.diffLevel * 0.5 + 1);
         }
         else {
-            this.score += 10
+            this.score += 10 * (this.game.diffLevel * 0.5 + 1);
         }
     }
 }

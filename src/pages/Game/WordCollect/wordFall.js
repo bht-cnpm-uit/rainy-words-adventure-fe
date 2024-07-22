@@ -6,7 +6,7 @@ class Item {
         this.spriteHeight = 304;
         this.x = Math.random() * (this.game.width - 2 * this.spriteWidth * this.game.scale) + this.spriteWidth * this.game.scale;
         this.y = -this.spriteHeight * this.game.scale;
-        this.vy = 0.1;
+        this.vy = this.game.diffLevel * 0.05 + 0.1
         this.vx = 0.04 * (Math.random() * 2 - 1);
         this.image = image;
         this.spinSpeed = Math.PI / 10000;

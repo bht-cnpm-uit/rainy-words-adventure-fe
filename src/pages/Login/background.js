@@ -166,20 +166,11 @@ class LoginForm {
             var phoneNumber = container.querySelector('#username').value;
             var password = container.querySelector('#password').value;
             var isSuccess = await this.game.game.handleSubmitLogin({ phoneNumber, password });
-            if (isSuccess) {
-                this.deleteForm();
-            } else {
+            if (!isSuccess) {
                 const errorMessage = document.getElementById('error-message');
                 errorMessage.innerText = "Số diện thoại hoặc mật khẩu không đúng !";
             }
         });
-    }
-
-    deleteForm() {
-        var container = document.getElementById('container');
-        if (container) {
-            container.remove();
-        }
     }
 }
 export class Background {

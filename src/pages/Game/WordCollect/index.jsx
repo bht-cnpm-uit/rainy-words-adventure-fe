@@ -39,6 +39,7 @@ const WordCollect = (props) => {
             this.scaleX = 1;
             this.scaleY = 1;
             this.widthCut = Math.ceil((2920 * this.scale - this.width) / this.scale);
+            this.diffLevel = props.diffLevel;
             this.wordFall = new WordFall(this);
             this.listWordCollect = [];
             this.background = new Background(this);

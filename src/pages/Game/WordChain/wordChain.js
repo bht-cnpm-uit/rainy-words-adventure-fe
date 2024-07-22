@@ -265,7 +265,7 @@ class Timer {
     constructor(game, currentBoard) {
         this.game = game;
         this.currentBoard = currentBoard
-        this.timer = 20;
+        this.timer = 25 - game.diffLevel * 5;
         this.animationHandleTimer;
     }
     draw(context) {
@@ -350,6 +350,7 @@ export class BoardWordChain {
     */
     constructor(game) {
         this.game = game;
+        this.timerCountChain = 25 - game.diffLevel * 5;
         this.spriteWidthBoard = 1441;
         this.spriteHeightBoard = 785;
         this.widthBoard = this.spriteWidthBoard * this.game.scale / 1.1;
@@ -395,7 +396,7 @@ export class BoardWordChain {
             .map(item => ({
                 en: item.vocab,
                 vi: item.vietnamese,
-                score: item.levelVocab === 'Hard' ? 50 : item.levelVocab === 'Medium' ? 30 : 20
+                score: item.levelVocab === 'Hard' ? 30 * (this.game.diffLevel * 0.5 + 1) : item.levelVocab === 'Medium' ? 20 * (this.game.diffLevel * 0.5 + 1) : 10 * (this.game.diffLevel * 0.5 + 1)
             }));
         let wordsEn = [...this.game.listWords.slice(gameSlot * 4, gameSlot * 4 + 4).map(item => item.vocab)];
         let wordsVi = [...this.game.listWords.slice(gameSlot * 4, gameSlot * 4 + 4).map(item => item.vietnamese)];
@@ -512,7 +513,7 @@ export class BoardWordChain {
             else {
                 cancelAnimationFrame(animationHandle);
                 self.game.updateGameState(0);
-                self.game.boardScoreChain.timer.animateCount(20);
+                self.game.boardScoreChain.timer.animateCount(self.timerCountChain);
                 return; // Stop the animation loop
             }
         }

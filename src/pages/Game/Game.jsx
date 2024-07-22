@@ -10,7 +10,8 @@ const Game = () => {
     const navigate = useNavigate();
     const [typegame, setTypegame] = useState('word-collect');
     const [listwordcollect, setlistwordcollect] = useState([]);
-    const [listWordChain, setListWordChain] = useState([])
+    const [listWordChain, setListWordChain] = useState([]);
+    const [diffLevel, setDiffLevel] = useState(0);
     const [result, setResult] = useState({
         noWords: 0,
         score: 0,
@@ -20,6 +21,8 @@ const Game = () => {
             item3: 0,
         }
     });
+    const [timer, setTimer] = useState(0);
+    const [startTime, setStartTime] = useState(null);
 
     useEffect(() => {
         const getAllWords = async () => {
@@ -31,6 +34,7 @@ const Game = () => {
                 const res = await createNewGame({ levelId: state.level, probabilities: probs, numWords: numWords });
                 if (res && res.errCode === 0) {
                     setlistwordcollect(res.listWord);
+                    setDiffLevel(2);
                 }
             } else {
                 navigate('/level');
@@ -38,6 +42,23 @@ const Game = () => {
         };
         getAllWords();
     }, [navigate]);
+
+    useEffect(() => {
+        let interval;
+        if (typegame === 'word-collect') {
+            setStartTime(Date.now());
+            interval = setInterval(() => {
+                setTimer((prev) => Math.floor((Date.now() - startTime) / 1000));
+            }, 1000);
+        } else if (typegame === 'end-game') {
+            clearInterval(interval);
+            if (startTime) {
+                const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+                setTimer(elapsedTime);
+            }
+        }
+        return () => clearInterval(interval);
+    }, [typegame, startTime]);
 
     let gameComponent;
 
@@ -49,6 +70,7 @@ const Game = () => {
                     listwordcollect={listwordcollect}
                     setListWordChain={setListWordChain}
                     setResult={setResult}
+                    diffLevel={diffLevel}
                 />
             );
             break;
@@ -59,11 +81,12 @@ const Game = () => {
                     listWordChain={listWordChain}
                     setResult={setResult}
                     result={result}
+                    diffLevel={diffLevel}
                 />
             );
             break;
         case 'end-game':
-            gameComponent = <Result result={result} />;
+            gameComponent = <Result result={result} elapsedTime={timer} />;
             break;
         default:
             gameComponent = null;

@@ -15,19 +15,18 @@ const Login = (props) => {
     async function handleSubmitLogin(values) {
         try {
             let data = await handleLogin(values.phoneNumber, values.password);
-            console.log("data student:",data.student);
-            
+            console.log("data student:", data.student);
+
             //admin
             //SDT: admin, Pasword: 123456
-            if(data && data.student.phoneNumber ==='admin'){
+            if (data && data.student.phoneNumber === 'admin') {
                 navigate('/admin');
                 return 1;
             }
 
             if (data && data.student) {
                 dispatch(userActions.login(data.student))
-                navigate('/level');
-                return 1;
+                window.location.href = '/level'
             }
         } catch (error) {
             alert("Tên đăng nhập hoặc mật khẩu không đúng !!!")

@@ -35,6 +35,7 @@ const WordChain = (props) => {
             this.startX = null;
             this.startY = null;
             this.currentWordDrug = null;
+            this.diffLevel = props.diffLevel;
             this.gameState = GameWordChainState[3];
             this.background = new Background(this);
             this.boardWordChain = new BoardWordChain(this);

@@ -5,5 +5,7 @@ const getLeaderboard = () => {
 const createNewGame = (data) => {
     return instance.post(`api/game/create-new-game`, data);
 };
-
-export { getLeaderboard, createNewGame };
+const saveGame = (data) => {
+    return instance.post(`api/game/save-game`, data);
+}
+export { getLeaderboard, createNewGame, saveGame };
