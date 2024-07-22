@@ -8,8 +8,9 @@ import { createNewGame } from "../../services/gameServices";
 const Game = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const [typegame, settypegame] = useState('word-collect');
+    const [typegame, setTypegame] = useState('word-collect');
     const [listwordcollect, setlistwordcollect] = useState([]);
+    const [listWordChain, setListWordChain] = useState([])
     const [result, setResult] = useState({
         noWords: 0,
         score: 0,
@@ -36,7 +37,7 @@ const Game = () => {
             }
         };
         getAllWords();
-    }, [location.state, navigate]);
+    }, [navigate]);
 
     let gameComponent;
 
@@ -44,9 +45,9 @@ const Game = () => {
         case 'word-collect':
             gameComponent = (
                 <WordCollect
-                    settypegame={settypegame}
+                    setTypegame={setTypegame}
                     listwordcollect={listwordcollect}
-                    setlistwordcollect={setlistwordcollect}
+                    setListWordChain={setListWordChain}
                     setResult={setResult}
                 />
             );
@@ -54,15 +55,14 @@ const Game = () => {
         case 'word-chain':
             gameComponent = (
                 <WordChain
-                    settypegame={settypegame}
-                    listwordcollect={listwordcollect}
-                    setlistwordcollect={setlistwordcollect}
+                    setTypegame={setTypegame}
+                    listWordChain={listWordChain}
                     setResult={setResult}
                     result={result}
                 />
             );
             break;
-        case 'done':
+        case 'end-game':
             gameComponent = <Result result={result} />;
             break;
         default:

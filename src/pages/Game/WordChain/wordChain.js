@@ -1,4 +1,3 @@
-import { data } from "../WordCollect/fakeData";
 class StaticUI {
     constructor(game, image, x, y, spriteWidth, spriteHeight, type = '') {
         this.game = game;
@@ -394,11 +393,11 @@ export class BoardWordChain {
         this.correctWords = this.game.listWords
             .slice(gameSlot * 4, gameSlot * 4 + 4)
             .map(item => ({
-                en: item.word,
+                en: item.vocab,
                 vi: item.vietnamese,
-                score: item.level
+                score: item.levelVocab === 'Hard' ? 50 : item.levelVocab === 'Medium' ? 30 : 20
             }));
-        let wordsEn = [...this.game.listWords.slice(gameSlot * 4, gameSlot * 4 + 4).map(item => item.word)];
+        let wordsEn = [...this.game.listWords.slice(gameSlot * 4, gameSlot * 4 + 4).map(item => item.vocab)];
         let wordsVi = [...this.game.listWords.slice(gameSlot * 4, gameSlot * 4 + 4).map(item => item.vietnamese)];
         wordsEn = shuffleArray(wordsEn);
         wordsVi = shuffleArray(wordsVi);

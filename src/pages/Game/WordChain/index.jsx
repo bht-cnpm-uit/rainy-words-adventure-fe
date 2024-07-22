@@ -19,21 +19,7 @@ const WordChain = (props) => {
     class Game {
         constructor(canvas, ctx) {
             this.props = props
-            this.listWords = this.props.listwordcollect;
-            this.listWords = [
-                { word: 'Pencil', vietnamese: 'bút chì', level: 30 },
-                { word: 'Playground', vietnamese: 'sân chơi', level: 20 },
-                { word: 'Math', vietnamese: 'toán học', level: 20 },
-                { word: 'Library', vietnamese: 'thư viện', level: 30 },
-                { word: 'Physical Education', vietnamese: 'thể dục', level: 30 },
-                { word: 'Presentation', vietnamese: 'trình bày', level: 30 },
-                { word: 'Book', vietnamese: 'sách', level: 10 },
-                { word: 'Homework', vietnamese: 'bài tập về nhà', level: 30 },
-                { word: 'School', vietnamese: 'trường học', level: 20 },
-                { word: 'Desk', vietnamese: 'cái bàn', level: 30 },
-                { word: 'School', vietnamese: 'trường học', level: 20 },
-                { word: 'Math', vietnamese: 'toán học', level: 20 }
-            ];
+            this.listWords = this.props.listWordChain;
             this.ctx = ctx;
             this.canvas = canvas;
             this.width = window.innerWidth;
@@ -89,7 +75,7 @@ const WordChain = (props) => {
             }
             else if (state === 4) {
                 this.updateResult();
-                this.props.settypegame('done');
+                this.props.setTypegame('end-game');
             }
         }
         updateSlotGame() {

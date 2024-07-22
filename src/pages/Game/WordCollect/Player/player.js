@@ -81,10 +81,10 @@ export class Player {
             const dy = word.y - this.position.y;
             const distance = Math.sqrt(dx * dx + dy * dy);
             if (distance < word.spriteWidth / 5 + this.width / 7) {
-                word.markedForDeletion = true;
+                word.stopAnimation();
+                word.markedForDeletion = 2;
                 this.game.bonusItems.updateResult(word);
-                if (word.isTrueWord)
-                    this.game.Score.update(word.word.level)
+                this.game.Score.update(word.word.levelVocab)
             }
         })
         this.position.x += this.velocity;
@@ -113,7 +113,6 @@ export class Player {
                     this.frameX++;
             }
         }
-        // horizontal movement
         if (this.position.x < 0) this.position.x = 0;
         else if (this.position.x > this.game.width) this.position.x = this.game.width;
     }

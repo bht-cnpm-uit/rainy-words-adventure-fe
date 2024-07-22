@@ -29,8 +29,16 @@ export class Score {
         context.textAlign = "center";
         context.fillText(this.score, this.game.width / 2, fontsize);
     }
-    update(score) {
-        this.score += score;
+    update(vocabLevel) {
+        if (vocabLevel == 'Hard') {
+            this.score += 20;
+        }
+        else if (vocabLevel == 'Medium') {
+            this.score += 15
+        }
+        else {
+            this.score += 10
+        }
     }
 }
 
@@ -89,7 +97,7 @@ export class BonusItems {
     }
 
     updateResult(word) {
-        if (word.isTrueWord) {
+        if (word.markedForDeletion === 2) {
             this.game.listWordCollect.push(JSON.parse(JSON.stringify(word.word)));
             if (word.typeItem == 0) {
                 this.noItems0++;
@@ -109,7 +117,7 @@ export class BonusItems {
                 this.game.updateGameState(2) //Win
             }
         }
-        else {
+        else if (word.markedForDeletion === 1) {
             this.noItems--;
             if (this.noItems < 1) {
                 this.game.updateGameState(0) //Loss
@@ -231,7 +239,6 @@ class Button {
         else if (type === 'end_collect_play') {
             cancelAnimationFrame(this.animationHandleCountDown)
             this.game.updateResult()
-            this.game.props.settypegame('word-chain')
         }
     }
 }
@@ -465,7 +472,7 @@ export class BoardEndWordCollect {
             else {
                 cancelAnimationFrame(animationHandle);
                 self.game.updateResult()
-                self.game.props.settypegame('word-chain')
+                self.game.props.setTypegame('word-chain')
                 return;
             }
         }

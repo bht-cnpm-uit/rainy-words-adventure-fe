@@ -1,7 +1,7 @@
-import { data } from "./fakeData";
 class Item {
-    constructor(game, image) {
+    constructor(game, currentWordFall, image, word) {
         this.game = game
+        this.currentWordFall = currentWordFall
         this.spriteWidth = 304;
         this.spriteHeight = 304;
         this.x = Math.random() * (this.game.width - 2 * this.spriteWidth * this.game.scale) + this.spriteWidth * this.game.scale;
@@ -12,31 +12,16 @@ class Item {
         this.spinSpeed = Math.PI / 10000;
         this.maxAngleSpin = 10 * Math.PI / 180;
         this.angle = (Math.random() * 20 - 10) * Math.PI / 180;
-        this.markedForDeletion = false;
-        this.word = this.game.props.listwordcollect[Math.floor(Math.random() * this.game.props.listwordcollect.length)]
-        this.isTrueWord = true;
-        // this.setWord();
+        this.markedForDeletion = 0;
+        this.word = word
         this.setFrameXY(); // Random bonus item
+        this.animateHandle = null;
         this.animateFall();
     }
     updatePositionItem() {
         this.x = this.x * this.game.scaleX;
         this.y = this.y * this.game.scaleY;
     }
-    // setWord() {
-    // let rand = Math.random();
-    // let wordIndex = Math.floor(Math.random() * data.length);
-    // if (rand > 0.5) {
-    //     this.isTrueWord = true;
-    //     this.word = data[wordIndex];
-    // }
-    // else {
-    //     this.isTrueWord = false;
-    //     this.word = JSON.parse(JSON.stringify(data[wordIndex]));
-    //     let vietnameseIndex = (wordIndex + Math.ceil(Math.random() * (data.length - wordIndex - 1)));
-    //     this.word["vietnamese"] = data[vietnameseIndex]["vietnamese"];
-    // }
-    // }
     setFrameXY() {
         let rand = Math.random();
         if (rand < 0.05) {
@@ -90,18 +75,7 @@ class Item {
 
         context.restore();
     }
-
-    // update(deltaTime) {
-    //     if (this.angle + this.spinSpeed * deltaTime > this.maxAngleSpin || this.angle + this.spinSpeed * deltaTime < -this.maxAngleSpin) {
-    //         this.spinSpeed = -this.spinSpeed;
-    //     } else {
-    //         this.angle += this.spinSpeed * deltaTime;
-    //     }
-    //     this.y += this.vy * deltaTime;
-    //     if (this.y > this.game.height) this.markedForDeletion = true;
-    // }
     animateFall() {
-        let animateHandle;
         let self = this;
         function animate() {
             if (self.y < self.game.height) {
@@ -117,14 +91,20 @@ class Item {
                         self.vx = -self.vx;
                     }
                 }
-                animateHandle = requestAnimationFrame(animate);
+                self.animateHandle = requestAnimationFrame(animate);
             } else {
-                self.markedForDeletion = true;
-                cancelAnimationFrame(animateHandle)
+                self.markedForDeletion = 1;
+                self.game.bonusItems.updateResult(self);
+                cancelAnimationFrame(self.animateHandle);
                 return;
             }
         }
         animate();
+    }
+    stopAnimation() {
+        if (this.animateHandle) {
+            cancelAnimationFrame(this.animateHandle);
+        }
     }
 }
 
@@ -135,17 +115,30 @@ export class WordFall {
         this.words = [];
         this.image = new Image();
         this.image.src = "../assets/Asset/GameObject/GameObject(5x12Atlas).png";
+        this.listWords = this.game.props.listwordcollect;
     }
     updatePositionItems() {
         this.words.forEach(word => word.updatePositionItem())
     }
     update() {
-        this.words = this.words.filter(word => !word.markedForDeletion);
+        this.words = this.words.filter((word) => {
+            if (word.markedForDeletion === 1) {
+                this.listWords.push(word.word);
+                return false;
+            } else if (word.markedForDeletion === 2) {
+                return false;
+            } else {
+                return true;
+            }
+        });
     }
     draw(context) {
         this.words.forEach(word => word.draw(context));
     }
     addNewItem() {
-        this.words.push(new Item(this.game, this.image));
+        if (this.listWords.length) {
+            let word = this.listWords.shift()
+            this.words.push(new Item(this.game, this, this.image, word));
+        }
     }
 }

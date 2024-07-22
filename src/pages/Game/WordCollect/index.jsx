@@ -82,12 +82,13 @@ const WordCollect = (props) => {
                     item3: this.bonusItems.noItems2,
                 }
             });
+            this.props.setTypegame('word-chain')
         }
 
         updateGameState(state) {
             this.gameState = GameState[state];
             if (state === 2) {
-                this.props.setlistwordcollect(this.listWordCollect);
+                this.props.setListWordChain(this.listWordCollect);
                 this.boardEndWordCollect.hidden = false;
                 this.boardEndWordCollect.animateCountDown();
             } else if (state === 0) {
