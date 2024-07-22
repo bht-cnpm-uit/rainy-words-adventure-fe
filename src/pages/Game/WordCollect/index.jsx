@@ -40,6 +40,7 @@ const WordCollect = (props) => {
             this.scaleY = 1;
             this.widthCut = Math.ceil((2920 * this.scale - this.width) / this.scale);
             this.diffLevel = props.diffLevel;
+            this.listBonusItem = props.listIdBonusItem;
             this.wordFall = new WordFall(this);
             this.listWordCollect = [];
             this.background = new Background(this);
@@ -77,11 +78,20 @@ const WordCollect = (props) => {
             this.props.setResult({
                 noWords: this.listWordCollect.length,
                 score: this.Score.score,
-                bonus: {
-                    item1: this.bonusItems.noItems0,
-                    item2: this.bonusItems.noItems1,
-                    item3: this.bonusItems.noItems2,
-                }
+                bonusItems: [
+                    {
+                        "itemId": this.listBonusItem[0],
+                        "quantity": this.bonusItems.noBonusItems[this.listBonusItem[0] - 1]
+                    },
+                    {
+                        "itemId": this.listBonusItem[1],
+                        "quantity": this.bonusItems.noBonusItems[this.listBonusItem[1] - 1]
+                    },
+                    {
+                        "itemId": this.listBonusItem[2],
+                        "quantity": this.bonusItems.noBonusItems[this.listBonusItem[2] - 1]
+                    }
+                ]
             });
             this.props.setTypegame('word-chain')
         }

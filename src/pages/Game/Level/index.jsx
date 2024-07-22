@@ -14,13 +14,14 @@ import { userActions } from '../../../redux/slices/userSlice';
 import { getCurrentLevelUser } from '../../../services/levelServices';
 import { userSelector } from '../../../redux/selectors/userSelector';
 import { LEVEL } from './level';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 const Level = props => {
     const canvasRef = useRef();
     const animationRef = useRef();
     const mainScreenRef = useRef();
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
     const resizeCanvas = (canvas) => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
@@ -178,6 +179,7 @@ const Level = props => {
                     //  play
                     navigate('/game', {
                         state: {
+                            studentId: userInfor.id,
                             level: this.levelSetting.currentLevel.level,
                             diff: this.levelSetting.currentDiffLevel
                         }
@@ -326,6 +328,13 @@ const Level = props => {
         };
         getLevel();
     }, [])
+    useEffect(() => {
+        const state = location.state || {};
+        console.log("check state of location: ", state)
+        if (state && state.isPassLevel) {
+            setOpenCongratNewLevel(true)
+        }
+    }, [location.state, navigate])
     return (
         <div>
             <canvas id='responsive-canvas' ref={canvasRef} {...props}></canvas>

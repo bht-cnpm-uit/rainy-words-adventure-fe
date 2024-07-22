@@ -53,60 +53,61 @@ export class BonusItems {
         this.noItems = 3;
         this.image = new Image();
         this.image.src = "../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_11.png";
-        this.spriteWidth0 = 192;
-        this.spriteHeight0 = 112;
-        this.noItems0 = 0;
+        this.spriteShapeBonusItems = [[192, 112], [171, 84], [136, 94], [96, 62], [65, 68], [145, 114]]
+        this.noBonusItems = [0, 0, 0, 0, 0, 0];
         this.imagebonus0 = new Image();
-        this.imagebonus0.src = '../assets/Asset/Asset/bonusItem/0.png';
-        this.spriteWidth1 = 171;
-        this.spriteHeight1 = 84;
-        this.noItems1 = 0;
+        this.imagebonus0.src = '../assets/Asset/Asset/item/1.png';
         this.imagebonus1 = new Image();
-        this.imagebonus1.src = '../assets/Asset/Asset/bonusItem/1.png';
-        this.spriteWidth2 = 136;
-        this.spriteHeight2 = 94;
-        this.noItems2 = 0;
+        this.imagebonus1.src = '../assets/Asset/Asset/item/2.png';
         this.imagebonus2 = new Image();
-        this.imagebonus2.src = '../assets/Asset/Asset/bonusItem/2.png';
+        this.imagebonus2.src = '../assets/Asset/Asset/item/3.png';
+        this.imagebonus3 = new Image();
+        this.imagebonus3.src = '../assets/Asset/Asset/item/4.png';
+        this.imagebonus4 = new Image();
+        this.imagebonus4.src = '../assets/Asset/Asset/item/5.png';
+        this.imagebonus5 = new Image();
+        this.imagebonus5.src = '../assets/Asset/Asset/item/6.png';
     }
     update() {
     }
-
     draw(context) {
+        // Draw main items
         for (let i = 0; i < this.noItems; i++) {
             context.drawImage(this.image, this.x + i * this.spriteWidth * this.game.scale, this.y, this.spriteWidth * this.game.scale, this.spriteHeight * this.game.scale);
         }
+
+        // Set font for text
         context.font = Math.floor(80 * this.game.scale) + "px fontgame";
-        if (this.noItems0) {
-            context.fillText(`x ${this.noItems0}`, this.x + 20, this.y + this.spriteHeight * this.game.scale * 1.1 + this.spriteHeight0 * this.game.scale / 1.5);
-            context.drawImage(this.imagebonus0, this.x + 60, this.y + this.spriteHeight * this.game.scale * 1.1, this.spriteWidth0 * this.game.scale / 1.5, this.spriteHeight0 * this.game.scale / 1.5);
+
+        // Draw first bonus item
+        let firstItem = this.game.listBonusItem[0] - 1;
+        if (this.noBonusItems[firstItem]) {
+            context.fillText(`x ${this.noBonusItems[firstItem]}`, this.x + 20, this.y + this.spriteHeight * this.game.scale * 1.1 + this.spriteShapeBonusItems[firstItem][1] * this.game.scale / 1.5);
+            context.drawImage(this.imagebonus0, this.x + 60, this.y + this.spriteHeight * this.game.scale * 1.1, this.spriteShapeBonusItems[firstItem][0] * this.game.scale / 1.5, this.spriteShapeBonusItems[firstItem][1] * this.game.scale / 1.5);
         }
-        if (this.noItems1) {
-            let yOffset = (this.noItems0 > 0) ? 1.1 : 0;
-            let y = this.y + yOffset * this.spriteHeight0 * this.game.scale / 1.5 + this.spriteHeight * this.game.scale * 1.1;
-            context.fillText(`x ${this.noItems1}`, this.x + 20, y + this.spriteHeight1 * this.game.scale / 1.5);
-            context.drawImage(this.imagebonus1, this.x + 60, y, this.spriteWidth1 * this.game.scale / 1.5, this.spriteHeight1 * this.game.scale / 1.5);
+
+        // Draw second bonus item
+        if (this.noBonusItems[firstItem + 1]) {
+            let yOffset = (this.noBonusItems[firstItem] > 0) ? 1.1 : 0;
+            let y = this.y + yOffset * this.spriteHeight * this.game.scale * 1.1 + this.spriteHeight * this.game.scale * 1.1;
+            context.fillText(`x ${this.noBonusItems[firstItem + 1]}`, this.x + 20, y + this.spriteShapeBonusItems[firstItem + 1][1] * this.game.scale / 1.5);
+            context.drawImage(this.imagebonus1, this.x + 60, y, this.spriteShapeBonusItems[firstItem + 1][0] * this.game.scale / 1.5, this.spriteShapeBonusItems[firstItem + 1][1] * this.game.scale / 1.5);
         }
-        if (this.noItems2) {
-            let yOffset0 = (this.noItems0 > 0) ? 1.1 : 0;
-            let yOffset1 = (this.noItems1 > 0) ? 1.1 : 0;
-            let y = this.y + this.spriteHeight * this.game.scale * 1.1 + yOffset0 * this.spriteHeight0 * this.game.scale / 1.5 + yOffset1 * this.spriteHeight1 * this.game.scale / 1.5
-            context.fillText(`x ${this.noItems2}`, this.x + 20, y + this.spriteHeight2 * this.game.scale / 1.5);
-            context.drawImage(this.imagebonus2, this.x + 60, y, this.spriteWidth2 * this.game.scale / 1.5, this.spriteHeight2 * this.game.scale / 1.5);
+
+        // Draw third bonus item
+        if (this.noBonusItems[firstItem + 2]) {
+            let yOffset0 = (this.noBonusItems[firstItem] > 0) ? 1.1 : 0;
+            let yOffset1 = (this.noBonusItems[firstItem + 1] > 0) ? 2.2 : 0;
+            let y = this.y + this.spriteHeight * this.game.scale * 1.1 + yOffset0 * this.spriteHeight * this.game.scale / 1.5 + yOffset1 * this.spriteHeight * this.game.scale / 1.5;
+            context.fillText(`x ${this.noBonusItems[firstItem + 2]}`, this.x + 20, y + this.spriteShapeBonusItems[firstItem + 2][1] * this.game.scale / 1.5);
+            context.drawImage(this.imagebonus2, this.x + 60, y, this.spriteShapeBonusItems[firstItem + 2][0] * this.game.scale / 1.5, this.spriteShapeBonusItems[firstItem + 2][1] * this.game.scale / 1.5);
         }
     }
-
     updateResult(word) {
         if (word.markedForDeletion === 2) {
             this.game.listWordCollect.push(JSON.parse(JSON.stringify(word.word)));
-            if (word.typeItem == 0) {
-                this.noItems0++;
-            }
-            else if (word.typeItem == 1) {
-                this.noItems2++;
-            }
-            else if (word.typeItem == 2) {
-                this.noItems1++;
+            if (word.typeItem > 0 && word.typeItem <= 6) {
+                this.noBonusItems[word.typeItem - 1] += 1;
             }
             else {
                 if (this.noItems < this.maxItems) {
@@ -128,9 +129,9 @@ export class BonusItems {
 
 class Button {
     constructor(game, currentBoard, image, spriteWidth, spriteHeight, type) {
-        this.image = new Image();
         this.game = game;
         this.currentBoard = currentBoard;
+        this.image = new Image();
         this.image.src = image;
         this.spriteWidth = spriteWidth;
         this.spriteHeight = spriteHeight;
@@ -472,8 +473,8 @@ export class BoardEndWordCollect {
             else {
                 cancelAnimationFrame(animationHandle);
                 self.game.updateResult()
-                self.game.props.setTypegame('word-chain')
-                return;
+                // self.game.props.setTypegame('word-chain')
+                // return;
             }
         }
         animate();

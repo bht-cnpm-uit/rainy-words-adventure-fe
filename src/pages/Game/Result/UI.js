@@ -1,37 +1,48 @@
-export class BonusItems {
+import { useNavigate } from "react-router-dom";
+class BonusItems {
     constructor(game, x, y, bonus) {
         this.game = game;
         this.x = x;
         this.y = y;
-        this.spriteWidth0 = 192;
-        this.spriteHeight0 = 112;
-        this.width0 = this.spriteWidth0 * this.game.scale / 1.5;
-        this.height0 = this.spriteHeight0 * this.game.scale / 1.5;
-        this.noItems0 = bonus.item1;
+        this.spriteShapeBonusItems = [[192, 112], [171, 84], [136, 94], [96, 62], [65, 68], [145, 114]]
+        // Initialize bonus item 0
+        const bonusItem0 = bonus[0];
+        this.scaleSprite = bonusItem0.itemId === 1 ? 1.5 : 1;
+        this.spriteWidth0 = this.spriteShapeBonusItems[bonusItem0.itemId - 1][0];
+        this.spriteHeight0 = this.spriteShapeBonusItems[bonusItem0.itemId - 1][1];
+        this.width0 = this.spriteWidth0 * this.game.scale / this.scaleSprite;
+        this.height0 = this.spriteHeight0 * this.game.scale / this.scaleSprite;
+        this.noItems0 = bonusItem0.quantity;
         this.imagebonus0 = new Image();
-        this.imagebonus0.src = '../assets/Asset/Asset/bonusItem/0.png';
-        this.spriteWidth1 = 171;
-        this.spriteHeight1 = 84;
-        this.width1 = this.spriteWidth1 * this.game.scale / 1.5;
-        this.height1 = this.spriteHeight1 * this.game.scale / 1.5;
-        this.noItems1 = bonus.item0;
+        this.imagebonus0.src = `../assets/Asset/Asset/item/${bonusItem0.itemId}.png`;
+
+        // Initialize bonus item 1
+        const bonusItem1 = bonus[1];
+        this.spriteWidth1 = this.spriteShapeBonusItems[bonusItem0.itemId - 1][0];
+        this.spriteHeight1 = this.spriteShapeBonusItems[bonusItem0.itemId - 1][1];
+        this.width1 = this.spriteWidth1 * this.game.scale / this.scaleSprite;
+        this.height1 = this.spriteHeight1 * this.game.scale / this.scaleSprite;
+        this.noItems1 = bonusItem1.quantity;
         this.imagebonus1 = new Image();
-        this.imagebonus1.src = '../assets/Asset/Asset/bonusItem/1.png';
-        this.spriteWidth2 = 136;
-        this.spriteHeight2 = 94;
-        this.width2 = this.spriteWidth2 * this.game.scale / 1.5;
-        this.height2 = this.spriteHeight2 * this.game.scale / 1.5;
-        this.noItems2 = bonus.item2;
+        this.imagebonus1.src = `../assets/Asset/Asset/item/${bonusItem1.itemId}.png`;
+
+        // Initialize bonus item 2
+        const bonusItem2 = bonus[2];
+        this.spriteWidth2 = this.spriteShapeBonusItems[bonusItem0.itemId - 1][0];
+        this.spriteHeight2 = this.spriteShapeBonusItems[bonusItem0.itemId - 1][1];
+        this.width2 = this.spriteWidth2 * this.game.scale / this.scaleSprite;
+        this.height2 = this.spriteHeight2 * this.game.scale / this.scaleSprite;
+        this.noItems2 = bonusItem2.quantity;
         this.imagebonus2 = new Image();
-        this.imagebonus2.src = '../assets/Asset/Asset/bonusItem/2.png';
+        this.imagebonus2.src = `../assets/Asset/Asset/item/${bonusItem2.itemId}.png`;
     }
     updatePosition(x, y) {
-        this.width0 = this.spriteWidth0 * this.game.scale / 1.5;
-        this.height0 = this.spriteHeight0 * this.game.scale / 1.5;
-        this.width1 = this.spriteWidth1 * this.game.scale / 1.5;
-        this.height1 = this.spriteHeight1 * this.game.scale / 1.5;
-        this.width2 = this.spriteWidth2 * this.game.scale / 1.5;
-        this.height2 = this.spriteHeight2 * this.game.scale / 1.5;
+        this.width0 = this.spriteWidth0 * this.game.scale / this.scaleSprite;
+        this.height0 = this.spriteHeight0 * this.game.scale / this.scaleSprite;
+        this.width1 = this.spriteWidth1 * this.game.scale / this.scaleSprite;
+        this.height1 = this.spriteHeight1 * this.game.scale / this.scaleSprite;
+        this.width2 = this.spriteWidth2 * this.game.scale / this.scaleSprite;
+        this.height2 = this.spriteHeight2 * this.game.scale / this.scaleSprite;
         this.x = x;
         this.y = y;
     }
@@ -39,7 +50,7 @@ export class BonusItems {
     }
 
     draw(context) {
-        context.font = "50px fontgame";
+        context.font = Math.floor(50 * this.game.scale) + "px fontgame";
         context.fillStyle = 'brown';
         context.textAlign = "center";
         context.textBaseline = "middle";
@@ -60,7 +71,7 @@ export class BonusItems {
             totalWidth += textWidth2 + this.width1; // width1 used for item 2 image
         }
 
-        let startX = this.x - totalWidth / 2;
+        let startX = this.x - totalWidth / 2.5;
 
         if (this.noItems0) {
             let textWidth = context.measureText(`x ${this.noItems0}`).width;
@@ -119,9 +130,6 @@ class Button {
         context.textAlign = "center";
         context.textBaseline = "middle";
         context.fillText(content, this.x + this.width / 2, this.y + this.height / 2)
-    }
-    onClick() {
-        window.location.href = '/level'
     }
 }
 class StaticUI {
@@ -284,7 +292,7 @@ export class BoardResult {
         this.bonusItem = new BonusItems(
             this.game,
             this.staticUI.board.x + this.widthBoard / 2, this.staticUI.board.y + this.heightBoard * 2.8 / 4,
-            this.game.result.bonus
+            this.game.result.bonusItems
         )
     }
     updatePosition() {

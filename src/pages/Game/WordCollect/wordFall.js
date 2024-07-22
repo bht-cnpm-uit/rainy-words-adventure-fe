@@ -14,7 +14,7 @@ class Item {
         this.angle = (Math.random() * 20 - 10) * Math.PI / 180;
         this.markedForDeletion = 0;
         this.word = word
-        this.setFrameXY(); // Random bonus item
+        this.setFrameXY(this.game.listBonusItem[0]); // Random bonus item
         this.animateHandle = null;
         this.animateFall();
     }
@@ -22,28 +22,53 @@ class Item {
         this.x = this.x * this.game.scaleX;
         this.y = this.y * this.game.scaleY;
     }
-    setFrameXY() {
+    setFrameXY(itemId) {
         let rand = Math.random();
-        if (rand < 0.05) {
-            // 10% probability for frameX in range(0,5) and frameY = 1
-            this.frameX = Math.floor(Math.random() * 5);
-            this.frameY = 1;
-            this.typeItem = -1;
-        } else if (rand < 0.8) {
-            // 70% probability for frameX in range(0,5) and frameY = 0
-            this.frameX = Math.floor(Math.random() * 5);
-            this.frameY = 0;
-            this.typeItem = 0;
-        } else if (rand < 0.95) {
-            // 15% probability for frameX in range(6,11) and frameY = 0
-            this.frameX = Math.floor(Math.random() * 5) + 6;
-            this.frameY = 0;
-            this.typeItem = 1;
-        } else {
-            // 5% probability for frameX in range(6,11) and frameY = 1
-            this.frameX = Math.floor(Math.random() * 5) + 6;
-            this.frameY = 1;
-            this.typeItem = 2;
+        if (itemId === 1) {
+            if (rand < 0.1) {
+                // 10% probability for frameX in range(0,5) and frameY = 1
+                this.frameX = Math.floor(Math.random() * 5);
+                this.frameY = 1;
+                this.typeItem = -1;
+            } else if (rand < 0.6) {
+                // 70% probability for frameX in range(0,5) and frameY = 0
+                this.frameX = Math.floor(Math.random() * 5);
+                this.frameY = 0;
+                this.typeItem = 1;
+            } else if (rand < 0.9) {
+                // 15% probability for frameX in range(6,11) and frameY = 0
+                this.frameX = Math.floor(Math.random() * 5) + 6;
+                this.frameY = 0;
+                this.typeItem = 3;
+            } else {
+                // 5% probability for frameX in range(6,11) and frameY = 1
+                this.frameX = Math.floor(Math.random() * 5) + 6;
+                this.frameY = 1;
+                this.typeItem = 2;
+            }
+        }
+        else {
+            if (rand < 0) {
+                // 10% probability for frameX in range(0,5) and frameY = 1
+                this.frameX = Math.floor(Math.random() * 5);
+                this.frameY = 1;
+                this.typeItem = -1;
+            } else if (rand < 0.8) {
+                // 70% probability for frameX in range(0,5) and frameY = 0
+                this.frameX = Math.floor(Math.random() * 5);
+                this.frameY = 0;
+                this.typeItem = 4;
+            } else if (rand < 0.9) {
+                // 15% probability for frameX in range(6,11) and frameY = 0
+                this.frameX = Math.floor(Math.random() * 5) + 6;
+                this.frameY = 1;
+                this.typeItem = 5;
+            } else {
+                // 5% probability for frameX in range(6,11) and frameY = 1
+                this.frameX = Math.floor(Math.random() * 5) + 6;
+                this.frameY = 2;
+                this.typeItem = 6;
+            }
         }
     }
     draw(context) {
@@ -114,7 +139,7 @@ export class WordFall {
         this.game = game;
         this.words = [];
         this.image = new Image();
-        this.image.src = "../assets/Asset/GameObject/GameObject(5x12Atlas).png";
+        this.image.src = game.listBonusItem[0] === 1 ? "../assets/Asset/GameObject/GameObject(5x12Atlas).png" : "../assets/Asset/GameObject/GameObject2(5x12Atlas).png";
         this.listWords = this.game.props.listwordcollect;
     }
     updatePositionItems() {

@@ -1,15 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { BoardResult } from './UI';
 import { Background } from '../WordCollect/background';
+import { useNavigate } from 'react-router-dom';
 const Result = (props) => {
+    const navigate = useNavigate();
     const canvasRef = useRef();
     function resizeCanvas(canvas) {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
     }
     class MainScreen {
-        constructor(canvas, ctx) {
-            this.result = props.result
+        constructor(canvas, ctx, navigate) {
             this.canvas = canvas;
             this.ctx = ctx;
             this.width = window.innerWidth;
@@ -21,6 +22,10 @@ const Result = (props) => {
             this.widthCut = Math.ceil((2920 * this.scale - this.width) / this.scale);
             this.gameFrame = 0;
             this.deltaTime = null;
+            this.result = props.result;
+            this.time = props.elapsedTime;
+            this.resSaveGame = props.resSaveGame;
+            this.navigate = navigate;
             this.background = new Background(this);
             this.boardResult = new BoardResult(this);
             this.canvas.addEventListener('mousemove', this.onMouseMove.bind(this));
@@ -53,7 +58,9 @@ const Result = (props) => {
             let mouseX = event.clientX - rect.left;
             let mouseY = event.clientY - rect.top;
             if (this.isMouseOverButton(mouseX, mouseY, this.boardResult.buttonNext)) {
-                this.boardResult.buttonNext.onClick();
+                this.navigate('/level', {
+                    state: this.resSaveGame
+                });
             }
         }
 
@@ -78,7 +85,7 @@ const Result = (props) => {
         const canvas = document.getElementById('responsive-canvas');
         resizeCanvas(canvas);
         const context = canvas.getContext('2d');
-        const mainScreen = new MainScreen(canvas, context);
+        const mainScreen = new MainScreen(canvas, context, navigate);
         function animate(timeStamp) {
             context.clearRect(0, 0, canvas.width, canvas.height);
             const deltaTime = timeStamp - lastTime || 0;
