@@ -289,7 +289,7 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
 
             {isFrameModalOpen && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="w-1/2 rounded-lg bg-orange-50 p-5 shadow-lg">
+                    <div className=" rounded-lg bg-orange-50 p-5 shadow-lg">
                         <h2 className="mb-4 flex justify-center font-mono text-2xl">CHỌN KHUNG</h2>
                         <div className="flex justify-around">
                             {frameOptions.map((frame) => (

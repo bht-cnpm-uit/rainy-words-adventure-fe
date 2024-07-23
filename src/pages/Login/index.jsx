@@ -1,5 +1,5 @@
 import { Background } from './background';
-import React, { useEffect, useRef, useMemo } from 'react';
+import { useEffect, useRef } from 'react';
 import { handleLogin } from '../../services/userServices';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -15,7 +15,7 @@ const Login = (props) => {
     async function handleSubmitLogin(values) {
         try {
             let data = await handleLogin(values.phoneNumber, values.password);
-            console.log("data student:", data.student);
+            console.log('data student:', data.student);
 
             //admin
             //SDT: admin, Pasword: 123456
@@ -23,14 +23,13 @@ const Login = (props) => {
                 navigate('/admin');
                 return 1;
             }
-
             if (data && data.student) {
-                dispatch(userActions.login(data.student))
-                window.location.href = '/level'
+                dispatch(userActions.login(data.student));
+                window.location.href = '/level';
             }
         } catch (error) {
-            alert("Tên đăng nhập hoặc mật khẩu không đúng !!!")
-            console.error('Error during login:', error);
+            alert('Tên đăng nhập hoặc mật khẩu không đúng !!!');
+            // console.error('Error during login:', error);
         }
         return 0;
     }
@@ -52,7 +51,7 @@ const Login = (props) => {
             this.canvas.addEventListener('click', this.onClick.bind(this));
             window.addEventListener('resize', this.onResize.bind(this));
         }
-        onResize(envent) {
+        onResize() {
             var canvas = document.getElementById('responsive-canvas');
             resizeCanvas(canvas);
             this.width = window.innerWidth;
@@ -81,17 +80,15 @@ const Login = (props) => {
                 window.location.href = '/signup';
             }
 
-            if (this.isMouseOverButton(mouseX, mouseY, this.background.btnLogin)) {
-            }
             this.canvas.style.cursor = cursorStyle;
         }
 
         isMouseOverButton(mouseX, mouseY, button) {
             return (
                 mouseX >= button.x &&
-                mouseX <= button.x + button.spriteWidth * this.scale / 1.4 &&
-                mouseY >= button.y + button.spriteHeight * this.scale / 2.8 &&
-                mouseY <= button.y + button.spriteHeight * this.scale / 1.4
+                mouseX <= button.x + (button.spriteWidth * this.scale) / 1.4 &&
+                mouseY >= button.y + (button.spriteHeight * this.scale) / 2.8 &&
+                mouseY <= button.y + (button.spriteHeight * this.scale) / 1.4
             );
         }
 
@@ -103,11 +100,9 @@ const Login = (props) => {
 
             if (this.isMouseOverButton(mouseX, mouseY, this.background.btnSignIn)) {
                 cursorStyle = 'pointer';
-
             }
             this.canvas.style.cursor = cursorStyle;
         }
-
     }
 
     useEffect(() => {
@@ -123,7 +118,7 @@ const Login = (props) => {
         }
         animate();
     }, []);
-    return <canvas id='responsive-canvas' ref={canvasRef} {...props}></canvas>;
+    return <canvas id="responsive-canvas" ref={canvasRef} {...props}></canvas>;
 };
 
 export default Login;

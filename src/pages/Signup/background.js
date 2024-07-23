@@ -142,7 +142,7 @@ class SignupForm {
         this.createForm(game.dataSchool);
     }
     update() { }
-    draw(context) { }
+    draw() { }
 
     createForm(dataSchool) {
         const container = document.createElement('div');
@@ -230,12 +230,13 @@ class SignupForm {
                 birthday: dateOfBirth,
             });
             if (!isSuccess) {
-                const errorMessage = document.getElementById('error-message');
+                // const errorMessage = document.getElementById('error-message');
                 if (phoneNumber == '' || password == '' || username == '' || dateOfBirth == '' || class_ == '') {
-                    errorMessage.innerText = "Vui lòng nhập đủ thông tin !";
+                    // errorMessage.innerText = "Vui lòng nhập đủ thông tin !";
+                    alert("Vui lòng nhập đủ thông tin !")
                 }
-                else errorMessage.innerText = "Số diện thoại đã tồn tại !";
             }
+           
         });
     }
 }

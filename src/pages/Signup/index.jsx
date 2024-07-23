@@ -19,13 +19,18 @@ const SignUp = (props) => {
         try {
             let data = await handleSignUp(values);
             if (data && data.errCode == 0) {
+                alert("Đăng kí thành công!");
                 window.location.href = '/login';
             }
+            if (data && data.errCode == 2) {
+                alert("Số điện thoại đã tồn tại!");
+                return 0;
+            }
         } catch (error) {
-            alert("Vui lòng nhập đủ thông tin!")
-            console.error("Error during sign up: ", error);
+            console.log("Error during sign up: ", error.message);
         }
         return 0;
+        
     }
 
     class Home {
@@ -48,7 +53,7 @@ const SignUp = (props) => {
             window.addEventListener('resize', this.onResize.bind(this));
         }
 
-        onResize(event) {
+        onResize() {
             var canvas = document.getElementById('responsive-canvas');
             resizeCanvas(canvas);
             this.width = window.innerWidth;
@@ -123,6 +128,7 @@ const SignUp = (props) => {
             resizeCanvas(canvas);
             const context = canvas.getContext('2d');
             const home = new Home(canvas, context, dataSchool);
+            
             function animate() {
                 home.draw(context);
                 home.update();
