@@ -12,7 +12,6 @@ const PopUpLibrary = ({ openPopUpLib, closePopUpLib }) => {
             let data = await getAllWords();
             setVocabularyLibrary(data.listWord);
             setSelectedWord((data.listWord)[0])
-            console.log("data", data);
         } catch (error) {
             console.error('Error fetching words from database:', error);
         }

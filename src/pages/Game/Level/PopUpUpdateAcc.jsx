@@ -49,11 +49,10 @@ const PopUpUpdateAcc = ({ openPopUpUpdate, closePopUpUpdate, student }) => {
             grade: updatedStudent.grade,
             birthday: dateFormat2(updatedStudent.birthday),
         };
-        console.log("UPDATED DATA: ", updateData);
-
+       
         try {
             const response = await updateInfo(updateData);
-            console.log("Update successful", response);
+           
             if(response.errCode !== "0")
             alert("Mật khẩu sai!");
             else{

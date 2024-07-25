@@ -37,9 +37,6 @@ const ModalImportData = ({ modalTitle, isOpenModelImportData, setIsOpenModelImpo
     const saveChanges = async () => {
         try {
             const result = await createNewSchool(dataUpload);
-
-            console.log('Data successfully uploaded:', result);
-
             alert('Tải dữ liệu trường học thành công!');
 
             closeModal();

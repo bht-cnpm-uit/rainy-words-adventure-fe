@@ -27,8 +27,6 @@ const PopUpAddSchool = ({ openPopupAddSchool, closePopUpAddSchool }) => {
             ...schoolData,
             [name]: value,
         });
-
-        // console.log(schoolData);
     };
 
     const handleAddSchool = async () => {
@@ -41,7 +39,6 @@ const PopUpAddSchool = ({ openPopupAddSchool, closePopUpAddSchool }) => {
             const listSchool = [schoolData];
             let response = await createNewSchool(listSchool);
 
-            console.log('Respone: ', response);
             alert('Thêm trường học thành công');
             handleClose();
         } catch (error) {

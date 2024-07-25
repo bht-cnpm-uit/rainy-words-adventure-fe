@@ -22,7 +22,6 @@ const ScoreboardManagement = () => {
             setFilterScoreBoardData(getData.leaderboard);
             setSchoolFilter([...new Set(getData.leaderboard.map((entry) => entry.School))]);
             setGrade([...new Set(getData.leaderboard.map((entry) => entry.Grade))]);
-            // console.log(schoolFilter);
         } catch (error) {
             console.error('Error:', error);
         }
@@ -56,7 +55,6 @@ const ScoreboardManagement = () => {
         }
 
         if (filterGrade !== 'Tất cả') {
-            console.log(filterGrade);
             filter = filter.filter((row) => row.Grade === filterGrade);
         }
 

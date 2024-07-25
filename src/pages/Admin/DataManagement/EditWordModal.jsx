@@ -18,7 +18,6 @@ const EditWordModal = ({ isOpen, word, onClose, onSubmit }) => {
     };
 
     const handleSubmit = (e) => {
-        // console.log("Update word:",updatedWord);
         onSubmit(updatedWord);
     };
 

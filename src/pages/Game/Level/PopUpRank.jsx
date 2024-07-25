@@ -11,20 +11,17 @@ import { getLeaderboard } from '../../../services/gameServices';
 const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
     const [cupCount, setCupCount] = useState(0);
     const [items, setItems] = useState([]);
-    
+
     const userInfo = useSelector((state) => state.user.userInfo);
     const [leaderboardStudents, setLeaderboardStudents] = useState([]);
 
     useEffect(() => {
-        console.log('User info:', userInfo);
         if (userInfo && userInfo.id) {
             itemsOfStudent(userInfo.id);
             getStudentInfomation(userInfo.id);
             getLeaderBoads();
         }
     }, [userInfo]);
-
-    
 
     const itemsOfStudent = async (studentId) => {
         let response = await getItemsOfStudent(studentId);
@@ -45,14 +42,13 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
 
     const getStudentInfomation = async (studentId) => {
         let response = await getStudentInfo(studentId);
-        console.log('Student Info: ', response);
+
         setCupCount(response.student.cup);
-        console.log('Cup Count: ', response.student.cup);
     };
 
     const getLeaderBoads = async () => {
         let response = await getLeaderboard();
-        console.log('Leaderboard: ', response);
+       
         let getLeaderboardStudents = response.leaderboard.map((student) => ({
             id: student.id,
             name: student.Name,

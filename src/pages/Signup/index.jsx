@@ -27,7 +27,7 @@ const SignUp = (props) => {
                 return 0;
             }
         } catch (error) {
-            console.log("Error during sign up: ", error.message);
+           
         }
         return 0;
         

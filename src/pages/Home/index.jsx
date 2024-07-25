@@ -55,7 +55,7 @@ const Home = (props) => {
         }
 
         isMouseOverButton(mouseX, mouseY, button) {
-            console.log(button)
+           
             return (
                 mouseX >= button.x - button.width / 2 &&
                 mouseX <= button.x - button.width / 2 + button.spriteWidth / 2 &&

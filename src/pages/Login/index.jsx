@@ -19,13 +19,15 @@ const Login = (props) => {
 
             //admin
             //SDT: admin, Pasword: 123456
-            if (data && data.student.phoneNumber === 'admin') {
-                navigate('/admin');
-                return 1;
-            }
-            if (data && data.student) {
-                dispatch(userActions.login(data.student));
-                window.location.href = '/level';
+           if (data && data.student) {
+                if (data.student.phoneNumber === 'admin') {
+                    localStorage.setItem('authToken', 'admin');
+                    window.location.href = '/admin';
+                } else {
+                    localStorage.setItem('authToken', 'user');
+                    dispatch(userActions.login(data.student));
+                    window.location.href = '/level';
+                }
             }
         } catch (error) {
             alert('Tên đăng nhập hoặc mật khẩu không đúng !!!');

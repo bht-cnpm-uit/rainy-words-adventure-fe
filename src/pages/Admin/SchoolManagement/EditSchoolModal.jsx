@@ -14,7 +14,6 @@ const EditSchoolModal = ({ isOpen, school, onClose, onSubmit }) => {
     };
 
     const handleSubmit = (e) => {
-        console.log('Update word:', updatedSchool);
         onSubmit(updatedSchool);
     };
 

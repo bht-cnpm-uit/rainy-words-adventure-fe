@@ -77,7 +77,6 @@ const Game = () => {
 
     const handleSaveGame = async (data) => {
         try {
-            console.log("data call save game: ", data);
             const res = await saveGame(data);
             if (res.errCode === 0) {
                 setResSaveGame({
@@ -88,7 +87,6 @@ const Game = () => {
                 });
                 setGameSaved(true); // Set gameSaved to true after successful save
             }
-            console.log("Response from save game: ", res);
         } catch (error) {
             console.error("Failed to save game:", error);
         }

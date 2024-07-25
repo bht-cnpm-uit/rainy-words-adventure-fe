@@ -2,15 +2,19 @@ import { useSelector } from "react-redux";
 import { userSelector } from "../redux/selectors";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
+
 function AuthLayout({ children }) {
     const location = useLocation();
     const user = useSelector(userSelector);
     const navigate = useNavigate();
+
     useEffect(() => {
-        if (user.userInfo === null || user.isLoggedIn == false) {
-            navigate('/login');
+        const authToken = localStorage.getItem('authToken');
+        if (!authToken) {
+            navigate('/login', { replace: true });
         }
-    }, [user, location.pathname]);
+    }, [user, navigate, location.pathname]);
+
     return <>{children}</>;
 }
 

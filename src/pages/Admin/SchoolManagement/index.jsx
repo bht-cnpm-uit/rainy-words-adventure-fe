@@ -8,7 +8,7 @@ const SchoolManagement = () => {
     const [isOpenPopUp, setIsOpenPopUp] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [selectedSchool, setSelectedSchool] = useState(null);
-    const [updatedSchoolData, setUpdatedSchoolData] = useState(null); 
+    const [updatedSchoolData, setUpdatedSchoolData] = useState(null);
     const HandleRemovePopUp = () => setIsOpenPopUp(false);
 
     const [data, setData] = useState([]);
@@ -24,9 +24,7 @@ const SchoolManagement = () => {
     }
     const handleEditSchoolSubmit = async (schoolData) => {
         try {
-            console.log('School data:', schoolData);
             let response = await updateSchool(schoolData);
-            console.log('Response: ', response);
             alert('Cập nhật thành công!');
             setIsEditModalOpen(false);
             setUpdatedSchoolData(schoolData);
@@ -39,13 +37,11 @@ const SchoolManagement = () => {
     const handleUpdateSchool = (school) => {
         const selectedSchool = {
             schoolId: school.id,
-            schoolName: school.name
+            schoolName: school.name,
         };
         setSelectedSchool(selectedSchool);
         setIsEditModalOpen(true);
-        console.log('Selected school:', selectedSchool);
     };
-
 
     const handleDeleteSchool = async (id) => {
         const isConfirmed = window.confirm(`Bạn có chắc chắn muốn xóa trường có id là: ${id}?`);
@@ -56,7 +52,6 @@ const SchoolManagement = () => {
         try {
             let rowid = [id];
             let respone = await deleteSchool(rowid);
-            console.log('Response: ', respone);
             alert('Xóa thành công!');
             getSchools();
         } catch (error) {

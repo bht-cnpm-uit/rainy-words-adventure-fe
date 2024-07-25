@@ -101,13 +101,11 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
 
     const achivementOfStudent = async (studentId) => {
         let response = await getAchivementOfStudent(studentId);
-        // console.log('Achivement: ', response);
         let getListAchivement = response.listAchievement.map((achivement) => ({
             id: achivement.id,
             name: achivement.name,
         }));
         setAchivements(getListAchivement);
-        // console.log('Achivement: ', getListAchivement);
     };
 
     const handleCloseConfirmLogOut = () => {

@@ -42,9 +42,8 @@ const DataManagement = () => {
 
     const handleEditWordSubmit = async (wordData) => {
         try {
-            console.log('Word data:', wordData);
             let response = await updateWord(wordData);
-            // console.log('Response: ', response);
+
             alert('Cập nhật thành công!');
             setIsEditModalOpen(false);
             setUpdatedWordData(wordData);
@@ -65,7 +64,6 @@ const DataManagement = () => {
         };
         setSelectedWord(selectedWord);
         setIsEditModalOpen(true);
-        console.log('Selected word:', selectedWord);
     };
 
     const handleDeleteWord = async (id) => {
@@ -77,7 +75,6 @@ const DataManagement = () => {
         try {
             let rowid = [id];
             let respone = await deleteWord(rowid);
-            console.log('Response: ', respone);
             alert('Xóa thành công!');
             getAllWords();
         } catch (error) {

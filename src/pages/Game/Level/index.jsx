@@ -44,7 +44,6 @@ const Level = props => {
     const HandleRemoveCongratNewLevel = () => {
         setOpenCongratNewLevel(false);
         if (mainScreenRef && nextLevel) {
-            console.log("call this function", nextLevel)
             mainScreenRef.current.levels.unLockLevel(nextLevel)
             setNextLevel(null);
         }
@@ -346,7 +345,6 @@ const Level = props => {
                 levelInfor: levelMatrix,
                 levelScore: levelScore
             }
-            console.log(lv)
             setLevel(lv);
             mainScreenRef.current.setLevel(lv);
             dispatch(userActions.setLevel(lv));
@@ -362,14 +360,12 @@ const Level = props => {
             levelId: 13,
             isGetCup: [1],
         };
-        console.log("check state: ", state)
         // navigate('/level', {
         //     state: {}
         // })
         if (state && state.isPassLevel) {
             let levelUnlock = mainScreenRef.current.checkUnlockLevel(state.levelId);
             if (levelUnlock) {
-                console.log(levelUnlock)
                 setNextLevel(levelUnlock);
                 setOpenCongratNewLevel(true);
             }

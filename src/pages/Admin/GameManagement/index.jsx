@@ -10,15 +10,12 @@ const getData = async () => {
             id: topic.id,
             topic: topic.nameEn
         }));
-        console.log("Topic:", topics);
 
         const topicLevelsData = await getTopicLevels();
         const topic_level = topicLevelsData.listLevel.map((level) => ({
             level: level.name,
             topicId: level.listTopicId.map(topic => topic.id)
         }));
-
-        console.log("Topic Level:", topic_level);
 
         return { topics, topic_level };
     } catch (error) {
