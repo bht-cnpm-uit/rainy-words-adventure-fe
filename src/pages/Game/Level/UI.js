@@ -281,7 +281,7 @@ export class LevelSetting {
             // Draw your board and score here
             this.staticUI.board.draw(context);
             this.staticUI.score.draw(context);
-            this.staticUI.score.writeText(context, "0");
+            this.staticUI.score.writeText(context, Math.max(...this.currentLevel.score));
             this.buttons.close.draw(context);
             this.buttons.increase.draw(context);
             this.buttons.decrease.draw(context);
@@ -319,6 +319,9 @@ export class LevelSetting {
                 this.currentDiffLevel = newLevel;
             }
             else if (newLevel == 2 && this.currentLevel.difficulty_level[0] && this.currentLevel.difficulty_level[1]) {
+                this.currentDiffLevel = newLevel;
+            }
+            else if (newLevel == 0) {
                 this.currentDiffLevel = newLevel;
             }
         }

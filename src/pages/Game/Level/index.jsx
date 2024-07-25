@@ -34,13 +34,22 @@ const Level = props => {
     const [openCongratNewLevel, setOpenCongratNewLevel] = useState(false);
     const [level, setLevel] = useState(LEVEL);
     const [mode, setMode] = useState(localStorage.getItem('theme') || 'light');
+    const [nextLevel, setNextLevel] = useState(null);
 
     const HandleRemovePopUp = () => setOpenPopup(false);
     const HandleRemovePopUpAcc = () => setOpenPopupAcc(false);
     const HandleRemovePopUpLib = () => setOpenPopupLib(false);
     const HandleRemovePopUpRank = () => setOpenPopupRank(false);
-    const HandleRemoveCongratNewLevel = () => setOpenCongratNewLevel(false);
     const userInfor = useSelector(userSelector);
+    const HandleRemoveCongratNewLevel = () => {
+        setOpenCongratNewLevel(false);
+        if (mainScreenRef && nextLevel) {
+            console.log("call this function", nextLevel)
+            mainScreenRef.current.levels.unLockLevel(nextLevel)
+            setNextLevel(null);
+        }
+        navigate(location.pathname, { replace: true, state: {} });
+    }
 
     class MainScreen {
         constructor(canvas, ctx, mode, level) {
@@ -75,16 +84,26 @@ const Level = props => {
             this.canvas.addEventListener('click', this.onClick.bind(this));
             window.addEventListener('resize', this.onResize.bind(this));
         }
+        checkUnlockLevel(levelId) {
+            let levelCurrent = Math.floor(levelId / 3);
+            if (this.level[levelCurrent - 1]['state']) {
+                return null
+            }
+            else return this.level[levelCurrent];
+        }
         updateMode(mode) {
             this.mode = mode
         }
-        setLevel(level) {
+        setLevel(lv) {
+            let level = lv.levelInfor;
+            let score = lv.levelScore;
             let init_level = JSON.parse(JSON.stringify(LEVEL));
             init_level.forEach((item, idx) => {
-                item["state"] = level[0][idx] || idx === 0 ? 1 : 0;
+                item["state"] = level[0][idx] || idx === 0 || level[0][idx - 1] ? 1 : 0;
                 item['difficulty_level'] = [level[0][idx], level[1][idx], level[2][idx]]
+                item['score'] = [score[0][idx].score === undefined ? 0 : score[0][idx].score, score[1][idx].score === undefined ? 0 : score[1][idx].score, score[2][idx].score === undefined ? 0 : score[2][idx].score]
                 if (!this.player.currentLevel) {
-                    if (idx == 19 || !level[0][idx + 1]) {
+                    if (idx == 19 || level[0][0] === 0 || (level[0][idx] === 0 && level[0][idx - 1] === 1)) {
                         this.player.currentLevel = JSON.parse(JSON.stringify(item))
                     }
                 }
@@ -180,7 +199,7 @@ const Level = props => {
                     navigate('/game', {
                         state: {
                             studentId: userInfor.id,
-                            level: this.levelSetting.currentLevel.level,
+                            level: (this.levelSetting.currentLevel.level - 1) * 3 + this.levelSetting.currentDiffLevel + 1,
                             diff: this.levelSetting.currentDiffLevel
                         }
                     });
@@ -321,20 +340,41 @@ const Level = props => {
     useEffect(() => {
         const getLevel = async () => {
             let dataLevel = await getCurrentLevelUser(userInfor.id);
-            let levelInfor = dataLevel.levelMatrix;
-            setLevel(levelInfor);
-            mainScreenRef.current.setLevel(levelInfor);
-            dispatch(userActions.setLevel(levelInfor));
+            let levelMatrix = dataLevel.levelMatrix;
+            let levelScore = dataLevel.scoreTimeMatrix;
+            let lv = {
+                levelInfor: levelMatrix,
+                levelScore: levelScore
+            }
+            console.log(lv)
+            setLevel(lv);
+            mainScreenRef.current.setLevel(lv);
+            dispatch(userActions.setLevel(lv));
         };
         getLevel();
     }, [])
+
     useEffect(() => {
-        const state = location.state || {};
-        console.log("check state of location: ", state)
+        // const state = location.state || {};
+        const state = {
+            isPassLevel: true,
+            listAchievement: [],
+            levelId: 13,
+            isGetCup: [1],
+        };
+        console.log("check state: ", state)
+        // navigate('/level', {
+        //     state: {}
+        // })
         if (state && state.isPassLevel) {
-            setOpenCongratNewLevel(true)
+            let levelUnlock = mainScreenRef.current.checkUnlockLevel(state.levelId);
+            if (levelUnlock) {
+                console.log(levelUnlock)
+                setNextLevel(levelUnlock);
+                setOpenCongratNewLevel(true);
+            }
         }
-    }, [location.state, navigate])
+    }, [navigate])
     return (
         <div>
             <canvas id='responsive-canvas' ref={canvasRef} {...props}></canvas>
@@ -342,7 +382,7 @@ const Level = props => {
             {openPopupAcc && <PopUpAcc openPopUpAcc={openPopupAcc} closePopUpAcc={HandleRemovePopUpAcc} mode={mode} setMode={setMode} />}
             {openPopupLib && <PopUpLibrary openPopUpLib={openPopupLib} closePopUpLib={HandleRemovePopUpLib} />}
             {openPopupRank && <PopUpRank openPopUpRank={openPopupRank} closePopUpRank={HandleRemovePopUpRank} />}
-            {openCongratNewLevel && <CongratNewLevel openCongratNewLevel={openCongratNewLevel} closeCongratNewLevel={HandleRemoveCongratNewLevel} nextLevel={10} />}
+            {openCongratNewLevel && <CongratNewLevel openCongratNewLevel={openCongratNewLevel} closeCongratNewLevel={HandleRemoveCongratNewLevel} nextLevel={nextLevel} />}
         </div>
 
     );

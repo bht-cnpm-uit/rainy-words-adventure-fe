@@ -8,6 +8,8 @@ export const LEVEL =
             },
             "state": 0,
             "difficulty_level": 0,
+            "score": 0,
+            'time': -1
         },
         {
             "level": 2,
@@ -17,6 +19,8 @@ export const LEVEL =
             },
             "state": 0,
             "difficulty_level": 0,
+            "score": 0,
+            'time': -1
         },
         {
             "level": 3,
@@ -26,6 +30,8 @@ export const LEVEL =
             },
             "state": 0,
             "difficulty_level": 0,
+            "score": 0,
+            'time': -1
         },
         {
             "level": 4,
@@ -35,6 +41,8 @@ export const LEVEL =
             },
             "state": 0,
             "difficulty_level": 0,
+            "score": 0,
+            'time': -1
         },
         {
             "level": 5,
@@ -44,6 +52,8 @@ export const LEVEL =
             },
             "state": 0,
             "difficulty_level": 0,
+            "score": 0,
+            'time': -1
         },
         {
             "level": 6,
@@ -53,6 +63,8 @@ export const LEVEL =
             },
             "state": 0,
             "difficulty_level": 0,
+            "score": 0,
+            'time': -1
         },
         {
             "level": 7,
@@ -62,6 +74,8 @@ export const LEVEL =
             },
             "state": 0,
             "difficulty_level": 0,
+            "score": 0,
+            'time': -1
         },
         {
             "level": 8,
@@ -71,6 +85,8 @@ export const LEVEL =
             },
             "state": 0,
             "difficulty_level": 0,
+            "score": 0,
+            'time': -1
         },
         {
             "level": 9,
@@ -80,6 +96,8 @@ export const LEVEL =
             },
             "state": 0,
             "difficulty_level": 0,
+            "score": 0,
+            'time': -1
         },
         {
             "level": 10,
@@ -89,6 +107,8 @@ export const LEVEL =
             },
             "state": 0,
             "difficulty_level": 0,
+            "score": 0,
+            'time': -1
         },
         {
             "level": 11,
@@ -98,6 +118,8 @@ export const LEVEL =
             },
             "state": 0,
             "difficulty_level": 0,
+            "score": 0,
+            'time': -1
         },
         {
             "level": 12,
@@ -107,6 +129,8 @@ export const LEVEL =
             },
             "state": 0,
             "difficulty_level": 0,
+            "score": 0,
+            'time': -1
         },
         {
             "level": 13,
@@ -116,6 +140,8 @@ export const LEVEL =
             },
             "state": 0,
             "difficulty_level": 0,
+            "score": 0,
+            'time': -1
         },
         {
             "level": 14,
@@ -125,6 +151,8 @@ export const LEVEL =
             },
             "state": 0,
             "difficulty_level": 0,
+            "score": 0,
+            'time': -1
         },
         {
             "level": 15,
@@ -134,6 +162,8 @@ export const LEVEL =
             },
             "state": 0,
             "difficulty_level": 0,
+            "score": 0,
+            'time': -1
         },
         {
             "level": 16,
@@ -143,6 +173,8 @@ export const LEVEL =
             },
             "state": 0,
             "difficulty_level": 0,
+            "score": 0,
+            'time': -1
         },
         {
             "level": 17,
@@ -152,6 +184,8 @@ export const LEVEL =
             },
             "state": 0,
             "difficulty_level": 0,
+            "score": 0,
+            'time': -1
         },
         {
             "level": 18,
@@ -161,6 +195,8 @@ export const LEVEL =
             },
             "state": 0,
             "difficulty_level": 0,
+            "score": 0,
+            'time': -1
         },
         {
             "level": 19,
@@ -170,6 +206,8 @@ export const LEVEL =
             },
             "state": 0,
             "difficulty_level": 0,
+            "score": 0,
+            'time': -1
         },
         {
             "level": 20,
@@ -179,6 +217,8 @@ export const LEVEL =
             },
             "state": 0,
             "difficulty_level": 0,
+            "score": 0,
+            'time': -1
         }
     ]
 export class Levels {
@@ -229,7 +269,7 @@ export class Levels {
             context.save()
             context.translate(this.xVirtual, 0);
             this.game.level.forEach(level => {
-                if (level.state === 'Unblocking') {
+                if (level.state === 2) {
                     if (this.frame % 8 == 0) {
                         context.drawImage(this.image, this.frameX * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, level.position.x * this.game.scale + Math.random() * 5, level.position.y * this.game.scale + Math.random() * 3, this.width, this.height);
                     }
@@ -238,20 +278,32 @@ export class Levels {
                     }
                 }
                 else if (level.state) {
-                    context.drawImage(this.image, 0 * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, level.position.x * this.game.scale, level.position.y * this.game.scale, this.width, this.height);
-                    if (level.difficulty_level == 0) {
-                        context.drawImage(this.imageStar0, level.position.x * this.game.scale + (this.width - this.widthStar) / 2, level.position.y * this.game.scale - this.heightStar / 6, this.widthStar, this.heightStar);
-                    }
-                    else if (level.difficulty_level == 1) {
-                        context.drawImage(this.imageStar1, level.position.x * this.game.scale + (this.width - this.widthStar) / 2, level.position.y * this.game.scale - this.heightStar / 6, this.widthStar, this.heightStar);
-                    }
-                    else if (level.difficulty_level == 2) {
-                        context.drawImage(this.imageStar2, level.position.x * this.game.scale + (this.width - this.widthStar) / 2, level.position.y * this.game.scale - this.heightStar / 6, this.widthStar, this.heightStar);
-                    }
-                    else if (level.difficulty_level == 3) {
-                        context.drawImage(this.imageStar3, level.position.x * this.game.scale + (this.width - this.widthStar) / 2, level.position.y * this.game.scale - this.heightStar / 6, this.widthStar, this.heightStar);
+                    context.drawImage(
+                        this.image,
+                        0 * this.spriteWidth,
+                        this.frameY * this.spriteHeight,
+                        this.spriteWidth,
+                        this.spriteHeight,
+                        level.position.x * this.game.scale,
+                        level.position.y * this.game.scale,
+                        this.width,
+                        this.height
+                    );
+
+                    let difficultySum = level.difficulty_level.reduce((sum, val) => sum + val, 0);
+                    let starImages = [this.imageStar0, this.imageStar1, this.imageStar2, this.imageStar3];
+
+                    if (difficultySum >= 0 && difficultySum <= 3) {
+                        context.drawImage(
+                            starImages[difficultySum],
+                            level.position.x * this.game.scale + (this.width - this.widthStar) / 2,
+                            level.position.y * this.game.scale - this.heightStar / 6,
+                            this.widthStar,
+                            this.heightStar
+                        );
                     }
                 }
+
                 else {
                     context.drawImage(this.image,
                         1 * this.spriteWidth, this.frameY * this.spriteHeight,
@@ -267,28 +319,11 @@ export class Levels {
         context.save();
         context.drawImage(this.image, frameX * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, level.position.x * this.game.scale, level.position.y * this.game.scale, this.width, this.height);
     }
-
-    // updatePositionLevel() {
-    //     const init_level = JSON.parse(JSON.stringify(LEVEL));
-    //     // this.levels = []; // Clear the levels array
-    //     for (let i = 0; i < init_level.length; i++) { // Iterate over init_level.length
-    //         const lv = init_level[i]; // Access each level data from init_level
-    //         lv.position.x = lv.position.x * this.game.scale;
-    //         lv.position.y = lv.position.y * this.game.scale;
-    //         this.levels.push(lv); // Push the updated level data into levels array
-    //         if (lv.level == this.game.player.maxCurrentLevel) {
-    //             this.game.player.initialPositionPlayer(lv)
-    //         }
-    //     }
-    //     this.game.player.levels = JSON.parse(JSON.stringify(this.levels))
-    //     this.levelsNext = JSON.parse(JSON.stringify(this.levels));
-    // }
-    updateStateLevel(lv) {
+    unLockLevel(lv) {
         this.game.level.forEach(level => {
             if (level.level == lv.level) {
-                level.state = "Unblocking"
+                level.state = 2
                 this.animateUnblockLevel(level);
-                this.game.player.updateMaxCurrentLevel(level.level)
                 return;
             }
         })
@@ -314,7 +349,7 @@ export class Levels {
                 animationHandle = requestAnimationFrame(animate);
             }
             else {
-                lv.state = 'Unblock'
+                lv.state = 1
                 cancelAnimationFrame(animationHandle);
                 return;
             }

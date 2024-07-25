@@ -57,13 +57,15 @@ const Result = (props) => {
             const rect = this.canvas.getBoundingClientRect();
             let mouseX = event.clientX - rect.left;
             let mouseY = event.clientY - rect.top;
+
             if (this.isMouseOverButton(mouseX, mouseY, this.boardResult.buttonNext)) {
                 this.navigate('/level', {
-                    state: this.resSaveGame
+                    state: {
+                        ...this.resSaveGame
+                    }
                 });
             }
         }
-
         isMouseOverButton(mouseX, mouseY, button) {
             return (
                 mouseX >= button.x &&

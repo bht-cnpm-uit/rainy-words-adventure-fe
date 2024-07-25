@@ -16,8 +16,9 @@ const CongratNewLevel = ({ openCongratNewLevel, closeCongratNewLevel, nextLevel 
             image.src = "public/assets/Asset/new_atlas/Sunflower.png"; // Replace with your image path
 
             image.onload = () => {
-                let frameX = 1;
-                let frameY = 1;
+                let frameX, frameX1 = ((nextLevel.level - 1) % 5) * 2;
+                let frameX2 = frameX1 + 1;
+                let frameY = 1 + Math.floor((nextLevel.level - 1) / 5);
                 const speed = 2; // Speed of the animation
                 let gameFrame = 0;
                 let angle = 0;
@@ -53,7 +54,7 @@ const CongratNewLevel = ({ openCongratNewLevel, closeCongratNewLevel, nextLevel 
                     context.drawImage(image, frameX * spriteWidth, frameY * spriteHeight, spriteWidth, spriteHeight, imgX, imgY, 429, 362.5);
 
                     if (gameFrame % 20 === 0) {
-                        frameX = frameX === 1 ? 0 : 1;
+                        frameX = frameX === frameX2 ? frameX1 : frameX2;
                     }
                     gameFrame++;
 
@@ -86,9 +87,12 @@ const CongratNewLevel = ({ openCongratNewLevel, closeCongratNewLevel, nextLevel 
                     height={400} // Set height of the canvas
                 />
             </div>
-            <p className="text-3xl font-bold text-center text-yellow-800 mt-4 mb-4">
-                Chúc mừng bạn đã mở khóa level {nextLevel}
-            </p>
+            {
+                nextLevel &&
+                <p className="text-3xl font-bold text-center text-yellow-800 mt-4 mb-4">
+                    Chúc mừng bạn đã mở khóa level {nextLevel.level}
+                </p>
+            }
         </div>
     );
 };
