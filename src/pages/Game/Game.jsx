@@ -83,7 +83,7 @@ const Game = () => {
                     isPassLevel: res.isPassLevel,
                     listAchievement: res.listAchievement,
                     levelId: res.game.levelId,
-                    isGetCup: res.isGetCup,
+                    itemsGetCup: res.itemsGetCup,
                 });
                 setGameSaved(true); // Set gameSaved to true after successful save
             }
@@ -132,7 +132,9 @@ const Game = () => {
             />
         );
     } else if (typegame === 'end-game') {
-        gameComponent = <Result result={result} elapsedTime={timer} resSaveGame={resSaveGame} />;
+        if (gameSaved) {
+            gameComponent = <Result result={result} elapsedtime={timer} ressavegame={resSaveGame} />;
+        }
     } else {
         gameComponent = null;
     }

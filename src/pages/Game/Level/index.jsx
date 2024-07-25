@@ -8,7 +8,7 @@ import PopUpInstruc from './PopUpInstruc';
 import PopUpAcc from './PopUpAcc';
 import PopUpLibrary from './PopUpLibrary';
 import PopUpRank from './PopUpRank';
-import CongratNewLevel from './CongratNewLevel';
+import Congrat from './Congrat';
 import { useDispatch, useSelector } from 'react-redux';
 import { userActions } from '../../../redux/slices/userSlice';
 import { getCurrentLevelUser } from '../../../services/levelServices';
@@ -31,18 +31,20 @@ const Level = props => {
     const [openPopupAcc, setOpenPopupAcc] = useState(false);
     const [openPopupLib, setOpenPopupLib] = useState(false);
     const [openPopupRank, setOpenPopupRank] = useState(false);
-    const [openCongratNewLevel, setOpenCongratNewLevel] = useState(false);
+    const [openCongrat, setOpenCongrat] = useState(false);
+    const [congratType, setCongratType] = useState(null);
     const [level, setLevel] = useState(LEVEL);
     const [mode, setMode] = useState(localStorage.getItem('theme') || 'light');
     const [nextLevel, setNextLevel] = useState(null);
+    const [gift, setGift] = useState(null);
 
     const HandleRemovePopUp = () => setOpenPopup(false);
     const HandleRemovePopUpAcc = () => setOpenPopupAcc(false);
     const HandleRemovePopUpLib = () => setOpenPopupLib(false);
     const HandleRemovePopUpRank = () => setOpenPopupRank(false);
     const userInfor = useSelector(userSelector);
-    const HandleRemoveCongratNewLevel = () => {
-        setOpenCongratNewLevel(false);
+    const HandleRemoveCongrat = () => {
+        setOpenCongrat(false);
         if (mainScreenRef && nextLevel) {
             mainScreenRef.current.levels.unLockLevel(nextLevel)
             setNextLevel(null);
@@ -84,11 +86,11 @@ const Level = props => {
             window.addEventListener('resize', this.onResize.bind(this));
         }
         checkUnlockLevel(levelId) {
-            let levelCurrent = Math.floor(levelId / 3);
-            if (this.level[levelCurrent - 1]['state']) {
+            let levelCurrent = Math.floor(levelId / 3); 13
+            if (this.level[levelCurrent + 1]['state']) {
                 return null
             }
-            else return this.level[levelCurrent];
+            else return this.level[levelCurrent + 1];
         }
         updateMode(mode) {
             this.mode = mode
@@ -350,24 +352,30 @@ const Level = props => {
             dispatch(userActions.setLevel(lv));
         };
         getLevel();
-    }, [])
+    },)
 
     useEffect(() => {
-        // const state = location.state || {};
-        const state = {
-            isPassLevel: true,
-            listAchievement: [],
-            levelId: 13,
-            isGetCup: [1],
-        };
-        // navigate('/level', {
-        //     state: {}
-        // })
-        if (state && state.isPassLevel) {
-            let levelUnlock = mainScreenRef.current.checkUnlockLevel(state.levelId);
-            if (levelUnlock) {
-                setNextLevel(levelUnlock);
-                setOpenCongratNewLevel(true);
+        const state = location.state || {};
+        if (state) {
+            let flag = 0
+            if (state.isPassLevel) {
+                let levelUnlock = mainScreenRef.current.checkUnlockLevel(state.levelId);
+                if (levelUnlock) {
+                    setNextLevel(levelUnlock);
+                    flag = 1;
+                    setCongratType('next-level');
+                }
+            }
+            if ((state.itemsGetCup && state.itemsGetCup.length) || (state.listAchievement && state.listAchievement.length)) {
+                setGift({
+                    itemCup: state.itemsGetCup,
+                    achievements: state.listAchievement
+                })
+                setCongratType('gift');
+                flag = 1;
+            }
+            if (flag) {
+                setOpenCongrat(true);
             }
         }
     }, [navigate])
@@ -378,7 +386,7 @@ const Level = props => {
             {openPopupAcc && <PopUpAcc openPopUpAcc={openPopupAcc} closePopUpAcc={HandleRemovePopUpAcc} mode={mode} setMode={setMode} />}
             {openPopupLib && <PopUpLibrary openPopUpLib={openPopupLib} closePopUpLib={HandleRemovePopUpLib} />}
             {openPopupRank && <PopUpRank openPopUpRank={openPopupRank} closePopUpRank={HandleRemovePopUpRank} />}
-            {openCongratNewLevel && <CongratNewLevel openCongratNewLevel={openCongratNewLevel} closeCongratNewLevel={HandleRemoveCongratNewLevel} nextLevel={nextLevel} />}
+            {openCongrat && <Congrat openCongrat={openCongrat} closeCongrat={HandleRemoveCongrat} nextLevel={nextLevel} gift={gift} setGift={setGift} congratType={congratType} setCongratType={setCongratType} />}
         </div>
 
     );
