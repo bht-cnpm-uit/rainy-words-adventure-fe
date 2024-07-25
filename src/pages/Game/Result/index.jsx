@@ -24,7 +24,7 @@ const Result = (props) => {
             this.deltaTime = null;
             this.result = props.result;
             this.time = props.elapsedTime;
-            this.resSaveGame = props.resSaveGame;
+            this.ressavegame = props.ressavegame;
             this.navigate = navigate;
             this.background = new Background(this);
             this.boardResult = new BoardResult(this);
@@ -61,7 +61,7 @@ const Result = (props) => {
             if (this.isMouseOverButton(mouseX, mouseY, this.boardResult.buttonNext)) {
                 this.navigate('/level', {
                     state: {
-                        ...this.resSaveGame
+                        ...props.ressavegame
                     }
                 });
             }

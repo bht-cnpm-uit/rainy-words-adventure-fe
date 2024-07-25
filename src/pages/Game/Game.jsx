@@ -77,18 +77,16 @@ const Game = () => {
 
     const handleSaveGame = async (data) => {
         try {
-            console.log("data call save game: ", data);
             const res = await saveGame(data);
             if (res.errCode === 0) {
                 setResSaveGame({
                     isPassLevel: res.isPassLevel,
                     listAchievement: res.listAchievement,
                     levelId: res.game.levelId,
-                    isGetCup: res.isGetCup,
+                    itemsGetCup: res.itemsGetCup,
                 });
                 setGameSaved(true); // Set gameSaved to true after successful save
             }
-            console.log("Response from save game: ", res);
         } catch (error) {
             console.error("Failed to save game:", error);
         }
@@ -134,7 +132,9 @@ const Game = () => {
             />
         );
     } else if (typegame === 'end-game') {
-        gameComponent = <Result result={result} elapsedTime={timer} resSaveGame={resSaveGame} />;
+        if (gameSaved) {
+            gameComponent = <Result result={result} elapsedtime={timer} ressavegame={resSaveGame} />;
+        }
     } else {
         gameComponent = null;
     }
