@@ -10,9 +10,11 @@ function AuthLayout({ children }) {
 
     useEffect(() => {
         const authToken = localStorage.getItem('authToken');
-        if (!authToken) {
-            navigate('/login', { replace: true });
+        if (authToken !== 'admin') {
+            navigate('/login');
         }
+
+        
     }, [user, navigate, location.pathname]);
 
     return <>{children}</>;
