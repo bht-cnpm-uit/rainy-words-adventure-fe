@@ -14,11 +14,7 @@ const Login = (props) => {
     }
     async function handleSubmitLogin(values) {
         try {
-            let data = await handleLogin(values.phoneNumber, values.password);
-            console.log('data student:', data.student);
-
-            //admin
-            //SDT: admin, Pasword: 123456
+            let data = await handleLogin(values.phoneNumber, values.password)
            if (data && data.student) {
                 if (data.student.phoneNumber === 'admin') {
                     localStorage.setItem('authToken', 'admin');
