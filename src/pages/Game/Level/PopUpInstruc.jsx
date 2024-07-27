@@ -62,9 +62,10 @@ const PopUpInstruc = ({ openPopUp, closePopUp }) => {
                         onClick={handleClosePopUpInstr}
                     ></button>
                     <div className="list-none divide-y divide-gray-200 font-mono text-white">
-                        {cards.map((item) => (
+                        {cards.map((item, idx) => (
                             <li
                                 className="cursor-pointer py-2 text-center"
+                                key={idx}
                                 onClick={() => handleClickCard(item)}
                             >
                                 <p className={`text-xl rounded-lg font-semibold bg-orange-300 ${selectedCard.name === item.name ? 'bg-orange-500' : 'bg-orange-300'}`}>{item.name}</p>
