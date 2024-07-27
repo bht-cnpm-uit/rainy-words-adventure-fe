@@ -47,12 +47,23 @@ export const userSlice = createSlice({
         update: (state, action) => {
             return { ...state, ...action.payload };
         },
+        setUser: (state, action) => {
+            const { role, userInfo } = action.payload;
+            state.role = role;
+            state.userInfo = userInfo;
+            state.isLoggedIn = true;
+        },
+        clearUser: (state) => {
+            state.role = null;
+            state.userInfo = null;
+            state.isLoggedIn = false;
+        },
     },
 });
 
 const userReducer = userSlice.reducer;
 const userActions = userSlice.actions;
 
-export const { setAvatar, setFrame } = userSlice.actions;
+export const { setAvatar, setFrame, setUser, clearUser  } = userSlice.actions;
 export default userReducer;
 export { userActions };

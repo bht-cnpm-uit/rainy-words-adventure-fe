@@ -352,7 +352,7 @@ const Level = props => {
             dispatch(userActions.setLevel(lv));
         };
         getLevel();
-    },)
+    },[])
 
     useEffect(() => {
         const state = location.state || {};

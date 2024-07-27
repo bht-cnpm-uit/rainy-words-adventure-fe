@@ -92,11 +92,12 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
         getStudentInfomation(userInfo.id);
         achivementOfStudent(userInfo.id);
         setFramOptions();
-    }, [data]);
+    }, );
 
     const getStudentInfomation = async (studentId) => {
         let response = await getStudentInfo(studentId);
         setData(response.student);
+        console.log("RESPONSE",response);
     };
 
     const achivementOfStudent = async (studentId) => {
