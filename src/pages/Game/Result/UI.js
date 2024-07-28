@@ -14,7 +14,7 @@ class BonusItems {
         this.height0 = this.spriteHeight0 * this.game.scale / this.scaleSprite;
         this.noItems0 = bonusItem0.quantity;
         this.imagebonus0 = new Image();
-        this.imagebonus0.src = `../assets/Asset/Asset/item/${bonusItem0.itemId}.png`;
+        this.imagebonus0.src = `../assets/Asset/item/${bonusItem0.itemId}.png`;
 
         // Initialize bonus item 1
         const bonusItem1 = bonus[1];
@@ -24,7 +24,7 @@ class BonusItems {
         this.height1 = this.spriteHeight1 * this.game.scale / this.scaleSprite;
         this.noItems1 = bonusItem1.quantity;
         this.imagebonus1 = new Image();
-        this.imagebonus1.src = `../assets/Asset/Asset/item/${bonusItem1.itemId}.png`;
+        this.imagebonus1.src = `../assets/Asset/item/${bonusItem1.itemId}.png`;
 
         // Initialize bonus item 2
         const bonusItem2 = bonus[2];
@@ -34,7 +34,7 @@ class BonusItems {
         this.height2 = this.spriteHeight2 * this.game.scale / this.scaleSprite;
         this.noItems2 = bonusItem2.quantity;
         this.imagebonus2 = new Image();
-        this.imagebonus2.src = `../assets/Asset/Asset/item/${bonusItem2.itemId}.png`;
+        this.imagebonus2.src = `../assets/Asset/item/${bonusItem2.itemId}.png`;
     }
     updatePosition(x, y) {
         this.width0 = this.spriteWidth0 * this.game.scale / this.scaleSprite;
@@ -253,14 +253,14 @@ export class BoardResult {
         this.staticUI = {
             board: new StaticUI(
                 this.game,
-                '../assets/Asset/PanelAtlas_cuts/image_0.png',
+                '../assets/Asset/PanelAtlas/image_0.png',
                 (this.game.width - this.widthBoard) / 2, (this.game.height - this.heightBoard) / 2,
                 this.spriteWidthBoard,
                 this.spriteHeightBoard
             ),
             score: new StaticUI(
                 this.game,
-                '../assets/Asset/PanelAtlas_cuts/image_6.png',
+                '../assets/Asset/PanelAtlas/image_6.png',
                 (this.game.width - this.widthScore) / 2, (this.game.height - this.heightBoard - this.heightScore) / 2,
                 this.spriteWidthScore,
                 this.spriteHeightScore
@@ -268,14 +268,14 @@ export class BoardResult {
         }
         this.buttonNext = new Button(
             this.game,
-            "../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png",
+            "../assets/Asset/ButtonAtlas/image_25.png",
             (this.game.width - this.widthBtn) / 2, this.staticUI.board.y + this.heightBoard - this.heighBtn / 2,
             this.spriteWidthBtn, this.spriteHeightBtn
         );
         this.player = {
             catGirl: new Player(
                 this.game,
-                '../assets/Asset/TeacherCatSprite(Blink).png',
+                '../assets/Asset/GameObject/TeacherCatSprite(Blink).png',
                 this.staticUI.board.x - this.widthPlayerGirl / 1.5, this.game.height - this.heightPlayerGirl,
                 this.spriteWidthPlayerGirl, this.spriteHeightPlayerGirl,
                 0, 0, 'girl'

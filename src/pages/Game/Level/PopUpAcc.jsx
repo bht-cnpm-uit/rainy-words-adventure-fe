@@ -151,7 +151,7 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
             <div className="w-10/12 rounded-[20px] border border-4 border-yellow-600 bg-orange-100 p-2 py-4 shadow-md md:w-1/2 lg:w-1/3">
                 <button
                     onClick={closePopUpAcc}
-                    className="relative -right-6 -top-8 -mb-4 ml-auto flex h-10 w-10 bg-[url('/assets/Asset/ButtonSliderAtlas_cuts/image_19.png')] bg-cover"
+                    className="relative -right-6 -top-8 -mb-4 ml-auto flex h-10 w-10 bg-[url('/assets/Asset/ButtonSliderAtlas/image_19.png')] bg-cover"
                 ></button>
                 <div className="relative max-h-[500px] w-full items-center justify-center overflow-y-auto p-3 scrollbar-thin scrollbar-track-orange-200 scrollbar-thumb-orange-400">
                     <h2 className="py-3 text-center font-mono text-3xl font-semibold text-orange-500">
@@ -226,7 +226,7 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
                             <span>BẬT/TẮT ÂM THANH</span>
                             <button
                                 onClick={toggleSound}
-                                className={`ml-8 h-6 w-6 ${isSoundOn ? "bg-[url('assets/Asset/ButtonSliderAtlas_cuts/image_32.png')]" : "bg-[url('assets/Asset/ButtonSliderAtlas_cuts/image_32copy.png')]"} bg-cover`}
+                                className={`ml-8 h-6 w-6 ${isSoundOn ? "bg-[url('assets/ButtonSliderAtlas/image_32.png')]" : "bg-[url('assets/ButtonSliderAtlas/image_32copy.png')]"} bg-cover`}
                             ></button>
                         </div>
                     </div>

@@ -180,7 +180,7 @@ export class LevelSetting {
             board: new StaticUI(
                 this.game,
                 this,
-                '../assets/Asset/PanelAtlas_cuts/image_3.png',
+                '../assets/Asset/PanelAtlas/image_3.png',
                 this.spriteWidthBoard,
                 this.spriteHeightBoard,
                 'board'
@@ -188,7 +188,7 @@ export class LevelSetting {
             score: new StaticUI(
                 this.game,
                 this,
-                '../assets/Asset/PanelAtlas_cuts/image_6.png',
+                '../assets/Asset/PanelAtlas/image_6.png',
                 this.spriteWidthScore,
                 this.spriteHeightScore,
                 'score'
@@ -206,7 +206,7 @@ export class LevelSetting {
             close: new Button(
                 this.game,
                 this,
-                '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_19.png',
+                '../assets/Asset/ButtonAtlas/image_19.png',
                 this.spriteWidthBtnClose,
                 this.spriteHeightBtnClose,
                 'close'
@@ -214,7 +214,7 @@ export class LevelSetting {
             increase: new Button(
                 this.game,
                 this,
-                '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_7.png',
+                '../assets/Asset/ButtonAtlas/image_7.png',
                 this.spriteWidthBtnNext,
                 this.spriteHeightBtnNext,
                 'increase'
@@ -222,7 +222,7 @@ export class LevelSetting {
             decrease: new Button(
                 this.game,
                 this,
-                '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_8.png',
+                '../assets/Asset/ButtonAtlas/image_8.png',
                 this.spriteWidthBtnNext,
                 this.spriteHeightBtnNext,
                 'decrease'
@@ -230,7 +230,7 @@ export class LevelSetting {
             play: new Button(
                 this.game,
                 this,
-                '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
+                '../assets/Asset/ButtonAtlas/image_25.png',
                 this.spriteWidthPlay,
                 this.spriteHeightPlay,
                 'play'

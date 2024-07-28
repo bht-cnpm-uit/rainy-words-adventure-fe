@@ -69,7 +69,7 @@ class btnSignIn {
     constructor(game) {
         this.game = game;
         this.image = new Image();
-        this.image.src = '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_24.png';
+        this.image.src = '../assets/Asset/ButtonAtlas/image_24.png';
         this.spriteWidth = 433;
         this.spriteHeight = 279;
         this.x = 100;
