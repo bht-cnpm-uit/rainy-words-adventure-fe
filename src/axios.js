@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const instance = axios.create({
-    baseURL: "http://localhost:6868",
-    withCredentials: true
+    baseURL: process.env.REACT_APP_BACKEND_URL,
+    // withCredentials: true
 })
 instance.interceptors.response.use(
     (response) => {
