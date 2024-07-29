@@ -47,18 +47,18 @@ const Congrat = ({ openCongrat, closeCongrat, nextLevel, gift, setGift, congratT
                 }
             };
 
-            image_medals1.src = "public/assets/Asset/Asset/medals/1.png";
-            image_medals2.src = "public/assets/Asset/Asset/medals/2.png";
-            image_medals3.src = "public/assets/Asset/Asset/medals/3.png";
-            image_medals4.src = "public/assets/Asset/Asset/medals/4.png";
-            image_medals5.src = "public/assets/Asset/Asset/medals/5.png";
-            image_medals6.src = "public/assets/Asset/Asset/medals/6.png";
-            image_frames1.src = "public/assets/Asset/Asset/frames/1.png";
-            image_frames2.src = "public/assets/Asset/Asset/frames/2.png";
-            image_frames3.src = "public/assets/Asset/Asset/frames/3.png";
-            image_frames4.src = "public/assets/Asset/Asset/frames/4.png";
-            image_frames5.src = "public/assets/Asset/Asset/frames/5.png";
-            image_frames6.src = "public/assets/Asset/Asset/frames/6.png";
+            image_medals1.src = "public/assets/Asset/medals/1.png";
+            image_medals2.src = "public/assets/Asset/medals/2.png";
+            image_medals3.src = "public/assets/Asset/medals/3.png";
+            image_medals4.src = "public/assets/Asset/medals/4.png";
+            image_medals5.src = "public/assets/Asset/medals/5.png";
+            image_medals6.src = "public/assets/Asset/medals/6.png";
+            image_frames1.src = "public/assets/Asset/frames/1.png";
+            image_frames2.src = "public/assets/Asset/frames/2.png";
+            image_frames3.src = "public/assets/Asset/frames/3.png";
+            image_frames4.src = "public/assets/Asset/frames/4.png";
+            image_frames5.src = "public/assets/Asset/frames/5.png";
+            image_frames6.src = "public/assets/Asset/frames/6.png";
 
             [
                 image_medals1, image_medals2, image_medals3, image_medals4, image_medals5, image_medals6,

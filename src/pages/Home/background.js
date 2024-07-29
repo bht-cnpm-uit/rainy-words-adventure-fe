@@ -84,7 +84,7 @@ class LogoGame extends Layer {
             this.game,
             this.x + this.spriteWidth * this.game.scale / 2, this.y + this.spriteHeight * this.game.scale,
             this.spriteWidthBtn, this.spriteHeightBtn,
-            '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png'
+            '../assets/Asset/ButtonAtlas/image_25.png'
         );
     }
     update() { }
@@ -278,7 +278,7 @@ export class Background {
             this.game,
             this.spriteWidthGame,
             this.spriteHeightGame,
-            '../assets/Asset/Logo.png'
+            '../assets/Asset/Logo/Logo.png'
         )
         this.logos = new LogoBar(game);
     }

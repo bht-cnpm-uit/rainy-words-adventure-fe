@@ -11,7 +11,7 @@
 }
 
 #container_bg {
-    background: url("../assets/Asset/Logo.png") no-repeat center/contain;
+    background: url("../assets/Asset/Logo/Logo.png") no-repeat center/contain;
     width: 100%;
     height: 250px;
     z-index: 100000;
@@ -67,7 +67,7 @@
     border: none;
     cursor: pointer;
     margin-top: 20px;
-    background: url('../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png') no-repeat center / contain;
+    background: url('../assets/Asset/ButtonAtlas/image_25.png') no-repeat center / contain;
 }
 
 #error-message {

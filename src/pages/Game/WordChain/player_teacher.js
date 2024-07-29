@@ -10,7 +10,7 @@ export class TeacherCat {
         this.staggerFrames = 5;
         this.gameFrame = 0;
         this.image = new Image();
-        this.image.src = '../assets/Asset/TeacherCatSprite(Blink).png';
+        this.image.src = '../assets/Asset/GameObject/TeacherCatSprite(Blink).png';
         this.animateTeacher();
     }
 

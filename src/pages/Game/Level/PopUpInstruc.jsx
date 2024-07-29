@@ -58,7 +58,7 @@ const PopUpInstruc = ({ openPopUp, closePopUp }) => {
             <div className="border border-4 border-yellow-600 w-10/12 rounded-lg bg-orange-100 p-2 py-2 shadow-md md:w-1/2 lg:w-1/2">
                 <div className="relative flex grid w-full grid-cols-4 items-center justify-center p-3">
                     <button
-                        className="absolute -right-6 -top-5 h-12 w-12 bg-[url('/assets/Asset/ButtonSliderAtlas_cuts/image_19.png')] bg-cover"
+                        className="absolute -right-6 -top-5 h-12 w-12 bg-[url('/assets/Asset/ButtonSliderAtlas/image_19.png')] bg-cover"
                         onClick={handleClosePopUpInstr}
                     ></button>
                     <div className="list-none divide-y divide-gray-200 font-mono text-white">

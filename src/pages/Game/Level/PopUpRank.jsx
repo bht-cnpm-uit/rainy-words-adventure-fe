@@ -77,7 +77,7 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
             <div className="w-10/12 rounded-lg border border border-4 border-emerald-600 border-yellow-600 bg-orange-100 p-2 py-5 shadow-md md:w-1/2 lg:w-1/2">
                 <div className="relative flex grid w-full grid-cols-4 items-center justify-center p-3 ">
                     <button
-                        className="absolute -right-6 -top-8 h-12 w-12 bg-[url('/assets/Asset/ButtonSliderAtlas_cuts/image_19.png')] bg-cover"
+                        className="absolute -right-6 -top-8 h-12 w-12 bg-[url('/assets/Asset/ButtonSliderAtlas/image_19.png')] bg-cover"
                         onClick={closePopUpRank}
                     ></button>
                     <div className="text-center font-mono text-xl font-semibold text-orange-950">
@@ -138,7 +138,7 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                         >
                                             <div className="items-baseline text-center font-bold">
                                                 <img
-                                                    src={`/assets/Asset/Asset/item/${item.id}.png`}
+                                                    src={`/assets/Asset/item/${item.id}.png`}
                                                     className="mx-auto h-24 w-32"
                                                     alt=""
                                                 />

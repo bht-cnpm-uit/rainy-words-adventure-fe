@@ -31,7 +31,7 @@ export class Player {
                 // Once images are loaded, set the initial position
                 this.initialPositionPlayer(this.currentLevel);
             }
-            this.imageJump.src = '../assets/Asset/Asset/SunflowerCatSprite(Jump).png';
+            this.imageJump.src = '../assets/Asset/GameObject/SunflowerCatSprite(Jump).png';
         }
         this.animateStand()
     }

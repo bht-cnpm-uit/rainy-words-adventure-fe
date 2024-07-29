@@ -234,7 +234,7 @@ export class Levels {
         this.width = this.spriteWidth * this.game.scale;
         this.height = this.spriteHeight * this.game.scale;
         this.image = new Image();
-        this.image.src = '../assets/Asset/btn_level.png';
+        this.image.src = '../assets/Asset/Button/btn_level.png';
         this.imageStar0 = new Image();
         this.imageStar0.src = '../assets/Asset/Stars/0.png'
         this.imageStar1 = new Image();

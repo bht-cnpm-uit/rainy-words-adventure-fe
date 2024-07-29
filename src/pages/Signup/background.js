@@ -99,7 +99,7 @@ class btnSignUp {
     constructor(game) {
         this.game = game;
         this.image = new Image();
-        this.image.src = '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_24.png';
+        this.image.src = '../assets/Asset/ButtonAtlas/image_24.png';
         this.spriteWidth = 433;
         this.spriteHeight = 279;
         this.x = 100;
@@ -136,7 +136,7 @@ class SignupForm {
         this.spriteHeight = 1084;
         this.spriteWidth = 1508;
         this.img_form = new Image();
-        this.img_form.src = '../assets/Asset/SignInForm.png';
+        this.img_form.src = '../assets/Asset/PanelAtlas/SignInForm.png';
         this.width = this.game.width;
         this.height = this.game.height;
         this.createForm(game.dataSchool);

@@ -109,11 +109,11 @@ class Word {
         this.game = game;
         this.wordChain = wordChain;
         this.imagePlay = new Image();
-        this.imagePlay.src = type === 'EN' ? '../assets/Asset/WordMatchingButton (1)/0.png' : '../assets/Asset/WordMatchingButton (1)/1.png';
+        this.imagePlay.src = type === 'EN' ? '../assets/Asset/WordMatchingButton/0.png' : '../assets/Asset/WordMatchingButton/1.png';
         this.imageCorrect = new Image();
-        this.imageCorrect.src = type === 'EN' ? '../assets/Asset/WordMatchingButton (1)/4.png' : '../assets/Asset/WordMatchingButton (1)/5.png';
+        this.imageCorrect.src = type === 'EN' ? '../assets/Asset/WordMatchingButton/4.png' : '../assets/Asset/WordMatchingButton/5.png';
         this.imageWrong = new Image();
-        this.imageWrong.src = type === 'EN' ? '../assets/Asset/WordMatchingButton (1)/2.png' : '../assets/Asset/WordMatchingButton (1)/3.png';
+        this.imageWrong.src = type === 'EN' ? '../assets/Asset/WordMatchingButton/2.png' : '../assets/Asset/WordMatchingButton/3.png';
         this.spriteWidth = spriteWidth;
         this.spriteHeight = spriteHeight;
         this.scaleBoardX = 1;
@@ -317,7 +317,7 @@ export class BoardScoreChain {
         this.staticUI = {
             scoreBoard: new StaticUI(
                 game,
-                '../assets/Asset/PanelAtlas_cuts/image_3.png',
+                '../assets/Asset/PanelAtlas/image_3.png',
                 0, 0,
                 this.spriteWidthScoreBoard,
                 this.spriteHeightScoreBoard,
@@ -361,14 +361,14 @@ export class BoardWordChain {
         this.staticUI = {
             board: new StaticUI(
                 this.game,
-                '../assets/Asset/PanelAtlas_cuts/image_2.png',
+                '../assets/Asset/PanelAtlas/image_2.png',
                 0,
                 0,
                 this.spriteWidthBoard, this.spriteHeightBoard
             ),
         }
         this.button = new Button(game, this,
-            '../assets/Asset/ButtonAtlas_cuts/ButtonAtlas_cuts/image_25.png',
+            '../assets/Asset/ButtonAtlas/image_25.png',
             437, 129)
         this.EnglishWord = [];
         this.VietNameseWord = [];

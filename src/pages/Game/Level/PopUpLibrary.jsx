@@ -68,7 +68,7 @@ const PopUpLibrary = ({ openPopUpLib, closePopUpLib }) => {
                     <div className="relative flex items-center justify-center rounded-[22px] border border-4 border-yellow-600 bg-orange-100 p-4 ">
                         <button
                             onClick={handleClosePopUpLib}
-                            className="absolute -right-4 -top-4 h-12 w-12 bg-[url('/assets/Asset/ButtonSliderAtlas_cuts/image_19.png')] bg-cover"
+                            className="absolute -right-4 -top-4 h-12 w-12 bg-[url('/assets/Asset/ButtonSliderAtlas/image_19.png')] bg-cover"
                         ></button>
                         <div className=" rounded-[20px] bg-orange-50 p-4">
                              <p className="mb-8 mt-12 text-2xl italic text-gray-500">
