@@ -143,7 +143,7 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
                     </h2>
 
                     <div className="avt flex flex-col items-center">
-                        <div className="relative mx-auto flex h-40 w-40 items-center justify-center rounded-full border-2 border-zinc-950">
+                        <div className="relative mx-auto flex h-40 w-40 items-center justify-center rounded-full border-zinc-950">
                             <div
                                 className="absolute inset-0 rounded-full"
                                 style={{

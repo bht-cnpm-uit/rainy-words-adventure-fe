@@ -26,7 +26,7 @@ const Login = (props) => {
                 }
             }
         } catch (error) {
-            alert('Tên đăng nhập hoặc mật khẩu không đúng !!!');
+            // alert('Tên đăng nhập hoặc mật khẩu không đúng !!!');
             // console.error('Error during login:', error);
         }
         return 0;
