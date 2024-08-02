@@ -6,7 +6,7 @@ export class Player {
         this.width = this.spriteWidth * this.game.scale / 2;
         this.height = this.spriteHeight * this.game.scale / 2;
         this.spriteHeightJump = 780.5;
-        this.spriteWidthJump = 702;
+        this.spriteWidthJump = 670;
         this.widthJump = this.spriteWidthJump * this.game.scale / 2;
         this.heightJump = this.spriteHeightJump * this.game.scale / 2;
         this.levels = null;

@@ -131,7 +131,7 @@ class StaticUI {
     }
     writeText(context, content) {
         context.textAlign = 'center';
-        context.font = Math.floor(100 * this.game.scale) + "px fontgame";
+        context.font = Math.floor(120 * this.game.scale) + "px fontgame";
         context.fillText(content, this.x + this.width / 2, this.y + this.height / 5, this.width)
     }
 }
@@ -142,9 +142,9 @@ class Text {
         this.x = x;
         this.y = y
     }
-    writeText(context, text, font = "Arial", textAlign = 'center', color = 'brown') {
-        context.font = Math.floor(60 * this.game.scale) + "px " + font;
-        context.textAlign = "center";
+    writeText(context, text, font = "serif", textAlign = 'center', color = 'brown') {
+        context.font = `${text === "ĐỘ KHÓ" ? 'bold' : ""} ${Math.floor(60 * this.game.scale)}px ${font} `;
+        context.textAlign = textAlign;
         context.fillStyle = color;
         context.fillText(text, this.x, this.y);
     }
@@ -287,9 +287,9 @@ export class LevelSetting {
             this.buttons.decrease.draw(context);
             this.buttons.play.draw(context);
             this.buttons.play.writeText(context, "Chơi")
-            this.text.levelText.writeText(context, "Level " + this.currentLevel.level.toString(), "fontgame");
+            this.text.levelText.writeText(context, "Level " + this.currentLevel.level.toString(), "cursive");
             this.text.numDiffLevel.writeText(context, this.currentDiffLevel + 1);
-            this.text.diffLevel.writeText(context, "Độ khó");
+            this.text.diffLevel.writeText(context, "ĐỘ KHÓ", "sans-serif");
             context.restore();
             context.save();
             context.translate(this.translateX, this.translateY);

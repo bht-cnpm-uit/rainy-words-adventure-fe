@@ -5,6 +5,8 @@
 @font-face {
     font-family: fontgame;
     src: url(../font/j-juvanze-font/Juvanze-ovw9A.otf);
+    font-family: fontscore;
+    src: url(../font/font-formerly-known-as-font/FontFormerlyKnownAsFont-AG4g.ttf);
 }
 
 * {

@@ -83,10 +83,10 @@ export class Guide extends Button {
         context.drawImage(this.image,
             0, 0, this.spriteWidth, this.spriteHeight,
             this.x, this.y, this.width, this.height);
-        context.font = Math.floor(60 * this.game.scale) + "px Arial";
+        context.font = "bold italic " + Math.floor(50 * this.game.scale) + "px sans-serif";
         context.fillStyle = "brown";
         context.textAlign = "center";
-        context.fillText("Hướng dẫn", this.x + this.width / 2, this.y + this.height / 1.2)
+        context.fillText("HƯỚNG DẪN", this.x + this.width / 2, this.y + this.height / 1.2)
     }
     updatePosition() {
         this.width = this.spriteWidth * this.game.scale;
