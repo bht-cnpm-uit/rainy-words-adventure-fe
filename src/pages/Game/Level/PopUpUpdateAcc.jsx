@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { updateInfo } from '../../../services/studentServices';
 
-const PopUpUpdateAcc = ({ openPopUpUpdate, closePopUpUpdate, student }) => {
-    const [updatedStudent, setUpdatedStudent] = useState(student);
+const PopUpUpdateAcc = ({ openPopUpUpdate, closePopUpUpdate, student, onUpdateSuccess }) => {
+    const [updatedStudent, setUpdatedStudent] = useState({
+        ...student,
+        birthday: dateFormat(student.birthday),
+    });
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -14,16 +17,14 @@ const PopUpUpdateAcc = ({ openPopUpUpdate, closePopUpUpdate, student }) => {
 
     function dateFormat(dateStr) {
         let dateObj = new Date(dateStr);
-        let day = String(dateObj.getUTCDate()).padStart(2, '0');
-        let month = String(dateObj.getUTCMonth() + 1).padStart(2, '0');
+        let day = ('0' + dateObj.getUTCDate()).slice(-2);
+        let month = ('0' + (dateObj.getUTCMonth() + 1)).slice(-2);
         let year = dateObj.getUTCFullYear();
         return `${day}/${month}/${year}`;
     }
+
     function dateFormat2(dateStr) {
-        let dateObj = new Date(dateStr);
-        let day = String(dateObj.getUTCDate()).padStart(2, '0');
-        let month = String(dateObj.getUTCMonth() + 1).padStart(2, '0');
-        let year = dateObj.getUTCFullYear();
+        let [day, month, year] = dateStr.split('/');
         return `${year}-${month}-${day}`;
     }
 
@@ -35,11 +36,11 @@ const PopUpUpdateAcc = ({ openPopUpUpdate, closePopUpUpdate, student }) => {
 
     const handleUpdate = async () => {
         if (password !== confirmPassword) {
-            alert("Mật khẩu không trùng khớp!");
+            alert('Mật khẩu không trùng khớp!');
             return;
         }
-        if(!password || !confirmPassword) {
-            alert("Vui lòng nhập mật khẩu và xác nhận mật khẩu!");
+        if (!password || !confirmPassword) {
+            alert('Vui lòng nhập mật khẩu và xác nhận mật khẩu!');
             return;
         }
         const updateData = {
@@ -48,20 +49,21 @@ const PopUpUpdateAcc = ({ openPopUpUpdate, closePopUpUpdate, student }) => {
             newPassword: password,
             grade: updatedStudent.grade,
             birthday: dateFormat2(updatedStudent.birthday),
+            name: updatedStudent.name,
         };
-       
+
         try {
             const response = await updateInfo(updateData);
-           
-            if(response.errCode !== "0")
-            alert("Mật khẩu sai!");
-            else{
-                alert("Cập nhật thành công!");
+
+            if (response.errCode !== '0') alert('Mật khẩu sai!');
+            else {
+                alert('Cập nhật thành công!');
                 closePopUpUpdate();
+                onUpdateSuccess();
             }
         } catch (error) {
-            console.error("Update failed", error);
-            alert("Sai mật khẩu!");
+            // console.error('Update failed', error);
+            alert('Sai mật khẩu!');
         }
     };
 
@@ -83,44 +85,45 @@ const PopUpUpdateAcc = ({ openPopUpUpdate, closePopUpUpdate, student }) => {
                 <div className="w-full items-center justify-center p-3">
                     <h2 className="py-3 text-center text-xl font-semibold">CẬP NHẬT THÔNG TIN</h2>
                     <div className="my-2">
-                        <div className="flex justify-center mt-4 flex-col items-center">
+                        <div className="mt-4 flex flex-col items-center justify-center">
                             <input
                                 name="name"
                                 value={updatedStudent.name}
                                 onChange={handleChange}
-                                className="mb-2 border border-gray-400 px-2 py-1 text-lg rounded-full text-center w-8/12"
+                                className="mb-2 w-8/12 rounded-full border border-gray-400 px-2 py-1 text-center text-lg"
                             />
                             <input
                                 name="grade"
                                 value={updatedStudent.grade}
                                 onChange={handleChange}
-                                className="mb-2 border border-gray-400 px-2 py-1 text-lg rounded-full text-center w-8/12"
+                                className="mb-2 w-8/12 rounded-full border border-gray-400 px-2 py-1 text-center text-lg"
                             />
                             <input
                                 name="birthday"
-                                value={dateFormat(updatedStudent.birthday)}
+                                value={updatedStudent.birthday}
                                 onChange={handleChange}
-                                className="mb-2 border border-gray-400 px-2 py-1 text-lg rounded-full text-center w-8/12"
+                                className="mb-2 w-8/12 rounded-full border border-gray-400 px-2 py-1 text-center text-lg"
                             />
                             <input
                                 name="phoneNumber"
+                                disabled={updatedStudent.phoneNumber}
                                 value={updatedStudent.phoneNumber}
                                 onChange={handleChange}
-                                className="mb-2 border border-gray-400 px-2 py-1 text-lg rounded-full text-center w-8/12"
+                                className="mb-2 w-8/12 rounded-full border border-gray-400 px-2 py-1 text-center text-lg"
                             />
                             <input
                                 type="password"
                                 placeholder="Mật khẩu"
-                                value={password}
+                                
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="mb-2 border border-gray-400 px-2 py-1 text-lg rounded-full text-center w-8/12"
+                                className="mb-2 w-8/12 rounded-full border border-gray-400 px-2 py-1 text-center text-lg"
                             />
                             <input
                                 type="password"
                                 placeholder="Xác thực mật khẩu"
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
-                                className="mb-2 border border-gray-400 px-2 py-1 text-lg rounded-full text-center w-8/12"
+                                className="mb-2 w-8/12 rounded-full border border-gray-400 px-2 py-1 text-center text-lg"
                             />
                         </div>
                     </div>
