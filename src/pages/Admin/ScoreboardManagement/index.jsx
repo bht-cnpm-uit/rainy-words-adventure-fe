@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
-import { fakeData } from '../fakeDataWords';
 import { Fragment } from 'react';
 import { getLeaderboard } from '../../../services/gameServices';
 
