@@ -80,7 +80,7 @@ const PopUpUpdateAcc = ({ openPopUpUpdate, closePopUpUpdate, student, onUpdateSu
             onClick={handleClosePopUpUpdate}
             className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 backdrop-blur-sm"
         >
-            <div className="w-10/12 rounded-lg border border-4 border-yellow-600 bg-orange-100 p-5 shadow-md md:w-1/2 lg:w-1/3">
+            <div className="w-10/12 rounded-lg border-4 border-yellow-600 bg-orange-100 p-5 shadow-md md:w-1/2 lg:w-1/3">
                 <h2 className="mb-4 py-3 text-center text-xl font-semibold">CẬP NHẬT THÔNG TIN</h2>
                 <div className="space-y-4">
                     <div className="flex items-center">

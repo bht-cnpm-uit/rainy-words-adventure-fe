@@ -2,12 +2,10 @@ import { Background } from './background';
 import { useEffect, useRef } from 'react';
 import { handleLogin } from '../../services/userServices';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { userActions } from '../../redux/slices/userSlice';
 const Login = (props) => {
     const canvasRef = useRef();
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     function resizeCanvas(canvas) {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;

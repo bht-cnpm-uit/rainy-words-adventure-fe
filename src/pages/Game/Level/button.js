@@ -39,7 +39,7 @@ export class BtnNextMap extends ButtonSliceMap {
     constructor(game) {
         super(game);
         this.image = new Image();
-        this.image.src = '../assets/Asset/ButtonAtlas/image_28.png';
+        this.image.src = './Asset/Button/btn_3r.png';
         this.x = this.game.width - this.width - this.width * 0.5;
         this.y = (this.game.height - this.height) / 2;
         this.MoveX = 100 * this.game.scale;
@@ -54,7 +54,7 @@ export class BtnBackMap extends ButtonSliceMap {
     constructor(game) {
         super(game);
         this.image = new Image();
-        this.image.src = '../assets/Asset/ButtonAtlas/image_29.png';
+        this.image.src = './Asset/Button/btn_3l.png';
         this.x = this.width * 0.5;
         this.y = (this.game.height - this.height) / 2;
         this.MoveX = -100 * this.game.scale;
@@ -71,7 +71,7 @@ export class Guide extends Button {
     constructor(game) {
         super(game);
         this.image = new Image();
-        this.image.src = '../assets/Asset/ButtonAtlas/image_24.png';
+        this.image.src = './Asset/Button/btn_2.png';
         this.spriteWidth = 433;
         this.spriteHeight = 279;
         this.width = this.spriteWidth * this.game.scale;
@@ -100,7 +100,7 @@ export class Library extends Button {
     constructor(game) {
         super(game);
         this.image = new Image();
-        this.image.src = '../assets/Asset/ButtonAtlas/image_17.png';
+        this.image.src = './Asset/Button/btn_4_lib.png';
         this.spriteWidth = 139;
         this.spriteHeight = 138;
         this.width = this.spriteWidth * this.game.scale;
@@ -125,7 +125,7 @@ export class Achievement extends Button {
     constructor(game) {
         super(game);
         this.image = new Image();
-        this.image.src = '../assets/Asset/ButtonAtlas/image_20.png';
+        this.image.src = './Asset/Button/btn_4_achi.png';
         this.spriteWidth = 139;
         this.spriteHeight = 138;
         this.width = this.spriteWidth * this.game.scale;
@@ -148,7 +148,7 @@ export class Account extends Button {
     constructor(game) {
         super(game);
         this.image = new Image();
-        this.image.src = '../assets/Asset/ButtonAtlas/image_10.png';
+        this.image.src = './Asset/Button/btn_4_set.png';
         this.spriteWidth = 139;
         this.spriteHeight = 138;
         this.width = this.spriteWidth * this.game.scale;

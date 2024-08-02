@@ -6,8 +6,8 @@ class Button {
         this.image.src = image;
         this.x = null;
         this.y = null;
-        this.width = spriteWidth * this.game.scale;
-        this.height = spriteHeight * this.game.scale;
+        this.width = spriteWidth * this.game.scale / 1.1;
+        this.height = spriteHeight * this.game.scale / 1.1;
         this.spriteWidth = spriteWidth;
         this.spriteHeight = spriteHeight;
         this.type = type;
@@ -16,11 +16,11 @@ class Button {
             this.y = -this.height / 3;
         }
         else if (type == 'increase') {
-            this.x = this.currentBoard.staticUI.board.width - this.width;
+            this.x = this.currentBoard.staticUI.board.width - this.width * 1.1;
             this.y = this.currentBoard.staticUI.board.height / 2 + this.height / 4;
         }
         else if (type == 'decrease') {
-            this.x = this.currentBoard.staticUI.board.width / 2;
+            this.x = this.currentBoard.staticUI.board.width / 1.9;
             this.y = this.currentBoard.staticUI.board.height / 2 + this.height / 4;
         }
         else {
@@ -38,11 +38,11 @@ class Button {
             this.y = -this.height / 3;
         }
         else if (this.type == 'increase') {
-            this.x = this.currentBoard.staticUI.board.width - this.width;
+            this.x = this.currentBoard.staticUI.board.width - this.width * 1.1;
             this.y = this.currentBoard.staticUI.board.height / 2 + this.height / 4;
         }
         else if (this.type == 'decrease') {
-            this.x = this.currentBoard.staticUI.board.width / 2;
+            this.x = this.currentBoard.staticUI.board.width / 1.9;
             this.y = this.currentBoard.staticUI.board.height / 2 + this.height / 4;
         }
         else {
@@ -180,7 +180,7 @@ export class LevelSetting {
             board: new StaticUI(
                 this.game,
                 this,
-                '../assets/Asset/PanelAtlas/image_3.png',
+                './Asset/Board/board_3.png',
                 this.spriteWidthBoard,
                 this.spriteHeightBoard,
                 'board'
@@ -188,7 +188,7 @@ export class LevelSetting {
             score: new StaticUI(
                 this.game,
                 this,
-                '../assets/Asset/PanelAtlas/image_6.png',
+                './Asset/Board/board_5.png',
                 this.spriteWidthScore,
                 this.spriteHeightScore,
                 'score'
@@ -196,7 +196,7 @@ export class LevelSetting {
             player: new StaticUI(
                 this.game,
                 this,
-                '../assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png',
+                './Asset/Player/SunflowerCatWalk_light.png',
                 this.spriteWidthPlayer,
                 this.spriteHeightPlayer,
                 'player'
@@ -206,7 +206,7 @@ export class LevelSetting {
             close: new Button(
                 this.game,
                 this,
-                '../assets/Asset/ButtonAtlas/image_19.png',
+                './Asset/Button/btn_5.png',
                 this.spriteWidthBtnClose,
                 this.spriteHeightBtnClose,
                 'close'
@@ -214,7 +214,7 @@ export class LevelSetting {
             increase: new Button(
                 this.game,
                 this,
-                '../assets/Asset/ButtonAtlas/image_7.png',
+                './Asset/Button/btn_6r.png',
                 this.spriteWidthBtnNext,
                 this.spriteHeightBtnNext,
                 'increase'
@@ -222,7 +222,7 @@ export class LevelSetting {
             decrease: new Button(
                 this.game,
                 this,
-                '../assets/Asset/ButtonAtlas/image_8.png',
+                './Asset/Button/btn_6l.png',
                 this.spriteWidthBtnNext,
                 this.spriteHeightBtnNext,
                 'decrease'
@@ -230,7 +230,7 @@ export class LevelSetting {
             play: new Button(
                 this.game,
                 this,
-                '../assets/Asset/ButtonAtlas/image_25.png',
+                './Asset/Button/btn_1.png',
                 this.spriteWidthPlay,
                 this.spriteHeightPlay,
                 'play'

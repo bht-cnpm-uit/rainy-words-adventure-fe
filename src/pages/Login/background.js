@@ -69,7 +69,7 @@ class btnSignIn {
     constructor(game) {
         this.game = game;
         this.image = new Image();
-        this.image.src = '../assets/Asset/ButtonAtlas/image_24.png';
+        this.image.src = './Asset/Button/btn_2.png';
         this.spriteWidth = 433;
         this.spriteHeight = 279;
         this.x = 100;
@@ -104,8 +104,6 @@ class LoginForm {
         this.game = game;
         this.spriteHeight = 667;
         this.spriteWidth = 1151;
-        this.img_form = new Image();
-        this.img_form.src = "../assets/Asset/Login/login_user_bg.png";
         this.width = this.game.width;
         this.height = this.game.height;
         this.createForm();
@@ -113,7 +111,7 @@ class LoginForm {
 
     update() { }
 
-    draw(context) { }
+    draw() { }
 
     createForm() {
         const container = document.createElement('div');
@@ -128,7 +126,7 @@ class LoginForm {
         container.appendChild(container_bg);
         container.appendChild(container_form);
 
-        container_form.style.backgroundImage = 'url("../assets/Asset/Login/login_user_bg.png")';
+        container_form.style.backgroundImage = 'url("./Asset/Board/board_1.png")';
         container_form.innerHTML = `
             <div class="form-row row-1">
                 <label for="username">Số điện thoại</label>
@@ -139,7 +137,7 @@ class LoginForm {
                 <div class="password-container">
                     <input type="password" id="password" name="password">
                     <button type="button" id="toggle-password">
-                        <img src="/assets/Asset/Login/eye-slash.png" alt="Toggle Password">
+                        <img src="./Asset/Icon/eye-slash.png" alt="Toggle Password">
                     </button>
                 </div>
             </div>
@@ -154,10 +152,10 @@ class LoginForm {
             const passwordInput = container.querySelector('#password');
             if (passwordInput.type === 'password') {
                 passwordInput.type = 'text';
-                togglePasswordButton.querySelector('img').src = '/assets/Asset/Login/eye.png';
+                togglePasswordButton.querySelector('img').src = './Asset/Icon/eye.png';
             } else {
                 passwordInput.type = 'password';
-                togglePasswordButton.querySelector('img').src = '/assets/Asset/Login/eye-slash.png';
+                togglePasswordButton.querySelector('img').src = './Asset/Icon/eye-slash.png';
             }
         });
 
@@ -186,17 +184,17 @@ export class Background {
             this.game,
             this.spriteWidth,
             this.spriteHeight,
-            '../assets/Asset/Map1/ScrollBG.png',
+            './Asset/Map/ScrollBG_light.png',
         );
         this.layerImage2 = new Layer(
             this.game,
             this.spriteWidth,
             this.spriteHeight,
-            '../assets/Asset/Map1/StableBG.png',
+            './Asset/Map/StableBG_light.png',
         );
         this.player = new Player(
             this.game,
-            '../assets/Asset/GameObject/SunflowerCatSpriteWalkBlink.png'
+            './Asset/Player/SunflowerCatWalk_light.png'
         );
         this.loginForm = new LoginForm(this);
         this.btnSignIn = new btnSignIn(this.game);

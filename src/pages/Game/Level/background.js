@@ -5,8 +5,8 @@ export class Background {
         this.spriteHeight = 1580;
         this.image_light = new Image();
         this.image_dark = new Image();
-        this.image_light.src = '../assets/Asset/LevelMap/LevelMap_Day.png';
-        this.image_dark.src = '../assets/Asset/LevelMap/LevelMap_Night2.png'
+        this.image_light.src = './Asset/Map/LevelMap_light.png';
+        this.image_dark.src = './Asset/Map/LevelMap_dark.png'
         this.xImage = 0;
         this.xImageCut = 0;
         this.x = 0;
