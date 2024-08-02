@@ -168,7 +168,7 @@ class LoginForm {
             var isSuccess = await this.game.game.handleSubmitLogin({ phoneNumber, password });
             if (!isSuccess) {
                 const errorMessage = document.getElementById('error-message');
-                // errorMessage.innerText = "Số diện thoại hoặc mật khẩu không đúng !";
+                errorMessage.innerText = "Số diện thoại hoặc mật khẩu không đúng !";
             }
         });
     }

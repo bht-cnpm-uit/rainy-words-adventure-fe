@@ -15,7 +15,7 @@ const Login = (props) => {
     async function handleSubmitLogin(values) {
         try {
             let data = await handleLogin(values.phoneNumber, values.password)
-           if (data && data.student) {
+            if (data && data.student) {
                 if (data.student.phoneNumber === 'admin') {
                     localStorage.setItem('authToken', 'admin');
                     window.location.href = '/admin';
@@ -26,7 +26,7 @@ const Login = (props) => {
                 }
             }
         } catch (error) {
-            alert('Tên đăng nhập hoặc mật khẩu không đúng !!!');
+            // alert('Tên đăng nhập hoặc mật khẩu không đúng !!!');
             // console.error('Error during login:', error);
         }
         return 0;
