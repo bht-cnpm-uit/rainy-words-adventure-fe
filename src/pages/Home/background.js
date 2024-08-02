@@ -23,7 +23,7 @@ class Button {
     constructor(game, x, y, spriteWidth, spriteHeight, image) {
         this.game = game;
         this.x = x * 1.03;
-        this.y = y * 0.94;
+        this.y = y * 0.9;
         this.spriteWidth = spriteWidth;
         this.spriteHeight = spriteHeight
         this.image = new Image();
@@ -57,8 +57,8 @@ class Button {
     }
     onResize(game, x, y) {
         this.game = game
-        this.x = x;
-        this.y = y;
+        this.x = x * 1.03;
+        this.y = y * 0.9;
         this.width = this.spriteWidth * this.game.scale / 1.5;
         this.height = this.spriteHeight * this.game.scale / 1.5;
         if (this.width * 2.2 > this.game.width) {
@@ -114,38 +114,37 @@ class LogoGame extends Layer {
 class LogoBar {
     constructor(game) {
         this.game = game;
-        this.spriteWidthDoan = 1113;
-        this.spriteHeightDoan = 1288;
-        this.widthDoan = this.spriteWidthDoan * this.game.scale / 6.5;
-        this.heightDoan = this.spriteHeightDoan * this.game.scale / 6.5;
+        this.spriteWidthDoan = 180;
+        this.spriteHeightDoan = 199;
+        this.widthDoan = this.spriteWidthDoan * this.game.scale / 1.3;
+        this.heightDoan = this.spriteHeightDoan * this.game.scale / 1.3;
 
-        this.spriteWidthDoi = 661;
-        this.spriteHeightDoi = 665;
-        this.widthDoi = this.spriteWidthDoi * this.game.scale / 3.6;
-        this.heightDoi = this.spriteHeightDoi * this.game.scale / 3.6;
+        this.spriteWidthDoi = 165;
+        this.spriteHeightDoi = 166;
+        this.widthDoi = this.spriteWidthDoi * this.game.scale / 1.1;
+        this.heightDoi = this.spriteHeightDoi * this.game.scale / 1.1;
 
-        this.spriteWidthTruong = 313;
-        this.spriteHeightTruong = 259;
-        this.widthTruong = this.spriteWidthTruong * this.game.scale / 1.6;
-        this.heightTruong = this.spriteHeightTruong * this.game.scale / 1.6;
+        this.spriteWidthTruong = 200;
+        this.spriteHeightTruong = 161;
+        this.widthTruong = this.spriteWidthTruong * this.game.scale / 1.2;
+        this.heightTruong = this.spriteHeightTruong * this.game.scale / 1.2;
 
-        this.spriteWidthBan = 2146;
-        this.spriteHeightBan = 2146;
-        this.widthBan = this.spriteWidthBan * this.game.scale / 12.5;
-        this.heightBan = this.spriteHeightBan * this.game.scale / 12.5;
+        this.spriteWidthBan = 100;
+        this.spriteHeightBan = 100;
+        this.widthBan = this.spriteWidthBan * this.game.scale / 1.1;
+        this.heightBan = this.spriteHeightBan * this.game.scale / 1.1;
 
         this.maxHeight = Math.max(
             this.heightDoan,
             this.heightDoi,
             this.heightTruong,
-            this.heightBan
         );
         this.img_logo_doan = new Image();
-        this.img_logo_doan.src = "/assets/Asset/Logo/LogoDoan.png";
+        this.img_logo_doan.src = "/assets/Asset/Logo/logo_DOAN.png";
         this.img_logo_doi = new Image();
         this.img_logo_doi.src = "/assets/Asset/Logo/LogoDoi.png";
         this.img_logo_truong = new Image();
-        this.img_logo_truong.src = "/assets/Asset/Logo/LogoTruong.png";
+        this.img_logo_truong.src = "/assets/Asset/Logo/logo_UIT.png";
         this.img_logo_ban = new Image();
         this.img_logo_ban.src = "/assets/Asset/Logo/LogoBan.png";
 
@@ -153,49 +152,58 @@ class LogoBar {
     }
     update() { }
     draw(context) {
-        // context.imageSmoothingQuality = "high";
+        context.imageSmoothingQuality = "high";
+        context.font = 'small-caption';
         context.drawImage(this.img_logo_doan,
             0, 0, this.spriteWidthDoan, this.spriteHeightDoan,
-            this.game.width / 2, this.maxHeight - this.heightDoan, this.widthDoan, this.heightDoan);
+            this.game.width / 2, (this.maxHeight - this.heightDoan) / 2, this.widthDoan, this.heightDoan);
         context.drawImage(this.img_logo_doi,
             0, 0, this.spriteWidthDoi, this.spriteHeightDoi,
-            this.game.width / 2 + this.widthDoan, this.maxHeight - this.heightDoi, this.widthDoi, this.heightDoi);
-        context.font = this.game.scale * 24 + 'px Arial';
+            this.game.width / 2 + this.widthDoan, (this.maxHeight - this.heightDoi) / 2, this.widthDoi, this.heightDoi);
+        context.font = this.game.scale * 23 + 'px Arial';
         context.textAlign = 'center';
         context.textBaseline = 'middle';
         context.fillText("THÀNH PHỐ THỦ ĐỨC", this.game.width / 2 + this.widthDoan / 2 + this.widthDoi / 2, this.maxHeight * 1.1, (this.widthDoan + this.widthDoi) / 1.1);
 
-        context.drawImage(this.img_logo_doan,
-            0, 0, this.spriteWidthDoan, this.spriteHeightDoan,
-            this.game.width / 2 + (this.widthDoan + this.widthDoi) * 1.2, this.maxHeight - this.heightDoan, this.widthDoan, this.heightDoan);
         context.drawImage(this.img_logo_truong,
             0, 0, this.spriteWidthTruong, this.spriteHeightTruong,
-            this.game.width / 2 + (this.widthDoan + this.widthDoi) * 1.2 + this.widthDoan, this.maxHeight - this.heightTruong, this.widthTruong, this.heightTruong);
-        context.drawImage(this.img_logo_ban,
-            0, 0, this.spriteWidthBan, this.spriteHeightBan,
-            this.game.width / 2 + (this.widthDoan + this.widthDoi) * 1.2 + this.widthDoan + this.widthTruong, this.maxHeight - this.heightBan, this.widthBan, this.heightBan);
+            this.game.width / 2 + (this.widthDoan + this.widthDoi) * 1.2, (this.maxHeight - this.heightTruong) / 2, this.widthTruong, this.heightTruong);
+        context.drawImage(this.img_logo_doan,
+            0, 0, this.spriteWidthDoan, this.spriteHeightDoan,
+            this.game.width / 2 + (this.widthDoan + this.widthDoi) * 1.2 + this.widthTruong, (this.maxHeight - this.heightDoan) / 2, this.widthDoan, this.heightDoan);
+        context.drawImage(this.img_logo_doi,
+            0, 0, this.spriteWidthDoi, this.spriteHeightDoi,
+            this.game.width / 2 + (this.widthDoan + this.widthDoi) * 1.2 + this.widthDoan + this.widthTruong, (this.maxHeight - this.heightDoi) / 2, this.widthDoi, this.heightDoi);
 
         context.fillText("TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN",
-            this.game.width / 2 + (this.widthDoan + this.widthDoi) * 1.2 + this.widthDoan / 2 + this.widthDoi / 2 + this.widthBan / 2, this.maxHeight * 1.1, (this.widthDoan + this.widthDoi + this.widthBan) / 1.1);
+            this.game.width / 2 + (this.widthDoan + this.widthDoi) * 1.2 + (this.widthDoan + this.widthDoi + this.widthTruong) / 2,
+            this.maxHeight * 1.1);
+
+        // made by.
+        context.fillStyle = "white";
+        const text = "Phát triển bởi Ban học tập Đoàn khoa Công nghệ phần mềm, trường đại học Công nghệ thông tin";
+        const textWidth = context.measureText(text).width;
+        const x = (this.game.width - textWidth);
+        context.drawImage(this.img_logo_ban,
+            x - textWidth / 2 - this.widthBan * 1.1, this.game.height - this.heightBan, this.widthBan, this.heightBan
+        )
+        context.fillText(text, x, this.game.height - this.heightBan / 2.2);
     }
     onResize(game) {
         this.game = game;
-        this.widthDoan = this.spriteWidthDoan * this.game.scale / 6.5;
-        this.heightDoan = this.spriteHeightDoan * this.game.scale / 6.5;
+        this.widthDoan = this.spriteWidthDoan * this.game.scale / 1.3;
+        this.heightDoan = this.spriteHeightDoan * this.game.scale / 1.3;
+        this.widthDoi = this.spriteWidthDoi * this.game.scale / 1.1;
+        this.heightDoi = this.spriteHeightDoi * this.game.scale / 1.1;
 
-        this.widthDoi = this.spriteWidthDoi * this.game.scale / 3.6;
-        this.heightDoi = this.spriteHeightDoi * this.game.scale / 3.6;
-
-        this.widthTruong = this.spriteWidthTruong * this.game.scale / 1.6;
-        this.heightTruong = this.spriteHeightTruong * this.game.scale / 1.6;
-
-        this.widthBan = this.spriteWidthBan * this.game.scale / 12.5;
-        this.heightBan = this.spriteHeightBan * this.game.scale / 12.5;
+        this.widthTruong = this.spriteWidthTruong * this.game.scale / 1.5;
+        this.heightTruong = this.spriteHeightTruong * this.game.scale / 1.5;
+        this.widthBan = this.spriteWidthBan * this.game.scale / 1.1;
+        this.heightBan = this.spriteHeightBan * this.game.scale / 1.1;
         this.maxHeight = Math.max(
             this.heightDoan,
             this.heightDoi,
             this.heightTruong,
-            this.heightBan
         );
     }
 }
