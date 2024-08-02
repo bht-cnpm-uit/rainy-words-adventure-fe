@@ -1,12 +1,8 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PopUpUpdateAcc from './PopUpUpdateAcc';
 import { setAvatar, setFrame } from '../../../redux/slices/userSlice';
-import {
-    getAchivementOfStudent,
-    getItemsOfStudent,
-    getStudentInfo,
-} from '../../../services/studentServices';
+import { getAchivementOfStudent, getStudentInfo } from '../../../services/studentServices';
 
 const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
     const dispatch = useDispatch();
@@ -29,33 +25,22 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
         '/assets/Asset/Avt_Frame_cuts/0.png',
         '/assets/Asset/Avt_Frame_cuts/1.png',
         '/assets/Asset/Avt_Frame_cuts/2.png',
-        // Add more initial frame options here
     ]);
 
     const setFramOptions = () => {
         let newFrameOptions = [...frameOptions];
         for (let i = 0; i < achivements.length; i++) {
-            //if have the same url not push
-
-            if (achivements[i].id === 2) {
-                if (!newFrameOptions.includes('/assets/Asset/Avt_Frame_cuts/5.png')) {
-                    newFrameOptions.push('/assets/Asset/Avt_Frame_cuts/5.png');
-                }
+            if (achivements[i].id === 2 && !newFrameOptions.includes('/assets/Asset/Avt_Frame_cuts/5.png')) {
+                newFrameOptions.push('/assets/Asset/Avt_Frame_cuts/5.png');
             }
-            if (achivements[i].id === 3) {
-                if (!newFrameOptions.includes('/assets/Asset/Avt_Frame_cuts/6.png')) {
-                    newFrameOptions.push('/assets/Asset/Avt_Frame_cuts/6.png');
-                }
+            if (achivements[i].id === 3 && !newFrameOptions.includes('/assets/Asset/Avt_Frame_cuts/6.png')) {
+                newFrameOptions.push('/assets/Asset/Avt_Frame_cuts/6.png');
             }
-            if (achivements[i].id === 4) {
-                if (!newFrameOptions.includes('/assets/Asset/Avt_Frame_cuts/7.png')) {
-                    newFrameOptions.push('/assets/Asset/Avt_Frame_cuts/7.png');
-                }
+            if (achivements[i].id === 4 && !newFrameOptions.includes('/assets/Asset/Avt_Frame_cuts/7.png')) {
+                newFrameOptions.push('/assets/Asset/Avt_Frame_cuts/7.png');
             }
-            if (achivements[i].id === 5) {
-                if (!newFrameOptions.includes('/assets/Asset/Avt_Frame_cuts/9.png')) {
-                    newFrameOptions.push('/assets/Asset/Avt_Frame_cuts/9.png');
-                }
+            if (achivements[i].id === 5 && !newFrameOptions.includes('/assets/Asset/Avt_Frame_cuts/9.png')) {
+                newFrameOptions.push('/assets/Asset/Avt_Frame_cuts/9.png');
             }
         }
         setFrameOptions(newFrameOptions);
@@ -83,21 +68,18 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
         let month = String(dateObj.getUTCMonth() + 1).padStart(2, '0');
         let year = dateObj.getUTCFullYear();
 
-        let formattedDate = `${day}/${month}/${year}`;
-
-        return formattedDate;
+        return `${day}/${month}/${year}`;
     }
 
     useEffect(() => {
         getStudentInfomation(userInfo.id);
         achivementOfStudent(userInfo.id);
         setFramOptions();
-    }, );
+    }, []);
 
     const getStudentInfomation = async (studentId) => {
         let response = await getStudentInfo(studentId);
         setData(response.student);
-        console.log("RESPONSE",response);
     };
 
     const achivementOfStudent = async (studentId) => {
@@ -116,8 +98,6 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
     if (!openPopUpAcc) return null;
 
     const handleLogout = () => {
-        // Perform logout logic here
-        // Redirect to homepage
         window.location.href = '/login';
     };
 
@@ -140,6 +120,10 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
     const handleFrameSelection = (frame) => {
         dispatch(setFrame(frame));
         setIsFrameModalOpen(false);
+    };
+
+    const handleUpdateSuccess = () => {
+        getStudentInfomation(userInfo.id);
     };
 
     return (
@@ -222,13 +206,13 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
                                 ></div>
                             </div>
                         </div>
-                        <div className="mt-4 flex items-center justify-start font-mono text-2xl text-orange-500">
+                        {/* <div className="mt-4 flex items-center justify-start font-mono text-2xl text-orange-500">
                             <span>BẬT/TẮT ÂM THANH</span>
                             <button
                                 onClick={toggleSound}
                                 className={`ml-8 h-6 w-6 ${isSoundOn ? "bg-[url('assets/ButtonSliderAtlas/image_32.png')]" : "bg-[url('assets/ButtonSliderAtlas/image_32copy.png')]"} bg-cover`}
                             ></button>
-                        </div>
+                        </div> */}
                     </div>
 
                     <div className="mt-4 flex justify-center">
@@ -254,6 +238,7 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
                     openPopUpUpdate={openPopupUpdate}
                     closePopUpUpdate={handleRemovePopUpUpdate}
                     student={data}
+                    onUpdateSuccess={handleUpdateSuccess}
                 />
             )}
 

@@ -56,6 +56,7 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
             grade: student.Grade,
             score: student.Score,
             cup: student.cup,
+            totalTime: student.TotalTime
         }));
         setLeaderboardStudents(getLeaderboardStudents);
     };
@@ -104,6 +105,9 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                     <th className="px-4 py-2">Trường</th>
                                     <th className="px-4 py-2">Lớp</th>
                                     <th className="px-4 py-2">Tổng Điểm</th>
+                                    <th className="px-4 py-2">Thời gian</th>
+
+                                    
                                 </tr>
                             </thead>
                             <tbody>
@@ -114,6 +118,7 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                         <td className="border px-4 py-2">{player.school}</td>
                                         <td className="border px-4 py-2">{player.grade}</td>
                                         <td className="border px-4 py-2">{player.score}</td>
+                                        <td className="border px-4 py-2">{player.totalTime}</td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -164,28 +169,6 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                     <span className="flex-1">Học sinh xuất sắc nhất tháng</span>
                                 </div>
                             </div> */}
-
-                            <div className="mt-6 rounded-lg bg-white p-4 shadow">
-                                <h2 className="mb-4 text-lg font-bold">Số khung đã được mở:</h2>
-                                <div className="ml-8 flex grid grid-cols-2 items-center justify-center gap-4">
-                                    {cupCount >= 1 && (
-                                        <button className="h-40 w-44 rounded-lg bg-[url('/assets/Asset/Avt_Frame_cuts/5.png')] bg-cover text-gray-800 hover:bg-gray-300"></button>
-                                    )}
-                                    {cupCount >= 2 && (
-                                        <button className="h-40 w-44 rounded-lg bg-[url('/assets/Asset/Avt_Frame_cuts/6.png')] bg-cover text-gray-800 hover:bg-gray-300"></button>
-                                    )}
-                                    {cupCount >= 3 && (
-                                        <button className="h-40 w-44 rounded-lg bg-[url('/assets/Asset/Avt_Frame_cuts/7.png')] bg-cover text-gray-800 hover:bg-gray-300">
-                                            <img src="/assets/Asset/Avt_Frame_cuts/7.png" alt="" />
-                                        </button>
-                                    )}
-                                    {cupCount >= 5 && (
-                                        <button className="h-40 w-44 rounded-lg bg-[url('/assets/Asset/Avt_Frame_cuts/9.png')] bg-cover text-gray-800 hover:bg-gray-300">
-                                            <img src="/assets/Asset/Avt_Frame_cuts/9.png" alt="" />
-                                        </button>
-                                    )}
-                                </div>
-                            </div>
                         </div>
                     )}
                 </div>
