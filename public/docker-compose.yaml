@@ -8,6 +8,8 @@ services:
       MYSQL_DATABASE: rainy_words_adventure
     expose:
       - 3306
+    volumes:
+      - mysql:var/lib/mysql
 
   be:
     build:
