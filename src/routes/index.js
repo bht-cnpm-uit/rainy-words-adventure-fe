@@ -45,7 +45,7 @@ const publicRoutes = [
         component: SignUp,
     },
     {
-        requiresAuth: false,
+        requiresAuth: true,
         path: '/admin',
         component: Admin,
     },
