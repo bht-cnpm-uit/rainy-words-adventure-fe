@@ -86,7 +86,7 @@ const ScoreboardManagement = () => {
                 columns={[
                     {
                         name: 'STT',
-                        selector: 'id',
+                        selector:  (row, index) => index + 1,
                         sortable: true,
                         width: '10%',
                     },

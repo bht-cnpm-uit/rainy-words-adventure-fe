@@ -57,8 +57,8 @@ const StudentManagement = () => {
 
     const columns = [
         {
-            name: 'ID',
-            selector: 'id',
+            name: 'STT',
+            selector: (row, index) => index + 1,
             sortable: true,
             width: '10%',
         },
