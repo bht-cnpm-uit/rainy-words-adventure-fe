@@ -13,8 +13,8 @@ const Login = (props) => {
     async function handleSubmitLogin(values) {
         try {
             let data = await handleLogin(values.phoneNumber, values.password)
-            if (data && data.student) {
-                if (data.student.phoneNumber === 'admin') {
+            if (data) {
+                if (data.isAdmin) {
                     localStorage.setItem('authToken', 'admin');
                     window.location.href = '/admin';
                 } else {
