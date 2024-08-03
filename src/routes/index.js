@@ -24,7 +24,7 @@ const publicRoutes = [
         component: VocabLib,
     },
     {
-        requiresAuth: false,
+        requiresAuth: true,
         path: '/level',
         component: Level,
     },

@@ -71,11 +71,6 @@
     background: url("/Asset/Button/btn_1.png") no-repeat center / contain;
 }
 
-#error-message {
-    text-align: center;
-    color: red;
-}
-
 .password-container {
     position: relative;
     display: flex;

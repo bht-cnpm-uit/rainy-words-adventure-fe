@@ -141,7 +141,6 @@ class LoginForm {
                     </button>
                 </div>
             </div>
-            <div class="error-message" id="error-message"></div>
             <input type="submit" value="ĐĂNG NHẬP">
         `;
 
@@ -165,8 +164,6 @@ class LoginForm {
             var password = container.querySelector('#password').value;
             var isSuccess = await this.game.game.handleSubmitLogin({ phoneNumber, password });
             if (!isSuccess) {
-                const errorMessage = document.getElementById('error-message');
-                errorMessage.innerText = "Số diện thoại hoặc mật khẩu không đúng !";
             }
         });
     }
