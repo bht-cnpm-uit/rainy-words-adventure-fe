@@ -19,12 +19,12 @@ const cards = [
     {
         name: 'Giải thưởng',
         content: `
-        Trong quá trình chơi, các bạn có thể thu thập các vật phẩm như kẹo, bánh, hoa hồng,... Khi các bé thu thập vượt ngưỡng 500 cái mỗi loại, các bạn sẽ được thưởng danh hiệu (cúp).
-        Khi thu thập đủ số cúp, các bạn có thể mở khóa các khung ảnh đại diện:
-        Khung đồng (>=2 cúp)
-        Khung bạc (>=3 cúp) 
+        Trong quá trình chơi, các bạn có thể thu thập các vật phẩm như kẹo, bánh, hoa hồng,... Khi các bé thu thập vượt ngưỡng 500 cái mỗi loại, các bạn sẽ được thưởng danh hiệu (huy chương).
+        Khi thu thập đủ số huy chương, các bạn có thể mở khóa các khung ảnh đại diện:
+        Khung đồng (>=2 huy chương)
+        Khung bạc (>=3 huy chương) 
         Khung vàng (>=4 cúp)
-        Khung kim cương (>=6 cúp)
+        Khung kim cương (>=6 huy chương)
         Chúc các đạt được nhiều giải thưởng !
         `
     },

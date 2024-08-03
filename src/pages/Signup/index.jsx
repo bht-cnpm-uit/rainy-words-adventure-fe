@@ -27,8 +27,7 @@ const SignUp = (props) => {
                 return 0;
             }
         } catch (error) {
-
-        }
+F        }
         return 0;
 
     }

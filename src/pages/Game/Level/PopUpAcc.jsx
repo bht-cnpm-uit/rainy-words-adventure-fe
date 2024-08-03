@@ -17,7 +17,7 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
         "FrameId": userInfo.FrameId
     });
 
-    const avatarOptions = [1, 2, 3];
+    const avatarOptions = [0, 1, 2];
 
     const [frameOptions, setFrameOptions] = useState([0, 1, 2]);
 

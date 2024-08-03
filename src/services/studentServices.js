@@ -3,11 +3,11 @@ const getAllStudents = () => {
     return instance.get('api/user/get-all-student');
 };
 const getItemsOfStudent = (id) => {
-    return instance.get(`api/item/get-student/${id}`);
+    return instance.get(`api/item/get-student`, { params: { id: id } });
 };
 
 const getAchivementOfStudent = (id) => {
-    return instance.get(`api/user/get-achievement/${id}`);
+    return instance.get(`api/user/get-achievement`, { params: { id: id } });
 };
 
 const updateInfo = async (data) => {
@@ -19,8 +19,9 @@ const updateAvatar = async (data) => {
 };
 
 const getStudentInfo = (id) => {
-    return instance.get(`api/user/get-info/${id}`);
+    return instance.get(`api/user/get-info`, { params: { id: id } });
 }
+
 const handleLogin = (phoneNumber, password) => {
     return instance.post('api/login', { phoneNumber: phoneNumber, password: password });
 };
@@ -30,6 +31,7 @@ const handleSignUp = (dataSignUp) => {
 const getListWordsOfStudent = (id) => {
     return instance.post('api/student-word/get-all', id);
 }
+
 export {
     getAllStudents,
     getItemsOfStudent,
@@ -41,3 +43,4 @@ export {
     updateAvatar,
     getListWordsOfStudent
 };
+

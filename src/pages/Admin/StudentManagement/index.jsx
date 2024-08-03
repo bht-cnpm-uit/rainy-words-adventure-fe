@@ -22,7 +22,7 @@ const StudentManagement = () => {
 
     useEffect(() => {
         getStudents();
-    });
+    }, []);
 
     const handleEdit = (id) => {
         setEditID(id);

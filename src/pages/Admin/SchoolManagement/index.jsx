@@ -9,6 +9,7 @@ const SchoolManagement = () => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [selectedSchool, setSelectedSchool] = useState(null);
     const [updatedSchoolData, setUpdatedSchoolData] = useState(null);
+    const [deletedSchoolId, setDeletedSchoolId] = useState(null);
     const HandleRemovePopUp = () => setIsOpenPopUp(false);
 
     const [data, setData] = useState([]);
@@ -53,7 +54,7 @@ const SchoolManagement = () => {
             let rowid = [id];
             let respone = await deleteSchool(rowid);
             alert('Xóa thành công!');
-            getSchools();
+            setDeletedSchoolId(id);
         } catch (error) {
             console.error('Error:', error);
         }
@@ -62,7 +63,23 @@ const SchoolManagement = () => {
 
     useEffect(() => {
         getSchools();
-    });
+    }, []);
+
+    useEffect(() => {
+        if (updatedSchoolData) {
+            // Handle the update logic here
+            console.log('School data updated:', updatedSchoolData);
+            getSchools();
+        }
+    }, [updatedSchoolData]);
+
+    useEffect(() => {
+        if (deletedSchoolId) {
+            // Handle the delete logic here
+            console.log('School data deleted:', deletedSchoolId);
+            getSchools();
+        }
+    }, [deletedSchoolId]);
 
     const columns = [
         {
