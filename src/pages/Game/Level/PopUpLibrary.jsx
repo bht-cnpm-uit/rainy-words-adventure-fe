@@ -50,17 +50,17 @@ const PopUpLibrary = ({ openPopUpLib, closePopUpLib }) => {
             className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 backdrop-blur-sm"
         >
             <div className=" w-5/12 gap-4 p-2 py-5 md:w-1/5 lg:w-1/3">
-                <div className="w-full items-center justify-center rounded-[22px] border  border-4 border-yellow-600 bg-orange-100 p-3  ">
+                <div className="w-full items-center justify-center rounded-[22px] border-4 border-yellow-600 bg-orange-100 p-3  ">
                     <h2 className="py-3 text-center font-mono text-5xl font-semibold text-orange-700">
                         THƯ VIỆN
                     </h2>
-                    <div className=" max-h-96 overflow-y-auto overflow-y-scroll rounded-[5px] bg-orange-50 scrollbar-thin scrollbar-track-orange-200  scrollbar-thumb-orange-400">
+                    <div className=" max-h-96 overflow-y-auto  rounded-[5px] bg-orange-50 scrollbar-thin scrollbar-track-orange-200  scrollbar-thumb-orange-400">
                         <ul className="divide-y divide-gray-200 font-mono text-orange-400">
                             {vocabularyLibrary.map((item, index) => (
                                 <li
                                     key={index}
-                                    // className={`cursor-pointer py-2 ${selectedWord.vocab === item.vocab ? 'bg-orange-200' : 'bg-orange-50'}`}
-                                    // onClick={() => handleWordClick(item)}
+                                // className={`cursor-pointer py-2 ${selectedWord.vocab === item.vocab ? 'bg-orange-200' : 'bg-orange-50'}`}
+                                // onClick={() => handleWordClick(item)}
                                 >
                                     <p className="ml-12 text-xl font-semibold">{item.vocab}</p>
                                     <p className="ml-12 text-gray-500">{item.vietnamese}</p>

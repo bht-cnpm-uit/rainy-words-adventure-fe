@@ -139,7 +139,7 @@ export class WordFall {
         this.game = game;
         this.words = [];
         this.image = new Image();
-        this.image.src = game.listBonusItem[0] === 1 ? "../assets/Asset/GameObject/GameObject(5x12Atlas).png" : "../assets/Asset/GameObject/GameObject2(5x12Atlas).png";
+        this.image.src = game.listBonusItem[0] === 1 ? "./Asset/Item/item_13.png" : "./Asset/Item/item_46.png";
         this.listWords = this.game.props.listwordcollect;
     }
     updatePositionItems() {

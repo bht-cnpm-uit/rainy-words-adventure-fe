@@ -234,15 +234,15 @@ export class Levels {
         this.width = this.spriteWidth * this.game.scale;
         this.height = this.spriteHeight * this.game.scale;
         this.image = new Image();
-        this.image.src = '../assets/Asset/Button/btn_level.png';
+        this.image.src = './Asset/Button/btn_level.png';
         this.imageStar0 = new Image();
-        this.imageStar0.src = '../assets/Asset/Stars/0.png'
+        this.imageStar0.src = './Asset/Stars/0.png'
         this.imageStar1 = new Image();
-        this.imageStar1.src = '../assets/Asset/Stars/1.png'
+        this.imageStar1.src = './Asset/Stars/1.png'
         this.imageStar2 = new Image();
-        this.imageStar2.src = '../assets/Asset/Stars/2.png'
+        this.imageStar2.src = './Asset/Stars/2.png'
         this.imageStar3 = new Image();
-        this.imageStar3.src = '../assets/Asset/Stars/3.png'
+        this.imageStar3.src = './Asset/Stars/3.png'
         this.xVirtual = -this.game.background.xImageCut * this.game.scale;
         this.frameX = 0;
         this.frameY = 0;
@@ -257,7 +257,6 @@ export class Levels {
         this.height = this.spriteHeight * this.game.scale;
         this.maxWidthSlice = this.game.width;
         this.xVirtual = -this.game.background.xImageCut * this.game.scale;
-        // this.updatePositionLevel();
     }
 
     draw(context) {
