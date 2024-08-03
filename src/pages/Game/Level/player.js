@@ -23,15 +23,15 @@ export class Player {
         this.isJumping = null;
         this.frameJumpX = 0;
         this.frameJumpY = 0;
-        this.image_light.src = './Asset/Player/SunflowerCatWalk_light.png';
-        this.image_dark.src = './Asset/Player/SunflowerCatWalk_dark.png';
+        this.image_light.src = '/Asset/Player/SunflowerCatWalk_light.png';
+        this.image_dark.src = '/Asset/Player/SunflowerCatWalk_dark.png';
         // Load images
         this.image_light.onload = () => {
             this.imageJump.onload = () => {
                 // Once images are loaded, set the initial position
                 this.initialPositionPlayer(this.currentLevel);
             }
-            this.imageJump.src = './Asset/Player/SunflowerCatJump.png';
+            this.imageJump.src = '/Asset/Player/SunflowerCatJump.png';
         }
         this.animateStand()
     }

@@ -76,7 +76,7 @@
     margin-bottom: 10px;
     border: none;
     cursor: pointer;
-    background: url('./Asset/Button/btn_1.png') no-repeat center / contain;
+    background: url('/Asset/Button/btn_1.png') no-repeat center / contain;
 }
 
 #error-message {

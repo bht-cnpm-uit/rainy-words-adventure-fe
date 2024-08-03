@@ -47,18 +47,18 @@ const Congrat = ({ openCongrat, closeCongrat, nextLevel, gift, setGift, congratT
                 }
             };
 
-            image_medals1.src = "./Asset/Medals/1.png";
-            image_medals2.src = "./Asset/Medals/2.png";
-            image_medals3.src = "./Asset/Medals/3.png";
-            image_medals4.src = "./Asset/Medals/4.png";
-            image_medals5.src = "./Asset/Medals/5.png";
-            image_medals6.src = "./Asset/Medals/6.png";
-            image_frames1.src = "./Asset/FrameAvatar/1.png";
-            image_frames2.src = "./Asset/FrameAvatar/2.png";
-            image_frames3.src = "./Asset/FrameAvatar/3.png";
-            image_frames4.src = "./Asset/FrameAvatar/4.png";
-            image_frames5.src = "./Asset/FrameAvatar/5.png";
-            image_frames6.src = "./Asset/FrameAvatar/6.png";
+            image_medals1.src = "/Asset/Medals/1.png";
+            image_medals2.src = "/Asset/Medals/2.png";
+            image_medals3.src = "/Asset/Medals/3.png";
+            image_medals4.src = "/Asset/Medals/4.png";
+            image_medals5.src = "/Asset/Medals/5.png";
+            image_medals6.src = "/Asset/Medals/6.png";
+            image_frames1.src = "/Asset/FrameAvatar/1.png";
+            image_frames2.src = "/Asset/FrameAvatar/2.png";
+            image_frames3.src = "/Asset/FrameAvatar/3.png";
+            image_frames4.src = "/Asset/FrameAvatar/4.png";
+            image_frames5.src = "/Asset/FrameAvatar/5.png";
+            image_frames6.src = "/Asset/FrameAvatar/6.png";
 
             [
                 image_medals1, image_medals2, image_medals3, image_medals4, image_medals5, image_medals6,
@@ -125,7 +125,7 @@ const Congrat = ({ openCongrat, closeCongrat, nextLevel, gift, setGift, congratT
         if (context) {
             if (congratType === 'next-level') {
                 const image = new Image();
-                image.src = "./Asset/Player/Sunflower.png";
+                image.src = "/Asset/Player/Sunflower.png";
 
                 image.onload = () => {
                     let frameX = 1;

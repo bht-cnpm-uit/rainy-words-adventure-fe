@@ -11,7 +11,7 @@
 }
 
 #container_bg {
-    background: url("./Asset/Logo/Logo.png") no-repeat center/contain;
+    background: url("/Asset/Logo/Logo.png") no-repeat center/contain;
     width: 100%;
     height: 250px;
     z-index: 10000;
@@ -68,7 +68,7 @@
     border: none;
     cursor: pointer;
     margin-top: 20px;
-    background: url("./Asset/Button/btn_1.png") no-repeat center / contain;
+    background: url("/Asset/Button/btn_1.png") no-repeat center / contain;
 }
 
 #error-message {

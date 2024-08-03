@@ -32,7 +32,7 @@ export class Player {
         this.velocity = 0;
         this.acceleration = 0.025;
         this.image = new Image();
-        this.image.src = game.mode == 'light' ? './Asset/Player/SunflowerCatWalk_light.png' : './Asset/Player/SunflowerCatWalk_dark.png'
+        this.image.src = game.mode == 'light' ? '/Asset/Player/SunflowerCatWalk_light.png' : '/Asset/Player/SunflowerCatWalk_dark.png'
         this.frameX = 0;
         this.frameY = 1;
         this.staggerFrames = 5;

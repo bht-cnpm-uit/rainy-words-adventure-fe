@@ -84,7 +84,7 @@ class LogoGame extends Layer {
             this.game,
             this.x + this.spriteWidth * this.game.scale / 2, this.y + this.spriteHeight * this.game.scale,
             this.spriteWidthBtn, this.spriteHeightBtn,
-            './Asset/Button/btn_1.png'
+            '/Asset/Button/btn_1.png'
         );
     }
     update() { }
@@ -140,13 +140,13 @@ class LogoBar {
             this.heightTruong,
         );
         this.img_logo_doan = new Image();
-        this.img_logo_doan.src = "./Asset/Logo/logo_DOAN.png";
+        this.img_logo_doan.src = "/Asset/Logo/logo_DOAN.png";
         this.img_logo_doi = new Image();
-        this.img_logo_doi.src = "./Asset/Logo/LogoDoi.png";
+        this.img_logo_doi.src = "/Asset/Logo/LogoDoi.png";
         this.img_logo_truong = new Image();
-        this.img_logo_truong.src = "./Asset/Logo/logo_UIT.png";
+        this.img_logo_truong.src = "/Asset/Logo/logo_UIT.png";
         this.img_logo_ban = new Image();
-        this.img_logo_ban.src = "./Asset/Logo/LogoBan.png";
+        this.img_logo_ban.src = "/Asset/Logo/LogoBan.png";
 
         this.x = this.game.width / 2;
     }
@@ -270,23 +270,23 @@ export class Background {
             this.game,
             this.spriteWidth,
             this.spriteHeight,
-            './Asset/Map/ScrollBG_light.png',
+            '/Asset/Map/ScrollBG_light.png',
         );
         this.layerImage2 = new Layer(
             this.game,
             this.spriteWidth,
             this.spriteHeight,
-            './Asset/Map/StableBG_light.png',
+            '/Asset/Map/StableBG_light.png',
         );
         this.player = new Player(
             this.game,
-            './Asset/Player/SunflowerCatWalk_light.png'
+            '/Asset/Player/SunflowerCatWalk_light.png'
         )
         this.logoGame = new LogoGame(
             this.game,
             this.spriteWidthGame,
             this.spriteHeightGame,
-            './Asset/Logo/Logo.png'
+            '/Asset/Logo/Logo.png'
         )
         this.logos = new LogoBar(game);
     }

@@ -31,16 +31,16 @@ export class Background {
             this.spriteWidth,
             this.spriteHeight,
             this.mode === 'light'
-                ? './Asset/Map/ScrollBG_light.png'
-                : './Asset/Map/ScrollBG_dark.png'
+                ? '/Asset/Map/ScrollBG_light.png'
+                : '/Asset/Map/ScrollBG_dark.png'
         );
         this.layerImage2 = new Layer(
             this.game,
             this.spriteWidth,
             this.spriteHeight,
             this.mode === 'light'
-                ? './Asset/Map/StableBG_light.png'
-                : './Asset/Map/StableBG_dark.png'
+                ? '/Asset/Map/StableBG_light.png'
+                : '/Asset/Map/StableBG_dark.png'
         );
         this.speedModifier = 0.5;
         this.speed = this.speedModifier;

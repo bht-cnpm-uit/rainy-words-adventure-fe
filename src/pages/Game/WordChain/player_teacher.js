@@ -10,7 +10,7 @@ export class TeacherCat {
         this.staggerFrames = 5;
         this.gameFrame = 0;
         this.image = new Image();
-        this.image.src = './Asset/Player/TeacherCat.png';
+        this.image.src = '/Asset/Player/TeacherCat.png';
         this.animateTeacher();
     }
 

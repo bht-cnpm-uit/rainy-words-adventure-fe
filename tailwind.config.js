@@ -4,7 +4,7 @@ export default {
     theme: {
         extend: {
             backgroundImage: {
-                //'background-login': "url('../assets/Asset/Map1/ScrollBG.png')",
+                //'background-login': "url('./Assets/Asset/Map1/ScrollBG.png')",
             },
             keyframes: {
                 wiggle: {

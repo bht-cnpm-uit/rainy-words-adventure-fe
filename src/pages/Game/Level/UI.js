@@ -180,7 +180,7 @@ export class LevelSetting {
             board: new StaticUI(
                 this.game,
                 this,
-                './Asset/Board/board_3.png',
+                '/Asset/Board/board_3.png',
                 this.spriteWidthBoard,
                 this.spriteHeightBoard,
                 'board'
@@ -188,7 +188,7 @@ export class LevelSetting {
             score: new StaticUI(
                 this.game,
                 this,
-                './Asset/Board/board_5.png',
+                '/Asset/Board/board_5.png',
                 this.spriteWidthScore,
                 this.spriteHeightScore,
                 'score'
@@ -196,7 +196,7 @@ export class LevelSetting {
             player: new StaticUI(
                 this.game,
                 this,
-                './Asset/Player/SunflowerCatWalk_light.png',
+                '/Asset/Player/SunflowerCatWalk_light.png',
                 this.spriteWidthPlayer,
                 this.spriteHeightPlayer,
                 'player'
@@ -206,7 +206,7 @@ export class LevelSetting {
             close: new Button(
                 this.game,
                 this,
-                './Asset/Button/btn_5.png',
+                '/Asset/Button/btn_5.png',
                 this.spriteWidthBtnClose,
                 this.spriteHeightBtnClose,
                 'close'
@@ -214,7 +214,7 @@ export class LevelSetting {
             increase: new Button(
                 this.game,
                 this,
-                './Asset/Button/btn_6r.png',
+                '/Asset/Button/btn_6r.png',
                 this.spriteWidthBtnNext,
                 this.spriteHeightBtnNext,
                 'increase'
@@ -222,7 +222,7 @@ export class LevelSetting {
             decrease: new Button(
                 this.game,
                 this,
-                './Asset/Button/btn_6l.png',
+                '/Asset/Button/btn_6l.png',
                 this.spriteWidthBtnNext,
                 this.spriteHeightBtnNext,
                 'decrease'
@@ -230,7 +230,7 @@ export class LevelSetting {
             play: new Button(
                 this.game,
                 this,
-                './Asset/Button/btn_1.png',
+                '/Asset/Button/btn_1.png',
                 this.spriteWidthPlay,
                 this.spriteHeightPlay,
                 'play'

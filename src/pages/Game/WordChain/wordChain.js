@@ -109,11 +109,11 @@ class Word {
         this.game = game;
         this.wordChain = wordChain;
         this.imagePlay = new Image();
-        this.imagePlay.src = type === 'EN' ? './Asset/WordMatchingButton/0.png' : './Asset/WordMatchingButton/1.png';
+        this.imagePlay.src = type === 'EN' ? '/Asset/WordMatchingButton/0.png' : '/Asset/WordMatchingButton/1.png';
         this.imageCorrect = new Image();
-        this.imageCorrect.src = type === 'EN' ? './Asset/WordMatchingButton/4.png' : './Asset/WordMatchingButton/5.png';
+        this.imageCorrect.src = type === 'EN' ? '/Asset/WordMatchingButton/4.png' : '/Asset/WordMatchingButton/5.png';
         this.imageWrong = new Image();
-        this.imageWrong.src = type === 'EN' ? './Asset/WordMatchingButton/2.png' : './Asset/WordMatchingButton/3.png';
+        this.imageWrong.src = type === 'EN' ? '/Asset/WordMatchingButton/2.png' : '/Asset/WordMatchingButton/3.png';
         this.spriteWidth = spriteWidth;
         this.spriteHeight = spriteHeight;
         this.scaleBoardX = 1;
@@ -317,7 +317,7 @@ export class BoardScoreChain {
         this.staticUI = {
             scoreBoard: new StaticUI(
                 game,
-                './Asset/Board/board_3.png',
+                '/Asset/Board/board_3.png',
                 0, 0,
                 this.spriteWidthScoreBoard,
                 this.spriteHeightScoreBoard,
@@ -361,14 +361,14 @@ export class BoardWordChain {
         this.staticUI = {
             board: new StaticUI(
                 this.game,
-                './Asset/Board/board_6.png',
+                '/Asset/Board/board_6.png',
                 0,
                 0,
                 this.spriteWidthBoard, this.spriteHeightBoard
             ),
         }
         this.button = new Button(game, this,
-            './Asset/Button/btn_1.png',
+            '/Asset/Button/btn_1.png',
             437, 129)
         this.EnglishWord = [];
         this.VietNameseWord = [];

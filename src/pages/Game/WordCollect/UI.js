@@ -52,21 +52,21 @@ export class BonusItems {
         this.maxItems = 3;
         this.noItems = 3;
         this.image = new Image();
-        this.image.src = './Asset/Item/0.png';
+        this.image.src = '/Asset/Item/0.png';
         this.spriteShapeBonusItems = [[192, 112], [171, 84], [136, 94], [96, 62], [65, 68], [145, 114]]
         this.noBonusItems = [0, 0, 0, 0, 0, 0];
         this.imagebonus0 = new Image();
-        this.imagebonus0.src = './Asset/Item/1.png';
+        this.imagebonus0.src = '/Asset/Item/1.png';
         this.imagebonus1 = new Image();
-        this.imagebonus1.src = './Asset/Item/2.png';
+        this.imagebonus1.src = '/Asset/Item/2.png';
         this.imagebonus2 = new Image();
-        this.imagebonus2.src = './Asset/Item/3.png';
+        this.imagebonus2.src = '/Asset/Item/3.png';
         this.imagebonus3 = new Image();
-        this.imagebonus3.src = './Asset/Item/4.png';
+        this.imagebonus3.src = '/Asset/Item/4.png';
         this.imagebonus4 = new Image();
-        this.imagebonus4.src = './Asset/Item/5.png';
+        this.imagebonus4.src = '/Asset/Item/5.png';
         this.imagebonus5 = new Image();
-        this.imagebonus5.src = './Asset/Item/6.png';
+        this.imagebonus5.src = '/Asset/Item/6.png';
     }
     update() {
     }
@@ -286,7 +286,7 @@ export class BoardStopGame {
         this.staticUI = {
             board: new StaticUI(
                 game,
-                './Asset/Board/board_4.png',
+                '/Asset/Board/board_4.png',
                 0, 0,
                 this.spriteWidthBoard, this.spriteHeightBoard
             )
@@ -301,7 +301,7 @@ export class BoardStopGame {
             continue: new Button(
                 this.game,
                 this,
-                './Asset/Button/btn_1.png',
+                '/Asset/Button/btn_1.png',
                 this.spriteWidthButton,
                 this.spriteHeightButton,
                 'continue'
@@ -309,7 +309,7 @@ export class BoardStopGame {
             replay: new Button(
                 this.game,
                 this,
-                './Asset/Button/btn_1.png',
+                '/Asset/Button/btn_1.png',
                 this.spriteWidthButton,
                 this.spriteHeightButton,
                 'replay'
@@ -317,7 +317,7 @@ export class BoardStopGame {
             back: new Button(
                 this.game,
                 this,
-                './Asset/Button/btn_1.png',
+                '/Asset/Button/btn_1.png',
                 this.spriteWidthButton,
                 this.spriteHeightButton,
                 'back'
@@ -377,7 +377,7 @@ export class BoardEndWordCollect {
         this.staticUI = {
             board: new StaticUI(
                 game,
-                './Asset/Board/board_4.png',
+                '/Asset/Board/board_4.png',
                 0, 0,
                 this.spriteWidthBoard, this.spriteHeightBoard
             )
@@ -396,7 +396,7 @@ export class BoardEndWordCollect {
             replay: new Button(
                 this.game,
                 this,
-                './Asset/Button/btn_1.png',
+                '/Asset/Button/btn_1.png',
                 this.spriteWidthButton,
                 this.spriteHeightButton,
                 'replay'
@@ -404,7 +404,7 @@ export class BoardEndWordCollect {
             back: new Button(
                 this.game,
                 this,
-                './Asset/Button/btn_1.png',
+                '/Asset/Button/btn_1.png',
                 this.spriteWidthButton,
                 this.spriteHeightButton,
                 'back'
@@ -412,7 +412,7 @@ export class BoardEndWordCollect {
             play: new Button(
                 this.game,
                 this,
-                './Asset/Button/btn_1.png',
+                '/Asset/Button/btn_1.png',
                 this.spriteWidthButton,
                 this.spriteHeightButton,
                 'end_collect_play'
@@ -489,9 +489,9 @@ export class BtnGameState {
         this.width = this.spriteWidth * this.game.scale / 1.3;
         this.height = this.spriteHeight * this.game.scale / 1.3;
         this.imagePause = new Image();
-        this.imagePause.src = './Asset/Button/btn_7p.png';
+        this.imagePause.src = '/Asset/Button/btn_7p.png';
         this.imageStart = new Image();
-        this.imageStart.src = './Asset/Button/btn_7s.png';
+        this.imageStart.src = '/Asset/Button/btn_7s.png';
         this.x = this.game.width - this.width * 1.2;
         this.y = this.height / 4;
     }
