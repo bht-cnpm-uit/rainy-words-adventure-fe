@@ -45,7 +45,8 @@ const ScoreboardManagement = () => {
     useEffect(() => {
         handleFilterData();
         getLearderBoardData();
-    }, [filterSchool, grade, startDate, endDate]);
+    }, []);
+
     const handleFilterData = () => {
         let filter = scoreBoardData;
 

@@ -21,6 +21,7 @@ const DataManagement = () => {
     const [data, setData] = useState([]);
     const [dataFilter, setDataFilter] = useState([]);
     const [updatedWordData, setUpdatedWordData] = useState(null);
+    const [deletedWordId, setDeletedWordId] = useState(null);
 
     const getCombinedData = async () => {
         try {
@@ -47,7 +48,6 @@ const DataManagement = () => {
             alert('Cập nhật thành công!');
             setIsEditModalOpen(false);
             setUpdatedWordData(wordData);
-            // getCombinedData();
         } catch (error) {
             console.error('Error:', error);
         }
@@ -76,7 +76,7 @@ const DataManagement = () => {
             let rowid = [id];
             let respone = await deleteWord(rowid);
             alert('Xóa thành công!');
-            getAllWords();
+            setDeletedWordId(id);
         } catch (error) {
             console.error('Error:', error);
         }
@@ -85,7 +85,19 @@ const DataManagement = () => {
 
     useEffect(() => {
         getCombinedData();
-    });
+    }, [])
+
+    useEffect(() => {
+        if (updatedWordData) {
+            getCombinedData();
+        }
+    }, [updatedWordData]);
+    
+    useEffect(() => {
+        if (deletedWordId) {
+            getCombinedData();
+        }
+    }, [deletedWordId]);
 
     const handleFilter = (text) => {
         let listWordsFilter;
