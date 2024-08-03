@@ -128,7 +128,7 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
 
                         {!selectedTableRank && (
                             <>
-                                <div className="sticky top-0 rounded-tl-lg bg-orange-200 p-4 text-center shadow-lg">
+                                <div className="sticky top-0 z-20 rounded-tl-lg bg-orange-200 p-4 text-center shadow-lg">
                                     <h2 className="text-2xl font-bold text-orange-500">THÀNH TỰU ĐẠT ĐƯỢC</h2>
                                 </div>
 
@@ -142,22 +142,58 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                                 key={item.id}
                                                 className="rounded-lg bg-white p-4 shadow"
                                             >
-                                                <div className="items-baseline text-center font-bold">
+                                                <div className="relative items-baseline text-center font-bold">
                                                     <img
                                                         src={`./Asset/Item/${item.id}.png`}
-                                                        className="mx-auto h-16 mb-3"
+                                                        className={`mx-auto h-16 mb-3 relative ${(item.count >= 500) ? 'opacity-50' : ''}`}
                                                         alt=""
                                                     />
+                                                    {(item.count >= 500)
+                                                        &&
+                                                        <>
+                                                            <svg
+                                                                className='opacity-100 absolute top-0 left-0 w-full h-full z-10 fill-green-600'
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                viewBox="0 0 800 800"
+                                                            >
+                                                                <path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-111 111-47-47c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l64 64c9.4 9.4 24.6 9.4 33.9 0L369 209z" />
+                                                            </svg>
+                                                        </>
+
+                                                    }
                                                     <div className="flex items-center justify-center">
                                                         <ProgressBar
                                                             currentValue={item.count}
                                                             maxValue={500}
                                                         />
-                                                        <span className='text-orange-500' >{item.count}/500</span>
+                                                        <span className='text-orange-500'>{item.count}/500</span>
                                                     </div>
                                                 </div>
+
                                             </div>
                                         ))}
+                                    </div>
+                                    <h3 className="mt-5 text-center mb-4 text-xl font-semibold text-orange-500">
+                                        Huy chương nhận được
+                                    </h3>
+                                    <div className="grid grid-cols-4 gap-4 mx-4">
+                                        {items.map((item) => {
+                                            if (item.count >= 500) {
+                                                return (
+                                                    <div key={item.id} className="rounded-lg bg-orange-100 p-3 shadow">
+                                                        <div className="relative items-baseline text-center font-bold">
+                                                            <img
+                                                                src={`./Asset/Medals/${item.id}.png`}
+                                                                className="mx-auto h-16 mb-3 relative animate-wiggle"
+                                                                alt=""
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                );
+                                            } else {
+                                                return null; // Optionally handle cases where item.count < 500
+                                            }
+                                        })}
                                     </div>
                                 </div>
                             </>
