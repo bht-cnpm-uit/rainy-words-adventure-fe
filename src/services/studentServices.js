@@ -3,11 +3,11 @@ const getAllStudents = () => {
     return instance.get('api/user/get-all-student');
 };
 const getItemsOfStudent = (id) => {
-    return instance.get(`api/item/get-student`, { params: { id: id } });
+    return instance.post(`api/item/get-student`, { id: id });
 };
 
 const getAchivementOfStudent = (id) => {
-    return instance.get(`api/user/get-achievement`, { params: { id: id } });
+    return instance.post(`api/user/get-achievement`, { id: id });
 };
 
 const updateInfo = async (data) => {
@@ -19,7 +19,7 @@ const updateAvatar = async (data) => {
 };
 
 const getStudentInfo = (id) => {
-    return instance.get(`api/user/get-info`, { params: { id: id } });
+    return instance.post(`api/user/get-info`, { id: id });
 }
 
 const handleLogin = (phoneNumber, password) => {
