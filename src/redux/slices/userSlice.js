@@ -4,8 +4,6 @@ const initialState = {
     isLoggedIn: false,
     userInfo: null,
     level: null,
-    avatar: '/assets/Asset/Avt_Frame_cuts/3.png',
-    frame: null,
 };
 
 export const userSlice = createSlice({
@@ -19,7 +17,6 @@ export const userSlice = createSlice({
                 userInfo: null,
                 level: null
             }
-
         },
         login: (state, action) => {
             return {
@@ -27,16 +24,12 @@ export const userSlice = createSlice({
                 isLoggedIn: true,
                 userInfo: action.payload,
                 level: null,
-                avatar: '/assets/Asset/Avt_Frame_cuts/3.png',
-                frame: null,
             };
         },
         logout: () => initialState,
         setAvatar(state, action) {
-            state.avatar = action.payload;
-        },
-        setFrame(state, action) {
-            state.frame = action.payload;
+            state.userInfo.AvatarId = action.payload.AvatarId;
+            state.userInfo.FrameId = action.payload.FrameId;
         },
         setLevel(state, action) {
             return {
@@ -64,6 +57,6 @@ export const userSlice = createSlice({
 const userReducer = userSlice.reducer;
 const userActions = userSlice.actions;
 
-export const { setAvatar, setFrame, setUser, clearUser  } = userSlice.actions;
+export const { setAvatar, setUser, clearUser } = userSlice.actions;
 export default userReducer;
 export { userActions };

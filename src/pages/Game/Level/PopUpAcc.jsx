@@ -1,50 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PopUpUpdateAcc from './PopUpUpdateAcc';
-import { setAvatar, setFrame } from '../../../redux/slices/userSlice';
-import { getAchivementOfStudent, getStudentInfo } from '../../../services/studentServices';
+import { setAvatar } from '../../../redux/slices/userSlice';
+import { getAchivementOfStudent, getStudentInfo, updateAvatar } from '../../../services/studentServices';
 
 const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
     const dispatch = useDispatch();
     const [data, setData] = useState({});
-    const user = useSelector((state) => state.user);
     const [confirmLogOut, setConfirmLogOut] = useState(false);
-    const [isSoundOn, setIsSoundOn] = useState(true);
+    // const [isSoundOn, setIsSoundOn] = useState(true);
     const [isAvatarModalOpen, setAvatarModalOpen] = useState(false);
-    const [isFrameModalOpen, setIsFrameModalOpen] = useState(false);
     const userInfo = useSelector((state) => state.user.userInfo);
     const [achivements, setAchivements] = useState([]);
+    const [avatarInfor, setAvatarInfor] = useState({
+        "AvatarId": userInfo.AvatarId,
+        "FrameId": userInfo.FrameId
+    });
 
-    const avatarOptions = [
-        './Asset/Avatar/1.png',
-        './Asset/Avatar/2.png',
-        './Asset/Avatar/3.png',
-    ];
+    const avatarOptions = [1, 2, 3];
 
-    const [frameOptions, setFrameOptions] = useState([
-        './Asset/FrameAvatar/0.png',
-        './Asset/FrameAvatar/1.png',
-        './Asset/FrameAvatar/2.png',
-    ]);
+    const [frameOptions, setFrameOptions] = useState([0, 1, 2]);
 
     const setFramOptions = () => {
         let newFrameOptions = [...frameOptions];
+        let addedIds = new Set(newFrameOptions.map(option => option.id));
+
         for (let i = 0; i < achivements.length; i++) {
-            if (achivements[i].id === 2 && !newFrameOptions.includes('./Asset/FrameAvatar/3.png')) {
-                newFrameOptions.push('./Asset/FrameAvatar/3.png');
-            }
-            if (achivements[i].id === 3 && !newFrameOptions.includes('./Asset/FrameAvatar/4.png')) {
-                newFrameOptions.push('./Asset/FrameAvatar/4.png');
-            }
-            if (achivements[i].id === 4 && !newFrameOptions.includes('./Asset/FrameAvatar/5.png')) {
-                newFrameOptions.push('./Asset/FrameAvatar/5.png');
-            }
-            if (achivements[i].id === 5 && !newFrameOptions.includes('./Asset/FrameAvatar/6.png')) {
-                newFrameOptions.push('./Asset/FrameAvatar/6.png');
+            let newId = achivements[i].id + 3;
+            if (!addedIds.has(newId)) {
+                newFrameOptions.push(newId);
+                addedIds.add(newId);
             }
         }
         setFrameOptions(newFrameOptions);
     };
+
 
     const handleSetMode = (mode) => {
         setMode(mode);
@@ -70,7 +60,6 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
 
         return `${day}/${month}/${year}`;
     }
-
     useEffect(() => {
         getStudentInfomation(userInfo.id);
         achivementOfStudent(userInfo.id);
@@ -108,24 +97,41 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
         setOpenPopupUpdate(true);
     };
 
-    const toggleSound = () => {
-        setIsSoundOn(!isSoundOn);
-    };
+    // const toggleSound = () => {
+    //     setIsSoundOn(!isSoundOn);
+    // };
 
     const handleAvatarSelection = (avatar) => {
-        dispatch(setAvatar(avatar));
-        setAvatarModalOpen(false);
+        setAvatarInfor(prevState => ({
+            ...prevState,
+            AvatarId: avatar
+        }));
     };
 
     const handleFrameSelection = (frame) => {
-        dispatch(setFrame(frame));
-        setIsFrameModalOpen(false);
+        setAvatarInfor(prevState => ({
+            ...prevState,
+            FrameId: frame
+        }));
     };
 
     const handleUpdateSuccess = () => {
         getStudentInfomation(userInfo.id);
     };
-
+    const handleChangeAvatar = async () => {
+        let res = await updateAvatar({
+            studentId: userInfo.id,
+            AvatarId: avatarInfor.AvatarId,
+            FrameId: avatarInfor.FrameId,
+        })
+        if (res.errCode === "0") {
+            dispatch(setAvatar({
+                AvatarId: avatarInfor.AvatarId,
+                FrameId: avatarInfor.FrameId,
+            }))
+        }
+        setAvatarModalOpen(false)
+    }
     return (
         <div
             id="ModelContainer"
@@ -145,11 +151,11 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
                     </div>
                     <div className="mt-6">
                         <div className="avt flex flex-col items-center">
-                            <div className="relative mx-auto flex h-40 w-40 items-center justify-center rounded-full border-zinc-950">
+                            <div className="relative mx-auto flex h-44 w-44 items-center justify-center rounded-full border-zinc-950">
                                 <div
                                     className="absolute inset-0 rounded-full"
                                     style={{
-                                        backgroundImage: `url(${user.frame})`,
+                                        backgroundImage: `url(./Asset/FrameAvatar/${userInfo.FrameId}.png)`,
                                         backgroundSize: 'cover',
                                         backgroundPosition: 'center',
                                     }}
@@ -157,7 +163,7 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
                                 <div
                                     className="h-36 w-36 rounded-full"
                                     style={{
-                                        backgroundImage: `url(${user.avatar})`,
+                                        backgroundImage: `url(./Asset/Avatar/${userInfo.AvatarId}.png)`,
                                         backgroundSize: 'cover',
                                         backgroundPosition: 'center',
                                     }}
@@ -169,12 +175,7 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
                             >
                                 Chọn ảnh đại diện
                             </button>
-                            <button
-                                onClick={() => setIsFrameModalOpen(true)}
-                                className="mb-4 items-center justify-center rounded bg-amber-600 px-2 py-1 font-bold text-white hover:bg-amber-800"
-                            >
-                                Chọn khung
-                            </button>
+
                         </div>
 
                         <div className="my-2 ml-4 mr-4 mt-4 bg-orange-50">
@@ -248,28 +249,66 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
                         onUpdateSuccess={handleUpdateSuccess}
                     />
                 )}
-
                 {isAvatarModalOpen && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                        <div className="w-1/2 rounded-lg bg-orange-50 p-5 shadow-lg">
-                            <h2 className="mb-4 flex justify-center font-mono text-2xl">
-                                CHỌN ẢNH ĐẠI DIỆN
+                        <div className="w-2/5 rounded-lg bg-orange-50 p-5 shadow-lg">
+                            <div className="relative mx-auto flex h-40 w-40 items-center justify-center rounded-full border-zinc-950">
+                                <div
+                                    className="cursor-pointer absolute inset-0 rounded-full"
+                                    style={{
+                                        backgroundImage: `url(./Asset/FrameAvatar/${avatarInfor.FrameId}.png)`,
+                                        backgroundSize: 'cover',
+                                        backgroundPosition: 'center',
+                                    }}
+                                ></div>
+                                <div
+                                    className="cursor-pointer h-36 w-36 rounded-full"
+                                    style={{
+                                        backgroundImage: `url(./Asset/Avatar/${avatarInfor.AvatarId}.png)`,
+                                        backgroundSize: 'cover',
+                                        backgroundPosition: 'center',
+                                    }}
+                                ></div>
+                            </div>
+                            <h2 className="mb-4 flex font-mono text-2xl text-orange-400">
+                                CHỌN ẢNH
                             </h2>
-                            <div className="flex justify-around">
+                            <div className="flex">
                                 {avatarOptions.map((avatar) => (
                                     <img
                                         key={avatar}
-                                        src={avatar}
+                                        src={`./Asset/Avatar/${avatar}.png`}
                                         alt="Avatar"
-                                        className="h-28 w-28 cursor-pointer rounded-full border-4"
+                                        className={`hover:opacity-100 h-28 mx-5 cursor-pointer rounded-full border-2 ${avatar === avatarInfor.AvatarId ? 'opacity-100' : 'opacity-75'}`}
                                         onClick={() => handleAvatarSelection(avatar)}
                                     />
                                 ))}
                             </div>
+
+                            <h2 className="mt-4 mb-4 flex font-mono text-2xl text-orange-400">CHỌN KHUNG</h2>
+                            < div className="flex overflow-y-auto w-full scrollbar-thin scrollbar-track-orange-200 scrollbar-thumb-orange-400 snap-x" >
+                                {
+                                    frameOptions.map((frame) => (
+                                        <img
+                                            key={frame}
+                                            src={`./Asset/FrameAvatar/${frame}.png`}
+                                            alt="Frame"
+                                            className={`hover:opacity-100 h-28 mx-5 cursor-pointer rounded-full border-none ${frame === avatarInfor.FrameId ? 'opacity-100' : 'opacity-75'}`}
+                                            onClick={() => handleFrameSelection(frame)}
+                                        />
+                                    ))
+                                }
+                            </div>
                             <div className="flex justify-center">
+                                <button
+                                    onClick={() => handleChangeAvatar()}
+                                    className={`mt-4 rounded bg-amber-600 px-6 py-2 mr-3 font-bold text-white hover:bg-amber-800 ${(avatarInfor.FrameId !== userInfo.FrameId || avatarInfor.AvatarId !== userInfo.AvatarId) ? "" : "cursor-not-allowed disabled:opacity-50 disabled:cursor-not-allowed"}`}
+                                >
+                                    Lưu thay đổi
+                                </button>
                                 <button
                                     onClick={() => setAvatarModalOpen(false)}
-                                    className="mt-4 rounded bg-amber-600 px-4 py-2 font-bold text-white hover:bg-amber-800"
+                                    className="mt-4 rounded bg-amber-600 px-6 py-2 ml-3 font-bold text-white hover:bg-amber-800"
                                 >
                                     Đóng
                                 </button>
@@ -277,34 +316,6 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
                         </div>
                     </div>
                 )}
-
-                {isFrameModalOpen && (
-                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                        <div className=" rounded-lg bg-orange-50 p-5 shadow-lg">
-                            <h2 className="mb-4 flex justify-center font-mono text-2xl">CHỌN KHUNG</h2>
-                            <div className="flex justify-around">
-                                {frameOptions.map((frame) => (
-                                    <img
-                                        key={frame}
-                                        src={frame}
-                                        alt="Frame"
-                                        className="h-28 w-28 cursor-pointer rounded-full border-4"
-                                        onClick={() => handleFrameSelection(frame)}
-                                    />
-                                ))}
-                            </div>
-                            <div className="flex justify-center">
-                                <button
-                                    onClick={() => setIsFrameModalOpen(false)}
-                                    className="mt-4 rounded bg-amber-600 px-4 py-2 font-bold text-white hover:bg-amber-800"
-                                >
-                                    Đóng
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                )}
-
                 {confirmLogOut && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                         <div className="rounded-lg border-4 border-yellow-600 bg-white p-6 text-center shadow-lg">
@@ -326,7 +337,7 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
                     </div>
                 )}
             </div>
-        </div>
+        </div >
     );
 };
 

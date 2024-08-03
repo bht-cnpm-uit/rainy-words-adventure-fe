@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { handleSignUp } from '../../services/userServices';
+import { handleSignUp } from '../../services/studentServices';
 import { getAllSchools } from '../../services/schoolServices';
 import { useNavigate } from 'react-router-dom';
 import { Background } from './background';
@@ -27,10 +27,10 @@ const SignUp = (props) => {
                 return 0;
             }
         } catch (error) {
-           
+
         }
         return 0;
-        
+
     }
 
     class Home {
@@ -128,7 +128,7 @@ const SignUp = (props) => {
             resizeCanvas(canvas);
             const context = canvas.getContext('2d');
             const home = new Home(canvas, context, dataSchool);
-            
+
             function animate() {
                 home.draw(context);
                 home.update();
