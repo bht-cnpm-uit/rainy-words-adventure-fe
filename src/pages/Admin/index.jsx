@@ -4,17 +4,25 @@ import SchoolManagement from './SchoolManagement';
 import StudentManagement from './StudentManagement';
 import GameManagement from './GameManagement';
 import ScoreboardManagement from './ScoreboardManagement';
+
+const handleLogOut = () => {
+    window.location.href = '/';
+}
+
+
 const Admin = () => {
-    const [optionManage, setOptionManage] = useState('data')
+    const [optionManage, setOptionManage] = useState('data');
     return (
-        <div className="w-full h-screen flex absolute">
+        <div className="absolute flex h-screen w-full">
             <aside className="w-1/5 bg-gray-100" aria-label="Sidebar">
-                <div className="overflow-y-auto h-full rounded px-4 py-4 dark:bg-gray-800">
+                <div className="h-full overflow-y-auto rounded px-4 py-4 dark:bg-gray-800">
                     <ul className="space-y-6">
                         <li>
                             <button
                                 className="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                                onClick={() => { setOptionManage('data') }}
+                                onClick={() => {
+                                    setOptionManage('data');
+                                }}
                             >
                                 <svg
                                     className="h-6 w-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
@@ -31,7 +39,9 @@ const Admin = () => {
                         <li>
                             <button
                                 className="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                                onClick={() => { setOptionManage('school') }}
+                                onClick={() => {
+                                    setOptionManage('school');
+                                }}
                             >
                                 <svg
                                     className="h-6 w-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
@@ -48,7 +58,9 @@ const Admin = () => {
                         <li>
                             <button
                                 className="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                                onClick={() => { setOptionManage('game') }}
+                                onClick={() => {
+                                    setOptionManage('game');
+                                }}
                             >
                                 <svg
                                     className="h-6 w-6 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
@@ -66,7 +78,9 @@ const Admin = () => {
                         <li>
                             <button
                                 className="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                                onClick={() => { setOptionManage('scoreboard') }}
+                                onClick={() => {
+                                    setOptionManage('scoreboard');
+                                }}
                             >
                                 <svg
                                     className="h-6 w-6 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
@@ -88,7 +102,9 @@ const Admin = () => {
                         <li>
                             <button
                                 className="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                                onClick={() => { setOptionManage('student') }}
+                                onClick={() => {
+                                    setOptionManage('student');
+                                }}
                             >
                                 <svg
                                     className="h-6 w-6 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
@@ -107,25 +123,41 @@ const Admin = () => {
                                 </span>
                             </button>
                         </li>
+                        <li>
+                            <button
+                                className="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                                onClick={handleLogOut}
+                            >
+                                <svg
+                                    className="h-6 w-6 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                                    fill="currentColor"
+                                    viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        fillRule="evenodd"
+                                        d="M6.293 9.293a1 1 0 011.414 0L10 11.586V4a1 1 0 112 0v7.586l2.293-2.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                        clipRule="evenodd"
+                                    ></path>
+                                </svg>
+                                <span className="ml-3 flex-1 whitespace-nowrap">Đăng xuất</span>
+                            </button>
+                        </li>
                     </ul>
                 </div>
             </aside>
             <div className="flex-1">
-                {
-                    (optionManage === 'data') ?
-                        <DataManagement />
-                        :
-                        (optionManage === 'school') ?
-                            <SchoolManagement />
-                            :
-                            (optionManage === 'game') ?
-                                <GameManagement />
-                                :
-                                (optionManage === 'student') ?
-                                    <StudentManagement />
-                                    :
-                                    <ScoreboardManagement />
-                }
+                {optionManage === 'data' ? (
+                    <DataManagement />
+                ) : optionManage === 'school' ? (
+                    <SchoolManagement />
+                ) : optionManage === 'game' ? (
+                    <GameManagement />
+                ) : optionManage === 'student' ? (
+                    <StudentManagement />
+                ) : (
+                    <ScoreboardManagement />
+                )}
             </div>
         </div>
     );
