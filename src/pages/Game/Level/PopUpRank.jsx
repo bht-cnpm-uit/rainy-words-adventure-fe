@@ -144,7 +144,7 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                             >
                                                 <div className="items-baseline text-center font-bold">
                                                     <img
-                                                        src={`./Asset/item/${item.id}.png`}
+                                                        src={`./Asset/Item/${item.id}.png`}
                                                         className="mx-auto h-16 mb-3"
                                                         alt=""
                                                     />
