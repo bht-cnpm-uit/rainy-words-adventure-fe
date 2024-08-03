@@ -141,7 +141,7 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
             <div className="relative w-10/12 rounded-[20px] border-4 border-yellow-600 bg-orange-100 p-2 py-4 shadow-md md:w-1/2 lg:w-1/3">
                 <button
                     onClick={closePopUpAcc}
-                    className="absolute -right-5 -top-6 ml-auto h-10 w-10 bg-[url('./Asset/Button/btn_5.png')] bg-cover"
+                    className="absolute -right-5 -top-6 ml-auto h-10 w-10 bg-[url('/Asset/Button/btn_5.png')] bg-cover"
                 ></button>
                 <div className="relative max-h-[500px] w-full items-center justify-center overflow-y-auto scrollbar-thin scrollbar-track-orange-200 scrollbar-thumb-orange-400">
                     <div className="sticky top-0 rounded-tl-lg bg-orange-200 p-4 text-center shadow-lg z-10">
@@ -155,7 +155,7 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
                                 <div
                                     className="absolute inset-0 rounded-full"
                                     style={{
-                                        backgroundImage: `url(./Asset/FrameAvatar/${userInfo.FrameId}.png)`,
+                                        backgroundImage: `url(/Asset/FrameAvatar/${userInfo.FrameId}.png)`,
                                         backgroundSize: 'cover',
                                         backgroundPosition: 'center',
                                     }}
@@ -163,7 +163,7 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
                                 <div
                                     className="h-36 w-36 rounded-full"
                                     style={{
-                                        backgroundImage: `url(./Asset/Avatar/${userInfo.AvatarId}.png)`,
+                                        backgroundImage: `url(/Asset/Avatar/${userInfo.AvatarId}.png)`,
                                         backgroundSize: 'cover',
                                         backgroundPosition: 'center',
                                     }}
@@ -256,7 +256,7 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
                                 <div
                                     className="cursor-pointer absolute inset-0 rounded-full"
                                     style={{
-                                        backgroundImage: `url(./Asset/FrameAvatar/${avatarInfor.FrameId}.png)`,
+                                        backgroundImage: `url(/Asset/FrameAvatar/${avatarInfor.FrameId}.png)`,
                                         backgroundSize: 'cover',
                                         backgroundPosition: 'center',
                                     }}
@@ -264,7 +264,7 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
                                 <div
                                     className="cursor-pointer h-36 w-36 rounded-full"
                                     style={{
-                                        backgroundImage: `url(./Asset/Avatar/${avatarInfor.AvatarId}.png)`,
+                                        backgroundImage: `url(/Asset/Avatar/${avatarInfor.AvatarId}.png)`,
                                         backgroundSize: 'cover',
                                         backgroundPosition: 'center',
                                     }}
@@ -277,7 +277,7 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
                                 {avatarOptions.map((avatar) => (
                                     <img
                                         key={avatar}
-                                        src={`./Asset/Avatar/${avatar}.png`}
+                                        src={`/Asset/Avatar/${avatar}.png`}
                                         alt="Avatar"
                                         className={`hover:opacity-100 h-28 mx-5 cursor-pointer rounded-full border-2 ${avatar === avatarInfor.AvatarId ? 'opacity-100' : 'opacity-75'}`}
                                         onClick={() => handleAvatarSelection(avatar)}
@@ -291,7 +291,7 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
                                     frameOptions.map((frame) => (
                                         <img
                                             key={frame}
-                                            src={`./Asset/FrameAvatar/${frame}.png`}
+                                            src={`/Asset/FrameAvatar/${frame}.png`}
                                             alt="Frame"
                                             className={`hover:opacity-100 h-28 mx-5 cursor-pointer rounded-full border-none ${frame === avatarInfor.FrameId ? 'opacity-100' : 'opacity-75'}`}
                                             onClick={() => handleFrameSelection(frame)}

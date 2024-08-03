@@ -77,7 +77,7 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
         >
             <div className="relative flex rounded-lg h-3/4 border-4 border-yellow-600 bg-orange-100 p-2 py-5 shadow-md md:w-1/2 lg:w-3/5">
                 <button
-                    className="absolute -right-5 -top-7 h-12 w-12 bg-[url('./Asset/Button/btn_5.png')] bg-cover"
+                    className="absolute -right-5 -top-7 h-12 w-12 bg-[url('/Asset/Button/btn_5.png')] bg-cover"
                     onClick={closePopUpRank}
                 ></button>
                 <div className="left w-1/5 text-center align-middle content-center">
@@ -144,7 +144,7 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                             >
                                                 <div className="relative items-baseline text-center font-bold">
                                                     <img
-                                                        src={`./Asset/Item/${item.id}.png`}
+                                                        src={`/Asset/Item/${item.id}.png`}
                                                         className={`mx-auto h-16 mb-3 relative ${(item.count >= 500) ? 'opacity-50' : ''}`}
                                                         alt=""
                                                     />
@@ -183,7 +183,7 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                                     <div key={item.id} className="rounded-lg bg-orange-100 p-3 shadow">
                                                         <div className="relative items-baseline text-center font-bold">
                                                             <img
-                                                                src={`./Asset/Medals/${item.id}.png`}
+                                                                src={`/Asset/Medals/${item.id}.png`}
                                                                 className="mx-auto h-16 mb-3 relative animate-wiggle"
                                                                 alt=""
                                                             />

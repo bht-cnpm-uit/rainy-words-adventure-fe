@@ -56,7 +56,7 @@ const PopUpInstruc = ({ openPopUp, closePopUp }) => {
             <div className="border-4 border-yellow-600 w-10/12 h-3/5 rounded-lg bg-orange-100 p-2 py-2 shadow-md md:w-1/2 lg:w-1/2 flex flex-col">
                 <div className="relative flex flex-row w-full h-full">
                     <button
-                        className="absolute -right-6 -top-6 h-12 w-12 bg-[url('./Asset/Button/btn_5.png')] bg-cover"
+                        className="absolute -right-6 -top-6 h-12 w-12 bg-[url('/Asset/Button/btn_5.png')] bg-cover"
                         onClick={handleClosePopUpInstr}
                     ></button>
                     <div className="list-none w-1/5 divide-y font-mono text-white ">
