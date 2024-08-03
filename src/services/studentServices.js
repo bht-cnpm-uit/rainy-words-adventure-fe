@@ -18,4 +18,8 @@ const getStudentInfo = (id) => {
     return instance.get(`api/user/get-info/${id}`);
 }
 
-export { getAllStudents, getItemsOfStudent, getAchivementOfStudent, updateInfo, getStudentInfo}                  
+const getListWordsOfStudent = (id) => { 
+    return instance.post('api/student-word/get-all',id );
+}
+
+export { getAllStudents, getItemsOfStudent, getAchivementOfStudent, updateInfo, getStudentInfo, getListWordsOfStudent}                  
