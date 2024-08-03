@@ -133,9 +133,6 @@ const PopUpRank = ({ openPopUpRank, closePopUpRank }) => {
                                 </div>
 
                                 <div className="mt-6">
-                                    {/* <h3 className="mb-4 text-xl font-semibold">
-                                        Số lượng vật phẩm thu thập được:
-                                    </h3> */}
                                     <div className="grid grid-cols-2 gap-4 mx-4">
                                         {items.map((item) => (
                                             <div
