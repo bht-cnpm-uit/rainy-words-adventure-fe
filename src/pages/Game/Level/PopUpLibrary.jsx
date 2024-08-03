@@ -1,38 +1,44 @@
-import React, { useEffect, useState } from 'react';
-import { getAllWords } from '../../../services/wordServices';
-
+import React, {useEffect, useState} from 'react';
+import {getListWordsOfStudent} from '../../../services/studentServices'
+import { useSelector } from 'react-redux';
 
 const PopUpLibrary = ({ openPopUpLib, closePopUpLib }) => {
     const [vocabularyLibrary, setVocabularyLibrary] = useState([]);
-    const [selectedWord, setSelectedWord] = useState([]);
+    const userInfo = useSelector((state) => state.user.userInfo);
 
+    const data = {
+        studentId: userInfo.id,
+    }
 
-    const getWordFromDatabase = async () => {
+    const getListWordOfStudentFromDic = async () =>{
         try {
-            let data = await getAllWords();
-            setVocabularyLibrary(data.listWord);
-            setSelectedWord((data.listWord)[0])
+            let response = await getListWordsOfStudent(data);
+            setVocabularyLibrary(response.listWord);
+            
         } catch (error) {
             console.error('Error fetching words from database:', error);
         }
-    };
+    }
+
+    // const getWordFromDatabase = async () => {
+    //     try {
+    //         let data = await getAllWords();
+    //         setVocabularyLibrary(data.listWord);
+            
+    //     } catch (error) {
+    //         console.error('Error fetching words from database:', error);
+    //     }
+    // };
 
 
     useEffect(() => {
-        getWordFromDatabase();
+        getListWordOfStudentFromDic();
     }, []);
 
-    const handleWordClick = (word) => {
-        setSelectedWord(word);
-    };
     const handleClosePopUp = (e) => {
         if (e.target.id === 'ModelLibraryContainer') {
             closePopUpLib();
         }
-    };
-
-    const handleClosePopUpLib = (e) => {
-        closePopUpLib();
     };
 
     if (!openPopUpLib) return null;
