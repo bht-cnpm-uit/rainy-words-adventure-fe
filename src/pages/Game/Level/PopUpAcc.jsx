@@ -77,6 +77,7 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
     if (!openPopUpAcc) return null;
 
     const handleLogout = () => {
+        dispatch(userActions.logout())
         window.location.href = '/login';
     };
 

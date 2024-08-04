@@ -17,6 +17,9 @@ export const userSlice = createSlice({
             state.level = null;
         },
         logout: () => initialState,
+        setRole: (state, action) => {
+            state.role = action.payload
+        },
         setAvatar: (state, action) => {
             state.userInfo = {
                 ...state.userInfo,

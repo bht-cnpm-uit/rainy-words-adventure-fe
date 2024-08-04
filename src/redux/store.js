@@ -4,33 +4,11 @@ import storage from 'redux-persist/lib/storage';
 import { combineReducers } from 'redux';
 import userReducer from './slices/userSlice';
 
-const localStorageMiddleware = (store) => (next) => (action) => {
-  const result = next(action);
-  const state = store.getState();
-  localStorage.setItem('user', JSON.stringify(state.user));
-
-  return result;
-};
-
-const reHydrateStore = () => {
-  if (localStorage.getItem('user') !== null) {
-    return {
-      user: JSON.parse(localStorage.getItem('user')),
-    };
-  }
-
-  return {
-    user: {
-      isLoggedIn: false,
-      userInfo: null,
-    },
-  };
-};
-
 // Persist config
 const persistConfig = {
   key: 'root',
   storage,
+  whitelist: ['user'],  // Specify which reducers to persist
 };
 
 // Combine reducers
@@ -43,14 +21,13 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 // Create store
 const store = configureStore({
-  reducer: { user: userReducer },
-  preloadedState: reHydrateStore(),
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(localStorageMiddleware),
+    }),
 });
 
 // Create persistor

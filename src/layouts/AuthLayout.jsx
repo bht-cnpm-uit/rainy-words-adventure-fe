@@ -7,25 +7,17 @@ import { userActions } from '../redux/slices/userSlice';
 function AuthLayout({ children }) {
     const location = useLocation();
     const user = useSelector(userSelector);
+    const role = useSelector((state) => state.user.role)
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const authToken = localStorage.getItem('authToken');
-        const userRole = localStorage.getItem('userRole');
-        const isAuthenticated = !!authToken;
-
-        if (!isAuthenticated) {
-            navigate('/login');
-            return;
+        console.log(user, role)
+        if (role === null) {
+            navigate('/login')
         }
-
-        if (location.pathname.startsWith('/admin') && authToken !== 'admin') {
-            localStorage.removeItem('authToken');
-            localStorage.removeItem('userRole');
-            dispatch(userActions.logout());
+        else if (role && role === 'student' && user === null)
             navigate('/login');
-        }
     }, [navigate, location.pathname, user, dispatch]);
 
     return <>{children}</>;

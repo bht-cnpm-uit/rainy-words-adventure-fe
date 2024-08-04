@@ -4,15 +4,17 @@ import SchoolManagement from './SchoolManagement';
 import StudentManagement from './StudentManagement';
 import GameManagement from './GameManagement';
 import ScoreboardManagement from './ScoreboardManagement';
-
-const handleLogOut = () => {
-    if (window.confirm('Bạn có chắc chắn muốn đăng xuất không?')) {
-        window.location.href = '/';
-    }
-}
-
+import { useDispatch } from 'react-redux';
+import { userActions } from '../../redux/slices/userSlice';
 const Admin = () => {
     const [optionManage, setOptionManage] = useState('data');
+    const dispatch = useDispatch();
+    const handleLogOut = () => {
+        if (window.confirm('Bạn có chắc chắn muốn đăng xuất không?')) {
+            dispatch(userActions.logout())
+            window.location.href = '/';
+        }
+    }
     return (
         <div className="absolute flex h-screen w-full">
             <aside className="w-1/5 bg-gray-100" aria-label="Sidebar">

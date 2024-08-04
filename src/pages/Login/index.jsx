@@ -18,10 +18,10 @@ const Login = (props) => {
             }
             else if ((data && data.errCode === 0) || data.isAdmin) {
                 if (data.isAdmin) {
-                    localStorage.setItem('authToken', 'admin');
+                    dispatch(userActions.setRole('admin'))
                     window.location.href = '/admin';
                 } else {
-                    localStorage.setItem('authToken', 'user');
+                    dispatch(userActions.setRole('student'))
                     dispatch(userActions.login(data.student));
                     window.location.href = '/level';
                 }
