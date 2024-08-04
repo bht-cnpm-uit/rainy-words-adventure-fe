@@ -1,17 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
-import { Fragment } from 'react';
 import { getLeaderboard } from '../../../services/gameServices';
 
 const ScoreboardManagement = () => {
-    const FilterType = {
-        0: 'Tất cả',
-        1: 'Tên',
-        2: 'Trường',
-        3: 'Khối',
-    };
-
     const [scoreboard, setScoreboard] = useState([]);
+    const [isOpenModelImportData, setIsOpenModelImportData] = useState(false);
+    const [isOpenDropdownSchool, setIsOpenDropdownSchool] = useState(false);
+    const [isOpenDropdownGrade, setIsOpenDropdownGrade] = useState(false);
+    const [filterSchool, setFilterSchool] = useState('Tất cả');
+    const [filterGrade, setFilterGrade] = useState('Tất cả');
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
+    const [schoolFilter, setSchoolFilter] = useState([]);
+    const [grade, setGrade] = useState([]);
+    const [scoreBoardData, setScoreBoardData] = useState([]);
+    const [filterScoreBoardData, setFilterScoreBoardData] = useState([]);
+
+    useEffect(() => {
+        getLearderBoardData();
+    }, []);
+
+    useEffect(() => {
+        handleFilterData();
+    }, [filterSchool, filterGrade, startDate, endDate]);
 
     const getLearderBoardData = async () => {
         try {
@@ -24,28 +35,7 @@ const ScoreboardManagement = () => {
         } catch (error) {
             console.error('Error:', error);
         }
-        return 0;
     };
-
-    const [isOpenModelImportData, setIsOpenModelImportData] = useState(false);
-    const [isOpenDropdownSchool, setIsOpenDropdownSchool] = useState(false);
-    const [isOpenDropdownGrade, setIsOpenDropdownGrade] = useState(false);
-    const [filterSchool, setFilterSchool] = useState('Tất cả');
-    const [filterGrade, setFilterGrade] = useState('Tất cả');
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
-
-    // const [school, setSchool] = useState(schools);
-    const [schoolFilter, setSchoolFilter] = useState([]);
-    // const grades = [...new Set(scoreboard.map(entry => entry.Grade))];
-    const [grade, setGrade] = useState([]);
-    const [scoreBoardData, setScoreBoardData] = useState([]);
-    const [filterScoreBoardData, setFilterScoreBoardData] = useState([]);
-
-    useEffect(() => {
-        handleFilterData();
-        getLearderBoardData();
-    }, []);
 
     const handleFilterData = () => {
         let filter = scoreBoardData;
@@ -58,7 +48,6 @@ const ScoreboardManagement = () => {
             filter = filter.filter((row) => row.Grade === filterGrade);
         }
 
-        // Parse start date if it exists
         let parsedStartDate = null;
         if (startDate) {
             parsedStartDate = new Date(startDate);
@@ -73,8 +62,18 @@ const ScoreboardManagement = () => {
 
         if (parsedStartDate && parsedEndDate) {
             filter = filter.filter((row) => {
-                const rowDate = new Date(row.time);
+                const rowDate = new Date(row.LastTime);
                 return rowDate >= parsedStartDate && rowDate <= parsedEndDate;
+            });
+        } else if (parsedStartDate) {
+            filter = filter.filter((row) => {
+                const rowDate = new Date(row.LastTime);
+                return rowDate >= parsedStartDate;
+            });
+        } else if (parsedEndDate) {
+            filter = filter.filter((row) => {
+                const rowDate = new Date(row.LastTime);
+                return rowDate <= parsedEndDate;
             });
         }
 
@@ -87,7 +86,7 @@ const ScoreboardManagement = () => {
                 columns={[
                     {
                         name: 'STT',
-                        selector:  (row, index) => index + 1,
+                        selector: (row, index) => index + 1,
                         sortable: true,
                         width: '10%',
                     },

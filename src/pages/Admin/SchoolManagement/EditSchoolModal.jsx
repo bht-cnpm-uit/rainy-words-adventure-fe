@@ -32,6 +32,7 @@ const EditSchoolModal = ({ isOpen, school, onClose, onSubmit }) => {
                     <input
                         type="text"
                         name="schoolId"
+                        disabled
                         value={updatedSchool.schoolId}
                         onChange={handleChange}
                         className="w-full border p-2"

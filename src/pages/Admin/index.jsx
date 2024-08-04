@@ -6,9 +6,10 @@ import GameManagement from './GameManagement';
 import ScoreboardManagement from './ScoreboardManagement';
 
 const handleLogOut = () => {
-    window.location.href = '/';
+    if (window.confirm('Bạn có chắc chắn muốn đăng xuất không?')) {
+        window.location.href = '/';
+    }
 }
-
 
 const Admin = () => {
     const [optionManage, setOptionManage] = useState('data');
