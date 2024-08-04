@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
 import { getLeaderboard } from '../../../services/gameServices';
+import * as XLSX from 'xlsx';
 
 const ScoreboardManagement = () => {
     const [scoreboard, setScoreboard] = useState([]);
@@ -78,6 +79,23 @@ const ScoreboardManagement = () => {
         }
 
         setFilterScoreBoardData(filter);
+    };
+
+    const exportToExcel = () => {
+        // Tạo một bản sao của dữ liệu với cột STT
+        const dataToExport = filterScoreBoardData.map((item, index) => ({
+            STT: index + 1,
+            Name: item.Name,
+            School: item.School,
+            Grade: item.Grade,
+            Score: item.Score,
+            LastTime: new Date(item.LastTime).toLocaleDateString('en-GB')
+        }));
+
+        const worksheet = XLSX.utils.json_to_sheet(dataToExport);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Bảng xếp hạng");
+        XLSX.writeFile(workbook, "scoreboard.xlsx");
     };
 
     return (
@@ -262,7 +280,7 @@ const ScoreboardManagement = () => {
                         </div>
                         <button
                             className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
-                            onClick={() => setIsOpenModelImportData(!isOpenModelImportData)}
+                            onClick={exportToExcel}
                         >
                             <p>Xuất dữ liệu</p>
                         </button>
