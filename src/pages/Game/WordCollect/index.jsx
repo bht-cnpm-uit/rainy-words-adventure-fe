@@ -124,7 +124,7 @@ const WordCollect = (props) => {
                         this.boardEndWordCollect.buttons.play.onClickButton('end_collect_play');
                         return;
                     }
-                } else if (this.gameState === 'win') {
+                } else if (this.gameState === 'Loss') {
                     if (this.isMouseOverButton(mouseX - this.boardEndWordCollect.translateX, mouseY - this.boardEndWordCollect.translateY, this.boardEndWordCollect.buttons.replay)) {
                         this.boardEndWordCollect.buttons.play.onClickButton('replay');
                         return;
@@ -159,7 +159,7 @@ const WordCollect = (props) => {
                     if (this.isMouseOverButton(mouseX - this.boardEndWordCollect.translateX, mouseY - this.boardEndWordCollect.translateY, this.boardEndWordCollect.buttons.play)) {
                         cursorStyle = 'pointer';
                     }
-                } else if (this.gameState === 'win') {
+                } else if (this.gameState === 'Loss') {
                     if (this.isMouseOverButton(mouseX - this.boardEndWordCollect.translateX, mouseY - this.boardEndWordCollect.translateY, this.boardEndWordCollect.buttons.replay)) {
                         cursorStyle = 'pointer';
                     } else if (this.isMouseOverButton(mouseX - this.boardEndWordCollect.translateX, mouseY - this.boardEndWordCollect.translateY, this.boardEndWordCollect.buttons.back)) {

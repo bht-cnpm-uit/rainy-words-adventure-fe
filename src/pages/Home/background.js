@@ -126,8 +126,8 @@ class LogoBar {
 
         this.spriteWidthTruong = 200;
         this.spriteHeightTruong = 161;
-        this.widthTruong = this.spriteWidthTruong * this.game.scale / 1.2;
-        this.heightTruong = this.spriteHeightTruong * this.game.scale / 1.2;
+        this.widthTruong = this.spriteWidthTruong * this.game.scale / 1.195;
+        this.heightTruong = this.spriteHeightTruong * this.game.scale / 1.195;
 
         this.spriteWidthBan = 100;
         this.spriteHeightBan = 100;
@@ -159,24 +159,21 @@ class LogoBar {
             this.game.width / 2, (this.maxHeight - this.heightDoan) / 2, this.widthDoan, this.heightDoan);
         context.drawImage(this.img_logo_doi,
             0, 0, this.spriteWidthDoi, this.spriteHeightDoi,
-            this.game.width / 2 + this.widthDoan, (this.maxHeight - this.heightDoi) / 2, this.widthDoi, this.heightDoi);
-        context.font = this.game.scale * 23 + 'px Arial';
+            this.game.width / 2 + this.widthDoan * 1.2, (this.maxHeight - this.heightDoi) / 2, this.widthDoi, this.heightDoi);
+        context.font = 'bold ' + this.game.scale * 23 + 'px Arial';
         context.textAlign = 'center';
         context.textBaseline = 'middle';
-        context.fillText("THÀNH PHỐ THỦ ĐỨC", this.game.width / 2 + this.widthDoan / 2 + this.widthDoi / 2, this.maxHeight * 1.1, (this.widthDoan + this.widthDoi) / 1.1);
+        context.fillText("THÀNH PHỐ THỦ ĐỨC", this.game.width / 2 + this.widthDoan * 1.2 / 2 + this.widthDoi / 2, this.maxHeight * 1.1, (this.widthDoan * 1.2 + this.widthDoi) / 1.1);
 
         context.drawImage(this.img_logo_truong,
             0, 0, this.spriteWidthTruong, this.spriteHeightTruong,
-            this.game.width / 2 + (this.widthDoan + this.widthDoi) * 1.2, (this.maxHeight - this.heightTruong) / 2, this.widthTruong, this.heightTruong);
+            this.game.width / 2 + (this.widthDoan * 1.2 + this.widthDoi) * 1.5, (this.maxHeight - this.heightTruong) / 2, this.widthTruong, this.heightTruong);
         context.drawImage(this.img_logo_doan,
             0, 0, this.spriteWidthDoan, this.spriteHeightDoan,
-            this.game.width / 2 + (this.widthDoan + this.widthDoi) * 1.2 + this.widthTruong, (this.maxHeight - this.heightDoan) / 2, this.widthDoan, this.heightDoan);
-        context.drawImage(this.img_logo_doi,
-            0, 0, this.spriteWidthDoi, this.spriteHeightDoi,
-            this.game.width / 2 + (this.widthDoan + this.widthDoi) * 1.2 + this.widthDoan + this.widthTruong, (this.maxHeight - this.heightDoi) / 2, this.widthDoi, this.heightDoi);
+            this.game.width / 2 + (this.widthDoan * 1.2 + this.widthDoi) * 1.5 + this.widthTruong * 1.2, (this.maxHeight - this.heightDoan) / 2, this.widthDoan, this.heightDoan);
 
         context.fillText("TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN",
-            this.game.width / 2 + (this.widthDoan + this.widthDoi) * 1.2 + (this.widthDoan + this.widthDoi + this.widthTruong) / 2,
+            this.game.width / 2 + (this.widthDoan * 1.2 + this.widthDoi) * 1.5 + (this.widthDoan + this.widthTruong * 1.2) / 2,
             this.maxHeight * 1.1);
 
         // made by.
@@ -196,8 +193,9 @@ class LogoBar {
         this.widthDoi = this.spriteWidthDoi * this.game.scale / 1.1;
         this.heightDoi = this.spriteHeightDoi * this.game.scale / 1.1;
 
-        this.widthTruong = this.spriteWidthTruong * this.game.scale / 1.5;
-        this.heightTruong = this.spriteHeightTruong * this.game.scale / 1.5;
+        this.widthTruong = this.spriteWidthTruong * this.game.scale / 1.195;
+        this.heightTruong = this.spriteHeightTruong * this.game.scale / 1.195;
+
         this.widthBan = this.spriteWidthBan * this.game.scale / 1.1;
         this.heightBan = this.spriteHeightBan * this.game.scale / 1.1;
         this.maxHeight = Math.max(

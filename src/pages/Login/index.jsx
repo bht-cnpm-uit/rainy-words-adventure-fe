@@ -16,7 +16,7 @@ const Login = (props) => {
             if (data === undefined || data.errCode === 1) {
                 alert('Tên đăng nhập hoặc mật khẩu không đúng !!!');
             }
-            else if (data && data.errCode === 0) {
+            else if ((data && data.errCode === 0) || data.isAdmin) {
                 if (data.isAdmin) {
                     localStorage.setItem('authToken', 'admin');
                     window.location.href = '/admin';
@@ -28,7 +28,6 @@ const Login = (props) => {
             }
         } catch (error) {
             alert('Tên đăng nhập hoặc mật khẩu không đúng !!!');
-            // console.error('Error during login:', error);
         }
         return 0;
     }
