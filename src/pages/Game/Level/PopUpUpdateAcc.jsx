@@ -58,8 +58,8 @@ const PopUpUpdateAcc = ({ openPopUpUpdate, closePopUpUpdate, student, onUpdateSu
             if (response.errCode !== '0') alert('Mật khẩu sai!');
             else {
                 alert('Cập nhật thành công!');
+                onUpdateSuccess(updateData);
                 closePopUpUpdate();
-                onUpdateSuccess();
             }
         } catch (error) {
             alert('Sai mật khẩu!');

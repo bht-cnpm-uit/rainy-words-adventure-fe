@@ -13,7 +13,10 @@ const Login = (props) => {
     async function handleSubmitLogin(values) {
         try {
             let data = await handleLogin(values.phoneNumber, values.password)
-            if (data) {
+            if (data === undefined || data.errCode === 1) {
+                alert('Tên đăng nhập hoặc mật khẩu không đúng !!!');
+            }
+            else if (data && data.errCode === 0) {
                 if (data.isAdmin) {
                     localStorage.setItem('authToken', 'admin');
                     window.location.href = '/admin';

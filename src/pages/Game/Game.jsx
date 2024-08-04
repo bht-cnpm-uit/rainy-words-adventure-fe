@@ -4,6 +4,7 @@ import WordChain from "./WordChain";
 import Result from "../Game/Result";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { createNewGame, saveGame } from "../../services/gameServices";
+import { updateLibrary } from "../../services/studentServices";
 
 const Game = () => {
     const location = useLocation();
@@ -86,6 +87,10 @@ const Game = () => {
                     itemsGetCup: res.itemsGetCup,
                 });
                 setGameSaved(true); // Set gameSaved to true after successful save
+                if (res.isPassLevel) {
+                    const listID = listWordChain.map(item => item.id);
+                    await updateLibrary(data.studentId, listID)
+                }
             }
         } catch (error) {
             console.error("Failed to save game:", error);

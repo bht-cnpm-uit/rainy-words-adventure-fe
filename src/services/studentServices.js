@@ -28,6 +28,10 @@ const handleLogin = (phoneNumber, password) => {
 const handleSignUp = (dataSignUp) => {
     return instance.post('api/user/signup', dataSignUp)
 }
+
+const updateLibrary = (id, listId) => {
+    return instance.post('api/student-word/create', { studentId: id, listWordId: listId })
+}
 const getListWordsOfStudent = (id) => {
     return instance.post('api/student-word/get-all', id);
 }
@@ -41,6 +45,7 @@ export {
     handleLogin,
     handleSignUp,
     updateAvatar,
-    getListWordsOfStudent
+    getListWordsOfStudent,
+    updateLibrary
 };
 

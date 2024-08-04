@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { userSelector } from '../redux/selectors';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
-import { clearUser } from '../redux/slices/userSlice';
+import { userActions } from '../redux/slices/userSlice';
 
 function AuthLayout({ children }) {
     const location = useLocation();
@@ -23,7 +23,7 @@ function AuthLayout({ children }) {
         if (location.pathname.startsWith('/admin') && authToken !== 'admin') {
             localStorage.removeItem('authToken');
             localStorage.removeItem('userRole');
-            dispatch(clearUser());
+            dispatch(userActions.logout());
             navigate('/login');
         }
     }, [navigate, location.pathname, user, dispatch]);

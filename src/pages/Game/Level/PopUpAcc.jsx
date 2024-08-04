@@ -1,21 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PopUpUpdateAcc from './PopUpUpdateAcc';
-import { setAvatar } from '../../../redux/slices/userSlice';
-import { getAchivementOfStudent, getStudentInfo, updateAvatar } from '../../../services/studentServices';
+import { getAchivementOfStudent, updateAvatar } from '../../../services/studentServices';
+import { userActions } from '../../../redux/slices/userSlice';
 
 const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
     const dispatch = useDispatch();
-    const [data, setData] = useState({});
     const [confirmLogOut, setConfirmLogOut] = useState(false);
     // const [isSoundOn, setIsSoundOn] = useState(true);
     const [isAvatarModalOpen, setAvatarModalOpen] = useState(false);
-    const userInfo = useSelector((state) => state.user.userInfo);
+    let userInfo = useSelector((state) => state.user.userInfo);
+    const [data, setData] = useState(userInfo);
     const [achivements, setAchivements] = useState([]);
-    const [avatarInfor, setAvatarInfor] = useState({
-        "AvatarId": userInfo.AvatarId,
-        "FrameId": userInfo.FrameId
-    });
 
     const avatarOptions = [0, 1, 2];
 
@@ -61,15 +57,9 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
         return `${day}/${month}/${year}`;
     }
     useEffect(() => {
-        getStudentInfomation(userInfo.id);
         achivementOfStudent(userInfo.id);
         setFramOptions();
     }, []);
-
-    const getStudentInfomation = async (studentId) => {
-        let response = await getStudentInfo(studentId);
-        setData(response.student);
-    };
 
     const achivementOfStudent = async (studentId) => {
         let response = await getAchivementOfStudent(studentId);
@@ -100,37 +90,52 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
     // const toggleSound = () => {
     //     setIsSoundOn(!isSoundOn);
     // };
-
+    useEffect(() => {
+        if (userInfo !== data) {
+            userInfo = useSelector((state) => state.user.userInfo);
+        }
+    }, data)
     const handleAvatarSelection = (avatar) => {
-        setAvatarInfor(prevState => ({
+        setData(prevState => ({
             ...prevState,
             AvatarId: avatar
         }));
     };
 
     const handleFrameSelection = (frame) => {
-        setAvatarInfor(prevState => ({
+        setData(prevState => ({
             ...prevState,
             FrameId: frame
         }));
     };
 
-    const handleUpdateSuccess = () => {
-        getStudentInfomation(userInfo.id);
-    };
     const handleChangeAvatar = async () => {
         let res = await updateAvatar({
             studentId: userInfo.id,
-            AvatarId: avatarInfor.AvatarId,
-            FrameId: avatarInfor.FrameId,
+            AvatarId: data.AvatarId,
+            FrameId: data.FrameId,
         })
         if (res.errCode === "0") {
-            dispatch(setAvatar({
-                AvatarId: avatarInfor.AvatarId,
-                FrameId: avatarInfor.FrameId,
+            dispatch(userActions.setAvatar({
+                AvatarId: data.AvatarId,
+                FrameId: data.FrameId,
             }))
         }
         setAvatarModalOpen(false)
+    }
+    const handleUpdateSuccess = (updateData) => {
+        setData({
+            ...data,
+            birthday: updateData.birthday,
+            name: updateData.name,
+            grade: updateData.grade,
+        })
+        dispatch(userActions.updateInfo({
+            ...data,
+            birthday: updateData.birthday,
+            name: updateData.name,
+            grade: updateData.grade,
+        }));
     }
     return (
         <div
@@ -256,7 +261,7 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
                                 <div
                                     className="cursor-pointer absolute inset-0 rounded-full"
                                     style={{
-                                        backgroundImage: `url(/Asset/FrameAvatar/${avatarInfor.FrameId}.png)`,
+                                        backgroundImage: `url(/Asset/FrameAvatar/${data.FrameId}.png)`,
                                         backgroundSize: 'cover',
                                         backgroundPosition: 'center',
                                     }}
@@ -264,7 +269,7 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
                                 <div
                                     className="cursor-pointer h-36 w-36 rounded-full"
                                     style={{
-                                        backgroundImage: `url(/Asset/Avatar/${avatarInfor.AvatarId}.png)`,
+                                        backgroundImage: `url(/Asset/Avatar/${data.AvatarId}.png)`,
                                         backgroundSize: 'cover',
                                         backgroundPosition: 'center',
                                     }}
@@ -273,13 +278,13 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
                             <h2 className="mb-4 flex font-mono text-2xl text-orange-400">
                                 CHỌN ẢNH
                             </h2>
-                            <div className="flex">
+                            <div className="flex overflow-y-auto w-full scrollbar-thin scrollbar-track-orange-200 scrollbar-thumb-orange-400 snap-x">
                                 {avatarOptions.map((avatar) => (
                                     <img
                                         key={avatar}
                                         src={`/Asset/Avatar/${avatar}.png`}
                                         alt="Avatar"
-                                        className={`hover:opacity-100 h-28 mx-5 cursor-pointer rounded-full border-2 ${avatar === avatarInfor.AvatarId ? 'opacity-100' : 'opacity-75'}`}
+                                        className={`hover:opacity-100 h-28 mx-5 cursor-pointer rounded-full border-2 ${avatar === data.AvatarId ? 'opacity-100' : 'opacity-75'}`}
                                         onClick={() => handleAvatarSelection(avatar)}
                                     />
                                 ))}
@@ -293,7 +298,7 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
                                             key={frame}
                                             src={`/Asset/FrameAvatar/${frame}.png`}
                                             alt="Frame"
-                                            className={`hover:opacity-100 h-28 mx-5 cursor-pointer rounded-full border-none ${frame === avatarInfor.FrameId ? 'opacity-100' : 'opacity-75'}`}
+                                            className={`hover:opacity-100 h-28 mx-5 cursor-pointer rounded-full border-none ${frame === data.FrameId ? 'opacity-100' : 'opacity-75'}`}
                                             onClick={() => handleFrameSelection(frame)}
                                         />
                                     ))
@@ -302,7 +307,7 @@ const PopUpAcc = ({ openPopUpAcc, closePopUpAcc, mode, setMode }) => {
                             <div className="flex justify-center">
                                 <button
                                     onClick={() => handleChangeAvatar()}
-                                    className={`mt-4 rounded bg-amber-600 px-6 py-2 mr-3 font-bold text-white hover:bg-amber-800 ${(avatarInfor.FrameId !== userInfo.FrameId || avatarInfor.AvatarId !== userInfo.AvatarId) ? "" : "cursor-not-allowed disabled:opacity-50 disabled:cursor-not-allowed"}`}
+                                    className={`mt-4 rounded bg-amber-600 px-6 py-2 mr-3 font-bold text-white hover:bg-amber-800 ${(data.FrameId !== userInfo.FrameId || data.AvatarId !== userInfo.AvatarId) ? "" : "cursor-not-allowed disabled:opacity-50 disabled:cursor-not-allowed"}`}
                                 >
                                     Lưu thay đổi
                                 </button>

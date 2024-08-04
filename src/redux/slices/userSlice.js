@@ -4,38 +4,31 @@ const initialState = {
     isLoggedIn: false,
     userInfo: null,
     level: null,
+    role: null,
 };
 
 export const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        signIn: (state, action) => {
-            return {
-                ...state,
-                isLoggedIn: false,
-                userInfo: null,
-                level: null
-            }
-        },
         login: (state, action) => {
-            return {
-                ...state,
-                isLoggedIn: true,
-                userInfo: action.payload,
-                level: null,
-            };
+            state.isLoggedIn = true;
+            state.userInfo = action.payload;
+            state.level = null;
         },
         logout: () => initialState,
-        setAvatar(state, action) {
-            state.userInfo.AvatarId = action.payload.AvatarId;
-            state.userInfo.FrameId = action.payload.FrameId;
+        setAvatar: (state, action) => {
+            state.userInfo = {
+                ...state.userInfo,
+                AvatarId: action.payload.AvatarId,
+                FrameId: action.payload.FrameId,
+            };
         },
-        setLevel(state, action) {
-            return {
-                ...state,
-                level: action.payload
-            }
+        updateInfo: (state, action) => {
+            state.userInfo = action.payload;
+        },
+        setLevel: (state, action) => {
+            state.level = action.payload;
         },
         update: (state, action) => {
             return { ...state, ...action.payload };
@@ -57,6 +50,5 @@ export const userSlice = createSlice({
 const userReducer = userSlice.reducer;
 const userActions = userSlice.actions;
 
-export const { setAvatar, setUser, clearUser } = userSlice.actions;
 export default userReducer;
 export { userActions };
