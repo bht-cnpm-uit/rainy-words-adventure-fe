@@ -12,6 +12,7 @@ const Game = () => {
     const [typegame, setTypegame] = useState('word-collect');
     const [listwordcollect, setlistwordcollect] = useState([]);
     const [listWordChain, setListWordChain] = useState([]);
+    const [listLevel, setListLevel] = useState([]);
     const [diffLevel, setDiffLevel] = useState(0);
     const [listIdBonusItem, setListIdBonusItem] = useState([1, 2, 3]);
     const [result, setResult] = useState({
@@ -31,11 +32,18 @@ const Game = () => {
     const [startTime, setStartTime] = useState(null);
     const [gameSaved, setGameSaved] = useState(false);
     const [resSaveGame, setResSaveGame] = useState();
-
+    const checkUnlockLevel = (levelId) => {
+        let levelCurrent = Math.floor(levelId / 3);
+        if (listLevel[levelCurrent + 1]['state']) {
+            return null
+        }
+        else return listLevel[levelCurrent + 1];
+    }
     useEffect(() => {
         const getAllWords = async () => {
             const state = location.state || {};
             if (state.level !== undefined && state.diff !== undefined) {
+                setListLevel(state.listLevels);
                 setDataSaveGame(prevData => ({
                     ...prevData,
                     levelId: state.level,
@@ -80,8 +88,10 @@ const Game = () => {
         try {
             const res = await saveGame(data);
             if (res.errCode === 0) {
+                let newLevel = checkUnlockLevel(res.game.levelId)
                 setResSaveGame({
                     isPassLevel: res.isPassLevel,
+                    newLevel: newLevel,
                     listAchievement: res.listAchievement,
                     levelId: res.game.levelId,
                     itemsGetCup: res.itemsGetCup,
@@ -138,7 +148,7 @@ const Game = () => {
         );
     } else if (typegame === 'end-game') {
         if (gameSaved) {
-            gameComponent = <Result result={result} elapsedtime={timer} ressavegame={resSaveGame} />;
+            gameComponent = <Result result={result} diffLevel={diffLevel} elapsedtime={timer} ressavegame={resSaveGame} />;
         }
     } else {
         gameComponent = null;

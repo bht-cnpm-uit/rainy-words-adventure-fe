@@ -85,13 +85,6 @@ const Level = props => {
             this.canvas.addEventListener('click', this.onClick.bind(this));
             window.addEventListener('resize', this.onResize.bind(this));
         }
-        checkUnlockLevel(levelId) {
-            let levelCurrent = Math.floor(levelId / 3); 13
-            if (this.level[levelCurrent + 1]['state']) {
-                return null
-            }
-            else return this.level[levelCurrent + 1];
-        }
         updateMode(mode) {
             this.mode = mode
         }
@@ -100,7 +93,7 @@ const Level = props => {
             let score = lv.levelScore;
             let init_level = JSON.parse(JSON.stringify(LEVEL));
             init_level.forEach((item, idx) => {
-                item["state"] = level[0][idx] || idx === 0 || level[0][idx - 1] ? 1 : 0;
+                item["state"] = (level[0][idx] || idx === 0 || level[0][idx - 1]) ? 1 : 0;
                 item['difficulty_level'] = [level[0][idx], level[1][idx], level[2][idx]]
                 item['score'] = [score[0][idx].score === undefined ? 0 : score[0][idx].score, score[1][idx].score === undefined ? 0 : score[1][idx].score, score[2][idx].score === undefined ? 0 : score[2][idx].score]
                 if (!this.player.currentLevel) {
@@ -201,7 +194,8 @@ const Level = props => {
                         state: {
                             studentId: userInfor.id,
                             level: (this.levelSetting.currentLevel.level - 1) * 3 + this.levelSetting.currentDiffLevel + 1,
-                            diff: this.levelSetting.currentDiffLevel
+                            diff: this.levelSetting.currentDiffLevel,
+                            listLevels: this.level
                         }
                     });
                 }
@@ -339,29 +333,12 @@ const Level = props => {
         }
     }, [mode])
     useEffect(() => {
-        const getLevel = async () => {
-            let dataLevel = await getCurrentLevelUser(userInfor.id);
-            let levelMatrix = dataLevel.levelMatrix;
-            let levelScore = dataLevel.scoreTimeMatrix;
-            let lv = {
-                levelInfor: levelMatrix,
-                levelScore: levelScore
-            }
-            setLevel(lv);
-            mainScreenRef.current.setLevel(lv);
-            dispatch(userActions.setLevel(lv));
-        };
-        getLevel();
-    }, [])
-
-    useEffect(() => {
         const state = location.state || {};
         if (state) {
             let flag = 0
             if (state.isPassLevel) {
-                let levelUnlock = mainScreenRef.current.checkUnlockLevel(state.levelId);
-                if (levelUnlock) {
-                    setNextLevel(levelUnlock);
+                if (state.newLevel) {
+                    setNextLevel(state.newLevel);
                     flag = 1;
                     setCongratType('next-level');
                 }
@@ -379,6 +356,24 @@ const Level = props => {
             }
         }
     }, [navigate])
+    useEffect(() => {
+        const getLevel = async () => {
+            console.log(userInfor)
+            let dataLevel = await getCurrentLevelUser(userInfor.id);
+            let levelMatrix = dataLevel.levelMatrix;
+            let levelScore = dataLevel.scoreTimeMatrix;
+            console.log(levelMatrix)
+            let lv = {
+                levelInfor: levelMatrix,
+                levelScore: levelScore
+            }
+            setLevel(lv);
+            mainScreenRef.current.setLevel(lv);
+            dispatch(userActions.setLevel(lv));
+        };
+        getLevel();
+    }, [])
+
     return (
         <div>
             <canvas id='responsive-canvas' ref={canvasRef} {...props}></canvas>

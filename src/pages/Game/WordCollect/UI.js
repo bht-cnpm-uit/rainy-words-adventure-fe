@@ -82,7 +82,7 @@ export class BonusItems {
         // Draw first bonus item
         let firstItem = this.game.listBonusItem[0] - 1;
         if (this.noBonusItems[firstItem]) {
-            context.fillText(`x ${this.noBonusItems[firstItem]}`, this.x + 20, this.y + this.spriteHeight * this.game.scale * 1.1 + this.spriteShapeBonusItems[firstItem][1] * this.game.scale / 1.5);
+            context.fillText(`x${this.noBonusItems[firstItem]}`, this.x + 20, this.y + this.spriteHeight * this.game.scale * 1.1 + this.spriteShapeBonusItems[firstItem][1] * this.game.scale / 1.5);
             context.drawImage(this.imagebonus0, this.x + 60, this.y + this.spriteHeight * this.game.scale * 1.1, this.spriteShapeBonusItems[firstItem][0] * this.game.scale / 1.5, this.spriteShapeBonusItems[firstItem][1] * this.game.scale / 1.5);
         }
 
@@ -90,7 +90,7 @@ export class BonusItems {
         if (this.noBonusItems[firstItem + 1]) {
             let yOffset = (this.noBonusItems[firstItem] > 0) ? 1.1 : 0;
             let y = this.y + yOffset * this.spriteHeight * this.game.scale * 1.1 + this.spriteHeight * this.game.scale * 1.1;
-            context.fillText(`x ${this.noBonusItems[firstItem + 1]}`, this.x + 20, y + this.spriteShapeBonusItems[firstItem + 1][1] * this.game.scale / 1.5);
+            context.fillText(`x${this.noBonusItems[firstItem + 1]}`, this.x + 20, y + this.spriteShapeBonusItems[firstItem + 1][1] * this.game.scale / 1.5);
             context.drawImage(this.imagebonus1, this.x + 60, y, this.spriteShapeBonusItems[firstItem + 1][0] * this.game.scale / 1.5, this.spriteShapeBonusItems[firstItem + 1][1] * this.game.scale / 1.5);
         }
 
@@ -99,7 +99,7 @@ export class BonusItems {
             let yOffset0 = (this.noBonusItems[firstItem] > 0) ? 1.1 : 0;
             let yOffset1 = (this.noBonusItems[firstItem + 1] > 0) ? 2.2 : 0;
             let y = this.y + this.spriteHeight * this.game.scale * 1.1 + yOffset0 * this.spriteHeight * this.game.scale / 1.5 + yOffset1 * this.spriteHeight * this.game.scale / 1.5;
-            context.fillText(`x ${this.noBonusItems[firstItem + 2]}`, this.x + 20, y + this.spriteShapeBonusItems[firstItem + 2][1] * this.game.scale / 1.5);
+            context.fillText(`x${this.noBonusItems[firstItem + 2]}`, this.x + 20, y + this.spriteShapeBonusItems[firstItem + 2][1] * this.game.scale / 1.5);
             context.drawImage(this.imagebonus2, this.x + 60, y, this.spriteShapeBonusItems[firstItem + 2][0] * this.game.scale / 1.5, this.spriteShapeBonusItems[firstItem + 2][1] * this.game.scale / 1.5);
         }
     }

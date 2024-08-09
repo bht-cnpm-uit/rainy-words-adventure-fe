@@ -12,7 +12,6 @@ function AuthLayout({ children }) {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        console.log(user, role)
         if (role === null) {
             navigate('/login')
         }

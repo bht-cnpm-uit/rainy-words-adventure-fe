@@ -306,6 +306,8 @@ export class LevelSetting {
         }
     }
     close() {
+        this.currentDiffLevel = 0;
+        this.currentLevel = null;
         this.hidden = true;
     }
     open(lv) {

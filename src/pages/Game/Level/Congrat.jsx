@@ -67,12 +67,6 @@ const Congrat = ({ openCongrat, closeCongrat, nextLevel, gift, setGift, congratT
         };
 
         const animate = (images) => {
-            let frameX = 0;
-            const frameX1 = ((nextLevel.level - 1) % 5) * 2;
-            const frameX2 = frameX1 + 1;
-            const frameY = 1 + Math.floor((nextLevel.level - 1) / 5);
-            let gameFrame = 0;
-
             const animateFrame = () => {
                 context.clearRect(0, 0, canvas.width, canvas.height);
                 let h = 0
@@ -111,11 +105,6 @@ const Congrat = ({ openCongrat, closeCongrat, nextLevel, gift, setGift, congratT
                         context.drawImage(image, imgX, imgY, itemWidth / scale, itemHeight / scale);
                     });
                 }
-
-
-                if (gameFrame % 20 === 0) {
-                    frameX = frameX === frameX2 ? frameX1 : frameX2;
-                }
                 gameFrame++;
                 animationFrameIdRef.current = requestAnimationFrame(animateFrame);
             };
@@ -128,8 +117,10 @@ const Congrat = ({ openCongrat, closeCongrat, nextLevel, gift, setGift, congratT
                 image.src = "/Asset/Player/Sunflower.png";
 
                 image.onload = () => {
-                    let frameX = 1;
-                    let frameY = 1;
+                    const frameX1 = ((nextLevel.level - 1) % 5) * 2;
+                    const frameX2 = frameX1 + 1;
+                    let frameX = frameX1;
+                    const frameY = 1 + Math.floor((nextLevel.level - 1) / 5);
                     let gameFrame = 0;
                     let angle = 0;
                     let spriteWidth = 858;
@@ -164,7 +155,7 @@ const Congrat = ({ openCongrat, closeCongrat, nextLevel, gift, setGift, congratT
                         context.drawImage(image, frameX * spriteWidth, frameY * spriteHeight, spriteWidth, spriteHeight, imgX, imgY, 429, 362.5);
 
                         if (gameFrame % 20 === 0) {
-                            frameX = frameX === 1 ? 0 : 1;
+                            frameX = frameX === frameX1 ? frameX2 : frameX1;
                         }
                         gameFrame++;
 

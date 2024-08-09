@@ -23,6 +23,7 @@ const Result = (props) => {
             this.gameFrame = 0;
             this.deltaTime = null;
             this.result = props.result;
+            this.diffLevel = props.diffLevel;
             this.time = props.elapsedTime;
             this.ressavegame = props.ressavegame;
             this.navigate = navigate;

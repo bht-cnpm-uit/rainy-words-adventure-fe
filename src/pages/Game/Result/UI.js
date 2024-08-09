@@ -328,7 +328,7 @@ export class BoardResult {
         context.fillStyle = 'brown'
         context.textAlign = "center";
         context.textBaseline = "middle";
-        context.fillText("Độ khó : x1", this.staticUI.board.x + this.widthBoard / 2, this.staticUI.board.y + this.heightBoard / 4);
+        context.fillText(`Độ khó : x${this.game.diffLevel + 1}`, this.staticUI.board.x + this.widthBoard / 2, this.staticUI.board.y + this.heightBoard / 4);
         context.fillText(`Số từ: ${this.game.result.noWords}`, this.staticUI.board.x + this.widthBoard / 2, this.staticUI.board.y + this.heightBoard * 1.5 / 4);
         context.fillText(`${this.game.result.score}`, "70px fontgame", this.staticUI.score.x + this.widthScore / 2, this.staticUI.score.y + this.heightScore / 10);
         context.fillText(`Điểm thưởng: ${this.game.result.score}`, this.staticUI.board.x + this.widthBoard / 2, this.staticUI.board.y + this.heightBoard * 2 / 4);

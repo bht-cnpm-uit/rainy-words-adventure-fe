@@ -47,6 +47,7 @@ class StaticUI {
 class Button {
     constructor(game, wordChain, image, spriteWidth, spriteHeight) {
         this.game = game;
+        this.color = this.game.mode == 'dark' ? "#cc7a00" : "";
         this.wordChain = wordChain;
         this.image = new Image();
         this.image.src = image;
@@ -80,7 +81,7 @@ class Button {
         let fontsize = 40;
         context.font = Math.floor(fontsize * this.game.scale) + "px Arial";
         context.textAlign = "center";
-        context.fillStyle = "brown";
+        context.fillStyle = this.color;
         context.fillText(text, this.x + this.width / 2, this.y + this.height / 1.5);
     }
 }
